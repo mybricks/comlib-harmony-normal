@@ -1,0 +1,37 @@
+{
+  "title": "JS计算",
+  "namespace": "mybricks.taro._muilt-inputJs",
+  "version": "1.0.0",
+  "description": "编写自定义js代码",
+  "author": "MyBricks",
+  "author_name": "MyBricks",
+  "icon": "./icon.svg",
+  "runtime": "./runtime.ts",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "rtType": "js-autorun",
+  "inputs": [
+    {
+      "id": "input",
+      "title": "输入项",
+      "schema": [
+        {
+          "name": "inputValue0",
+          "title": "参数0",
+          "type": "follow"
+        }
+      ],
+      "editable": true
+    }
+  ],
+  "outputs": [
+    {
+      "id": "output0",
+      "title": "输出项0",
+      "schema": {
+        "type": "unknown"
+      },
+      "editable": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "layout": {
+    "display": "flex",
+    "flexDirection": "column"
+  },
+  "position": "center",
+  "maskClose": true,
+  "visibleClose": false
+}
