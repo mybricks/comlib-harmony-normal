@@ -12,5 +12,14 @@
   "bugs": {
     "url": "https://github.com/mybricks/comlib-harmony-normal/issues"
   },
-  "homepage": "https://github.com/mybricks/comlib-harmony-normal#readme"
+  "homepage": "https://github.com/mybricks/comlib-harmony-normal#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.178",
+    "@types/node": "^17.0.13",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "typescript": "^5.3.3"
+  }
 }
