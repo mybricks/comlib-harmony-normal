@@ -5,6 +5,7 @@
   "author_name": "板砖团队",
   "version": "1.0.0",
   "runtime": "./runtime.tsx",
+  "target.arkts": "@arkts/src/text.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "icon": "./icon.svg",

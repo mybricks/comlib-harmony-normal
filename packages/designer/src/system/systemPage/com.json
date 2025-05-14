@@ -6,6 +6,7 @@
   "version": "1.0.1",
   "runtime": "./runtime.tsx",
   "runtime.edit": "./runtimeEdit.tsx",
+  "target.arkts": "@arkts/src/system/systemPage.ets",
   "data": "./data.json",
   "upgrade": "./upgrade.ts",
   "editors": "./editors.tsx",

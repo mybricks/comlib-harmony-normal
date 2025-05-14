@@ -1,0 +1,31 @@
+{
+  "componentType": "HARMONY",
+  "comAry": [
+    "./src/_muilt-inputJs/com.json",
+    {
+      "title": "系统",
+      "visible": false,
+      "comAry": [
+        "./src/system/systemPage/com.json",
+        "./src/popup/com.json"
+      ]
+    },
+    {
+      "title": "基础",
+      "comAry": [
+        "./src/image/com.json",
+        "./src/button/com.json",
+        "./src/text/com.json"
+      ]
+    },
+    {
+      "title": "容器",
+      "comAry": [
+        "./src/containerList/com.json"
+      ]
+    }
+  ],
+  "namespace": "mybricks.normal-harmony.taro",
+  "userName": "mybricks",
+  "tags": "react"
+}

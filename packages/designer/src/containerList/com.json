@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "runtime": "./runtime.tsx",
   "runtime.edit": "./edit/runtime.tsx",
+  "target.arkts": "@arkts/src/containerList.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "icon": "./icon.svg",

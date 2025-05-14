@@ -8,6 +8,7 @@
   "description": "按钮",
   "runtime": "./runtime.tsx",
   "runtime.edit": "./runtime.edit.tsx",
+  "target.arkts": "@arkts/src/button.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "inputs": [

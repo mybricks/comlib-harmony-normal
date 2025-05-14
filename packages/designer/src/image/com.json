@@ -8,6 +8,7 @@
   "description": "图片",
   "runtime.edit": "./runtime.edit.tsx",
   "runtime": "./runtime.tsx",
+  "target.arkts": "@arkts/src/image.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "inputs": [
