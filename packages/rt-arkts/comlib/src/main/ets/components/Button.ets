@@ -57,10 +57,8 @@ export default struct Mybricks_Button {
       this.outputs?.onClick(this.data.text)
     })
     .attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-button']).borderRadius('50%').backgroundColor('#fa6400'))
-    .width('300lpx')
-    .height('100lpx')
-    // .attributeModifier(
-    //   new ApplyRootStyleModifier(this.styles['root'])
-    // )
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
   }
 }

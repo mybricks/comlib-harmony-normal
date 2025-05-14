@@ -1,0 +1,2 @@
+export { default as Mybricks_Button, DataType as Mybricks_Button_DataType, Data as Mybricks_Button_Data } from './Button'
+export { default as Mybricks_System_Page, Data as Mybricks_System_Page_Data, SlotsParams_content as Mybricks_System_Page_SlotsParams_content } from './SystemPage'

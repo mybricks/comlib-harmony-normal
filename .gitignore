@@ -11,8 +11,17 @@ package-lock.json
 yarn.lock
 .idea/
 
+.preview/
+.hvigor
+build
+.cxx
+
 cypress/screenshots
 cypress/downloads
 cypress-visual-report
 cypress-visual-screenshots
 dist/
+
+local.properties
+oh_modules
+oh-package-lock.json5

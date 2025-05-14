@@ -1,5 +1,5 @@
 // import display from '@ohos.display';
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './../styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './styles/getDesignStyle'
 
 // let screenHeight = display.getDefaultDisplaySync().height;
 

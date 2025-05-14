@@ -1,0 +1,12 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@ohos/mybricks-comlib-harmony-normal": "./../comlib"  // 此处也可以是以当前oh-package.json5所在目录为起点的相对路径
+  },
+}
+
