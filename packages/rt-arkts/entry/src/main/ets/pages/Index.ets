@@ -1,11 +1,11 @@
 import { router } from '@kit.ArkUI';
 
 import {
-  Mybricks_Button,
-  Mybricks_Button_Data,
-  Mybricks_System_Page,
-  Mybricks_System_Page_Data,
-  Mybricks_System_Page_SlotsParams_content
+  Mybricks_Harmony_Button,
+  Mybricks_Harmony_Button_Data,
+  Mybricks_Harmony_Button_DataType,
+  Mybricks_Harmony_SystemPage,
+  Mybricks_Harmony_SystemPage_Data,
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -16,10 +16,10 @@ struct Index {
   @State fontNum: number = 12;
 
   @Builder
-  slots(params: Mybricks_System_Page_SlotsParams_content) {
+  slots(params: ESObject) {
     if (params.id === 'content') {
-      Mybricks_Button({
-        data: new Mybricks_Button_Data({
+      Mybricks_Harmony_Button({
+        data: new Mybricks_Harmony_Button_Data({
           text: this.message
         }),
         styles: {
@@ -31,8 +31,8 @@ struct Index {
           }
         }
       })
-      Mybricks_Button({
-        data: new Mybricks_Button_Data({
+      Mybricks_Harmony_Button({
+        data: new Mybricks_Harmony_Button_Data({
           text: '我是按钮'
         }),
         styles: {
@@ -47,8 +47,12 @@ struct Index {
 
   build() {
     Column() {
-      Mybricks_System_Page({
-        slots: this.slots.bind(this)
+      Mybricks_Harmony_SystemPage({
+        slots: this.slots.bind(this),
+        data: new Mybricks_Harmony_SystemPage_Data({
+          background: '#eeeeee'
+          // 'enablePullDownRefresh': '',
+        })
       })
     }
     .height('100%')

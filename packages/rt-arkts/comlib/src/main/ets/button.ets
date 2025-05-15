@@ -1,6 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
 
-
 export interface DataType {
   text: string
 }
