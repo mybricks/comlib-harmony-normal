@@ -8,10 +8,8 @@
   "backgroundColorBottom": "#ffffff",
   "homeButton": false,
   "customNavigation": {
-    "style": {
-      "backgroundColor": "#464646"
-    },
-    "mainSlotStyle": {},
+    "style": {},
+    "layout": {},
     "useFixed": true
   },
 
@@ -51,6 +49,5 @@
   "bottomSpace": 30,
   "useLoading": false,
   "backgroundSize": "cover",
-  "isEntryPagePath": false,
-  "showNavigationBarCapsule": true
+  "isEntryPagePath": false
 }

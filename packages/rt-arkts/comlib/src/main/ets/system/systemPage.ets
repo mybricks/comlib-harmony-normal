@@ -54,6 +54,9 @@ export default struct System_Page {
   @Builder
   renderContent () {
     Column() {
+      this.slots({
+        id: 'header'
+      })
       Scroll() {
         Column() {
           this.slots({

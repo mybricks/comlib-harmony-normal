@@ -32,18 +32,18 @@ export default {
               case "default":
                 data.navigationStyle = "default";
                 try {
-                  slot.remove("mainSlot");
+                  slot.remove("header");
                 } catch (e) {}
                 break;
               case "custom":
                 data.navigationStyle = "custom";
-                slot.add("mainSlot", "导航栏标题区域");
+                slot.add("header", "导航栏标题区域");
                 break;
 
               case "none":
                 data.navigationStyle = "custom";
                 try {
-                  slot.remove("mainSlot");
+                  slot.remove("header");
                 } catch (e) {}
                 break;
             }
@@ -86,23 +86,6 @@ export default {
         //   }
         // }
       },
-      // {
-      //   title: "显示小程序胶囊",
-      //   type: "switch",
-      //   description:"仅在编辑态下有效，真机小程序胶囊会一直显示",
-      //   ifVisible({ data }: EditorResult<Data>) {
-      //     return data.navigationStyle !== 'default';
-      //   },
-      //   value: {
-      //     get({ data }) {
-      //       if(data.showNavigationBarCapsule == undefined) return true
-      //       return data.showNavigationBarCapsule ;
-      //     },
-      //     set({ data }, value) {
-      //       data.showNavigationBarCapsule = value;
-      //     },
-      //   },
-      // },
       {
         ifVisible({ data }) {
           return data.useNavigationStyle === "none";
@@ -161,25 +144,25 @@ export default {
         //   }
         // }
       },
-      {
-        ifVisible({ data }) {
-          return data.useNavigationStyle === "custom";
-        },
-        title: "样式",
-        type: "styleNew",
-        options: ["background"],
-        value: {
-          get({ data }) {
-            return data.customNavigation.style;
-          },
-          set({ data }, value) {
-            data.customNavigation.style = value;
-          },
-        },
-      },
+      // {
+      //   ifVisible({ data }) {
+      //     return data.useNavigationStyle === "custom";
+      //   },
+      //   title: "样式",
+      //   type: "styleNew",
+      //   options: ["background"],
+      //   value: {
+      //     get({ data }) {
+      //       return data.customNavigation.style;
+      //     },
+      //     set({ data }, value) {
+      //       data.customNavigation.style = value;
+      //     },
+      //   },
+      // },
     ],
   },
-  ".mybricks-mainSlot": {
+  ".mybricks-header": {
     title: "导航栏标题区域",
     items: [
       {
@@ -187,20 +170,20 @@ export default {
         type: "layout",
         value: {
           get({ data, slots }) {
-            const { mainSlotStyle = {} } = data.customNavigation;
-            const slotInstance = slots.get("mainSlot");
-            setSlotLayout(slotInstance, mainSlotStyle);
-            return mainSlotStyle;
+            const { layout = {} } = data.customNavigation;
+            const slotInstance = slots.get("header");
+            setSlotLayout(slotInstance, layout);
+            return layout;
           },
           set({ data, slots }, val: any) {
-            if (!data.customNavigation.mainSlotStyle) {
-              data.customNavigation.mainSlotStyle = {};
+            if (!data.customNavigation.layout) {
+              data.customNavigation.layout = {};
             }
-            data.customNavigation.mainSlotStyle = {
-              ...data.customNavigation.mainSlotStyle,
+            data.customNavigation.layout = {
+              ...data.customNavigation.layout,
               ...val,
             };
-            const slotInstance = slots.get("mainSlot");
+            const slotInstance = slots.get("header");
             setSlotLayout(slotInstance, val);
           },
         },

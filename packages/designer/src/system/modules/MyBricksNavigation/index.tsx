@@ -74,10 +74,10 @@ export default function (props) {
           />
         )}
 
-        <View className={cx("mybricks-mainSlot", css.title)}>
-          {slots["mainSlot"]?.render({
+        <View className={cx("mybricks-header", css.title)}>
+          {slots["header"]?.render({
             style: {
-              ...(data.customNavigation?.mainSlotStyle || {}),
+              ...(data.customNavigation?.layout || {}),
             },
           })}
         </View>

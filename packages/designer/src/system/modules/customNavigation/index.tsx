@@ -36,14 +36,14 @@ export default function (props) {
   }, []);
 
   const safeareaHeight = isDesigner(env)
-    ? 44
+    ? 24
     : relativeRect.top - (40 - relativeRect.height) / 2;
 
   // 自定义导航栏
   return (
     <View
       className={css.customNavigation}
-      style={{ ...data.customNavigation.style }}
+      // style={{ ...data.customNavigation.style }}
     >
       <View
         className={css.safearea}
@@ -55,16 +55,14 @@ export default function (props) {
       <View
         className={css.main}
         style={{
-          marginLeft: 375 - relativeRect.right,
-          marginRight: 375 - relativeRect.right,
           height: 40, // 高度固定 40 px
         }}
       >
 
-        <View className={cx("mybricks-mainSlot", css.title)}>
-          {slots["mainSlot"]?.render({
+        <View className={cx("mybricks-header", css.title)}>
+          {slots["header"]?.render({
             style: {
-              ...(data.customNavigation?.mainSlotStyle || {}),
+              ...(data.customNavigation?.layout || {}),
             },
           })}
         </View>

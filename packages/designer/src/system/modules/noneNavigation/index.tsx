@@ -38,7 +38,7 @@ export default function (props) {
   }, []);
 
   const safeareaHeight = isDesigner(env)
-    ? 44
+    ? 24
     : relativeRect.top - (40 - relativeRect.height) / 2;
 
   // 隐藏导航栏
