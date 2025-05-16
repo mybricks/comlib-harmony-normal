@@ -2,6 +2,7 @@
   "componentType": "MP",
   "comAry": [
     "./src/_muilt-inputJs/com.json",
+    "./src/_showToast/com.json",
     {
       "title": "系统",
       "visible": false,
