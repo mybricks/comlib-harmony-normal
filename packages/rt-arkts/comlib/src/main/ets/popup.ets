@@ -105,7 +105,8 @@ export default struct Mybricks_Popup {
           if (this.data.position === 'center') {
             Column() {
               this.slots({
-                id: 'content'
+                id: 'content',
+                style: this.data.layout
               })
             }
             .attributeModifier(

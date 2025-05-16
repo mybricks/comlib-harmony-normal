@@ -1,6 +1,6 @@
 {
   "title": "图片",
-  "namespace": "mybricks.taro.image",
+  "namespace": "mybricks.harmony.image",
   "author": "mybricks-team",
   "author_name": "板砖团队",
   "icon": "./icon.svg",

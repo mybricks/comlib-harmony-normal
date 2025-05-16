@@ -1,11 +1,10 @@
 import { router } from '@kit.ArkUI';
 
 import {
-  Mybricks_Harmony_Button,
-  Mybricks_Harmony_Button_Data,
-  Mybricks_Harmony_Button_DataType,
-  Mybricks_Harmony_SystemPage,
-  Mybricks_Harmony_SystemPage_Data,
+  mybricks_harmony_button,
+  mybricks_harmony_button_Data,
+  mybricks_harmony_systemPage,
+  mybricks_harmony_systemPage_Data,
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -18,8 +17,8 @@ struct Index {
   @Builder
   slots(params: ESObject) {
     if (params.id === 'content') {
-      Mybricks_Harmony_Button({
-        data: new Mybricks_Harmony_Button_Data({
+      mybricks_harmony_button({
+        data: new mybricks_harmony_button_Data({
           text: this.message
         }),
         styles: {
@@ -31,8 +30,8 @@ struct Index {
           }
         }
       })
-      Mybricks_Harmony_Button({
-        data: new Mybricks_Harmony_Button_Data({
+      mybricks_harmony_button({
+        data: new mybricks_harmony_button_Data({
           text: '我是按钮'
         }),
         styles: {
@@ -47,9 +46,9 @@ struct Index {
 
   build() {
     Column() {
-      Mybricks_Harmony_SystemPage({
+      mybricks_harmony_systemPage({
         slots: this.slots.bind(this),
-        data: new Mybricks_Harmony_SystemPage_Data({
+        data: new mybricks_harmony_systemPage_Data({
           background: '#eeeeee'
           // 'enablePullDownRefresh': '',
         })

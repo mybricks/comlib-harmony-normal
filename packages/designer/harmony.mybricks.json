@@ -1,5 +1,5 @@
 {
-  "componentType": "HARMONY",
+  "componentType": "MP",
   "comAry": [
     "./src/_muilt-inputJs/com.json",
     {
@@ -7,6 +7,7 @@
       "visible": false,
       "comAry": [
         "./src/system/systemPage/com.json",
+        "./src/system/systemWebview/com.json",
         "./src/popup/com.json"
       ]
     },
@@ -21,6 +22,7 @@
     {
       "title": "容器",
       "comAry": [
+        "./src/containerBasic/com.json",
         "./src/containerList/com.json"
       ]
     }

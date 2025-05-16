@@ -14,20 +14,25 @@
   },
   "homepage": "https://github.com/mybricks/comlib-harmony-normal#readme",
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "classnames": "^2.5.1",
     "@tarojs/components": "4.0.6",
     "@tarojs/react": "4.0.6",
-    "@tarojs/taro-h5": "4.0.6",
     "@tarojs/taro": "4.0.6",
-    "brickd-mobile": "^0.0.53"
+    "@tarojs/taro-h5": "4.0.6",
+    "brickd-mobile": "^0.0.53",
+    "classnames": "^2.5.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",
     "@types/node": "^17.0.13",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
-    "typescript": "^5.3.3"
+    "mybricks-cli": "^0.0.35",
+    "typescript": "^5.3.3",
+    "ts-loader": "^9.5.2"
+  },
+  "resolutions": {
+    "ics": "3.5.0"
   }
 }

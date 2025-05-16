@@ -55,19 +55,6 @@ export default {
           //     },
           //   },
           // },
-          {
-            title:
-              "在非首页、非页面栈最底层页面或非tabbar内页面中的导航栏展示home键",
-            type: "switch",
-            value: {
-              get({ data }) {
-                return data.homeButton;
-              },
-              set({ data }, value) {
-                data.homeButton = value;
-              },
-            },
-          },
         ],
       },
       {

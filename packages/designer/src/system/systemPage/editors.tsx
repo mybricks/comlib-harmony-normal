@@ -230,27 +230,27 @@ export default {
               },
             },
 
-            {
-              ifVisible({ data }) {
-                return !data.useTabBar;
-              },
-              title: "开启页脚容器",
-              type: "switch",
-              value: {
-                get({ data }) {
-                  return data.useFooter;
-                },
-                set({ data, slot }, value) {
-                  data.useFooter = value;
+            // {
+            //   ifVisible({ data }) {
+            //     return !data.useTabBar;
+            //   },
+            //   title: "开启页脚容器",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.useFooter;
+            //     },
+            //     set({ data, slot }, value) {
+            //       data.useFooter = value;
     
-                  if (value) {
-                    slot.add("footerBar", "页脚容器");
-                  } else {
-                    slot.remove("footerBar");
-                  }
-                },
-              },
-            },
+            //       if (value) {
+            //         slot.add("footerBar", "页脚容器");
+            //       } else {
+            //         slot.remove("footerBar");
+            //       }
+            //     },
+            //   },
+            // },
             {
               title: "页面地址",
               type: "editorRender",
@@ -488,18 +488,18 @@ export default {
             outputId: "pageDidHide",
           },
         },
-        {
-          title: "分享",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.enabledShareMessage ?? false;
-            },
-            set({ data }, value) {
-              data.enabledShareMessage = value;
-            },
-          },
-        },
+        // {
+        //   title: "分享",
+        //   type: "switch",
+        //   value: {
+        //     get({ data }) {
+        //       return data.enabledShareMessage ?? false;
+        //     },
+        //     set({ data }, value) {
+        //       data.enabledShareMessage = value;
+        //     },
+        //   },
+        // },
         {
           title: "下拉刷新",
           type: "switch",
@@ -522,24 +522,24 @@ export default {
             outputId: "pulldown",
           },
         },
-        {
-          title: "开启页面 Loading",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.useLoading;
-            },
-            set({ data, input }, value) {
-              data.useLoading = value;
+        // {
+        //   title: "开启页面 Loading",
+        //   type: "switch",
+        //   value: {
+        //     get({ data }) {
+        //       return data.useLoading;
+        //     },
+        //     set({ data, input }, value) {
+        //       data.useLoading = value;
 
-              if (value) {
-                input.add("ready", "初始化完成", { type: "any" });
-              } else {
-                input.remove("ready");
-              }
-            },
-          },
-        },
+        //       if (value) {
+        //         input.add("ready", "初始化完成", { type: "any" });
+        //       } else {
+        //         input.remove("ready");
+        //       }
+        //     },
+        //   },
+        // },
         
         
 

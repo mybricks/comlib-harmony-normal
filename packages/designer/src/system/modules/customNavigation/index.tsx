@@ -4,8 +4,6 @@ import cx from "classnames";
 import * as Taro from "@tarojs/taro";
 import css from "./style.less";
 import { isDesigner } from "../../../utils/env";
-import menuButtonWhite from "../icons/menuButtonWhite";
-import menuButtonBlack from "../icons/menuButtonBlack";
 
 const defaultMenuButtonBoundingClientRect = {
   width: 87,
@@ -62,17 +60,6 @@ export default function (props) {
           height: 40, // 高度固定 40 px
         }}
       >
-        {/* 仅在设计器中展示 */}
-        {isDesigner(env) && (data.showNavigationBarCapsule == true || data.showNavigationBarCapsule == undefined ) && (
-          <Image
-            className={css.right}
-            src={
-              data.navigationBarTextStyle === "white"
-                ? menuButtonWhite
-                : menuButtonBlack
-            }
-          />
-        )}
 
         <View className={cx("mybricks-mainSlot", css.title)}>
           {slots["mainSlot"]?.render({

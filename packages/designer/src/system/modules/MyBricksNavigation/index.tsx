@@ -4,8 +4,6 @@ import cx from "classnames";
 import * as Taro from "@tarojs/taro";
 import css from "./style.less";
 import { isDesigner } from "../../../utils/env";
-import menuButtonWhite from "../icons/menuButtonWhite";
-import menuButtonBlack from "../icons/menuButtonBlack";
 import { getNavigationHeight } from "../../../utils";
 
 export default function (props) {

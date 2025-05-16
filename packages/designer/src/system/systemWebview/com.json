@@ -1,6 +1,6 @@
 {
   "title": "网页",
-  "namespace": "mybricks.taro.systemWebview",
+  "namespace": "mybricks.harmony.systemWebview",
   "author": "mybricks-team",
   "author_name": "板砖团队",
   "version": "1.0.0",

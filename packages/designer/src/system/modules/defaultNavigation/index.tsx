@@ -6,8 +6,6 @@ import backIconWhite from "../icons/backIconWhite";
 import backIconBlack from "../icons/backIconBlack";
 import homeButtonWhite from "../icons/homeButtonWhite";
 import homeButtonBlack from "../icons/homeButtonBlack";
-import menuButtonWhite from "../icons/menuButtonWhite";
-import menuButtonBlack from "../icons/menuButtonBlack";
 import { isDesigner } from "../../../utils/env";
 
 export default function (props) {
@@ -50,19 +48,7 @@ export default function (props) {
             ) : null}
           </View>
         ) : null}
-
-        {isDesigner(env) &&
-          (data.showNavigationBarCapsule == true ||
-            data.showNavigationBarCapsule == undefined) && (
-            <Image
-              className={css.right}
-              src={
-                data.navigationBarTextStyle === "white"
-                  ? menuButtonWhite
-                  : menuButtonBlack
-              }
-            />
-          )}
+ 
         {/* title */}
         <View
           className={css.title}

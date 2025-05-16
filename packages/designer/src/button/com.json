@@ -1,6 +1,6 @@
 {
   "title": "按钮",
-  "namespace": "mybricks.taro.button",
+  "namespace": "mybricks.harmony.button",
   "author": "mybricks-team",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
