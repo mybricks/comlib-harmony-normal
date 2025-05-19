@@ -1,4 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { AnyType } from './types'
 
 export interface DataType {
   text: string

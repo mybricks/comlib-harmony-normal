@@ -1,4 +1,4 @@
-export  {
+export {
   default as mybricks_harmony__showToast,
   DataType as mybricks_harmony__showToast_DataType,
   Data as mybricks_harmony__showToast_Data

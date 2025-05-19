@@ -1,3 +1,4 @@
+import { CSSProperties } from '../styles/getDesignStyle'
 import { webview } from '@kit.ArkWeb';
 import { AnyType } from './../types';
 
@@ -27,6 +28,7 @@ export default struct Webview {
   @Param data: Data = new Data({});
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param styles: Record<string, CSSProperties> = {}
 
   controller: webview.WebviewController = new webview.WebviewController();
 

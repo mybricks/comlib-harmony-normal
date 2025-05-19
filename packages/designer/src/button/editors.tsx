@@ -352,109 +352,109 @@ export default {
       {
         title: "事件",
         items: [
-          {
-            title: "类型",
-            type: "select",
-            options: [
-              {
-                label: "自定义",
-                value: "",
-              },
-              // {
-              //   label: "触发用户转发",
-              //   value: "share",
-              // },
-              // {
-              //   label: "手机号快速验证",
-              //   value: "getPhoneNumber",
-              // },
-              // {
-              //   label: "手机号实时验证",
-              //   value: "getRealtimePhoneNumber",
-              // },
-              // // {
-              // //   label: "获取用户信息",
-              // //   value: "getUserInfo",
-              // // },
-              // // {
-              // //   label: "打开APP",
-              // //   value: "launchApp",
-              // // },
-              // {
-              //   label: "打开授权设置页",
-              //   value: "openSetting",
-              // },
-              // {
-              //   label: "打开客服会话",
-              //   value: "contact",
-              // },
-              // {
-              //   label: "打开“意见反馈”页面",
-              //   value: "feedback",
-              // },
-              // {
-              //   label: "获取用户头像",
-              //   value: "chooseAvatar",
-              // },
-              // {
-              //   label: "用户同意隐私协议按钮",
-              //   value: "agreePrivacyAuthorization",
-              // },
-            ],
-            value: {
-              get({ data, outputs }) {
-                return data.openType;
-              },
-              set({ data, output }, value) {
-                data.openType = value;
+          // {
+          //   title: "类型",
+          //   type: "select",
+          //   options: [
+          //     {
+          //       label: "自定义",
+          //       value: "",
+          //     },
+          //     // {
+          //     //   label: "触发用户转发",
+          //     //   value: "share",
+          //     // },
+          //     // {
+          //     //   label: "手机号快速验证",
+          //     //   value: "getPhoneNumber",
+          //     // },
+          //     // {
+          //     //   label: "手机号实时验证",
+          //     //   value: "getRealtimePhoneNumber",
+          //     // },
+          //     // // {
+          //     // //   label: "获取用户信息",
+          //     // //   value: "getUserInfo",
+          //     // // },
+          //     // // {
+          //     // //   label: "打开APP",
+          //     // //   value: "launchApp",
+          //     // // },
+          //     // {
+          //     //   label: "打开授权设置页",
+          //     //   value: "openSetting",
+          //     // },
+          //     // {
+          //     //   label: "打开客服会话",
+          //     //   value: "contact",
+          //     // },
+          //     // {
+          //     //   label: "打开“意见反馈”页面",
+          //     //   value: "feedback",
+          //     // },
+          //     // {
+          //     //   label: "获取用户头像",
+          //     //   value: "chooseAvatar",
+          //     // },
+          //     // {
+          //     //   label: "用户同意隐私协议按钮",
+          //     //   value: "agreePrivacyAuthorization",
+          //     // },
+          //   ],
+          //   value: {
+          //     get({ data, outputs }) {
+          //       return data.openType;
+          //     },
+          //     set({ data, output }, value) {
+          //       data.openType = value;
 
-                // 清空 output
-                clearOutput(value, output);
+          //       // 清空 output
+          //       clearOutput(value, output);
 
-                switch (true) {
-                  case data.openType === "getPhoneNumber":
-                    MAP["getPhoneNumber"].output.forEach((item) => {
-                      output.add(item);
-                    });
-                    break;
+          //       switch (true) {
+          //         case data.openType === "getPhoneNumber":
+          //           MAP["getPhoneNumber"].output.forEach((item) => {
+          //             output.add(item);
+          //           });
+          //           break;
 
-                  case data.openType === "getRealtimePhoneNumber":
-                    MAP["getRealtimePhoneNumber"].output.forEach((item) => {
-                      output.add(item);
-                    });
-                    break;
+          //         case data.openType === "getRealtimePhoneNumber":
+          //           MAP["getRealtimePhoneNumber"].output.forEach((item) => {
+          //             output.add(item);
+          //           });
+          //           break;
 
-                  case data.openType === "openSetting":
-                    MAP["openSetting"].output.forEach((item) => {
-                      output.add(item);
-                    });
-                    break;
+          //         case data.openType === "openSetting":
+          //           MAP["openSetting"].output.forEach((item) => {
+          //             output.add(item);
+          //           });
+          //           break;
 
-                  case data.openType === "share":
-                    MAP["share"].output.forEach((item) => {
-                      output.add(item);
-                    });
-                    break;
+          //         case data.openType === "share":
+          //           MAP["share"].output.forEach((item) => {
+          //             output.add(item);
+          //           });
+          //           break;
 
-                  case data.openType === "chooseAvatar":
-                    MAP["chooseAvatar"].output.forEach((item) => {
-                      output.add(item);
-                    });
-                    break;
+          //         case data.openType === "chooseAvatar":
+          //           MAP["chooseAvatar"].output.forEach((item) => {
+          //             output.add(item);
+          //           });
+          //           break;
 
-                  default:
-                    output.add({
-                      id: "onClick",
-                      title: "单击",
-                      schema: {
-                        type: "string",
-                      },
-                    });
-                    break;
-                }
-              },
-            },
-          },
+          //         default:
+          //           output.add({
+          //             id: "onClick",
+          //             title: "单击",
+          //             schema: {
+          //               type: "string",
+          //             },
+          //           });
+          //           break;
+          //       }
+          //     },
+          //   },
+          // },
           {
             ifVisible({ data }) {
               return !data.openType;

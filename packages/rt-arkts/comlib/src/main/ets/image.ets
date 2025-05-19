@@ -2,7 +2,6 @@ import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSS
 
 @Extend(Image) function aspectFit() {
   .objectFit(ImageFit.Contain)
-  .overlay('Contain', { align: Alignment.Bottom, offset: { x: 0, y: 0 } })
 }
 
 @Extend(Image) function cover() {
@@ -54,18 +53,34 @@ export default struct Mybricks_Image {
 
   build() {
     Column() {
-      Image(this.data.svgPolyfill || this.data.src)
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-image'])
-        )
-        .width('100%')
-        .height('100%')
-        .onFinish(() => {
-          this.outputs?.onLoad?.(this.data.src || '')
-        })
-        .onError(() => {
-          this.outputs?.onError?.('error')
-        })
+      if (this.data.mode === 'aspectFit') {
+        Image(this.data.svgPolyfill || this.data.src)
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles['.mybricks-image'])
+          )
+          .width('100%')
+          .height('100%')
+          .onFinish(() => {
+            this.outputs?.onLoad?.(this.data.src || '')
+          })
+          .onError(() => {
+            this.outputs?.onError?.('error')
+          }).aspectFit()
+      } else if (this.data.mode === 'aspectFit') {
+        Image(this.data.svgPolyfill || this.data.src)
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles['.mybricks-image'])
+          )
+          .width('100%')
+          .height('100%')
+          .onFinish(() => {
+            this.outputs?.onLoad?.(this.data.src || '')
+          })
+          .onError(() => {
+            this.outputs?.onError?.('error')
+          }).cover()
+      }
+
     }.onClick(() => {
       this.outputs?.onClick(this.data.src)
     })
