@@ -2,7 +2,7 @@ export type CSSProperties = Record<string, string | number>
 
 type ComponentAttribute = CommonAttribute
 
-function isNil(value: string | number | null | undefined | ResourceColor | BorderRadiuses | Length | LocalizedBorderRadiuses): boolean {
+function isNil(value: string | number | null | undefined | ResourceColor | ResourceStr | BorderRadiuses | Length | LocalizedBorderRadiuses | SizeOptions | ImageSize): boolean {
   return value === null || value === undefined;
 }
 
@@ -32,6 +32,18 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     return this
   }
 
+  private initBackgroundImage?: ResourceStr
+  backgroundImage(image: ResourceStr) {
+    this.initBackgroundImage = image
+    return this
+  }
+
+  private initBackgroundSize?: SizeOptions | ImageSize
+  backgroundImageSize(size: SizeOptions | ImageSize) {
+    this.initBackgroundSize = size
+    return this
+  }
+
   private initBorderRadius?: Length | BorderRadiuses | LocalizedBorderRadiuses
   borderRadius(radius: Length | BorderRadiuses | LocalizedBorderRadiuses) {
     this.initBorderRadius = radius
@@ -49,6 +61,33 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     this.initHeight = height
     return this
   }
+
+  private initMargin?: Length
+  margin(height: Length) {
+    this.initHeight = height
+    return this
+  }
+
+  // private initPaddingTop?: Length
+  // padding(len: Length) {
+  //   this.initPaddingTop = len
+  //   return this
+  // }
+  // private initPaddingLeft?: Length
+  // padding(len: Length) {
+  //   this.initPaddingLeft = len
+  //   return this
+  // }
+  // private initPaddingRight?: Length
+  // padding(len: Length) {
+  //   this.initPaddingRight = len
+  //   return this
+  // }
+  // private initPaddingTop?: Length
+  // padding(len: Length) {
+  //   this.initPaddingTop = len
+  //   return this
+  // }
 
   constructor(configCss: CSSProperties) {
     this.css = configCss ?? {}
@@ -83,6 +122,69 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     }
     if ([this.css.borderTop, this.css.borderBottom, this.css.borderLeft, this.css.borderRight].every(item => !isNil(item) && typeof item === 'string')) {
 
+    }
+
+    let paddingTop = 0
+    let paddingLeft = 0
+    let paddingRight = 0
+    let paddingBottom = 0
+
+    const configPaddings = this.css?.padding ? String(this.css?.padding).split?.(' ') : [];
+    if (configPaddings.length === 4) {
+      paddingTop = parseFloat(configPaddings[0])
+      paddingRight = parseFloat(configPaddings[1])
+      paddingBottom = parseFloat(configPaddings[2])
+      paddingLeft = parseFloat(configPaddings[3])
+      instance.padding({
+        left: paddingLeft,
+        right: paddingRight,
+        top: paddingTop,
+        bottom: paddingBottom
+      })
+    } else if (configPaddings.length === 2) {
+      const paddingTB = parseFloat(configPaddings[0])
+      const paddingLR = parseFloat(configPaddings[1])
+      instance.padding({
+        left: paddingLR,
+        right: paddingLR,
+        top: paddingTB,
+        bottom: paddingTB
+      })
+    } else if (configPaddings.length === 1) {
+      const paddingValue = parseFloat(configPaddings[0])
+      instance.padding({
+        left: paddingValue,
+        right: paddingValue,
+        top: paddingValue,
+        bottom: paddingValue
+      })
+    }
+
+    const backgroundSize = this.css?.backgroundSize ?? this.initBackgroundSize;
+    if (!isNil(backgroundSize)) {
+      switch (backgroundSize) {
+        case 'contain': {
+          instance.backgroundImageSize(ImageSize.Contain)
+          break
+        }
+        case 'cover': {
+          instance.backgroundImageSize(ImageSize.Cover)
+          break
+        }
+        default: {
+          instance.backgroundImageSize(ImageSize.Cover)
+          break
+        }
+      }
+    }
+
+    const backgroundImage: string = this.css?.backgroundImage as string ?? this.initBackgroundImage as string;
+    if (!isNil(backgroundImage)) {
+      const regex = /url\((["']?)([^)"']+)\1\)/;
+      const match = backgroundImage.match(regex);
+      if (!isNil(match?.[2])) {
+        instance.backgroundImage(match?.[2])
+      }
     }
   }
 }

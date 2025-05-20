@@ -10,20 +10,14 @@ type DataSourceItem = Record<string, string | number | boolean | Object> | strin
 
 @ObservedV2
 export class Data implements DataType {
-  @Trace rowKey?: string = 'id'
+  @Trace rowKey?: string
   @Trace spacing?: number = 0
   @Trace direction?: 'row' | 'column' = 'column'
 
   constructor(config: DataType) {
-    if (config.rowKey !== undefined) {
-      this.rowKey = config.rowKey
-    }
-    if (config.spacing !== undefined) {
-      this.spacing = config.spacing
-    }
-    if (config.direction) {
-      this.direction = config.direction
-    }
+    this.rowKey = config.rowKey ?? 'id'
+    this.spacing = config.spacing ?? 0
+    this.direction = config?.direction ?? 'column'
   }
 }
 
@@ -52,7 +46,7 @@ export interface SlotsParams {
 @Builder function emptySlot(params: SlotsParams_item) {}
 
 @ComponentV2
-export default struct Mybricks_Container_List {
+export default struct MyBricks_Container_List {
   @Param data: Data = new Data({
     rowKey: 'id',
     spacing: 0,

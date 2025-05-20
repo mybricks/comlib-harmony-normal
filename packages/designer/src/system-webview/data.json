@@ -1,0 +1,16 @@
+{
+  "navigationStyle": "default",
+  "navigationBarStyle": {
+    "color": "#ffffff",
+    "backgroundColor": "#464646"
+  },
+  "navigationBarTitleText": "网页标题",
+  "homeButton": false,
+  "customNavigation": {
+    "style": {},
+    "layout": {},
+    "useFixed": true
+  },
+
+  "url": ""
+}

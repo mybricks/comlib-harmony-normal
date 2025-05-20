@@ -5,6 +5,12 @@ import {
   mybricks_harmony_button_Data,
   mybricks_harmony_systemPage,
   mybricks_harmony_systemPage_Data,
+  mybricks_harmony_formInput,
+  mybricks_harmony_formInput_Data,
+  mybricks_harmony_qrcode,
+  mybricks_harmony_qrcode_Data,
+  mybricks_harmony_formSwitch,
+  mybricks_harmony_formSwitch_Data,
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -41,6 +47,21 @@ struct Index {
           }
         }
       })
+      mybricks_harmony_formInput({
+        data: new mybricks_harmony_formInput_Data({"hideLabel":false,"label":"单行输入","name":"单行输入","value":"","placeholder":"请输入内容","type":"idcard","disabled":false,"required":false,"hidden":false,"maxlength":-1,"inputAlign":"left"}),
+        styles: {".mybricks-input,.mybricks-h5Input .taroify-native-input":{"backgroundColor":"rgba(64,169,255,1)","padding":"12px","borderRadius":"40px"},"root":{"width":"100%","height":40}}
+      })
+
+      mybricks_harmony_qrcode({
+        data: new mybricks_harmony_qrcode_Data({"text":"hello MyBricks","mode":"qrcode"}),
+        styles: {"root":{"width":100,"height":100}}
+      })
+
+      mybricks_harmony_formSwitch({
+        data: new mybricks_harmony_formSwitch_Data({"label":"开关","hideLabel":false,"name":"开关","value":false,"type":"switch"}),
+        styles: {"root":{"width":"100%","height":"fit-content"}}
+      })
+
     }
   }
 

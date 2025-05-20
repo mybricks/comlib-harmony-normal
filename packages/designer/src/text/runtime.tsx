@@ -12,23 +12,9 @@ import * as Taro from "@tarojs/taro";
 
 export default function ({ id, env, data, style, inputs, outputs }) {
   const [ready, setReady] = useState(false);
-  const [showTooltop, setShowTooltop] = useState(false);
-  const [tooltipStyle, setTooltipStyle] = useState({});
-  const [timerId, setTimerId] = useState(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const [textDefaultWidth, setTextDefaultWidth] = useState(-1);
-  const [textDefaultHeight, setTextDefaultHeight] = useState(-1);
   const [displayState, setDisplayState] = useState(data.displayState);
 
-  // 兼容下之前的动态文本开关
-  useEffect(() => {
-    //老组件打开了动态文本渲染，则默认选中「隐藏」
-    if (data.useDynamic) {
-      setDisplayState("hidden");
-      data.displayState = "hidden";
-      data.useDynamic = false;
-    }
-  }, [data.useDynamic]);
 
   const displaySkeleton = useMemo(() => {
     if (displayState === "skeleton" && !ready && env.runtime) {
@@ -37,7 +23,6 @@ export default function ({ id, env, data, style, inputs, outputs }) {
     return false;
   }, [displayState, env.runtime, ready]);
 
-  /** TODO 写在useEffect里时序有延迟，容易出现闪屏，先试试这样先 */
   useMemo(() => {
     inputs["value"]((val) => {
       data.text = val;
@@ -113,77 +98,6 @@ export default function ({ id, env, data, style, inputs, outputs }) {
     outputs["onClick"](data.text);
   }, []);
 
-  const onLongPress = useCallback(
-    (e) => {
-      if (!env.runtime) {
-        return;
-      }
-
-      switch (data.useLongPress) {
-        case "tooltip":
-          // 长按提示 tooltip，松开手指后消失
-          clearTimeout(timerId);
-          // 动态获取 textRef 的位置
-
-          if (
-            Taro.getEnv() === Taro.ENV_TYPE.WEB ||
-            Taro.getEnv() === "Unknown"
-          ) {
-            let rect = textRef.current.getBoundingClientRect();
-            setTooltipStyle({
-              width: rect.width,
-              top: rect.top - 10,
-              left: rect.left + rect.width / 2,
-            });
-
-            setShowTooltop(true);
-          } else {
-            let ratio = Taro.getSystemInfoSync().windowWidth / 375;
-
-            const query = Taro.createSelectorQuery();
-            query.selectAll(`.${id}`).boundingClientRect();
-
-            query.exec((res) => {
-              let targetReat = res[0].filter((item) => {
-                return (
-                  item.left <= e.currentTarget.x &&
-                  item.right >= e.currentTarget.x &&
-                  item.top <= e.currentTarget.y &&
-                  item.bottom >= e.currentTarget.y
-                );
-              });
-
-              setTooltipStyle({
-                width: targetReat[0].width / ratio,
-                top: targetReat[0].top / ratio - 10,
-                left:
-                  targetReat[0].left / ratio + targetReat[0].width / ratio / 2,
-              });
-
-              setShowTooltop(true);
-            });
-          }
-
-          break;
-        case "custom":
-          outputs["onLongPress"](data.text);
-          break;
-
-        default:
-          break;
-      }
-    },
-    [data.useLongPress, timerId, id, textRef.current, displaySkeleton]
-  );
-
-  const onTouchEnd = useCallback(() => {
-    let id = setTimeout(() => {
-      setShowTooltop(false);
-    }, 500);
-
-    setTimerId(id);
-  }, []);
-
   const text = useMemo(() => {
     let text = data.text ?? "";
 
@@ -208,14 +122,7 @@ export default function ({ id, env, data, style, inputs, outputs }) {
         <View
           className={textCx}
           onClick={onClick}
-          onLongPress={onLongPress}
-          onTouchEnd={onTouchEnd}
         >
-          {showTooltop && !displaySkeleton ? (
-            <View className={css.tooltip} style={tooltipStyle}>
-              {text}
-            </View>
-          ) : null}
           <View className={SkeletonCx}>
             <View ref={textRef} className={ellipsisCx} style={textStyle}>
               {text}

@@ -53,7 +53,7 @@ export interface SlotsParams {
 @Builder function emptySlot(params: SlotsParams_content) {}
 
 @ComponentV2
-export default struct Mybricks_Popup {
+export default struct MyBricks_Popup {
   @Param data: Data = new Data({
     position: 'center',
     maskClose: true,

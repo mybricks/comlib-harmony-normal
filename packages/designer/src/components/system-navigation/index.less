@@ -1,0 +1,46 @@
+.header {
+ width: 100%; 
+
+
+}
+
+.nav {
+  height: 40px;
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statusBar {
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 6px;
+
+  &.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+  }
+
+  .net {
+
+  }
+  .time {
+
+  }
+  .battery {
+
+  }
+}

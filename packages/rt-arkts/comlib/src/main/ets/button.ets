@@ -23,7 +23,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct Mybricks_Button {
+export default struct MyBricks_Button {
   @Param data: Data = new Data({
     text: '按钮'
   });

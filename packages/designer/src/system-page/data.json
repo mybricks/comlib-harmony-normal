@@ -1,0 +1,31 @@
+{
+  "navigationStyle": "default",
+  "navigationBarStyle": {
+    "color": "#ffffff",
+    "backgroundColor": "#464646"
+  },
+  "navigationBarTitleText": "页面标题",
+  "homeButton": false,
+  "customNavigation": {
+    "style": {},
+    "layout": {},
+    "useFixed": true
+  },
+  "useTabBar": true,
+  "tabBar": [],
+  "background": "#ffffff",
+  "enablePullDownRefresh": false,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#464646",
+  "enableShareAppMessage": false,
+  "disableScroll": false,
+  "disableSwipeBack": false,
+  "useFooter": false,
+  "layout": {
+    "position": "smart"
+  },
+  "bottomSpace": 30,
+  "useLoading": false,
+  "backgroundSize": "cover",
+  "isEntryPagePath": false
+}

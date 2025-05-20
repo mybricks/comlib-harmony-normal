@@ -22,7 +22,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct Mybricks_Text {
+export default struct MyBricks_Text {
   @Param data: Data = new Data({
     text: '文本内容'
   });
@@ -45,7 +45,11 @@ export default struct Mybricks_Text {
             .fontSize(14)
             .fontColor('#333333')
         )
-    }.attributeModifier(
+    }
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-text'])
+    )
+    .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
   }

@@ -51,3 +51,21 @@ export {
   DataType as mybricks_harmony_containerBasic_DataType,
   Data as mybricks_harmony_containerBasic_Data,
 } from './containerBasic'
+
+export {
+  default as mybricks_harmony_formInput,
+  DataType as mybricks_harmony_formInput_DataType,
+  Data as mybricks_harmony_formInput_Data,
+} from './formInput'
+
+export {
+  default as mybricks_harmony_formSwitch,
+  DataType as mybricks_harmony_formSwitch_DataType,
+  Data as mybricks_harmony_formSwitch_Data,
+} from './formSwitch'
+
+export {
+  default as mybricks_harmony_qrcode,
+  DataType as mybricks_harmony_qrcode_DataType,
+  Data as mybricks_harmony_qrcode_Data,
+} from './qrcode'

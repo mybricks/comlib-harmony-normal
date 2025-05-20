@@ -39,7 +39,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct Mybricks_Image {
+export default struct MyBricks_Image {
   @Param data: Data = new Data({});
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;

@@ -65,35 +65,9 @@ export default {
             },
             set({ data, setTitle }, value: string) {
               data.text = value;
-
-              // if (value.length > 5) {
-              //   setTitle(value.slice(0, 5) + "...");
-              // } else {
-              //   setTitle(value);
-              // }
             },
           },
-          // binding: {
-          //   with: 'data.text',
-          //   scheme: {
-          //     type: 'string'
-          //   }
-          // }
         },
-        // {
-        //   title: "仅使用动态渲染",
-        //   description:
-        //     "开启后，页面默认不会渲染静态的「文本内容」，数据必须经过输入项「修改内容」来设置",
-        //   type: "switch",
-        //   value: {
-        //     get({ data }) {
-        //       return data.useDynamic;
-        //     },
-        //     set({ data }, val) {
-        //       data.useDynamic = val;
-        //     },
-        //   },
-        // },
         // {
         //   title:"默认展示状态",
         //   type:"radio",
@@ -122,43 +96,6 @@ export default {
                 outputId: "onClick",
               },
             },
-            // {
-            //   title: "长按",
-            //   items: [
-            //     {
-            //       type: "select",
-            //       options: [
-            //         { label: "无", value: "none" },
-            //         { label: "提示气泡框", value: "tooltip" },
-            //         { label: "自定义", value: "custom" },
-            //       ],
-            //       value: {
-            //         get({ data }) {
-            //           return data.useLongPress;
-            //         },
-            //         set({ data }, val) {
-            //           data.useLongPress = val;
-
-            //           if (val === "custom") {
-            //             output.add("onLongPress", "长按", { type: "string" });
-            //           } else {
-            //             output.remove("onLongPress");
-            //           }
-            //         },
-            //       },
-            //     },
-            //     {
-            //       ifVisible({ data }) {
-            //         return data.useLongPress === "custom";
-            //       },
-            //       title: "自定义事件",
-            //       type: "_event",
-            //       options: {
-            //         outputId: "onLongPress",
-            //       },
-            //     },
-            //   ],
-            // },
           ],
         },
       ];

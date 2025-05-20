@@ -2,13 +2,13 @@
   "componentType": "MP",
   "comAry": [
     "./src/_muilt-inputJs/com.json",
-    "./src/_showToast/com.json",
+    "./src/_show-toast/com.json",
     {
       "title": "系统",
       "visible": false,
       "comAry": [
-        "./src/system/systemPage/com.json",
-        "./src/system/systemWebview/com.json",
+        "./src/system-page/com.json",
+        "./src/system-webview/com.json",
         "./src/popup/com.json"
       ]
     },
@@ -23,8 +23,25 @@
     {
       "title": "容器",
       "comAry": [
-        "./src/containerBasic/com.json",
-        "./src/containerList/com.json"
+        "./src/container-basic/com.json",
+        "./src/tabs/com.json",
+        "./src/container-list/com.json"
+      ]
+    },
+    {
+      "title": "数据录入",
+      "comAry": [
+        "./src/form-input/com.json",
+        "./src/form-textarea/com.json",
+        "./src/form-checkbox/com.json",
+        "./src/form-switch/com.json",
+        "./src/sms-code/com.json"
+      ]
+    },
+    {
+      "title": "数据展示",
+      "comAry": [
+        "./src/qrcode/com.json"
       ]
     }
   ],

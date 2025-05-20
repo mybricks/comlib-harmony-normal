@@ -2,14 +2,17 @@ import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSS
 
 export interface DataType {
   text: string
+  mode?: 'qrcode' | 'barcode'
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace text: string
+  @Trace mode: 'qrcode' | 'barcode'
 
   constructor(config: DataType) {
     this.text = config.text
+    this.mode = config?.mode ?? 'qrcode'
   }
 }
 
@@ -22,7 +25,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct Mybricks_Qrcode {
+export default struct MyBricks_Qrcode {
   @Param data: Data = new Data({
     text: '初始二维码内容'
   });
@@ -39,16 +42,11 @@ export default struct Mybricks_Qrcode {
   build() {
     Column() {
       QRCode(this.data.text)
-        .width(200)
-        .height(200)
+        .width('100%')
+        .height('100%')
         .color(Color.Black)
         .backgroundColor(Color.White)
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-qrcode'])
-        )
     }
-    // .width('100%')
-    // .height('100%')
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Center)
     .attributeModifier(
