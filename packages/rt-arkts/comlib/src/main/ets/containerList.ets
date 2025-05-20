@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 
 export interface DataType {
   direction?: 'row' | 'column',
@@ -35,18 +35,15 @@ interface ItemParamsInputValues {
   itemData: DataSourceItem
 }
 
-export interface SlotsParams_item {
+export interface SlotsParamsItem {
   id: string,
   inputValues: ItemParamsInputValues
 }
 
-export interface SlotsParams {
-  item: SlotsParams_item
-}
-@Builder function emptySlot(params: SlotsParams_item) {}
+@Builder function emptySlot(params: SlotsParamsItem) {}
 
 @ComponentV2
-export default struct MyBricks_Container_List {
+export default struct MyBricksContainerList {
   @Param data: Data = new Data({
     rowKey: 'id',
     spacing: 0,
@@ -57,7 +54,7 @@ export default struct MyBricks_Container_List {
   @Param outputs?: Outputs = undefined;
   @Local dataSource: Array<DataSourceItem> = []
 
-  @BuilderParam slots: (slotsParams: SlotsParams_item) => void = emptySlot;
+  @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   aboutToAppear(): void {
     this.inputs?.addDataSource((ds) => {

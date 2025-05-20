@@ -8,7 +8,7 @@ export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
-} from './system/systemPage'
+} from './systemPage'
 
 export {
   default as mybricks_harmony_popup,
@@ -20,7 +20,7 @@ export {
   default as mybricks_harmony_systemWebview,
   DataType as mybricks_Harmony_SystemWebview_DataType,
   Data as mybricks_Harmony_SystemWebview_Data
-} from './system/systemWebview'
+} from './systemWebview'
 
 export {
   default as mybricks_harmony_button,

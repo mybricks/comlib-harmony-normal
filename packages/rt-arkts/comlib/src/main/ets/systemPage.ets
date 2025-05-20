@@ -1,11 +1,7 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from '../styles/getDesignStyle'
-import { AnyType } from './../types'
+import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/getDesignStyle'
+import { AnyType } from './types'
 
 export type DataType = AnyType
-
-// export interface DataType extends AnyType {
-//   background: string
-// }
 
 @ObservedV2
 export class Data implements DataType {
@@ -17,24 +13,16 @@ export class Data implements DataType {
   }
 }
 
-
 interface Inputs {
 }
 
 interface Outputs {
 }
 
-
-export interface SlotsParams_content {
-  id: string,
-}
-export interface SlotsParams {
-  item: SlotsParams_content
-}
 @Builder function emptySlot(params: AnyType) {}
 
 @ComponentV2
-export default struct System_Page {
+export default struct MyBricksSystemPage {
   @Param data: Data = new Data({
     background: '#ffffff',
     enabledPulldown: false

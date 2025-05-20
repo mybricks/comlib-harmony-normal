@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 
 export interface DataType {
   text: string
@@ -25,7 +25,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricks_Qrcode {
+export default struct MyBricksQrcode {
   @Param data: Data = new Data({
     text: '初始二维码内容'
   });

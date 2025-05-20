@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 
 export interface DataType {
   text: string
@@ -22,7 +22,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricks_Text {
+export default struct MyBricksText {
   @Param data: Data = new Data({
     text: '文本内容'
   });

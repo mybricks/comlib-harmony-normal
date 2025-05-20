@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 
 @Extend(Image) function aspectFit() {
   .objectFit(ImageFit.Contain)
@@ -39,7 +39,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricks_Image {
+export default struct MyBricksImage {
   @Param data: Data = new Data({});
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;

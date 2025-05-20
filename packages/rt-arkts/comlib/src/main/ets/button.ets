@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 import { AnyType } from './types'
 
 export interface DataType {
@@ -23,7 +23,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricks_Button {
+export default struct MyBricksButton {
   @Param data: Data = new Data({
     text: '按钮'
   });

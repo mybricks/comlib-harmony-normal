@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/getDesignStyle'
 
 type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right'
 
@@ -41,19 +41,15 @@ interface _EnvCurrentScenes {
   close: () => void
 }
 
-
-export interface SlotsParams_content {
+interface SlotsParamsContent {
   id: string,
   style?: CSSProperties
 }
 
-export interface SlotsParams {
-  item: SlotsParams_content
-}
-@Builder function emptySlot(params: SlotsParams_content) {}
+@Builder function emptySlot(params: SlotsParamsContent) {}
 
 @ComponentV2
-export default struct MyBricks_Popup {
+export default struct MyBricksPopup {
   @Param data: Data = new Data({
     position: 'center',
     maskClose: true,
@@ -64,7 +60,7 @@ export default struct MyBricks_Popup {
   @Param outputs?: Outputs = undefined;
   @Param _env?: _Env = undefined
 
-  @BuilderParam slots: (name: SlotsParams_content) => void = emptySlot;
+  @BuilderParam slots: (name: SlotsParamsContent) => void = emptySlot;
 
   @Computed
   get contentAlign(): Alignment {

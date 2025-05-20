@@ -1,6 +1,6 @@
-import { CSSProperties } from '../styles/getDesignStyle'
+import { CSSProperties } from './utils/getDesignStyle'
 import { webview } from '@kit.ArkWeb';
-import { AnyType } from './../types';
+import { AnyType } from './types';
 
 export type DataType = AnyType
 
@@ -24,7 +24,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct Webview {
+export default struct MyBricksWebview {
   @Param data: Data = new Data({});
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;

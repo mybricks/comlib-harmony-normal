@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './styles/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/getDesignStyle'
 import { AnyType } from './types'
 
 // Data 接口定义
@@ -48,7 +48,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricks_FormInput {
+export default struct MyBricksFormSwitch {
   @Param data: Data = new Data();
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
