@@ -1,1 +1,1 @@
-export * from './src/main/ets';
+export * from './src/main/ets/Index';

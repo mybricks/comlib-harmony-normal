@@ -1,4 +1,4 @@
-import { CSSProperties } from './utils/getDesignStyle'
+import { CSSProperties } from './utils/GetDesignStyle'
 import { webview } from '@kit.ArkWeb';
 import { AnyType } from './types';
 

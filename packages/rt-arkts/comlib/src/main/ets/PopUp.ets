@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/getDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 
 type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right'
 
