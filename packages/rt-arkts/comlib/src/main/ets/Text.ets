@@ -46,6 +46,9 @@ export default struct MyBricksText {
             .fontColor('#333333')
         )
     }
+    .onClick(() => {
+      this.outputs?.onClick(this.data.text)
+    })
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-text'])
     )

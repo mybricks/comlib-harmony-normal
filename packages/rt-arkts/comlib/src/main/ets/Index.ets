@@ -81,3 +81,9 @@ export {
   DataType as mybricks_harmony_qrcode_DataType,
   Data as mybricks_harmony_qrcode_Data,
 } from './QrCode'
+
+export {
+  default as mybricks_harmony_smsInput,
+  DataType as mybricks_harmony_smsInput_DataType,
+  Data as mybricks_harmony_smsInput_Data,
+} from './SmsInput'

@@ -98,6 +98,15 @@ export default struct MyBricksFormPassword {
     })
   }
 
+  @Computed
+  get placeHolderStyle(): AnyType {
+    const style = this.styles?.['.mybricks-password .taroify-input__placeholder,.mybricks-h5Password .taroify-native-input::placeholder'] ?? {}
+    return {
+      color: style?.color,
+      fontSize: parseFloat(style?.fontSize as string)
+    };
+  }
+
   build() {
     Column() {
       TextInput({
@@ -105,9 +114,11 @@ export default struct MyBricksFormPassword {
         placeholder: this.data.placeholder
       })
         .type(InputType.Password)
-        .placeholderColor('#999999')
+        .placeholderColor(this.placeHolderStyle?.color ?? '#999999')
+        .placeholderFont({
+          size: this.placeHolderStyle?.fontSize || 14
+        })
         .height('100%')
-        .fontSize(14)
         .maxLength(this.data.maxlength)
         .enabled(!this.data.disabled)
         .contentType(ContentType.PASSWORD)
@@ -116,6 +127,11 @@ export default struct MyBricksFormPassword {
           this.outputs?.onChange?.(value);
         })
         .layoutWeight(1)  // 输入框占剩余空间
+        .attributeModifier(
+          new ApplyFontStyleModifier(this.styles['.mybricks-password .taroify-input,.mybricks-h5Password .taroify-input .taroify-native-input'])
+            .fontSize(14)
+            .fontColor('#000000')
+        )
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-password,.mybricks-h5Password'])
             .backgroundColor(Color.Transparent)

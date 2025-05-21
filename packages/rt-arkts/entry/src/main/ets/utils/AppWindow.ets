@@ -23,14 +23,6 @@ export function initAppWindow () {
   })
 }
 
-export function closeAppWindow () {
-  // 沉浸模式相关
-  window.getLastWindow(getContext()).then(win => {
-    // 关闭所有页面的沉浸式模式（关闭全屏模式）
-    win.setWindowLayoutFullScreen(false)
-  })
-}
-
 interface RgbRes {
   r: number,
   g: number,
@@ -95,6 +87,8 @@ export struct AppCommonHeader {
     })
   }
 
+  @Param onBack?: Function | null = null
+
   build() {
     Stack() {
       RelativeContainer() {
@@ -111,36 +105,27 @@ export struct AppCommonHeader {
           .alignRules({
             middle: { anchor: "__container__", align: HorizontalAlign.Center },
           })
-        // if (this.onKeyBack) {
-        //   Image($r('app.media.ic_back'))
-        //     .height('100%')
-        //     .padding({
-        //       left: 16,
-        //       top: 11,
-        //       bottom: 11,
-        //       right: 11
-        //     })
-        //     .fillColor(this.titleColor)
-        //     .objectFit(ImageFit.Contain)
-        //     .alignRules({
-        //       left: { anchor: "__container__", align: HorizontalAlign.Start },
-        //     })
-        //     .id("i2")
-        //     .onClick(() => {
-        //       this.onKeyBack?.()
-        //     })
-        // }
-        // if (this.rightLayout) {
-        //   Row() {
-        //     this.rightLayout?.()
-        //   }
-        //   .height('100%')
-        //   .justifyContent(FlexAlign.End)
-        //   .alignRules({
-        //     right: { anchor: "__container__", align: HorizontalAlign.End },
-        //   })
-        //   .id("i3")
-        // }
+        if (!!this.onBack) {
+          Column(){
+            SymbolGlyph($r('sys.symbol.chevron_left'))
+              .fontSize(32)
+              .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+              .fontColor([this.titleColor, Color.White])
+          }
+          .height('100%')
+          .width(36)
+          .padding({
+            left: 16
+          })
+          .justifyContent(FlexAlign.Center)
+          .alignItems(HorizontalAlign.Center)
+          .alignRules({
+            left: { anchor: "__container__", align: HorizontalAlign.Start },
+          })
+          .onClick(() => {
+            this.onBack?.()
+          })
+        }
       }
       .width('100%')
       .height(this.barHeight)
@@ -155,7 +140,7 @@ export struct AppCommonHeader {
 export struct AppCustomHeader {
   @Param barHeight: number = 40
   @Param titleColor: string = '#ffffff'
-  @Param barBackgroundColor: string = '#464646'
+  @Param barBackgroundColor: string = '#ffffff'
 
   aboutToAppear(): void {
     window.getLastWindow(getContext()).then(win => {
@@ -167,8 +152,9 @@ export struct AppCustomHeader {
   }
 
   build() {
-    Column()
-      .height(this.barHeight)
-      .backgroundColor(this.barBackgroundColor)
+    Column(){}
+    .width('100%')
+    .height(appWindow.statusBarHeight)
   }
 }
+
