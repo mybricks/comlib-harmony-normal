@@ -1,6 +1,6 @@
 {
   "title": "验证码宫格",
-  "namespace": "mybricks.harmony.smsCode",
+  "namespace": "mybricks.harmony.smsInput",
   "author": "MyBricks",
   "author_name": "板砖团队",
   "version": "1.0.0",
