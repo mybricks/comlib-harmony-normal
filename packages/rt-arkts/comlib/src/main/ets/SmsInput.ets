@@ -166,7 +166,7 @@ export default struct SmsInput {
           .fontSize(35)
           .fontColor('#424242')
           .fontWeight("600")
-          // .backgroundColor('#C8C8C8')
+        // .backgroundColor('#C8C8C8')
       }
     }
     // .width(60)
@@ -193,6 +193,7 @@ export default struct SmsInput {
       TextInput({ text: this.code.join('') })
         .width(0)
         .height(0)
+        .backgroundColor(Color.Transparent)
         .maxLength(4)
         .type(InputType.Number)
         .key('sms-code-input')
@@ -239,7 +240,7 @@ export default struct SmsInput {
           .onClick(()=>{
             this.outputs?.onClickDesc?.(this.data.value)
           }
-        )
+          )
       }
       .width('100%')
       .justifyContent(FlexAlign.SpaceBetween)
