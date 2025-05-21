@@ -53,6 +53,12 @@ export {
 } from './ContainerBasic'
 
 export {
+  default as mybricks_harmony_tabs,
+  DataType as mybricks_harmony_tabs_DataType,
+  Data as mybricks_harmony_tabs_Data,
+} from './Tabs'
+
+export {
   default as mybricks_harmony_formInput,
   DataType as mybricks_harmony_formInput_DataType,
   Data as mybricks_harmony_formInput_Data,

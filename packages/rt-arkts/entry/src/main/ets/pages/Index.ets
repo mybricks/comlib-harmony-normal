@@ -11,6 +11,8 @@ import {
   mybricks_harmony_qrcode_Data,
   mybricks_harmony_formSwitch,
   mybricks_harmony_formSwitch_Data,
+  mybricks_harmony_tabs,
+  mybricks_harmony_tabs_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -62,6 +64,10 @@ struct Index {
         styles: {"root":{"width":"100%","height":"fit-content"}}
       })
 
+      mybricks_harmony_tabs({
+        data: new mybricks_harmony_tabs_Data({"mode":"topbar","new_index":3,"tabs":[{"_id":"tabId1","tabName":"标签项1","badge":""},{"_id":"tabId2","tabName":"标签项2","badge":""}],"edit":{"currentItemId":"","currentTabId":"tabId1"},"initChangeTab":false,"sticky":false,"slotStyle":{"position":"smart"},"contentShowType":"switch"}),
+        styles: {"root":{"width":'100%',"height":200}},
+      })
     }
   }
 

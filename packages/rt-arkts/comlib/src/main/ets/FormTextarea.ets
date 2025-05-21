@@ -1,21 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
-type InputAlignType = 'left' | 'right' | 'center';
-
-function convertInputAlignToTextAlign(align: InputAlignType): TextAlign {
-  switch (align) {
-    case 'left':
-      return TextAlign.Start;
-    case 'right':
-      return TextAlign.End;
-    case 'center':
-      return TextAlign.Center;
-    default:
-      return TextAlign.Start;
-  }
-}
-
 export interface DataType {
   hideLabel: boolean,
   label: string,
@@ -26,8 +11,8 @@ export interface DataType {
   disabled: boolean,
   required: boolean,
   hidden: boolean,
-  maxlength: number,
-  inputAlign: InputAlignType
+  autoHeight: boolean,
+  limit: number
 }
 
 @ObservedV2
@@ -41,21 +26,21 @@ export class Data implements DataType {
   @Trace disabled: boolean
   @Trace required: boolean
   @Trace hidden: boolean
-  @Trace maxlength: number
-  @Trace inputAlign: InputAlignType
+  @Trace autoHeight: boolean
+  @Trace limit: number
 
   constructor(config?: DataType) {
     this.hideLabel = config?.hideLabel ?? false
-    this.label = config?.label ?? '单行输入'
-    this.name = config?.name ?? '单行输入'
+    this.label = config?.label ?? '多行输入'
+    this.name = config?.name ?? '多行输入'
     this.value = config?.value ?? ''
     this.placeholder = config?.placeholder ?? '请输入内容'
     this.type = config?.type ?? 'text'
     this.disabled = config?.disabled ?? false
     this.required = config?.required ?? false
     this.hidden = config?.hidden ?? false
-    this.maxlength = config?.maxlength ?? 50
-    this.inputAlign = config?.inputAlign ?? 'left'
+    this.autoHeight = config?.autoHeight ?? false
+    this.limit = config?.limit ?? 100
   }
 }
 
@@ -79,7 +64,7 @@ interface Outputs {
 }
 
 @ComponentV2
-export default struct MyBricksFormInput {
+export default struct MyBricksFormTextarea {
   @Param data: Data = new Data();
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
@@ -107,45 +92,25 @@ export default struct MyBricksFormInput {
 
   build() {
     Column() {
-      TextInput({
+      TextArea({
         text: this.data.value,
         placeholder: this.data.placeholder
       })
-        .type(InputType.Normal)
         .placeholderColor('#999999')
         .height('100%')
         .fontSize(14)
-        .maxLength(this.data.maxlength)
+        .maxLength(this.data.limit)
         .enabled(!this.data.disabled)
-        .contentType(getContentType(this.data.type))
-        .cancelButton({ style: CancelButtonStyle.INPUT, icon: { size: 14 } })
-        .textAlign(convertInputAlignToTextAlign(this.data.inputAlign))
         .onChange((value: string) => {
           this.data.value = value;
           this.outputs?.onChange?.(value);
         })
-        .layoutWeight(1)  // 输入框占剩余空间
         .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
+          new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
             .backgroundColor(Color.Transparent)
         )
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
-  }
-}
-
-
-function getContentType (type: string) {
-  switch (type) {
-    case 'idcard': {
-      return ContentType.ID_CARD_NUMBER
-    }
-    case 'phone': {
-      return ContentType.PHONE_NUMBER
-    }
-    default: {
-      return ContentType.NICKNAME
-    }
   }
 }

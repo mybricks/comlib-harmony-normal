@@ -33,7 +33,7 @@
       "comAry": [
         "./src/form-input/com.json",
         "./src/form-textarea/com.json",
-        "./src/form-checkbox/com.json",
+        "./src/form-password/com.json",
         "./src/form-switch/com.json",
         "./src/sms-code/com.json"
       ]
