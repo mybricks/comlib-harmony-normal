@@ -134,6 +134,13 @@ export default {
                 outputId: "onSendSMS",
               },
             },
+            {
+              title: "点击描述文本",
+              type: "_event",
+              options: {
+                outputId: "onClickDesc",
+              }
+            }
           ],
         },
       ];
