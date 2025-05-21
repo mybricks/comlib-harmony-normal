@@ -84,6 +84,13 @@
       "schema": {
         "type": "string"
       }
+    },
+    {
+      "id": "onClickDesc",
+      "title": "点击描述文本",
+      "schema": {
+        "type": "string"
+      }
     }
   ]
 }
