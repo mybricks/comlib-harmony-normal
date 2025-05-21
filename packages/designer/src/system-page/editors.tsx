@@ -220,43 +220,43 @@ export default {
                 },
               },
             },
-            // {
-            //   title: "页面地址",
-            //   type: "editorRender",
-            //   options: {
-            //     render: (props) => {
-            //       let url = `/pages/${props.editConfig.value.get()}/index`;
+            {
+              title: "页面ID",
+              type: "editorRender",
+              options: {
+                render: (props) => {
+                  let url = `${props.editConfig.value.get()}`;
     
-            //       const onCopy = (text) => {
-            //         const textarea = document.createElement("textarea");
-            //         textarea.value = text;
-            //         document.body.appendChild(textarea);
-            //         textarea.select();
-            //         document.execCommand("copy");
-            //         document.body.removeChild(textarea);
+                  const onCopy = (text) => {
+                    const textarea = document.createElement("textarea");
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textarea);
     
-            //         message.success("复制成功");
-            //       };
+                    message.success("复制成功");
+                  };
     
-            //       return (
-            //         <div
-            //           className={css.pagePath}
-            //           onClick={() => {
-            //             onCopy(url);
-            //           }}
-            //         >
-            //           <div className={css.url}>{url}</div>
-            //           <div className={css.copy}></div>
-            //         </div>
-            //       );
-            //     },
-            //   },
-            //   value: {
-            //     get({ data }) {
-            //       return data.id;
-            //     },
-            //   },
-            // },
+                  return (
+                    <div
+                      className={css.pagePath}
+                      onClick={() => {
+                        onCopy(url);
+                      }}
+                    >
+                      <div className={css.url}>{url}</div>
+                      <div className={css.copy}></div>
+                    </div>
+                  );
+                },
+              },
+              value: {
+                get({ data }) {
+                  return data.id;
+                },
+              },
+            },
             // {
             //   title: "页面别名",
             //   description: "如果设置了页面别名，则将使用别名覆盖默认页面地址，多张页面设置别名时，所设置的值请勿重复",

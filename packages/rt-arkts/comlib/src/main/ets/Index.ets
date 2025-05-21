@@ -71,6 +71,12 @@ export {
 } from './FormSwitch'
 
 export {
+  default as mybricks_harmony_formPassword,
+  DataType as mybricks_harmony_formPassword_DataType,
+  Data as mybricks_harmony_formPassword_Data,
+} from './FormPassword'
+
+export {
   default as mybricks_harmony_qrcode,
   DataType as mybricks_harmony_qrcode_DataType,
   Data as mybricks_harmony_qrcode_Data,

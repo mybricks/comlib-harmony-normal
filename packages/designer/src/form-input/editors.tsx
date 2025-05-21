@@ -50,14 +50,12 @@ export default {
           },
         },
         {
-          title: "键盘类型",
+          title: "内容类型",
           type: "Select",
           options: [
             { value: "text", label: "文本" },
             { value: "idcard", label: "身份证号" },
-            { value: "number", label: "整数" },
-            { value: "digit", label: "数字（支持小数）" },
-            { value: "nickname", label: "昵称输入键盘" },
+            { value: "phone", label: "手机号" },
           ],
           value: {
             get({ data }) {
