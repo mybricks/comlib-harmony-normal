@@ -6,5 +6,6 @@
   "countDownText":"秒后重新获取验证码",
   "retryText":"重新获取验证码",
   "errorText":"验证码错误",
-  "buttonAvailable":true
+  "buttonAvailable":true,
+  "desc":"收不到验证码？"
 }

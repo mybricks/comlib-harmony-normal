@@ -8,11 +8,11 @@ export interface DataType {
   countdown: number,
   countDownText: string,
   retryText: string,
-  errorText: string,
   buttonAvailable: boolean,
   counting: boolean,
   currentCount: number,
   isError: boolean,
+  desc: string
 }
 
 @ObservedV2
@@ -23,11 +23,11 @@ export class Data implements DataType {
   @Trace countdown: number
   @Trace countDownText: string
   @Trace retryText: string
-  @Trace errorText: string
   @Trace buttonAvailable: boolean
   @Trace counting: boolean
   @Trace currentCount: number
   @Trace isError: boolean
+  @Trace desc: string
 
   constructor(config?: Partial<DataType>) {
     this.value = config?.value ?? '' //已加
@@ -36,11 +36,11 @@ export class Data implements DataType {
     this.countdown = config?.countdown ?? 60 //已加：倒计时秒数
     this.countDownText = config?.countDownText ?? 's后重新获取验证码' //已加
     this.retryText = config?.retryText ?? '重新获取验证码' //已加
-    this.errorText = config?.errorText ?? '验证码错误'
     this.buttonAvailable = config?.buttonAvailable ?? true //已加
     this.counting = config?.counting ?? false //已加
     this.currentCount = config?.currentCount ?? 0 //已加
     this.isError = config?.isError ?? false
+    this.desc = config?.desc ?? "收不到验证码？"//已加
   }
 }
 
@@ -48,7 +48,6 @@ interface Inputs {
   startCountdown: (fn: (val: AnyType, outputRels?: AnyType) => void) => void //已加
   getValue: (fn: (val: AnyType, outputRels?: AnyType) => void) => void  //已加
   resetValue: (fn: (val: AnyType,outputRels?: AnyType) => void) => void  //已加
-  setError: (fn: (val: AnyType) => void) => void
 }
 
 interface Outputs {
@@ -234,7 +233,7 @@ export default struct SmsInput {
             this.handleRetryClick()
           })
 
-        Text(this.data.counting ? "":"收不到验证码？")
+        Text(this.data.counting ? "":this.data.desc)
           .fontColor('#4B4B4B')
           .fontSize(14)
           .onClick(()=>{
@@ -246,14 +245,6 @@ export default struct SmsInput {
       .justifyContent(FlexAlign.SpaceBetween)
       .margin({top:25})
 
-      // Row(){
-      //   Text("重置")
-      //     .onClick(()=>{
-      //
-      //       this.data.value = ""
-      //       this.code = ["","","",""]
-      //     })
-      // }
     }
 
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
