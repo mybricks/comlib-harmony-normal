@@ -91,7 +91,7 @@ export default function (props) {
     let input = e.detail.value;
 
     // 如果内容没有变化，不触发
-    if(input == value){
+    if (input == value) {
       return;
     }
 
@@ -134,7 +134,7 @@ export default function (props) {
   };
 
   const resendSMS = () => {
-    if(env.edit) return
+    if (env.edit) return
     if (!data.buttonAvailable) return;
     countDown();
     outputs["onSendSMS"](value);
@@ -153,10 +153,13 @@ export default function (props) {
           onBlur={onSmSBlur}
         />
       </View>
-      <View className={css.desc} id="mybricks-input-desc" onClick={resendSMS}>
-        <View className="mybricks-desc">{displayNormalText}</View>
-        {error && <View className={css.error}>{data.errorText}</View>}
+      <View>
+        <View className={css.desc} id="mybricks-input-desc" onClick={resendSMS}>
+          <View className="mybricks-desc">{displayNormalText}</View>
+        </View>
+        <View>{data.desc}</View>
       </View>
+
     </View>
   );
 }

@@ -99,16 +99,16 @@ export default {
           },
         },
         {
-          title: "错误文案",
+          title: "提示文案",
           type: "text",
           value: {
             get({ data }) {
-              return data.errorText;
+              return data.desc;
             },
             set({ data }, value) {
-              data.errorText = value;
+              data.desc = value;
             },
-          },
+          }
         },
         {
           title: "事件",

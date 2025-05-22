@@ -143,7 +143,7 @@ export default struct MyBricksFormInput {
         .placeholderFont({
           size: this.placeHolderStyle?.fontSize || 14
         })
-        .height('100%')
+        // .height('100%')
         .maxLength(this.data.maxlength)
         .enabled(!this.data.disabled)
         .contentType(getContentType(this.data.type))
@@ -153,7 +153,7 @@ export default struct MyBricksFormInput {
           this.data.value = value;
           this.outputs?.onChange?.(value);
         })
-        .layoutWeight(1)  // 输入框占剩余空间
+        // .layoutWeight(1)  // 输入框占剩余空间
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
             .fontSize(14)
