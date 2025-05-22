@@ -1,6 +1,28 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { BasicStylesType, Styles } from "./types/Styles"
+
+interface MyBricksButtonStyles {
+  color: Styles.Color
+  fontSize: Styles.FontSize
+  fontWeight: Styles.FontWeight
+  backgroundColor: Styles.BackgroundColor
+  borderRadius: Styles.BorderRadius
+  border: Styles.Border
+  borderTop: Styles.BorderTop
+  borderLeft: Styles.BorderLeft
+  borderRight: Styles.BorderRight
+  borderBottom: Styles.BorderBottom
+  backgroundSize: Styles.BackgroundSize
+  backgroundImage: Styles.BackgroundImage
+}
+
+export interface StylesType extends BasicStylesType {
+  ".mybricks-button"?: Partial<MyBricksButtonStyles>
+  ".mybricks-button-disable"?: Partial<MyBricksButtonStyles>
+}
+
 export interface DataType {
   text: string
   disabled?: boolean
