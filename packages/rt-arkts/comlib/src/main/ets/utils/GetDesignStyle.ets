@@ -242,7 +242,7 @@ export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute |
     }
     const fontSize = this.css?.fontSize ? parseFloat(this.css?.fontSize as string) : this.initFontSize
     if (fontSize) {
-      instance.fontSize(fontSize + 'vp')
+      instance.fontSize(fontSize + 'fp')
     }
 
     const fontWeight = this.css?.fontWeight ?? this.initFontWeight

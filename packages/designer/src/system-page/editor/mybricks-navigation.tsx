@@ -161,6 +161,21 @@ export default {
           },
         },
       },
+      {
+        title: '返回按钮',
+        type: "switch",
+        ifVisible({ data }) {
+          return data.navigationStyle === "default";
+        },
+        value: {
+          get({ data }) {
+            return data.showBackIcon ?? false
+          },
+          set({ data }, value) {
+            data.showBackIcon = value;
+          },
+        },
+      },
     ],
   },
   ".mybricks-header": {

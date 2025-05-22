@@ -72,7 +72,7 @@ export default struct MyBricksButton {
     })
 
     this.inputs?.buttonText((text) => {
-      this.data.text = text;
+      this.data.text = String(text);
     })
   }
 

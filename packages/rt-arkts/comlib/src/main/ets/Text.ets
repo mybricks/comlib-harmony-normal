@@ -32,7 +32,7 @@ export default struct MyBricksText {
 
   aboutToAppear(): void {
     this.inputs?.value((text) => {
-      this.data.text = text;
+      this.data.text = String(text);
     })
   }
 
