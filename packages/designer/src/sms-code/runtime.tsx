@@ -29,10 +29,6 @@ export default function (props) {
     inputs["resetValue"]((val) => {
       setValue("");
     });
-
-    inputs["setError"]((val) => {
-      setError(true);
-    });
   }, []);
 
   useEffect(() => {
