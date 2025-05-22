@@ -5,6 +5,12 @@ export {
 } from './_ShowToast'
 
 export {
+  default as mybricks_harmony__connector,
+  DataType as mybricks_harmony__connector_DataType,
+  Data as mybricks_harmony__connector_Data
+} from './_Connector'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
