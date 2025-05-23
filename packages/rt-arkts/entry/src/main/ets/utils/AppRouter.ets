@@ -1,4 +1,4 @@
-import { UnknownJson } from './../types'
+type UnknownJson = Record<string, string | number | boolean | Object> | string | number | boolean
 
 export interface TabBarConfig {
   text: string,
@@ -23,8 +23,8 @@ export class AppRouter {
   tabList: Array<TabBarConfig> = []
 
   @Trace activeTabIndex?: number = 0
-
   @Trace entryPageId?: string
+  @Trace entryMode?: 'tab' | 'page' = 'tab'
 
   pageParams?: Map<string, UnknownJson | undefined> = new Map()
 
@@ -34,9 +34,12 @@ export class AppRouter {
   }
 
   public registEntryPage(name: string) {
-    if (this.hasTabs()) {
-      this.activeTabIndex = this.tabList.findIndex(t => t?.id === name)
+    const targetIndex = this.tabList.findIndex(t => t?.id === name)
+    if (this.hasTabs() && targetIndex > -1) {
+      this.entryMode = 'tab'
+      this.activeTabIndex = targetIndex
     } else {
+      this.entryMode = 'page'
       this.entryPageId = name
     }
   }
@@ -81,11 +84,30 @@ export class AppRouter {
     this.navPathStack.replacePathByName(name, params, true)
   }
 
+  /** 返回上一页 */
   public pop(result?: Object) {
     if (result !== undefined) {
       this.navPathStack.pop(result, true)
     } else {
       this.navPathStack.pop(true)
+    }
+  }
+
+  /** 返回到堆栈中最近的页面 */
+  public popToName(name: string) {
+    if (this.isTabbarPage(name)) {
+      // TODO
+      return
+    }
+    // 如果是要回到首页，直接清楚所有堆栈即可
+    if (this.entryPageId === name) {
+      this.clear();
+      return
+    }
+    this.navPathStack.popToName(name)
+    const targetIndex: number = Array.from(this.routerStack).lastIndexOf(name)
+    if (targetIndex > -1) {
+      this.routerStack = this.routerStack.slice(0, targetIndex + 1);
     }
   }
 

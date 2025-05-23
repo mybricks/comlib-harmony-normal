@@ -11,6 +11,12 @@ export {
 } from './_Connector'
 
 export {
+  default as mybricks_harmony__router,
+  DataType as mybricks_harmony__router_DataType,
+  Data as mybricks_harmony__router_Data
+} from './_Router'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
@@ -75,6 +81,12 @@ export {
   DataType as mybricks_harmony_formSwitch_DataType,
   Data as mybricks_harmony_formSwitch_Data,
 } from './FormSwitch'
+
+export {
+  default as mybricks_harmony_formRadio,
+  DataType as mybricks_harmony_formRadio_DataType,
+  Data as mybricks_harmony_formRadio_Data,
+} from './FormRadio'
 
 export {
   default as mybricks_harmony_formPassword,

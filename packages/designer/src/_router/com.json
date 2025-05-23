@@ -1,0 +1,22 @@
+{
+  "title": "跳转到",
+  "namespace": "mybricks.harmony._router",
+  "author": "",
+  "author_name": "",
+  "version": "1.0.0",
+  "description": "动态路由跳转",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.ts",
+  "runtime": "./runtime.ts",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "goto",
+      "title": "跳转",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ]
+}

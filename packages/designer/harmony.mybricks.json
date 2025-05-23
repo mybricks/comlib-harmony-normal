@@ -1,9 +1,10 @@
 {
   "componentType": "MP",
   "comAry": [
-    "./src/_muilt-inputJs/com.json",
+    "./src/_muilt-input-js/com.json",
     "./src/_connector/com.json",
     "./src/_show-toast/com.json",
+    "./src/_router/com.json",
     {
       "title": "系统",
       "visible": false,
@@ -36,6 +37,8 @@
         "./src/form-textarea/com.json",
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
+        "./src/form-radio/com.json",
+        "./src/form-checkbox/com.json",
         "./src/sms-code/com.json"
       ]
     },
