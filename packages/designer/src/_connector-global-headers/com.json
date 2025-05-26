@@ -1,0 +1,31 @@
+{
+  "title": "设置全局请求头",
+  "namespace": "mybricks.harmony._connectorGlobalHeaders",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "设置后，所有网络请求都会带上这些请求头",
+  "runtime": "./runtime.ts",
+  "editors": "./editors.tsx",
+  "icon": "./icon.svg",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "call",
+      "rels": ["then"],
+      "title": "设置",
+      "schema": {
+        "type": "object"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "then",
+      "title": "完成",
+      "schema": {
+        "type": "follow"
+      }
+    }
+  ]
+}

@@ -11,6 +11,12 @@ export {
 } from './_Connector'
 
 export {
+  default as mybricks_harmony__connectorGlobalHeaders,
+  DataType as mybricks_harmony__connectorGlobalHeaders_DataType,
+  Data as mybricks_harmony__connectorGlobalHeaders_Data
+} from './_ConnectorGlobalHeaders'
+
+export {
   default as mybricks_harmony__router,
   DataType as mybricks_harmony__router_DataType,
   Data as mybricks_harmony__router_Data

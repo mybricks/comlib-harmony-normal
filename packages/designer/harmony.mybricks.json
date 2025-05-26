@@ -3,6 +3,7 @@
   "comAry": [
     "./src/_muilt-input-js/com.json",
     "./src/_connector/com.json",
+    "./src/_connector-global-headers/com.json",
     "./src/_show-toast/com.json",
     "./src/_aes-encode/com.json",
     "./src/_router/com.json",
