@@ -94,7 +94,7 @@ export default struct SmsInput {
     }, 500)
 
     this.inputs?.startCountdown((val: AnyType, outputRels: AnyType) => {
-      this.handleRetryClick()
+      this.startCountdown()
       outputRels?.["startCountdownDone"]?.(val);
     })
 
@@ -130,6 +130,11 @@ export default struct SmsInput {
       this.outputs.onSendSMS(this.code.join(''))
     }
 
+    this.startCountdown()
+
+  }
+
+  private startCountdown(){
     // 初始化倒计时状态
     this.data.counting = true
     this.data.currentCount = this.data.countdown
