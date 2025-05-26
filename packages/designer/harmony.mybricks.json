@@ -28,7 +28,8 @@
       "comAry": [
         "./src/container-basic/com.json",
         "./src/tabs/com.json",
-        "./src/container-list/com.json"
+        "./src/container-list/com.json",
+        "./src/container-waterfall/com.json"
       ]
     },
     {
