@@ -20,6 +20,7 @@
     "@tarojs/taro-h5": "4.0.6",
     "taro-code": "^4.0.1",
     "brickd-mobile": "^0.0.53",
+    "crypto-js": "^4.2.0",
     "classnames": "^2.5.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
