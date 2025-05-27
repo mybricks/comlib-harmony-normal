@@ -39,6 +39,11 @@ export default struct MyBricksWebview {
 
   build() {
     Web({ src: this.data.url, controller: this.controller })
+      .imageAccess(true)
       .fileAccess(true)
+      .javaScriptAccess(true)
+      .domStorageAccess(true)
+      .width("100%")
+      .height("100%")
   }
 }

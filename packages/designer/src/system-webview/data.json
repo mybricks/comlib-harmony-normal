@@ -4,7 +4,7 @@
     "color": "#ffffff",
     "backgroundColor": "#464646"
   },
-  "navigationBarTitleText": "网页标题",
+  "navigationBarTitleText": "页面标题",
   "homeButton": false,
   "customNavigation": {
     "style": {},

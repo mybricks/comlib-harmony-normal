@@ -4,8 +4,9 @@ import cx from "classnames";
 import css from "./style.less";
 import { isDesigner } from "../utils/env";
 import EmptyCom from "../components/empty-com";
+import SystemNavigation from "./../components/system-navigation";
 
-export default function ({ env, data, inputs, outputs }) {
+export default function ({ env, data, inputs, outputs, slots }) {
 
   useEffect(() => {
     inputs["setUrl"]((val) => {
@@ -30,7 +31,7 @@ export default function ({ env, data, inputs, outputs }) {
     return (
       <>
         <View className={"mybricks-navigation"}>
-          {/* <DefaultNavigation data={data} /> */}
+          <SystemNavigation data={data} env={env} slots={slots} />
         </View>
 
         <View className={cx(css.webview, css.edit)}>
