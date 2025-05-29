@@ -45,7 +45,8 @@
         "./src/form-switch/com.json",
         "./src/form-radio/com.json",
         "./src/form-checkbox/com.json",
-        "./src/sms-code/com.json"
+        "./src/sms-code/com.json",
+        "./src/searchBar/com.json"
       ]
     },
     {
