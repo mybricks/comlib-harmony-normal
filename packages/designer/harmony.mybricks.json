@@ -12,7 +12,8 @@
       "comAry": [
         "./src/system-page/com.json",
         "./src/system-webview/com.json",
-        "./src/popup/com.json"
+        "./src/popup/com.json",
+        "./src/container-row/com.json"
       ]
     },
     {

@@ -44,7 +44,7 @@ export default (context: IOContext) => {
       // 动态输入
       try {
         promptAction.showToast({
-          message: typeof val === 'string' ? val : data.title,
+          message: typeof val === 'string' ? val : val?.title,
           duration: Number(val?.duration ?? data.duration ?? 1000)
         })
         if (data.asynchronous) {
