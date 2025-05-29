@@ -195,102 +195,6 @@ export default {
             },
           },
         },
-        // {
-        //   title: "动态标签",
-        //   type: "switch",
-        //   description: "开启后，可通过连线动态配置左侧的选项列表",
-        //   value: {
-        //     get({ data, slot }) {
-        //       if (data.useDynamicTab === false) {
-        //         if (slot.get("tabItem")) {
-        //           slot.remove("tabItem")
-        //         }
-        //       }
-        //       return data.useDynamicTab;
-        //     },
-        //     set({ data, slot,output }, value) {
-        //       data.useDynamicTab = value;
-        //       //当动态标签开启时，把目前的全部output存起来，后面可以还原
-        //       if (value) {
-        //         data.slotStorage = data.tabs.map((item) => {
-        //           output.remove(`changeTab_${item._id}`)
-        //           return {
-        //             id: `changeTab_${item._id}`,
-        //             title: item.tabName,
-        //             schema: {
-        //               type: "object",
-        //               properties: {
-        //                 id: {
-        //                   type: "string",
-        //                 },
-        //                 tabName: {
-        //                   type: "string",
-        //                 },
-        //                 index: {
-        //                   type: "number",
-        //                 },
-        //               },
-        //             },
-        //           };
-        //         });
-        //         //追加固定标签页
-        //         slot.add(comJson.slots[2])
-        //       } else {
-        //         //动态标签页关闭时，还原存储的output
-        //         data.slotStorage.forEach((item) => {
-        //           output.add(item)
-        //         });
-        //         slot.remove("tabItem")
-        //         data.slotStorage = []
-        //       }
-
-        //     },
-        //   }
-        // },
-        // {
-        //   title: "标签名key",
-        //   type: "text",
-        //   description: "开启动态标签后，可通过此key获取标签名",
-        //   value: {
-        //     get({ data }) {
-        //       return data.tabNameKey;
-        //     },
-        //     set({ data }, value) {
-        //       data.tabNameKey = value;
-        //     },
-        //   }
-        // },
-        // {
-        //   title: "内容展示方式",
-        //   type: "radio",
-        //   description:
-        //     "锚定显示：在同一个页面显示所有内容，点击后滚动到对应区域；切换显示：在不同页面显示对应的侧边栏内容",
-        //   options: [
-        //     { label: "锚定显示", value: "roll" },
-        //     { label: "切换显示", value: "switch" },
-        //   ],
-        //   value: {
-        //     get({ data }) {
-        //       return data.contentShowType;
-        //     },
-        //     set({ data }, value) {
-        //       data.contentShowType = value;
-        //     },
-        //   },
-        // },
-        // {
-        //   title: "顶部插槽",
-        //   type: "switch",
-        //   description: "开启后，可在侧边栏顶部插入自定义内容（如搜索框）",
-        //   value: {
-        //     get({ data }) {
-        //       return data.useTopSlot;
-        //     },
-        //     set({ data }, value) {
-        //       data.useTopSlot = value;
-        //     },
-        //   },
-        // },
         {
           title: "事件",
           items: [
@@ -301,18 +205,18 @@ export default {
                 outputId: "changeTab",
               },
             },
-            {
-              title: "初始化时是否触发「标签切换」事件",
-              type: "switch",
-              value: {
-                get({ data }) {
-                  return data.initChangeTab;
-                },
-                set({ data }, value) {
-                  data.initChangeTab = value;
-                },
-              },
-            },
+            //{
+            //   title: "初始化时是否触发「标签切换」事件",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.initChangeTab;
+            //     },
+            //     set({ data }, value) {
+            //       data.initChangeTab = value;
+            //     },
+            //   },
+            // },
           ],
         },
       ];
