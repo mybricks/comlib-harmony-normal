@@ -52,6 +52,12 @@
       "comAry": [
         "./src/qrcode/com.json"
       ]
+    },
+    {
+      "title": "其它",
+      "comAry": [
+        "./src/support/com.json"
+      ]
     }
   ],
   "namespace": "mybricks.normal-harmony.taro",

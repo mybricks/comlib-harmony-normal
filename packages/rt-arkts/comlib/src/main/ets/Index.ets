@@ -135,3 +135,9 @@ export {
   DataType as mybricks_harmony_swiper_DataType,
   Data as mybricks_harmony_swiper_Data,
 } from './Swiper'
+
+export {
+  default as mybricks_harmony_support,
+  DataType as mybricks_harmony_support_DataType,
+  Data as mybricks_harmony_support_Data,
+} from './Support'
