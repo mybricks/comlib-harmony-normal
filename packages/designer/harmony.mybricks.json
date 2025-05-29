@@ -21,7 +21,9 @@
       "comAry": [
         "./src/image/com.json",
         "./src/button/com.json",
-        "./src/text/com.json"
+        "./src/text/com.json",
+        "./src/video/com.json",
+        "./src/swiper/com.json"
       ]
     },
     {
@@ -30,7 +32,8 @@
         "./src/container-basic/com.json",
         "./src/tabs/com.json",
         "./src/container-list/com.json",
-        "./src/container-waterfall/com.json"
+        "./src/container-waterfall/com.json",
+        "./src/sidebar/com.json"
       ]
     },
     {

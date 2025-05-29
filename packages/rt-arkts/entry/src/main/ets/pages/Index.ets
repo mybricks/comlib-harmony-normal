@@ -12,8 +12,15 @@ import {
   mybricks_harmony_formSwitch,
   mybricks_harmony_formSwitch_Data,
   mybricks_harmony_tabs,
-  mybricks_harmony_tabs_Data
+  mybricks_harmony_tabs_Data,
+  mybricks_harmony_sidebar,
+  mybricks_harmony_sidebar_Data,
+  mybricks_harmony_video,
+  mybricks_harmony_video_Data,
+  mybricks_harmony_swiper,
+  mybricks_harmony_swiper_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
+import { faceDetector } from '@kit.CoreVisionKit';
 
 
 @Entry
@@ -25,49 +32,79 @@ struct Index {
   @Builder
   slots(params: ESObject) {
     if (params.id === 'content') {
-      mybricks_harmony_button({
-        data: new mybricks_harmony_button_Data({
-          text: this.message
-        }),
-        styles: {
-          '.mybricks-button': {
-            'color': 'rgb(255, 169, 64)',
-            'backgroundColor': 'red',
-            // 'fontSize': '20',
-            'border': '5px solid rgb(19, 194, 194)'
+      // mybricks_harmony_button({
+      //   data: new mybricks_harmony_button_Data({
+      //     text: this.message
+      //   }),
+      //   styles: {
+      //     '.mybricks-button': {
+      //       'color': 'rgb(255, 169, 64)',
+      //       'backgroundColor': 'red',
+      //       // 'fontSize': '20',
+      //       'border': '5px solid rgb(19, 194, 194)'
+      //     }
+      //   }
+      // })
+      // mybricks_harmony_button({
+      //   data: new mybricks_harmony_button_Data({
+      //     text: '我是按钮'
+      //   }),
+      //   styles: {
+      //     'button': {
+      //       // 'backgroundColor': 'red',
+      //       // 'fontSize': '20'
+      //     }
+      //   }
+      // })
+      // mybricks_harmony_formInput({
+      //   data: new mybricks_harmony_formInput_Data({"hideLabel":false,"label":"单行输入","name":"单行输入","value":"","placeholder":"请输入内容","type":"idcard","disabled":false,"required":false,"hidden":false,"maxlength":-1,"inputAlign":"left"}),
+      //   styles: {".mybricks-input,.mybricks-h5Input .taroify-native-input":{"backgroundColor":"rgba(64,169,255,1)","padding":"12px","borderRadius":"40px"},"root":{"width":"100%","height":40}}
+      // })
+
+      // mybricks_harmony_qrcode({
+      //   data: new mybricks_harmony_qrcode_Data({"text":"hello MyBricks","mode":"qrcode"}),
+      //   styles: {"root":{"width":100,"height":100}}
+      // })
+
+      // mybricks_harmony_formSwitch({
+      //   data: new mybricks_harmony_formSwitch_Data({"label":"开关","hideLabel":false,"name":"开关","value":false,"type":"switch"}),
+      //   styles: {"root":{"width":"100%","height":"fit-content"}}
+      // })
+
+      // mybricks_harmony_tabs({
+      //   data: new mybricks_harmony_tabs_Data({"mode":"topbar","new_index":3,"tabs":[{"_id":"tabId1","tabName":"标签项1","badge":""},{"_id":"tabId2","tabName":"标签项2","badge":""}],"edit":{"currentItemId":"","currentTabId":"tabId1"},"initChangeTab":false,"sticky":false,"slotStyle":{"position":"smart"},"contentShowType":"switch"}),
+      //   styles: {"root":{"width":'100%',"height":200}},
+      // })
+
+      // mybricks_harmony_sidebar({
+      //
+      // })
+
+      mybricks_harmony_video({
+        data: new mybricks_harmony_video_Data({src:"https://www.runoob.com/try/demo_source/mov_bbb.mp4"}),
+        styles: {"root":{"width":"100%","height":"900px"}}
+      })
+
+      mybricks_harmony_swiper({
+        data: new mybricks_harmony_swiper_Data({
+          item:[
+            {
+              _id:1,
+              thumbnail:"https://assets.mybricks.world/ZDtHHguIHnmGhnqni1E1xjAc1PI5EFtg-1748507591263.png"
+            },
+            {
+              _id:2,
+              thumbnail:"https://assets.mybricks.world/n1YmzqmSO1vVhQz5CrIec6rFmZxnOBhe-1748507670676.png"
           }
-        }
-      })
-      mybricks_harmony_button({
-        data: new mybricks_harmony_button_Data({
-          text: '我是按钮'
+          ],
+          autoplay:true,
+          duration:800,
+          showIndicator:true,
+          circular:true
         }),
-        styles: {
-          'button': {
-            // 'backgroundColor': 'red',
-            // 'fontSize': '20'
-          }
-        }
-      })
-      mybricks_harmony_formInput({
-        data: new mybricks_harmony_formInput_Data({"hideLabel":false,"label":"单行输入","name":"单行输入","value":"","placeholder":"请输入内容","type":"idcard","disabled":false,"required":false,"hidden":false,"maxlength":-1,"inputAlign":"left"}),
-        styles: {".mybricks-input,.mybricks-h5Input .taroify-native-input":{"backgroundColor":"rgba(64,169,255,1)","padding":"12px","borderRadius":"40px"},"root":{"width":"100%","height":40}}
+        styles: {"root":{"width":"100%","height":"900px"}}
       })
 
-      mybricks_harmony_qrcode({
-        data: new mybricks_harmony_qrcode_Data({"text":"hello MyBricks","mode":"qrcode"}),
-        styles: {"root":{"width":100,"height":100}}
-      })
-
-      mybricks_harmony_formSwitch({
-        data: new mybricks_harmony_formSwitch_Data({"label":"开关","hideLabel":false,"name":"开关","value":false,"type":"switch"}),
-        styles: {"root":{"width":"100%","height":"fit-content"}}
-      })
-
-      mybricks_harmony_tabs({
-        data: new mybricks_harmony_tabs_Data({"mode":"topbar","new_index":3,"tabs":[{"_id":"tabId1","tabName":"标签项1","badge":""},{"_id":"tabId2","tabName":"标签项2","badge":""}],"edit":{"currentItemId":"","currentTabId":"tabId1"},"initChangeTab":false,"sticky":false,"slotStyle":{"position":"smart"},"contentShowType":"switch"}),
-        styles: {"root":{"width":'100%',"height":200}},
-      })
     }
   }
 
