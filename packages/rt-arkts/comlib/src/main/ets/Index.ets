@@ -129,3 +129,9 @@ export {
   DataType as mybricks_harmony_video_DataType,
   Data as mybricks_harmony_video_Data,
 } from './Video'
+
+export {
+  default as mybricks_harmony_swiper,
+  DataType as mybricks_harmony_swiper_DataType,
+  Data as mybricks_harmony_swiper_Data,
+} from './Swiper'

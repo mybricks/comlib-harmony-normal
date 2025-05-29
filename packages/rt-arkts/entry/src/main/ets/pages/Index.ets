@@ -16,8 +16,11 @@ import {
   mybricks_harmony_sidebar,
   mybricks_harmony_sidebar_Data,
   mybricks_harmony_video,
-  mybricks_harmony_video_Data
+  mybricks_harmony_video_Data,
+  mybricks_harmony_swiper,
+  mybricks_harmony_swiper_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
+import { faceDetector } from '@kit.CoreVisionKit';
 
 
 @Entry
@@ -79,6 +82,26 @@ struct Index {
 
       mybricks_harmony_video({
         data: new mybricks_harmony_video_Data({src:"https://www.runoob.com/try/demo_source/mov_bbb.mp4"}),
+        styles: {"root":{"width":"100%","height":"900px"}}
+      })
+
+      mybricks_harmony_swiper({
+        data: new mybricks_harmony_swiper_Data({
+          item:[
+            {
+              _id:1,
+              thumbnail:"https://assets.mybricks.world/ZDtHHguIHnmGhnqni1E1xjAc1PI5EFtg-1748507591263.png"
+            },
+            {
+              _id:2,
+              thumbnail:"https://assets.mybricks.world/n1YmzqmSO1vVhQz5CrIec6rFmZxnOBhe-1748507670676.png"
+          }
+          ],
+          autoplay:true,
+          duration:800,
+          showIndicator:true,
+          circular:true
+        }),
         styles: {"root":{"width":"100%","height":"900px"}}
       })
 
