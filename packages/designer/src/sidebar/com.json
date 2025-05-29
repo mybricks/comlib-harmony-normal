@@ -1,0 +1,120 @@
+{
+  "title": "侧边栏",
+  "namespace": "mybricks.harmony.sidebar",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "侧边栏",
+  "runtime": "./runtime.tsx",
+  "runtime.edit": "./edit/runtime.tsx",
+  "data": "./data.json",
+  "icon": "./icon.svg",
+  "editors": "./editors.tsx",
+  "inputs": [
+    {
+      "id": "activeTabName",
+      "desc":"输入tab名称，激活对应的tab项",
+      "title": "激活tab项",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "id": "getActiveTabId",
+      "title": "获取激活tab项",
+      "schema": {
+        "type": "any"
+      },
+      "rels": ["activeTabId"]
+    }
+  ],
+  "outputs": [
+    {
+      "id": "changeTab",
+      "title": "切换tab",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "afterSetSidebarData",
+      "title": "数据设置后",
+      "schema": {
+        "title": "列表数据",
+        "type": "array",
+        "items": {
+          "title": "列项数据",
+          "type": "any"
+        }
+      }
+    },
+    {
+      "id": "changeTab_tabName1",
+      "title": "标签项",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tabName": {
+            "type": "string"
+          },
+          "index": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    {
+      "id": "changeTab_tabName2",
+      "title": "标签项",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tabName": {
+            "type": "string"
+          },
+          "index": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    {
+      "id": "activeTabId",
+      "title": "tab激活项",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "tabName": {
+            "type": "string"
+          },
+          "index": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  ],
+  "slots": [
+    {
+      "id": "content",
+      "title": "内容"
+    },
+    {
+      "id": "tabName1",
+      "title": "标签项1"
+    },
+    {
+      "id": "tabName2",
+      "title": "标签项2"
+    }
+  ]
+}

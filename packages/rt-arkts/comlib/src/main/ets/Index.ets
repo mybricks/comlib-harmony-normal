@@ -117,3 +117,9 @@ export {
   DataType as mybricks_harmony_smsInput_DataType,
   Data as mybricks_harmony_smsInput_Data,
 } from './SmsInput'
+
+export {
+  default as mybricks_harmony_sidebar,
+  DataType as mybricks_harmony_sidebar_DataType,
+  Data as mybricks_harmony_sidebar_Data,
+} from './Sidebar'
