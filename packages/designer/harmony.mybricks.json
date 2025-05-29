@@ -20,7 +20,8 @@
       "comAry": [
         "./src/image/com.json",
         "./src/button/com.json",
-        "./src/text/com.json"
+        "./src/text/com.json",
+        "./src/video/com.json"
       ]
     },
     {

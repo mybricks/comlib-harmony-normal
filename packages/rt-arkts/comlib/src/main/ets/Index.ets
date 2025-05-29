@@ -123,3 +123,9 @@ export {
   DataType as mybricks_harmony_sidebar_DataType,
   Data as mybricks_harmony_sidebar_Data,
 } from './Sidebar'
+
+export {
+  default as mybricks_harmony_video,
+  DataType as mybricks_harmony_video_DataType,
+  Data as mybricks_harmony_video_Data,
+} from './Video'
