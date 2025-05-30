@@ -89,6 +89,12 @@ export {
 } from './FormInput'
 
 export {
+  default as mybricks_harmony_formTextarea,
+  DataType as mybricks_harmony_formTextarea_DataType,
+  Data as mybricks_harmony_formTextarea_Data
+} from './FormTextarea'
+
+export {
   default as mybricks_harmony_formSwitch,
   DataType as mybricks_harmony_formSwitch_DataType,
   Data as mybricks_harmony_formSwitch_Data,
