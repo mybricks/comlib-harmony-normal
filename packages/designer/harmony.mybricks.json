@@ -32,7 +32,7 @@
         "./src/container-basic/com.json",
         "./src/tabs/com.json",
         "./src/container-list/com.json",
-        "./src/container-waterfall/com.json",
+        "./src/form-container/com.json",
         "./src/sidebar/com.json"
       ]
     },
@@ -44,9 +44,8 @@
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
         "./src/form-radio/com.json",
-        "./src/form-checkbox/com.json",
         "./src/sms-code/com.json",
-        "./src/searchBar/com.json"
+        "./src/search-bar/com.json"
       ]
     },
     {
