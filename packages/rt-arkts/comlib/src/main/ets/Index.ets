@@ -147,3 +147,9 @@ export {
   DataType as mybricks_harmony_searchBar_DataType,
   Data as mybricks_harmony_searchBar_Data,
 } from './SearchBar'
+
+export {
+  default as mybricks_harmony_cell,
+  DataType as mybricks_harmony_cell_DataType,
+  Data as mybricks_harmony_cell_Data,
+} from './Cell'

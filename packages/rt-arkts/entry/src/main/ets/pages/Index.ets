@@ -23,6 +23,8 @@ import {
   mybricks_harmony_support_Data,
   mybricks_harmony_searchBar,
   mybricks_harmony_searchBar_Data,
+  mybricks_harmony_cell,
+  mybricks_harmony_cell_Data,
 } from '@ohos/mybricks-comlib-harmony-normal'
 import { faceDetector } from '@kit.CoreVisionKit';
 
@@ -86,7 +88,7 @@ struct Index {
 
       mybricks_harmony_video({
         data: new mybricks_harmony_video_Data({src:"https://www.runoob.com/try/demo_source/mov_bbb.mp4"}),
-        styles: {"root":{"width":"100%","height":"900px"}}
+        styles: {"root":{"width":"100%","height":"700px"}}
       })
 
       mybricks_harmony_swiper({
@@ -122,11 +124,20 @@ struct Index {
           searchButtonText:"搜索",
           clearable:false,
           placeholderText:"输入你要搜索的内容",
-          autoFocus:true,
+          autoFocus:false,
           showSearchButton:true,
           label:"提示"
         }),
         styles: {"root":{"width":"100%","height":"max-content"}}
+      })
+
+      mybricks_harmony_cell({
+        data: new mybricks_harmony_cell_Data({
+          title:"标题",
+          brief:"简介",
+          content:"文本内容"
+        }),
+        styles: {"root":{"width":"100%","height":"300px"}}
       })
 
     }

@@ -52,6 +52,7 @@
     {
       "title": "数据展示",
       "comAry": [
+        "./src/cell/com.json",
         "./src/qrcode/com.json"
       ]
     },
