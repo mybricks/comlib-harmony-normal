@@ -219,7 +219,6 @@ export default struct MyBricksTabs {
       Tabs({ barPosition: BarPosition.Start }) {
         ForEach(this.data.tabs, (tab: Tab, index: number) => {
           TabContent() {
-            Text('21323')
             this.renderTabContent(tab, index)
           }
           .tabBar(

@@ -92,6 +92,7 @@ export default struct MyBricksButton {
       left: 14,
       right: 14
     })
+    .type(ButtonType.Normal)
     .onClick(() => {
       if (this.data.disabled) {
         return

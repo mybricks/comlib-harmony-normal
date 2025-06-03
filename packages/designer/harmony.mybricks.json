@@ -20,9 +20,10 @@
       "title": "基础",
       "comAry": [
         "./src/image/com.json",
+        "./src/video/com.json",
         "./src/button/com.json",
         "./src/text/com.json",
-        "./src/video/com.json",
+        "./src/rich-text/com.json",
         "./src/swiper/com.json"
       ]
     },
@@ -33,6 +34,7 @@
         "./src/tabs/com.json",
         "./src/container-list/com.json",
         "./src/form-container/com.json",
+        "./src/container-condition/com.json",
         "./src/sidebar/com.json"
       ]
     },

@@ -65,6 +65,12 @@ export {
 } from './Image'
 
 export {
+  default as mybricks_harmony_richText,
+  DataType as mybricks_harmony_richText_DataType,
+  Data as mybricks_harmony_richText_Data
+} from './RichText'
+
+export {
   default as mybricks_harmony_containerList,
   DataType as mybricks_harmony_containerList_DataType,
   Data as mybricks_harmony_containerList_Data,
@@ -75,6 +81,12 @@ export {
   DataType as mybricks_harmony_containerBasic_DataType,
   Data as mybricks_harmony_containerBasic_Data,
 } from './ContainerBasic'
+
+export {
+  default as mybricks_harmony_containerCondition,
+  DataType as mybricks_harmony_containerCondition_DataType,
+  Data as mybricks_harmony_containerCondition_Data,
+} from './ContainerCondition'
 
 export {
   default as mybricks_harmony_tabs,
@@ -153,3 +165,11 @@ export {
   DataType as mybricks_harmony_searchBar_DataType,
   Data as mybricks_harmony_searchBar_Data,
 } from './SearchBar'
+
+export {
+  default as mybricks_form_container,
+  DataType as mybricks_form_container_DataType,
+  Data as mybricks_form_container_Data,
+  SlotsParams as mybricks_form_container_SlotsParams,
+  MyBricksFormItem as mybricks_form_item
+} from './FormContainer'
