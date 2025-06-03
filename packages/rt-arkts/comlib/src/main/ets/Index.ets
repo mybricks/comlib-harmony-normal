@@ -177,3 +177,9 @@ export {
   DataType as mybricks_harmony_cell_DataType,
   Data as mybricks_harmony_cell_Data,
 } from './Cell'
+
+export {
+  default as mybricks_harmony_formSelect,
+  DataType as mybricks_harmony_formSelect_DataType,
+  Data as mybricks_harmony_formSelect_Data,
+} from './FormSelect'
