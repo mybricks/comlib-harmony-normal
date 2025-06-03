@@ -93,13 +93,11 @@ struct Index {
 
       mybricks_harmony_swiper({
         data: new mybricks_harmony_swiper_Data({
-          item:[
+          items:[
             {
-              _id:1,
               thumbnail:"https://assets.mybricks.world/ZDtHHguIHnmGhnqni1E1xjAc1PI5EFtg-1748507591263.png"
             },
             {
-              _id:2,
               thumbnail:"https://assets.mybricks.world/n1YmzqmSO1vVhQz5CrIec6rFmZxnOBhe-1748507670676.png"
           }
           ],

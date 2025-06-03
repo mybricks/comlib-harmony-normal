@@ -6,6 +6,8 @@
     "./src/_show-toast/com.json",
     "./src/_aes-encode/com.json",
     "./src/_router/com.json",
+    "./src/_call-phone/com.json",
+    "./src/_vibrate/com.json",
     {
       "title": "系统",
       "visible": false,
@@ -43,7 +45,9 @@
         "./src/form-textarea/com.json",
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
+        "./src/formSelect/com.json",
         "./src/form-radio/com.json",
+        "./src/formCheckbox/com.json",
         "./src/sms-code/com.json",
         "./src/search-bar/com.json"
       ]
