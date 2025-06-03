@@ -2,7 +2,7 @@ import { AnyType } from './types'
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 
 export interface DataType {
-  item?: AnyType,
+  items?: AnyType,
   autoplay?: boolean,
   duration?: number,
   showIndicator?: boolean,
@@ -16,7 +16,7 @@ interface DataSourceItem {
 
 @ObservedV2
 export class Data implements DataType {
-  @Trace item?: AnyType
+  @Trace items?: AnyType
   @Trace autoplay?: boolean
   @Trace duration?: number
   @Trace showIndicator?: boolean
@@ -24,7 +24,7 @@ export class Data implements DataType {
 
 
   constructor(config: DataType) {
-    this.item = config.item
+    this.items = config.items
     this.autoplay = config.autoplay
     this.duration = config.duration
     this.showIndicator = config.showIndicator
@@ -49,14 +49,14 @@ export default struct MyBricksSwiper {
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
-      this.data.item = array
+      this.data.items = array
     })
   }
 
   build() {
     Column() {
       Swiper() {
-        ForEach(this.data.item, (item: DataSourceItem, index) => {
+        ForEach(this.data.items, (item: DataSourceItem, index) => {
           Image(item.thumbnail)
             .width('100%')
             .height('100%')

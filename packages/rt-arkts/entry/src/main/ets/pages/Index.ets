@@ -28,6 +28,14 @@ import {
   mybricks_form_container_DataType,
   mybricks_form_container_SlotsParams,
   mybricks_form_item
+  mybricks_harmony_cell,
+  mybricks_harmony_cell_Data,
+  mybricks_harmony_formSelect,
+  mybricks_harmony_formSelect_Data,
+  mybricks_harmony_formCheckbox,
+  mybricks_harmony_formCheckbox_Data,
+  mybricks_harmony_line,
+  mybricks_harmony_line_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -66,6 +74,62 @@ struct Index {
         }),
         styles: {},
         slots: this.formContent.bind(this)
+      mybricks_harmony_formSelect({
+        data: new mybricks_harmony_formSelect_Data({
+            label:"下拉选择",
+            name:"下拉选择",
+            placeholder:"点击选择",
+            value:"",
+          options:[{
+            "label": "公开",
+            "value": "公开"
+          },{
+            "label": "仅好友可见",
+            "value": "仅好友可见"
+          },{
+            "label": "微信",
+            "value": "微信"
+          },{
+            "label": "支付宝",
+            "value": "支付宝"
+          }]
+        }),
+        styles: {
+          '.mybricks-select':{
+            // 'height': '100px'
+          }
+        }
+      })
+
+      mybricks_harmony_formCheckbox({
+        data: new mybricks_harmony_formCheckbox_Data({
+          options: [
+            {
+              "label": "邮箱",
+              "value": "邮箱",
+              "icon": ""
+            },
+            {
+              "label": "手机",
+              "value": "手机",
+              "icon": ""
+            },
+            {
+              "label": "微信",
+              "value": "微信",
+              "icon": ""
+            }
+          ],
+          direction:"horizontal"
+        })
+      })
+
+      mybricks_harmony_line({
+          data: new mybricks_harmony_line_Data({
+
+          }),
+        styles: {"root":{"width":"80%","height":"50"}
+        }
       })
       // mybricks_harmony_button({
       //   data: new mybricks_harmony_button_Data({
@@ -128,18 +192,16 @@ struct Index {
 
       // mybricks_harmony_video({
       //   data: new mybricks_harmony_video_Data({src:"https://www.runoob.com/try/demo_source/mov_bbb.mp4"}),
-      //   styles: {"root":{"width":"100%","height":"900px"}}
+      //   styles: {"root":{"width":"100%","height":"700px"}}
       // })
 
       // mybricks_harmony_swiper({
       //   data: new mybricks_harmony_swiper_Data({
-      //     item:[
+      //     items:[
       //       {
-      //         _id:1,
       //         thumbnail:"https://assets.mybricks.world/ZDtHHguIHnmGhnqni1E1xjAc1PI5EFtg-1748507591263.png"
       //       },
       //       {
-      //         _id:2,
       //         thumbnail:"https://assets.mybricks.world/n1YmzqmSO1vVhQz5CrIec6rFmZxnOBhe-1748507670676.png"
       //     }
       //     ],
@@ -150,7 +212,7 @@ struct Index {
       //   }),
       //   styles: {"root":{"width":"100%","height":"900px"}}
       // })
-      //
+
       // mybricks_harmony_support({
       //   data: new mybricks_harmony_support_Data({
       //     copyright:"xxx",
@@ -164,11 +226,20 @@ struct Index {
       //     searchButtonText:"搜索",
       //     clearable:false,
       //     placeholderText:"输入你要搜索的内容",
-      //     autoFocus:true,
+      //     autoFocus:false,
       //     showSearchButton:true,
       //     label:"提示"
       //   }),
       //   styles: {"root":{"width":"100%","height":"max-content"}}
+      // })
+
+      // mybricks_harmony_cell({
+      //   data: new mybricks_harmony_cell_Data({
+      //     title:"标题",
+      //     brief:"简介",
+      //     content:"文本内容"
+      //   }),
+      //   styles: {"root":{"width":"100%","height":"300px"}}
       // })
 
     }
