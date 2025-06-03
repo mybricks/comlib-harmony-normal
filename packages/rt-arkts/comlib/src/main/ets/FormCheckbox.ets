@@ -133,27 +133,34 @@ export default struct MyBricksFormCheckbox{
     if (this.ready) {
       Flex({ direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row }) {
         ForEach(this.data.options, (item: Option, index: number) => {
-          Checkbox({
-            name: item.label,
-            group: this.uniqueRroupId
-          })
-            .select(this.selectedValues.includes(item.value)) // 检查是否在选中数组中
-            .selectedColor(this.selectedStyle.backgroundColor)
-            .unselectedColor(this.unSelectedStyle.backgroundColor)
-            .shape(CheckBoxShape.ROUNDED_SQUARE)
-            .onChange((isChecked: boolean) => {
-              // 更新选中值数组
-              if (isChecked) {
-                // 避免重复添加
-                if (!this.selectedValues.includes(item.value)) {
-                  this.selectedValues = [...this.selectedValues, item.value];
-                }
-              } else {
-                this.selectedValues = this.selectedValues.filter((val:string) => val !== item.value);
-              }
-              // 输出选中的数组
-              this.outputs?.onChange(this.selectedValues);
+
+          Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+            Checkbox({
+              name: item.label,
+              group: this.uniqueRroupId
             })
+              .select(this.selectedValues.includes(item.value))// 检查是否在选中数组中
+              .selectedColor(this.selectedStyle.backgroundColor)
+              .unselectedColor(this.unSelectedStyle.backgroundColor)
+              .shape(CheckBoxShape.ROUNDED_SQUARE)
+              .onChange((isChecked: boolean) => {
+                // 更新选中值数组
+                if (isChecked) {
+                  // 避免重复添加
+                  if (!this.selectedValues.includes(item.value)) {
+                    this.selectedValues = [...this.selectedValues, item.value];
+                  }
+                } else {
+                  this.selectedValues = this.selectedValues.filter((val: string) => val !== item.value);
+                }
+                // 输出选中的数组
+                this.outputs?.onChange(this.selectedValues);
+              })
+
+            Text(item.label)
+          }
+
+
         })
       }
       .width('100%')
