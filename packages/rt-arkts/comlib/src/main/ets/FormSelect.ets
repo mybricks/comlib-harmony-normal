@@ -31,6 +31,11 @@ export class Data implements DataType {
     this.value = config?.value
     this.options = config?.options
   }
+
+  @Computed
+  get optionLabels(): string[] {
+    return this.options?.map(option => option.label) || []
+  }
 }
 
 interface Inputs {
@@ -61,8 +66,9 @@ export default struct MyBricksFormSelect {
 
   aboutToAppear(): void {
     //连线设置下拉框值
-    this.inputs?.setValue((val) => {
+    this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = String(val);
+      outputRels?.["setValueComplete"]?.(this.data.value);
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
@@ -81,29 +87,67 @@ export default struct MyBricksFormSelect {
   }
 
   build() {
-    Column() {
-      Select(this.data.options)
-        .selected(this.selectedIndex)
-        .value(this.data.value || this.data.placeholder)
-        .font({ size: 13, weight: 400 })
-        .selectedOptionFont({ size: 13, weight: 400 })
-        .controlSize(ControlSize.NORMAL)
-        .optionFont({ size: 13, weight: 400 })
+    Flex({direction:FlexDirection.Row,alignItems:ItemAlign.Center,justifyContent:FlexAlign.SpaceBetween}) {
+      Text(this.data.value || this.data.placeholder)
         .fontColor(this.data.value ? '#182431' : '#B9B9B9')
-        .space(8)
-        .width("100%")
-        .arrowPosition(ArrowPosition.END)
-        .menuAlign(MenuAlignType.START, { dx: 0, dy: 0 })
-        .optionWidth(OptionWidthMode.FIT_TRIGGER)
-        .borderRadius(5)
-        .onSelect((index: number, value?: string | undefined) => {
-          console.info('Select:' + index)
-          this.selectedIndex = index;
-          if (value) {
-            this.data.value = value;
-          }
-        })
+        .fontSize(14)
+      Text(">")
     }
+    .padding({
+      top:10,
+      bottom:10,
+      left:20,
+      right:20
+    })
+    .backgroundColor(Color.White)
+    .width("100%")
+    .onClick(()=>{
+      TextPickerDialog.show({
+        range: this.data.optionLabels,
+        selected: this.selectedIndex,
+        canLoop:false,
+        onAccept: (value: TextPickerResult) => {
+          console.log("onAccept",value)
+
+          const _label = this.data?.options?.[Number(value.index)].label
+          const _value = this.data?.options?.[Number(value.index)].value
+          const _index = value.index
+
+          this.selectedIndex = Number(value.index)
+
+          const result: Option = {
+            label:_label,
+            value:_value
+          }
+          // 设置select为按下确定按钮时候的选中项index，这样当弹窗再次弹出时显示选中的是上一次确定的选项
+          this.data.value = _value
+          this.outputs?.onChange(_value)
+
+        },
+        onCancel: () => {
+          this.outputs?.onCancel(this.data.value)
+          console.info("TextPickerDialog:onCancel()");
+        },
+        onChange: (value: TextPickerResult) => {
+          console.info("TextPickerDialog:onChange()" + JSON.stringify(value));
+        },
+        onScrollStop: (value: TextPickerResult) => {
+          console.info("TextPickerDialog:onScrollStop()" + JSON.stringify(value));
+        },
+        onDidAppear: () => {
+          console.info("TextPickerDialog:onDidAppear()");
+        },
+        onDidDisappear: () => {
+          console.info("TextPickerDialog:onDidDisappear()");
+        },
+        onWillAppear: () => {
+          console.info("TextPickerDialog:onWillAppear()");
+        },
+        onWillDisappear: () => {
+          console.info("TextPickerDialog:onWillDisappear()");
+        }
+      });
+    })
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-select'])
     )
