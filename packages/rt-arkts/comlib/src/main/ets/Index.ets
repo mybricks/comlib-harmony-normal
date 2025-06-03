@@ -29,6 +29,18 @@ export {
 } from './_AesEncode'
 
 export {
+  default as mybricks_harmony__callPhone,
+  DataType as mybricks_harmony__callPhone_DataType,
+  Data as mybricks_harmony__callPhone_Data
+} from './_CallPhone'
+
+export {
+  default as mybricks_harmony__vibrate,
+  DataType as mybricks_harmony__vibrate_DataType,
+  Data as mybricks_harmony__vibrate_Data
+} from './_Vibrate'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
@@ -105,6 +117,12 @@ export {
   DataType as mybricks_harmony_formRadio_DataType,
   Data as mybricks_harmony_formRadio_Data,
 } from './FormRadio'
+
+export {
+  default as mybricks_harmony_formCheckbox,
+  DataType as mybricks_harmony_formCheckbox_DataType,
+  Data as mybricks_harmony_formCheckbox_Data,
+} from './FormCheckbox'
 
 export {
   default as mybricks_harmony_formPassword,
