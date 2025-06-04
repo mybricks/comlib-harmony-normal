@@ -89,6 +89,12 @@ export {
 } from './ContainerList'
 
 export {
+  default as mybricks_harmony_containerWaterfall,
+  DataType as mybricks_harmony_containerWaterfall_DataType,
+  Data as mybricks_harmony_containerWaterfall_Data,
+} from './ContainerWaterfall'
+
+export {
   default as mybricks_harmony_containerBasic,
   DataType as mybricks_harmony_containerBasic_DataType,
   Data as mybricks_harmony_containerBasic_Data,

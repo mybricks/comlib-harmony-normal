@@ -35,6 +35,7 @@
         "./src/container-basic/com.json",
         "./src/tabs/com.json",
         "./src/container-list/com.json",
+        "./src/container-waterfall/com.json",
         "./src/form-container/com.json",
         "./src/container-condition/com.json",
         "./src/sidebar/com.json"
