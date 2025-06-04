@@ -47,13 +47,13 @@
         "./src/form-textarea/com.json",
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
-        "./src/formSelect/com.json",
+        "./src/form-select/com.json",
         "./src/form-radio/com.json",
-        "./src/formCheckbox/com.json",
+        "./src/form-checkbox/com.json",
         "./src/sms-code/com.json",
         "./src/search-bar/com.json",
-        "./src/formImageUploader/com.json",
-        "./src/formFileUploader/com.json"
+        "./src/form-file-uploader/com.json",
+        "./src/form-image-uploader/com.json"
       ]
     },
     {
