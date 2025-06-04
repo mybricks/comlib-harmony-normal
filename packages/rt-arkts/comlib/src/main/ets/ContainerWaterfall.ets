@@ -1,4 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { AnyType } from './types'
 
 export interface DataType {
   spacing?: number
@@ -76,6 +77,9 @@ export default struct MyBricksContainerWaterfall {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
+
   @Local dataSource: Array<DataSourceItem> = []
 
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;

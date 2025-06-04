@@ -59,6 +59,8 @@ export default struct MyBricksVideo {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   private getImageFit(e:VideoFitType): ImageFit {
     switch(e) {

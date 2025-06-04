@@ -1,4 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { AnyType } from './types'
 
 export interface DataType {
   copyright?: string
@@ -22,6 +23,8 @@ export default struct MyBricksSupport {
   @Param data: Data = new Data({
   });
   @Param styles: Record<string, CSSProperties> = {}
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   aboutToAppear(): void {
 

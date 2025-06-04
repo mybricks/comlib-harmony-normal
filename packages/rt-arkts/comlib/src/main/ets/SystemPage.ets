@@ -30,6 +30,8 @@ export default struct MyBricksSystemPage {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   @BuilderParam slots: (params: AnyType) => void = emptySlot;
 

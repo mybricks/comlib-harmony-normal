@@ -65,6 +65,8 @@ export default struct MyBricksFormCheckbox{
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined
   @Param outputs?: Outputs = undefined
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   @Local activeValue: string | number = ''
   @Local selectedValues: AnyType [] = [];

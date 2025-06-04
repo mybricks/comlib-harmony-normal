@@ -67,11 +67,13 @@ const AFTER_TEN_YEAR = new Date(new Date().setFullYear(new Date().getFullYear() 
 
 @ComponentV2
 export default struct MyBricksFormDateTime {
-  @Param uid: string = ''
   @Param data: Data = new Data()
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined
   @Param outputs?: Outputs = undefined
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
+
   @Local showPicker: boolean = false
   @Local valueInDate: Date | undefined = undefined
 

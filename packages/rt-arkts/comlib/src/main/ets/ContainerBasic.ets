@@ -36,6 +36,8 @@ export default struct MyBricksContainerBasic {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 

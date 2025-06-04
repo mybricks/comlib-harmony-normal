@@ -42,6 +42,8 @@ export default struct MyBricksCondition {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: AnyType = undefined
   @Param outputs?: AnyType = undefined
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 

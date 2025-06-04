@@ -1,4 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { AnyType } from './types'
 
 type PopupPosition = 'center' | 'top' | 'bottom' | 'left' | 'right'
 
@@ -58,6 +59,8 @@ export default struct MyBricksPopup {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
   @Param _env?: _Env = undefined
 
   @BuilderParam slots: (name: SlotsParamsContent) => void = emptySlot;

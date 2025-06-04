@@ -1,4 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { AnyType } from './types'
 
 export interface DataType {
   text: string
@@ -29,6 +30,8 @@ export default struct MyBricksText {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   aboutToAppear(): void {
     this.inputs?.value((text) => {

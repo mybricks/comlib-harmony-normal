@@ -73,8 +73,10 @@ export default struct MyBricksSearchBar {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
-  @Local value?: string
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
+  @Local value?: string
 
   aboutToAppear(): void {
 

@@ -80,7 +80,11 @@ export default struct MyBricksFormImageUploader {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
+
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
+
   @Local LocalImgList: Array<LocalImgList> = []
 
   aboutToAppear(): void {

@@ -62,6 +62,9 @@ export default struct MyBricksFormSelect {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
+
   @Local selectedIndex?: number = 0
 
   aboutToAppear(): void {

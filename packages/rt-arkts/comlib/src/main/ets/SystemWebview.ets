@@ -29,6 +29,8 @@ export default struct MyBricksWebview {
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
   @Param styles: Record<string, CSSProperties> = {}
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
   controller: webview.WebviewController = new webview.WebviewController();
 

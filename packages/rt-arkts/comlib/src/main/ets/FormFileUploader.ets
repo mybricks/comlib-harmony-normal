@@ -81,9 +81,12 @@ export default struct MyBricksFormFileUploader {
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
-  @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
-  @Local LocalFileList: Array<LocalFileList> = []
+  @Param uid?: string = undefined;
+  @Param parentSlot?: AnyType = undefined;
 
+  @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
+
+  @Local LocalFileList: Array<LocalFileList> = []
 
   aboutToAppear(): void {
 
