@@ -54,8 +54,8 @@ export {
 
 export {
   default as mybricks_harmony_systemWebview,
-  DataType as mybricks_Harmony_SystemWebview_DataType,
-  Data as mybricks_Harmony_SystemWebview_Data
+  DataType as mybricks_harmony_systemWebview_DataType,
+  Data as mybricks_harmony_systemWebview_Data
 } from './SystemWebview'
 
 export {
@@ -143,6 +143,12 @@ export {
 } from './FormPassword'
 
 export {
+  default as mybricks_harmony_formDatetime,
+  DataType as mybricks_harmony_formDatetime_DataType,
+  Data as mybricks_harmony_formDatetime_Data,
+} from './FormDateTime'
+
+export {
   default as mybricks_harmony_qrcode,
   DataType as mybricks_harmony_qrcode_DataType,
   Data as mybricks_harmony_qrcode_Data,
@@ -203,6 +209,12 @@ export {
   DataType as mybricks_harmony_formSelect_DataType,
   Data as mybricks_harmony_formSelect_Data,
 } from './FormSelect'
+
+export {
+  default as mybricks_harmony_formRate,
+  DataType as mybricks_harmony_formRate_DataType,
+  Data as mybricks_harmony_formRate_Data,
+} from './FormRate'
 
 export {
   default as mybricks_harmony_line,

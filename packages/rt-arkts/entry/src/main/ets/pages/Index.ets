@@ -27,12 +27,14 @@ import {
   mybricks_form_container_Data,
   mybricks_form_container_DataType,
   mybricks_form_container_SlotsParams,
-  mybricks_form_item
+  mybricks_form_item,
   mybricks_harmony_cell,
   mybricks_harmony_cell_Data,
   mybricks_harmony_formSelect,
   mybricks_harmony_formSelect_Data,
   mybricks_harmony_formCheckbox,
+  mybricks_harmony_formRate,
+  mybricks_harmony_formRate_Data,
   mybricks_harmony_formCheckbox_Data,
   mybricks_harmony_line,
   mybricks_harmony_line_Data
@@ -67,13 +69,10 @@ struct Index {
   slots(params: ESObject) {
     if (params.id === 'content') {
 
-      mybricks_form_container({
-        data: new mybricks_form_container_Data({
-          useSubmitButton: true,
-          submitButtonText: '提交'
-        }),
-        styles: {},
-        slots: this.formContent.bind(this)
+      mybricks_harmony_formRate({
+
+      })
+
       mybricks_harmony_formSelect({
         data: new mybricks_harmony_formSelect_Data({
             label:"下拉选择",

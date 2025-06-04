@@ -4,7 +4,7 @@ import {
   ApplyFontStyleModifier,
   CSSProperties
 } from './utils/GetDesignStyle'
-import { ObjectUtils, isObject } from './utils/Helper'
+import { ObjectUtils, isObject, isEmpty } from './utils/Helper'
 import { AnyType } from './types'
 
 interface FormItem {
@@ -13,6 +13,7 @@ interface FormItem {
   label: string
   rules?: AnyType[]
   hidden?: boolean
+  required?: boolean
   hideLabel?: boolean
   icon?: string
   itemLayout?: string
@@ -346,17 +347,26 @@ export default struct MyBricksFormContainer {
   @Local loading: boolean = false
   @Local formInstance: FormValuesController = new FormValuesController()
 
+  @Local childrenInputs: AnyType = {}
+
   aboutToAppear(): void {
     // this.formLayout = this.data.itemLayout
     this.formLayout = 'vertical'
 
+    // 重置表单
+    this.inputs?.resetFields?.((val: AnyType, outputRels: AnyType) => {
+      this.setFormValues({});
+      outputRels?.["onReset"]?.();
+    });
 
+    // 提交表单
     this.inputs?.submit?.((val: AnyType, outputRels: AnyType) => {
       this.formInstance.validate().then((values) => {
         outputRels?.['onSubmit']?.(values)
       })
     })
 
+    // 提交并合并输入数据
     this.inputs?.submitAndMerge?.((val: object, outputRels: AnyType) => {
       const _val: AnyType = isObject(val) ? val : {};
 
@@ -368,30 +378,34 @@ export default struct MyBricksFormContainer {
         });
     });
 
+    this.inputs?.setFieldsValue?.((val) => {
+      if (isEmpty(val) || !isObject(val)) {
+        return;
+      }
+      this.setFormValues(val);
+      // 触发「表单数据输入」
+      // slots["content"].inputs["setFieldsValue"](val);
+    });
+
     this.inputs?.getFieldsValue?.((val: AnyType, outputRels: AnyType) => {
       const values = this.formInstance.getValues();
       outputRels?.['returnValues']?.(values)
     })
+  }
 
-
+  /** 设置表单数据，并且通过IO设置到子表单项里 */
+  setFormValues(val: AnyType) {
+    this.data.items.forEach(item => {
+      const itemValue: AnyType = (val ?? {})?.[item.id];
+      this.childrenInputs?.[item.id]?.setValue(itemValue);
+    })
+    this.formInstance.setValues(val)
   }
 
   getFormItem(change: FieldValue) {
     return this.data.items.find(item => {
-      item.id === change.id
+      return item.id === change.id
     })
-  }
-
-  slotsInputs = (): AnyType => {
-    return {
-      onChange: (changeAction: FieldValue) => {
-        const formItem = this.getFormItem(changeAction)
-        if (formItem) {
-          this.formInstance.setFieldValue(formItem.name || formItem.label, changeAction.value);
-        }
-      },
-      // setProps: () => {}
-    }
   }
 
   @Builder
@@ -452,12 +466,22 @@ export default struct MyBricksFormContainer {
     Column() {
       this.slots({
         id: 'content',
-        _inputs: this.slotsInputs,
+        _inputs: {
+          onChange: (changeAction: FieldValue) => {
+            const formItem = this.getFormItem(changeAction)
+            if (formItem) {
+              this.formInstance.setFieldValue(formItem.name || formItem.label, changeAction.value);
+            }
+          },
+        },
         itemWrap: (com: AnyType): AnyType => {
+          const formItem = this.getFormItem(com);
+          this.childrenInputs[com.id] = com.inputs;
           return {
             wrap: wrapBuilder(FormItemWrap),
             params: {
-              label: '表单项'
+              label: formItem?.label,
+              required: formItem?.required,
             } as AnyType
           }
         }
@@ -468,9 +492,10 @@ export default struct MyBricksFormContainer {
 }
 
 @Builder
-function FormItemWrap(build: WrappedBuilder<AnyType>, params: AnyType) {
+function FormItemWrap(build: WrappedBuilder<AnyType>, params: AnyType, params2: AnyType) {
   MyBricksFormItem({
-    label: '表单'
+    label: params2?.label,
+    required: params2?.required
   }) {
     build.builder(params)
   }
