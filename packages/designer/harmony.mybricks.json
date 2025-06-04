@@ -47,6 +47,8 @@
         "./src/form-textarea/com.json",
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
+        "./src/form-datetime/com.json",
+        "./src/form-rate/com.json",
         "./src/formSelect/com.json",
         "./src/form-radio/com.json",
         "./src/formCheckbox/com.json",
