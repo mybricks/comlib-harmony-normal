@@ -43,7 +43,7 @@ import {
   mybricks_harmony_formFileUploader,
   mybricks_harmony_formFileUploader_Data,
   mybricks_harmony_containerWaterfall,
-  mybricks_harmony_containerWaterfall_Data
+  mybricks_harmony__scanQrcode
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
