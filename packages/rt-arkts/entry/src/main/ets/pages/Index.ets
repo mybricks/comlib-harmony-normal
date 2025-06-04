@@ -37,7 +37,11 @@ import {
   mybricks_harmony_formRate_Data,
   mybricks_harmony_formCheckbox_Data,
   mybricks_harmony_line,
-  mybricks_harmony_line_Data
+  mybricks_harmony_line_Data,
+  mybricks_harmony_formImageUploader,
+  mybricks_harmony_formImageUploader_Data,
+  mybricks_harmony_formFileUploader,
+  mybricks_harmony_formFileUploader_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -94,40 +98,107 @@ struct Index {
           }]
         }),
         styles: {
-          '.mybricks-select':{
+          '.mybricks-select': {
             // 'height': '100px'
           }
         }
       })
+      // mybricks_form_container({
+      //   data: new mybricks_form_container_Data({
+      //     useSubmitButton: true,
+      //     submitButtonText: '提交'
+      //   }),
+      //   styles: {},
+      //   slots: this.formContent.bind(this)
+      // mybricks_harmony_formSelect({
+      //   data: new mybricks_harmony_formSelect_Data({
+      //       label:"下拉选择",
+      //       name:"下拉选择",
+      //       placeholder:"点击选择",
+      //       value:"",
+      //     options:[{
+      //       "label": "公开",
+      //       "value": "公开"
+      //     },{
+      //       "label": "仅好友可见",
+      //       "value": "仅好友可见"
+      //     },{
+      //       "label": "微信",
+      //       "value": "微信"
+      //     },{
+      //       "label": "支付宝",
+      //       "value": "支付宝"
+      //     }]
+      // mybricks_harmony_formSelect({
+      //   data: new mybricks_harmony_formSelect_Data({
+      //       label:"下拉选择",
+      //       name:"下拉选择",
+      //       placeholder:"点击选择",
+      //       value:"",
+      //     options:[{
+      //       "label": "公开",
+      //       "value": "公开"
+      //     },{
+      //       "label": "仅好友可见",
+      //       "value": "仅好友可见"
+      //     },{
+      //       "label": "微信",
+      //       "value": "微信"
+      //     },{
+      //       "label": "支付宝",
+      //       "value": "支付宝"
+      //     }]
+      //   }),
+      //   styles: {
+      //     '.mybricks-select':{
+      //       // 'height': '100px'
+      //     }
+      //   }
+      // })
 
-      mybricks_harmony_formCheckbox({
-        data: new mybricks_harmony_formCheckbox_Data({
-          options: [
-            {
-              "label": "邮箱",
-              "value": "邮箱",
-              "icon": ""
-            },
-            {
-              "label": "手机",
-              "value": "手机",
-              "icon": ""
-            },
-            {
-              "label": "微信",
-              "value": "微信",
-              "icon": ""
-            }
-          ],
-          direction:"horizontal"
-        })
+      // mybricks_harmony_formCheckbox({
+      //   data: new mybricks_harmony_formCheckbox_Data({
+      //     options: [
+      //       {
+      //         "label": "邮箱",
+      //         "value": "邮箱",
+      //         "icon": ""
+      //       },
+      //       {
+      //         "label": "手机",
+      //         "value": "手机",
+      //         "icon": ""
+      //       },
+      //       {
+      //         "label": "微信",
+      //         "value": "微信",
+      //         "icon": ""
+      //       }
+      //     ],
+      //     direction:"horizontal"
+      //   })
+      // })
+
+      // mybricks_harmony_line({
+      //     data: new mybricks_harmony_line_Data({
+      //
+      //     }),
+      //   styles: {"root":{"width":"50%","height":"50"}
+      //   }
+      // })
+
+      mybricks_harmony_formImageUploader({
+        data: new mybricks_harmony_formImageUploader_Data({
+          maxCount:5
+        }),
+        styles: {"root":{"width":"100%","height":"100"}}
       })
 
-      mybricks_harmony_line({
-          data: new mybricks_harmony_line_Data({
-
-          }),
-        styles: {"root":{"width":"80%","height":"50"}
+      mybricks_harmony_formFileUploader({
+        data: new mybricks_harmony_formFileUploader_Data({
+          maxCount:5
+        }),
+        styles: {"root":{"width":"100%","height":"100"}
         }
       })
       // mybricks_harmony_button({
@@ -249,7 +320,7 @@ struct Index {
       mybricks_harmony_systemPage({
         slots: this.slots.bind(this),
         data: new mybricks_harmony_systemPage_Data({
-          background: '#eeeeee'
+          background: '#ffffff'
           // 'enablePullDownRefresh': '',
         })
       })
