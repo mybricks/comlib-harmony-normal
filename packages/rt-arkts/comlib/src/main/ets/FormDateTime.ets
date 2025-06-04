@@ -9,6 +9,7 @@ export interface DataType {
   placeholder: string
   disabled: boolean
   type: DateType
+  outputType?: string
   min: string | undefined
   max: string | undefined
   selectorTitle: string
@@ -21,6 +22,7 @@ export class Data implements DataType {
   @Trace placeholder: string
   @Trace disabled: boolean
   @Trace type: DateType
+  @Trace outputType?: string
   @Trace min: string | undefined
   @Trace max: string | undefined
   @Trace selectorTitle: string
@@ -31,6 +33,9 @@ export class Data implements DataType {
     this.placeholder = config?.placeholder ?? '请选择'
     this.disabled = config?.disabled ?? false
     this.type = config?.type ?? 'date'
+    if (config?.outputType) {
+      this.outputType = config.outputType
+    }
     this.min = config?.min ?? undefined
     this.max = config?.max ?? undefined
     this.selectorTitle = config?.selectorTitle ?? '选择时间'
@@ -48,7 +53,7 @@ interface Inputs {
 }
 
 interface Outputs {
-  onChange: (value: number) => void
+  onChange: (value: number | string) => void
   onConfirm: (value: number) => void
   setValueComplete: (value: AnyType) => void
   resetValueComplete: (value: AnyType) => void
@@ -77,7 +82,52 @@ export default struct MyBricksFormDateTime {
   @Local showPicker: boolean = false
   @Local valueInDate: Date | undefined = undefined
 
+  dialogController: CustomDialogController | null = null
+
   aboutToAppear(): void {
+    this.dialogController = new CustomDialogController({
+      builder: DateDialog({
+        confirm: (val: Date) => {
+          this.onSelect(val)
+        },
+        selectedDate: new Date(this.data.value ?? '')
+      }),
+      autoCancel: true,
+      onWillDismiss:(dismissDialogAction: DismissDialogAction)=> {
+        if (dismissDialogAction.reason == DismissReason.PRESS_BACK) {
+          dismissDialogAction.dismiss();
+        }
+        if (dismissDialogAction.reason == DismissReason.TOUCH_OUTSIDE) {
+          dismissDialogAction.dismiss();
+        }
+      },
+      alignment: DialogAlignment.Center,
+      customStyle: false,
+      cornerRadius: 32,
+    })
+    if (this.data.type === 'time') {
+      this.dialogController = new CustomDialogController({
+        builder: TimeDialog({
+          confirm: (val: Date) => {
+            this.onSelect(val)
+          },
+          selectedDate: new Date(this.data.value ?? '')
+        }),
+        autoCancel: true,
+        onWillDismiss:(dismissDialogAction: DismissDialogAction)=> {
+          if (dismissDialogAction.reason == DismissReason.PRESS_BACK) {
+            dismissDialogAction.dismiss();
+          }
+          if (dismissDialogAction.reason == DismissReason.TOUCH_OUTSIDE) {
+            dismissDialogAction.dismiss();
+          }
+        },
+        alignment: DialogAlignment.Center,
+        customStyle: false,
+        cornerRadius: 32,
+      })
+    }
+
     this.inputs?.setValue((val: AnyType, outputRels: AnyType) => {
       if (!val) {
         this.data.value = undefined
@@ -110,6 +160,31 @@ export default struct MyBricksFormDateTime {
     })
   }
 
+  onSelect(newDate: Date) {
+    // 检查解析后的日期是否有效
+    if (isNaN(newDate.valueOf())) {
+      console.error("Invalid date format:", newDate);
+      return;
+    }
+
+    let selectDate: string | number;
+    if (this.data.type === 'date' && this.data.outputType == "YYYY-MM-DD") {
+      selectDate = dayjs(newDate.valueOf()).format("YYYY-MM-DD");
+    } else {
+      selectDate = newDate.valueOf()
+    }
+
+    this.data.value = newDate.valueOf()
+
+    // 通知表单容器
+    this.parentSlot?._inputs?.["onChange"]?.({
+      id: this.uid,
+      value: selectDate,
+    });
+    // 触发输出
+    this.outputs?.onChange?.(selectDate);
+  }
+
   private getRange(): AnyType {
     const format = (input: string) => {
       if (input === 'now') {
@@ -123,69 +198,29 @@ export default struct MyBricksFormDateTime {
       max: !this.data.max ? AFTER_TEN_YEAR : format(this.data.max)
     }
   }
-  //
-  // @Builder
-  // TimePickerContent() {
-  //   Column() {
-  //     DatePicker({
-  //       start: new Date(this.getRange().min),
-  //       end: new Date(this.getRange().max),
-  //       selected: this.valueInDate || new Date()
-  //     })
-  //       .onChange((value: DatePickerResult) => {
-  //         const date = new Date(value.year, value.month, value.day)
-  //         this.outputs?.onChange?.(date.valueOf())
-  //       })
-  //       .attributeModifier(
-  //         new ApplyStyleModifier(this.styles['.picker-content'])
-  //       )
-  //   }
-  // }
 
   build() {
     Column() {
       Row() {
         Text(this.formatTimeDisplay(this.data.value) || this.data.placeholder)
           .fontSize(14)
+          .layoutWeight(1)
           .fontColor(this.data.value ? '#000000' : '#999999')
-        // Image($r('app.media.ic_arrow_right'))
-        //   .width(16)
-        //   .height(16)
+        SymbolGlyph($r('sys.symbol.chevron_right'))
+          .fontSize(16)
+          .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+          .fontColor(['#000000', Color.White])
       }
       .width('100%')
       .height(44)
       .backgroundColor(Color.White)
       .padding({ left: 16, right: 16 })
       .onClick(() => {
-        TimePickerDialog.show({
-          onAccept: (value: TimePickerResult) => {
-            // 设置selectTime为按下确定按钮时的时间，这样当弹窗再次弹出时显示选中的为上一次确定的时间
-            if (value.hour != undefined && value.minute != undefined) {
-              // this.selectTime.setHours(value.hour, value.minute);
-              console.info("TimePickerDialog:onAccept()" + JSON.stringify(value));
-            }
-          },
-          onCancel: () => {
-            console.info("TimePickerDialog:onCancel()");
-          },
-        })
+        this.dialogController?.open()
       })
       .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'])
       )
-
-      // if (this.showPicker) {
-      //   Panel() {
-      //     this.TimePickerContent()
-      //   }
-      //   .mode(PanelMode.Full)
-      //   .dragBar(true)
-      //   .onChange((width: number, height: number, mode: PanelMode) => {
-      //     if (mode === PanelMode.Mini) {
-      //       this.showPicker = false
-      //     }
-      //   })
-      // }
     }
   }
 
@@ -210,3 +245,121 @@ export default struct MyBricksFormDateTime {
     }
   }
 }
+
+@CustomDialog
+@Component
+struct DateDialog {
+  controller?: CustomDialogController;
+
+  cancel: () => void = () => {
+  }
+  confirm: (val: Date) => void = () => {
+  }
+
+  @Prop selectedDate: Date = new Date()
+
+  @Builder renderPicker() {
+    DatePicker({
+      start: LAST_TEN_YEAR,
+      end: AFTER_TEN_YEAR,
+    })
+      .lunar(false)
+      .onDateChange((value: Date) => {
+        this.selectedDate = value
+      })
+  }
+
+  build() {
+    Column() {
+      this.renderPicker()
+      Flex({ justifyContent: FlexAlign.SpaceAround }) {
+        Button('取消')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.controller.close();
+              this.cancel();
+            }
+          }).backgroundColor(Color.Transparent)
+            .fontColor('#FF0A59F7')
+        Button('确认')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.controller.close();
+              this.confirm(this.selectedDate);
+            }
+          })
+          .backgroundColor(Color.Transparent)
+          .fontColor('#FF0A59F7')
+      }.margin({
+        top: 16,
+      })
+    }
+      .padding({
+        top: 24,
+        left: 24,
+        right: 24,
+        bottom: 8
+      })
+  }
+}
+
+@CustomDialog
+@Component
+struct TimeDialog {
+  controller?: CustomDialogController;
+
+  cancel: () => void = () => {
+  }
+  confirm: (val: Date) => void = () => {
+  }
+
+  @Prop selectedDate: Date = new Date()
+
+  @Builder renderPicker() {
+    TimePicker({
+      selected: this.selectedDate
+    })
+      .useMilitaryTime(true)
+      .onChange((value: TimePickerResult) => {
+        if(value.hour >= 0) {
+          const resultDate = new Date()
+          resultDate.setHours(value.hour, value.minute);
+          this.selectedDate = resultDate
+        }
+      })
+  }
+
+  build() {
+    Column() {
+      this.renderPicker()
+      Flex({ justifyContent: FlexAlign.SpaceAround }) {
+        Button('取消')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.controller.close();
+              this.cancel();
+            }
+          }).backgroundColor(Color.Transparent)
+          .fontColor('#FF0A59F7')
+        Button('确认')
+          .onClick(() => {
+            if (this.controller != undefined) {
+              this.controller.close();
+              this.confirm(this.selectedDate);
+            }
+          })
+          .backgroundColor(Color.Transparent)
+          .fontColor('#FF0A59F7')
+      }.margin({
+        top: 16,
+      })
+    }
+    .padding({
+      top: 24,
+      left: 24,
+      right: 24,
+      bottom: 8
+    })
+  }
+}
+

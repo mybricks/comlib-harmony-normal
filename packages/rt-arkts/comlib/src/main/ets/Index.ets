@@ -203,9 +203,9 @@ export {
 } from './SearchBar'
 
 export {
-  default as mybricks_form_container,
-  DataType as mybricks_form_container_DataType,
-  Data as mybricks_form_container_Data,
+  default as mybricks_harmony_formContainer,
+  DataType as mybricks_harmony_formContainer_DataType,
+  Data as mybricks_harmony_formContainer_Data,
   SlotsParams as mybricks_form_container_SlotsParams,
   MyBricksFormItem as mybricks_form_item
 } from './FormContainer'
