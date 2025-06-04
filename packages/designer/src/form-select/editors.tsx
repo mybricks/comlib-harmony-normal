@@ -1,5 +1,5 @@
 import { uuid } from "../utils";
-import { connectorEditor } from './../utils/connector/editor'
+import { connectorEditor } from '../utils/connector/editor'
 
 export default {
   "@init": ({ style, data }) => {

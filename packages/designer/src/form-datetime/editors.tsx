@@ -1,4 +1,4 @@
-import DatePicker from "./editor/datePicker";
+import DatePicker from "./editor/date-picker";
 import setSlotLayout from "../utils/setSlotLayout";
 
 const LAST_TEN_YEAR = new Date(

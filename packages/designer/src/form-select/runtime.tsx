@@ -8,13 +8,13 @@ import React, {
 import { View } from "@tarojs/components";
 import { ArrowRight } from "@taroify/icons";
 import { Input, Picker } from "brickd-mobile";
-import { isObject, isString, isNumber, isEmpty } from "./../utils/type";
+import { isObject, isString, isNumber, isEmpty } from "../utils/type";
 import css from "./style.less";
-import useFormItemValue from "../utils/hooks/useFormItemValue.ts";
+import useFormItemValue from "../utils/hooks/useFormItemValue";
 import { isH5 } from "../utils/env";
 import cx from "classnames";
 import { uuid } from "../utils";
-import { useConnector } from './../utils/connector/runtime'
+import { useConnector } from '../utils/connector/runtime'
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot,id } = props;
