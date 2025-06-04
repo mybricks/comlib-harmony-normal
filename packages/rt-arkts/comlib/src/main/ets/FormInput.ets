@@ -104,10 +104,6 @@ export default struct MyBricksFormInput {
       outputRels?.["setValueComplete"]?.(val);
     })
 
-    this.inputs?.setValue((val, outputRels: AnyType) => {
-      this.data.value = val;
-      outputRels?.["setValueComplete"]?.(val);
-    })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
       outputRels?.["returnValue"]?.(this.data.value);

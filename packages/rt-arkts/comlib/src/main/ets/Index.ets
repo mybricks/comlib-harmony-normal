@@ -209,3 +209,15 @@ export {
   DataType as mybricks_harmony_line_DataType,
   Data as mybricks_harmony_line_Data,
 } from './Line'
+
+export {
+  default as mybricks_harmony_formImageUploader,
+  DataType as mybricks_harmony_formImageUploader_DataType,
+  Data as mybricks_harmony_formImageUploader_Data,
+} from './FormImageUploader'
+
+export {
+  default as mybricks_harmony_formFileUploader,
+  DataType as mybricks_harmony_formFileUploader_DataType,
+  Data as mybricks_harmony_formFileUploader_Data,
+} from './FormFileUploader'
