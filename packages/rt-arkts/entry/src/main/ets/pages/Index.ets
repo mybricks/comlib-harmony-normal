@@ -41,7 +41,9 @@ import {
   mybricks_harmony_formImageUploader,
   mybricks_harmony_formImageUploader_Data,
   mybricks_harmony_formFileUploader,
-  mybricks_harmony_formFileUploader_Data
+  mybricks_harmony_formFileUploader_Data,
+  mybricks_harmony_containerWaterfall,
+  mybricks_harmony_containerWaterfall_Data
 } from '@ohos/mybricks-comlib-harmony-normal'
 
 
@@ -73,9 +75,9 @@ struct Index {
   slots(params: ESObject) {
     if (params.id === 'content') {
 
-      mybricks_harmony_formRate({
-
-      })
+      // mybricks_harmony_formRate({
+      //
+      // })
 
       mybricks_harmony_formSelect({
         data: new mybricks_harmony_formSelect_Data({

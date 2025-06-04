@@ -89,6 +89,12 @@ export {
 } from './ContainerList'
 
 export {
+  default as mybricks_harmony_containerWaterfall,
+  DataType as mybricks_harmony_containerWaterfall_DataType,
+  Data as mybricks_harmony_containerWaterfall_Data,
+} from './ContainerWaterfall'
+
+export {
   default as mybricks_harmony_containerBasic,
   DataType as mybricks_harmony_containerBasic_DataType,
   Data as mybricks_harmony_containerBasic_Data,
@@ -191,9 +197,9 @@ export {
 } from './SearchBar'
 
 export {
-  default as mybricks_form_container,
-  DataType as mybricks_form_container_DataType,
-  Data as mybricks_form_container_Data,
+  default as mybricks_harmony_formContainer,
+  DataType as mybricks_harmony_formContainer_DataType,
+  Data as mybricks_harmony_formContainer_Data,
   SlotsParams as mybricks_form_container_SlotsParams,
   MyBricksFormItem as mybricks_form_item
 } from './FormContainer'
