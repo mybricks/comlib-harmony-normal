@@ -122,6 +122,8 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
     return <EmptyCom title="请配置幻灯片" />
   }
 
+  console.log(`slot_${data.items[current]?._id}`)
+
   return (
     <Swiper
       env={env}
@@ -149,7 +151,9 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
               cdnCutOption={{ width: style.width, height: style.height }}
             />
           ) : (
-            slots[`slot_${data.items[current]?._id}`]?.render()
+            <View key={data.items[current]?._id} style={{ width: '100%', height: '100%' }}>
+              {slots[`slot_${data.items[current]?._id}`]?.render()}
+            </View>
           )}
         </SwiperItem>
       )}
