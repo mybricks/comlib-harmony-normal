@@ -22,22 +22,22 @@ export default {
   ":root"({ data, output, style }, cate0, cate1, cate2) {
     cate0.title = "常规";
     cate0.items = [
-      // {
-      //   title: "排列方向",
-      //   type: "select",
-      //   options: [
-      //     { label: "竖向排列", value: Direction.Column },
-      //     { label: "横向排列", value: Direction.Row },
-      //   ],
-      //   value: {
-      //     get({ data }) {
-      //       return data.direction ?? Direction.Column;
-      //     },
-      //     set({ data }, value) {
-      //       data.direction = value;
-      //     },
-      //   },
-      // },
+      {
+        title: "排列方向",
+        type: "select",
+        options: [
+          { label: "竖向排列", value: Direction.Column },
+          { label: "横向排列", value: Direction.Row },
+        ],
+        value: {
+          get({ data }) {
+            return data.direction ?? Direction.Column;
+          },
+          set({ data }, value) {
+            data.direction = value;
+          },
+        },
+      },
       {
         title: "间距",
         description: "当竖向排列时，为垂直间距；当横向排列时，为水平间距",
