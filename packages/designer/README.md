@@ -1,12 +1,12 @@
 # 鸿蒙通用组件库-设计系统
 <div align="center">
     <a href="https://mybricks.world/">
-      <img src="https://user-images.githubusercontent.com/77093461/192469708-107ed96d-66d0-4eb2-861a-f97ac384ee15.png" height="300" width="300"/>
+      <img src="https://user-images.githubusercontent.com/77093461/192469708-107ed96d-66d0-4eb2-861a-f97ac384ee15.png" height="50" width="50"/>
     </a>
 </div>
 
 ## 项目简介
-这是一个基于 Taro 和 React 的鸿蒙通用组件库，提供了丰富的 UI 组件和功能组件，帮助开发者快速构建鸿蒙应用。
+鸿蒙通用组件库，提供了丰富的 UI 组件和功能组件，帮助开发者快速构建鸿蒙应用。
 
 ## 组件列表
 
@@ -60,12 +60,6 @@
 - _AESEncode (AES加密)
 - _Connector (连接器)
 - _ConnectorGlobalHeaders (全局请求头)
-
-## 技术栈
-- React 18
-- Taro 4.0.6
-- TypeScript
-- MyBricks CLI
 
 ## 安装使用
 ```bash
