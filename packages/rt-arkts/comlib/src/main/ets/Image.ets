@@ -54,35 +54,46 @@ export default struct MyBricksImage {
     })
   }
 
+  @Computed
+  get imageObjectFit (): ImageFit {
+    switch (this.data.mode) {
+      case 'aspectFill': {
+        return ImageFit.Cover
+      }
+      case 'objectFit': {
+        return ImageFit.ScaleDown
+      }
+      case 'aspectFit': {
+        return ImageFit.Contain
+      }
+      case 'scaleToFill': {
+        return ImageFit.Fill
+      }
+      default: {
+        return ImageFit.Auto
+      }
+      case 'widthFix': {
+        // TOOD，这个配置应该要被删除
+        return ImageFit.Auto
+      }
+    }
+  }
+
   build() {
     Column() {
-      if (this.data.mode === 'aspectFit') {
-        Image(this.data.svgPolyfill || this.data.src)
-          .attributeModifier(
-            new ApplyStyleModifier(this.styles['.mybricks-image'])
-          )
-          .width('100%')
-          .height('100%')
-          .onFinish(() => {
-            this.outputs?.onLoad?.(this.data.src || '')
-          })
-          .onError(() => {
-            this.outputs?.onError?.('error')
-          }).aspectFit()
-      } else if (this.data.mode === 'aspectFit') {
-        Image(this.data.svgPolyfill || this.data.src)
-          .attributeModifier(
-            new ApplyStyleModifier(this.styles['.mybricks-image'])
-          )
-          .width('100%')
-          .height('100%')
-          .onFinish(() => {
-            this.outputs?.onLoad?.(this.data.src || '')
-          })
-          .onError(() => {
-            this.outputs?.onError?.('error')
-          }).cover()
-      }
+      Image(this.data.svgPolyfill || this.data.src)
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-image'])
+        )
+        .width('100%')
+        .height('100%')
+        .onFinish(() => {
+          this.outputs?.onLoad?.(this.data.src || '')
+        })
+        .onError(() => {
+          this.outputs?.onError?.('error')
+        })
+        .objectFit(this.imageObjectFit)
 
     }.onClick(() => {
       this.outputs?.onClick(this.data.src)

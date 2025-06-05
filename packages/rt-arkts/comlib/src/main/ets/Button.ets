@@ -51,6 +51,13 @@ interface Outputs {
   setEnabledSuccess: (value: string) => void
 }
 
+export interface SlotsParams {
+  id: string,
+  style?: CSSProperties
+}
+
+@Builder function emptySlot(params: SlotsParams) {}
+
 @ComponentV2
 export default struct MyBricksButton {
   @Param data: Data = new Data({
@@ -61,6 +68,8 @@ export default struct MyBricksButton {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   aboutToAppear(): void {
     this.inputs?.setDisabled((val, outputRels: AnyType) => {

@@ -1,11 +1,14 @@
 import { AnyType } from './types'
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 
+type ContentType = 'image' | 'custom'
+
 export interface DataType {
   items?: AnyType,
   autoplay?: boolean,
   duration?: number,
   showIndicator?: boolean,
+  contentType?: ContentType,
   circular?: boolean
 }
 
@@ -20,6 +23,7 @@ export class Data implements DataType {
   @Trace autoplay?: boolean
   @Trace duration?: number
   @Trace showIndicator?: boolean
+  @Trace contentType?: ContentType
   @Trace circular?: boolean
 
 
@@ -28,6 +32,7 @@ export class Data implements DataType {
     this.autoplay = config.autoplay
     this.duration = config.duration
     this.showIndicator = config.showIndicator
+    this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
   }
 }
@@ -40,6 +45,13 @@ interface Outputs {
   onClick: (value: DataSourceItem) => void
 }
 
+export interface SlotsParams {
+  id: string,
+  key?: string
+}
+
+@Builder function emptySlot(params: SlotsParams) {}
+
 @ComponentV2
 export default struct MyBricksSwiper {
   @Param data: Data = new Data({});
@@ -48,6 +60,8 @@ export default struct MyBricksSwiper {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
@@ -59,13 +73,20 @@ export default struct MyBricksSwiper {
     Column() {
       Swiper() {
         ForEach(this.data.items, (item: DataSourceItem, index) => {
-          Image(item.thumbnail)
-            .width('100%')
-            .height('100%')
-            .objectFit(ImageFit.Cover)
-            .onClick(()=>{
-              this.outputs?.onClick(item)
+          if (this.data.contentType !== 'custom') {
+            Image(item.thumbnail)
+              .width('100%')
+              .height('100%')
+              .objectFit(ImageFit.Cover)
+              .onClick(()=>{
+                this.outputs?.onClick(item)
+              })
+          } else {
+            this.slots({
+              id: `slot_${item._id}`,
+              key: item._id,
             })
+          }
         })
       }
       .autoPlay(this.data.autoplay)
