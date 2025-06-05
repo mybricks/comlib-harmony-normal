@@ -30,11 +30,56 @@ export default {
         target: ".mybricks-swiper-wrapper .indicator.indicator-active",
       },
     ],
-    items({ data, output, style }, cate0, cate1, cate2) {
+    items({ data, output, style, slots }, cate0, cate1, cate2) {
       cate0.title = "常规";
       cate0.items = [
         {
-          title: "轮播项",
+          title: '轮播内容',
+          type: 'select',
+          options: [
+            {
+              label: '图片',
+              value: 'image'
+            },
+            {
+              label: '自定义内容',
+              value: 'custom'
+            }
+          ],
+          value: {
+            get({ data }) {
+              return data.contentType ?? 'image';
+            },
+            set({ data }, value) {
+              data.contentType = value;
+
+              if (!Array.isArray(data.items)) {
+                return
+              }
+
+              if (value === 'image') {
+                data.items.forEach((item, index) => {
+                  if (slots.get(`slot_${item._id}`)) {
+                    slots.remove(`slot_${item._id}`)
+                  }
+                })
+                data._count = 0
+              } else {
+                data.items.forEach((item, index) => {
+                  if (!slots.get(`slot_${item._id}`)) {
+                    slots.add({
+                      id: `slot_${item._id}`,
+                      title: `轮播项${index + 1}`,
+                    })
+                  }
+                })
+                data._count = data.items.length
+              }
+            },
+          }
+        },
+        {
+          title: "图片",
           type: "array",
           options: {
             getTitle: (item, index) => {
@@ -73,6 +118,50 @@ export default {
                 value: "thumbnail",
               },
             ],
+          },
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.contentType !== 'custom';
+          },
+          value: {
+            get({ data }) {
+              return data.items;
+            },
+            set({ data }, value) {
+              data.items = value;
+            },
+          },
+        },
+        {
+          title: "轮播项",
+          type: "array",
+          options: {
+            getTitle: (item, index) => {
+              return [
+                `轮播项`,
+              ];
+            },
+            selectable: true,
+            editable: false,
+            onSelect: (_id, index) => {
+              if (index !== -1) {
+                if (!data?.edit) {
+                  data?.edit = {};
+                }
+                data?.edit?.current = index;
+              }
+            },
+            onAdd(_id) {
+              slots.add({
+                id: `slot_${_id}`,
+                title: `轮播项${data._count+=1}`,
+              });
+
+              return {};
+            },
+            items: [],
+          },
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.contentType === 'custom';
           },
           value: {
             get({ data }) {
