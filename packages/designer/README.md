@@ -1,12 +1,7 @@
-# 鸿蒙通用组件库-设计系统
-<div align="center">
-    <a href="https://mybricks.world/">
-      <img src="https://user-images.githubusercontent.com/77093461/192469708-107ed96d-66d0-4eb2-861a-f97ac384ee15.png" height="50" width="50"/>
-    </a>
-</div>
+# MyBricsk 鸿蒙通用组件库-设计系统
 
 ## 项目简介
-鸿蒙通用组件库，提供了丰富的 UI 组件和功能组件，帮助开发者快速构建鸿蒙应用。
+鸿蒙通用组件库，提供了丰富的 UI 组件和功能组件，帮助用户快速构建鸿蒙应用。
 
 ## 组件列表
 
@@ -74,3 +69,10 @@ yarn add @mybricks/comlib-harmony-normal
 ## 相关链接
 - [GitHub 仓库](https://github.com/mybricks/comlib-harmony-normal)
 - [问题反馈](https://github.com/mybricks/comlib-harmony-normal/issues)
+
+## Powered by MyBricks
+<div align="center">
+    <a href="https://mybricks.world/">
+      <img src="https://user-images.githubusercontent.com/77093461/192469708-107ed96d-66d0-4eb2-861a-f97ac384ee15.png" height="50" width="50"/>
+    </a>
+</div>
