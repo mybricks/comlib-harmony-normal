@@ -21,6 +21,37 @@ export default function ({
   title,
   extra,
 }) {
+  // 添加缩放状态
+  const [scale, setScale] = useState(1);
+  const lastScale = useRef(1);
+
+  // 处理触摸板缩放
+  const handleWheel = useCallback((e: Event) => {
+    const wheelEvent = e as WheelEvent;
+    // 检查是否是触摸板事件（deltaY 不为 0）
+    if (wheelEvent.ctrlKey && wheelEvent.deltaY !== 0) {
+      e.preventDefault();
+      
+      // 计算新的缩放值
+      const delta = -wheelEvent.deltaY * 0.01;
+      const newScale = Math.min(Math.max(0.5, lastScale.current + delta), 2);
+      
+      setScale(newScale);
+      lastScale.current = newScale;
+    }
+  }, []);
+
+  // 添加和移除事件监听
+  useEffect(() => {
+    const element = document.querySelector(`.${css.button}`);
+    if (element) {
+      element.addEventListener('wheel', handleWheel as EventListener, { passive: false });
+      return () => {
+        element.removeEventListener('wheel', handleWheel as EventListener);
+      };
+    }
+  }, [handleWheel]);
+
   /** TODO 写在useEffect里时序有延迟，容易出现闪屏，先试试这样先 */
   useMemo(() => {
     inputs["buttonText"]((val: string) => {
@@ -183,6 +214,11 @@ export default function ({
         css.button,
         data.disabled ? "mybricks-button-disable" : "mybricks-button"
       )}
+      style={{
+        transform: `scale(${scale})`,
+        transformOrigin: 'center',
+        transition: 'transform 0.1s ease-out'
+      }}
       {...disabled}
       {...openType}
     >
