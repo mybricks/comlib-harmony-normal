@@ -90,13 +90,13 @@ export default struct MyBricksButton {
   build() {
     Button({ type: ButtonType.Normal }) {
       Text(this.data.text)
+        .halfLeading(true)
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-button'])
             .fontSize(14)
             .fontColor('#ffffff')
         )
     }
-    .height(40)
     .padding({
       top: 0,
       bottom: 0,
@@ -110,6 +110,7 @@ export default struct MyBricksButton {
       }
       this.outputs?.onClick(this.data.text)
     })
+    .align(Alignment.Center)
     .attributeModifier(new ApplyStyleModifier(this.styles[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button']).borderRadius('50%').backgroundColor('#fa6400'))
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])

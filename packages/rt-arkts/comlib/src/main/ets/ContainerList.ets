@@ -60,6 +60,8 @@ export default struct MyBricksContainerList {
 
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
+  @Local maxItemHeight: number = -1
+
   aboutToAppear(): void {
     this.inputs?.addDataSource((ds) => {
       this.dataSource = this.dataSource.concat(ds)
@@ -82,9 +84,15 @@ export default struct MyBricksContainerList {
                 index
               }
             })
-          }
+          }.onAreaChange((oldArea: Area, newArea: Area) => {
+            if (this.data.direction === 'row' && this.maxItemHeight < newArea.height) { // 横排布局的高度依赖与内部实现
+              this.maxItemHeight = newArea.height as number
+            }
+          })
         })
-      }.listDirection(this.data.direction === 'row' ? Axis.Horizontal: Axis.Vertical)
+      }
+      .listDirection(this.data.direction === 'row' ? Axis.Horizontal: Axis.Vertical)
+      .height(this.maxItemHeight == -1 ? 'fit-content' : this.maxItemHeight)
     }
     .alignItems(HorizontalAlign.Start)
     .align(Alignment.Start)

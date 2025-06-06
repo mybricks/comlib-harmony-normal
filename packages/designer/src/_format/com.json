@@ -1,0 +1,30 @@
+{
+  "title": "字符格式化",
+  "namespace": "mybricks.harmony._format",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "对枚举值和时间戳进行格式化处理",
+  "icon": "./icon.svg",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "call",
+      "title": "调用",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "success",
+      "title": "转换结果",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ]
+}

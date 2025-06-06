@@ -98,7 +98,6 @@ export default struct MyBricksSearchBar {
   build() {
     Column() {
       Row(){
-
         Text(this.data.label).textAlign(TextAlign.Center).width(this.data.label ? '10%': void 0).fontSize(13)
         Search({ value: this.value, placeholder: this.data.placeholderText })
           .searchIcon({
@@ -112,7 +111,7 @@ export default struct MyBricksSearchBar {
           })
           .searchButton(this.data.showSearchButton ? this.data.searchButtonText : void 0,{fontSize:13,fontColor:'#FA6400'})
           .defaultFocus(this.data.autoFocus)
-          .height(40)
+          .height('100%')
           .maxLength(20)
           .backgroundColor('#F5F5F5')
           .placeholderColor(Color.Grey)
@@ -128,6 +127,7 @@ export default struct MyBricksSearchBar {
             this.outputs?.onClick(this.value || '')
           })
           .width(this.data.label ? '90%' : '100%')
+          .margin(0)
       }.justifyContent(FlexAlign.Start)
 
 
