@@ -56,16 +56,12 @@ interface Outputs {
   setDisabledComplete: (value: string) => void
 }
 
-interface ItemParamsInputValues {
-  curValue: AnyType
-}
-
-export interface SlotsParamsItem {
+export interface SlotsParams {
   id: string,
-  inputValues: ItemParamsInputValues
+  style?: CSSProperties
 }
 
-@Builder function emptySlot(params: SlotsParamsItem) {}
+@Builder function emptySlot(params: SlotsParams) {}
 
 @ComponentV2
 export default struct MyBricksFormSelect {
@@ -76,7 +72,7 @@ export default struct MyBricksFormSelect {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
-  @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
+  @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Local selectedIndex?: number = 0
 
