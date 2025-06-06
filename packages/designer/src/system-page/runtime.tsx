@@ -135,13 +135,13 @@ export default function ({ env, data, inputs, outputs, slots }) {
       case -1:
         return (
           <View className={css.tabBarErrorTip}>
-            （标签页数量小于2，不显示底部标签栏）
+            （标签页数量少于2个，标签栏不显示）
           </View>
         );
       case -2:
         return (
           <View className={css.tabBarErrorTip}>
-            （标签页数量大于5，不显示底部标签栏）
+            （标签页数量大于5，标签栏不显示）
           </View>
         );
       default:
@@ -181,6 +181,16 @@ export default function ({ env, data, inputs, outputs, slots }) {
     data.background,
   ]);
 
+  let contentStyle = {}
+  if (data.navigationStyle === "default") {
+    contentStyle = {...pageBackgroundStyle}
+  }
+
+  if (env.runtime) {
+    contentStyle.height = 667
+    contentStyle.flex = 'auto'
+  }
+
   return (
     <View
       key={env.canvas.id}
@@ -198,10 +208,11 @@ export default function ({ env, data, inputs, outputs, slots }) {
       {/* Header end */}
 
       {/* content start*/}
+
       <View
         className={cx(css.content, { [css.edit]: env?.edit })}
         //导航栏为默认的时候，在这里配置背景
-        style={data.navigationStyle === "default" ? pageBackgroundStyle : {}}
+        style={contentStyle}
       >
         {slots["content"]?.render?.()}
       </View>

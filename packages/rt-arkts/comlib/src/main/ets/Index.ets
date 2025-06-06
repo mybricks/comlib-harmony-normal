@@ -257,3 +257,9 @@ export {
   DataType as mybricks_harmony_formFileUploader_DataType,
   Data as mybricks_harmony_formFileUploader_Data,
 } from './FormFileUploader'
+
+export {
+  default as mybricks_harmony_formItemContainer,
+  DataType as mybricks_harmony_formItemContainer_DataType,
+  Data as mybricks_harmony_formItemContainer_Data,
+} from './FormItemContainer'

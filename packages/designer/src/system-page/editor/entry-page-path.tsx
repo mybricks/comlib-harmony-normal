@@ -15,14 +15,14 @@ export default {
         height: "26px",
         lineHeight: 1,
         border: "1px solid #d9d9d9",
-        borderRadius: "4px",
-        backgroundColor: "#FFFFFF",
+        borderRadius: "6px",
+        backgroundColor: "#FFF",
         fontSize: "12px",
         color: "#434343",
       };
 
       if (value) {
-        style.backgroundColor = "#FA6400";
+        style.backgroundColor = "#";
         style.color = "#ffffff";
         style.borderColor = "#FA6400";
         style.fontWeight = 500;
