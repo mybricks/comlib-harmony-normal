@@ -144,6 +144,10 @@ export default struct MyBricksFormRadio{
                 if (isChecked) {
                   this.activeValue = item.value
                   this.outputs?.onChange(item.value)
+                  this.parentSlot?._inputs?.["onChange"]?.({
+                    id: this.uid,
+                    value:item.value,
+                  });
                 }
             })
         })

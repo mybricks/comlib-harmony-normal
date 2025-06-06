@@ -157,6 +157,11 @@ export default struct MyBricksFormCheckbox{
                 }
                 // 输出选中的数组
                 this.outputs?.onChange(this.selectedValues);
+
+                this.parentSlot?._inputs?.["onChange"]?.({
+                  id: this.uid,
+                  value:this.selectedValues,
+                });
               })
 
             Text(item.label)

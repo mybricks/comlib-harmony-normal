@@ -134,6 +134,11 @@ export default struct MyBricksFormFileUploader {
       this.outputs?.onChange(this.LocalFileList)
       this.data.value = this.LocalFileList
 
+      this.parentSlot?._inputs?.["onChange"]?.({
+        id: this.uid,
+        value:this.data.value,
+      });
+
     } catch (err) {
       console.error('Document picker error:', err);
     }

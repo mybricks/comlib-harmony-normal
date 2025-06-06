@@ -125,6 +125,10 @@ export default struct MyBricksFormSelect {
           // 设置select为按下确定按钮时候的选中项index，这样当弹窗再次弹出时显示选中的是上一次确定的选项
           this.data.value = _value
           this.outputs?.onChange(_value)
+          this.parentSlot?._inputs?.["onChange"]?.({
+            id: this.uid,
+            value,
+          });
 
         },
         onCancel: () => {

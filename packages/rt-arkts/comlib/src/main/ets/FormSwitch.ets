@@ -78,6 +78,11 @@ export default struct MyBricksFormSwitch {
         .onChange((isOn) => {
           this.data.value = isOn;
           this.outputs?.onChange?.(isOn)
+
+          this.parentSlot?._inputs?.["onChange"]?.({
+            id: this.uid,
+            value:this.data.value,
+          });
         })
     }
     .alignItems(HorizontalAlign.Start)
