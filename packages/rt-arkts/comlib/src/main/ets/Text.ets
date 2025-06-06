@@ -43,12 +43,15 @@ export default struct MyBricksText {
     Column() {
       Text(this.data.text)
         .wordBreak(WordBreak.BREAK_WORD)
+        .halfLeading(true) // 添加了这个文本就可以垂直居中
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-text'])
             .fontSize(14)
             .fontColor('#333333')
         )
     }
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Start)
     .onClick(() => {
       this.outputs?.onClick(this.data.text)
     })

@@ -109,9 +109,9 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     }
 
     if (!isNil(this.css?.borderRadius)) {
-      instance.borderRadius(this.css.borderRadius)
+      instance.borderRadius(parseFloat(String(this.css.borderRadius)))
     } else if (!isNil(this.initBorderRadius)) {
-      instance.borderRadius(this.initBorderRadius)
+      instance.borderRadius(parseFloat(String(this.initBorderRadius)))
     }
 
     if (!isNil(this.css.border) && typeof this.css.border === 'string') {
@@ -249,6 +249,14 @@ export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute |
     if (fontWeight) {
       instance.fontWeight(fontWeight)
     }
+
+    if (this.css?.lineHeight && typeof this.css?.lineHeight === 'string') {
+      if (this.css.lineHeight.indexOf('px') > -1) {
+        instance.lineHeight(parseFloat(String(this.css?.lineHeight)))
+      } else {
+        instance.lineHeight(parseFloat(String(this.css?.fontSize ?? 14)) * parseFloat(this.css?.lineHeight))
+      }
+    }
   }
 }
 
@@ -259,7 +267,7 @@ interface BorderRsult {
   color: string | Color
 }
 function parseBorder(borderStr: string): BorderRsult {
-  const match = borderStr.match(/^(\d+\w+)\s+(solid|dashed|dotted)\s+(.+)$/);
+  const match = borderStr.match(/^(\d*\.?\d+\w+)\s+(solid|dashed|dotted)\s+(.+)$/);
 
   let style: BorderStyle = BorderStyle.Solid
   switch (match?.[2]) {
