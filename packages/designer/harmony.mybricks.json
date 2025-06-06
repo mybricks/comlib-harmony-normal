@@ -6,6 +6,8 @@
     "./src/_show-toast/com.json",
     "./src/_aes-encode/com.json",
     "./src/_router/com.json",
+    "./src/_format/com.json",
+    "./src/_timer-delay/com.json",
     "./src/_call-phone/com.json",
     "./src/_vibrate/com.json",
     "./src/_scan-qrcode/com.json",
