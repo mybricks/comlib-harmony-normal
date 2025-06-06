@@ -127,6 +127,11 @@ export default struct MyBricksFormPassword {
         .onChange((value: string) => {
           this.data.value = value;
           this.outputs?.onChange?.(value);
+
+          this.parentSlot?._inputs?.["onChange"]?.({
+            id: this.uid,
+            value:this.data.value,
+          });
         })
         .layoutWeight(1)  // 输入框占剩余空间
         .attributeModifier(

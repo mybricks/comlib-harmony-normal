@@ -130,6 +130,11 @@ export default struct MyBricksFormImageUploader {
         this.outputs?.onChange(this.LocalImgList)
         this.data.value = this.LocalImgList
 
+        this.parentSlot?._inputs?.["onChange"]?.({
+          id: this.uid,
+          value:this.data.value,
+        });
+
       }).catch((err: BusinessError) => {
         console.error(`PhotoViewPicker.select failed with err: ${err.code}, ${err.message}`);
       });

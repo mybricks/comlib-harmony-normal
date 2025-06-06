@@ -74,6 +74,11 @@ export default struct MyBricksRate {
   onChange = (val: number) => {
     this.value = val;
     this.outputs?.onChange?.(val)
+
+    this.parentSlot?._inputs?.["onChange"]?.({
+      id: this.uid,
+      value:this.value,
+    });
   }
 
   build() {
