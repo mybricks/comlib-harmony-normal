@@ -163,29 +163,32 @@ export default {
         //   },
         // },
         {
-          title: "布局",
-          type: "layout",
-          value: {
-            get({ data, slots }) {
-              return data.layout;
-            },
-            set({ data, slots }, value) {
-              data.layout = value;
-              setSlotLayout( slots.get("content"), value);
-            },
-          },
+          type: "_homepage",
         },
-        { ...entryPagePathEditor },
-          MybricksTabBarEditor[".mybricks-tabBar"].items[0],
+        // { ...entryPagePathEditor },
+        //   MybricksTabBarEditor[".mybricks-tabBar"].items[0],
         {
-          title: "顶部导航栏",
+          title: "顶部栏",
           items: MybricksNavigationEditor[".mybricks-navigation"].items,
         },
         {
-          title: "页面",
+          title: "内容区",
           items: [
             {
-              title: "背景配置",
+              title: "布局",
+              type: "layout",
+              value: {
+                get({ data, slots }) {
+                  return data.layout;
+                },
+                set({ data, slots }, value) {
+                  data.layout = value;
+                  setSlotLayout( slots.get("content"), value);
+                },
+              },
+            },
+            {
+              title: "背景",
               type: "styleNew",
               options: {
                 defaultOpen: true,
@@ -230,7 +233,7 @@ export default {
               },
             },
             {
-              title: "底部空间留存",
+              title: "底部留白",
               type: "text",
               options: {
                 type: "number",

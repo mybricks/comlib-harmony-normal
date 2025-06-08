@@ -3,7 +3,7 @@ import { View, Image } from '@tarojs/components'
 import cx from 'classnames'
 import css from './index.less'
 import { isDesigner } from '../../utils/env'
-
+import * as Icons from './Icons'
 export default function (props) {
   let { data, env, slots } = props
 
@@ -85,9 +85,11 @@ function StatusBar({ color, background, fixed = false }) {
     >
       <View className={css.left}>
         <View className={css.time}>10:32</View>
-        <View className={css.net}>中国移动</View>
+        {/* <View className={css.net}>中国移动</View> */}
       </View>
-      <View className={css.battery}>100%</View>
+      <View className={css.battery}>
+        {Icons.Battery}
+      </View>
     </View>
   )
 }

@@ -5,19 +5,18 @@ export default {
     title: "导航栏",
     items: [
       {
-        title: "导航栏样式",
         type: "select",
         options: [
           {
-            label: "默认样式",
+            label: "默认",
             value: "default",
           },
           {
-            label: "自定义导航栏",
+            label: "自定义",
             value: "custom",
           },
           {
-            label: "隐藏导航栏",
+            label: "隐藏",
             value: "none",
           },
         ],
@@ -56,10 +55,25 @@ export default {
         },
       },
       {
+        title: '显示返回按钮',
+        type: "switch",
+        ifVisible({ data }) {
+          return data.navigationStyle === "default";
+        },
+        value: {
+          get({ data }) {
+            return data.showBackIcon ?? false
+          },
+          set({ data }, value) {
+            data.showBackIcon = value;
+          },
+        },
+      },
+      {
         ifVisible({ data }) {
           return data.navigationStyle=== "default";
         },
-        title: "导航栏标题文字内容",
+        title: "标题",
         type: "text",
         value: {
           get({ data }) {
@@ -158,21 +172,6 @@ export default {
           },
           set({ data }, value) {
             data.statusBarStyle = value;
-          },
-        },
-      },
-      {
-        title: '返回按钮',
-        type: "switch",
-        ifVisible({ data }) {
-          return data.navigationStyle === "default";
-        },
-        value: {
-          get({ data }) {
-            return data.showBackIcon ?? false
-          },
-          set({ data }, value) {
-            data.showBackIcon = value;
           },
         },
       },

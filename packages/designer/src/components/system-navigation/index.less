@@ -1,5 +1,5 @@
 .header {
- width: 100%; 
+  width: 100%;
 
 
 }
@@ -30,7 +30,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 6px;
+  padding: 0px 12px;
+  //opacity: .5;
 
   &.fixed {
     position: fixed;
@@ -44,15 +45,20 @@
     display: flex;
     align-items: center;
     column-gap: 8px;
+    color: #555;
   }
 
-  .net {
+  svg {
+    max-width: 22px;
 
+    path {
+      fill: #555;
+    }
   }
-  .time {
 
-  }
-  .battery {
+  .net {}
 
-  }
+  .time {}
+
+  .battery {}
 }
