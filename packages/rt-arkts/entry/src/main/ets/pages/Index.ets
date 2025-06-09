@@ -23,10 +23,10 @@ import {
   mybricks_harmony_support_Data,
   mybricks_harmony_searchBar,
   mybricks_harmony_searchBar_Data,
-  mybricks_form_container,
-  mybricks_form_container_Data,
-  mybricks_form_container_DataType,
-  mybricks_form_container_SlotsParams,
+  // mybricks_form_container,
+  // mybricks_form_container_Data,
+  // mybricks_form_container_DataType,
+  // mybricks_form_container_SlotsParams,
   mybricks_form_item,
   mybricks_harmony_cell,
   mybricks_harmony_cell_Data,
@@ -43,8 +43,12 @@ import {
   mybricks_harmony_formFileUploader,
   mybricks_harmony_formFileUploader_Data,
   mybricks_harmony_containerWaterfall,
-  mybricks_harmony__scanQrcode
+  mybricks_harmony__scanQrcode,
+  mybricks_harmony_cascader,
+  mybricks_harmony_cascader_Data,
+  mybricks_harmony_cascader_DataType
 } from '@ohos/mybricks-comlib-harmony-normal'
+import { cascaderMockData } from './mock'
 
 
 @Entry
@@ -58,22 +62,28 @@ struct Index {
     Text('1232132232112213')
   }
 
-  @Builder
-  formContent(params: mybricks_form_container_SlotsParams) {
-    if (params.id === 'content') {
-      mybricks_form_item({
-        label: '表单项'
-      }) {
-        mybricks_harmony_formInput()
-      }
-
-      // params.itemWrap({}).wrap.builder(params.itemWrap({}).params)
-    }
-  }
+  // @Builder
+  // formContent(params: mybricks_form_container_SlotsParams) {
+  //   if (params.id === 'content') {
+  //     mybricks_form_item({
+  //       label: '表单项'
+  //     }) {
+  //       mybricks_harmony_formInput()
+  //     }
+  //
+  //     // params.itemWrap({}).wrap.builder(params.itemWrap({}).params)
+  //   }
+  // }
 
   @Builder
   slots(params: ESObject) {
     if (params.id === 'content') {
+
+      mybricks_harmony_cascader({
+        data: new mybricks_harmony_cascader_Data({
+          options: cascaderMockData
+        })
+      })
 
       // mybricks_harmony_formRate({
       //

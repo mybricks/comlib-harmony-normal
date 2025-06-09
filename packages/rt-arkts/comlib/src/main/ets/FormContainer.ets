@@ -136,6 +136,7 @@ export interface SlotsParams {
   id: string,
   style?: CSSProperties
   _inputs?: AnyType,
+  inputValues?: AnyType
   itemWrap: (p: AnyType) => ItemWarp
 }
 
@@ -344,6 +345,7 @@ export default struct MyBricksFormContainer {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
   @Provider() formLayout: string = 'null'
   /** 按钮loading */
@@ -355,51 +357,57 @@ export default struct MyBricksFormContainer {
   aboutToAppear(): void {
     // this.formLayout = this.data.itemLayout
     this.formLayout = 'vertical'
+  }
 
-    // 重置表单
-    this.inputs?.resetFields?.((val: AnyType, outputRels: AnyType) => {
-      this.setFormValues({});
-      outputRels?.["onReset"]?.();
-    });
+  onDidBuild(): void {
+    setTimeout(() => { // TODO：目前没有一个合适的生命周期，可以等子组件的aboutToAppear都执行完的周期，用setTimeout替代下
+      // 重置表单
+      this.inputs?.resetFields?.((val: AnyType, outputRels: AnyType) => {
+        this.setFormValues({});
+        outputRels?.["onReset"]?.();
+      });
 
-    // 提交表单
-    this.inputs?.submit?.((val: AnyType, outputRels: AnyType) => {
-      this.formInstance.validate().then((values) => {
-        outputRels?.['onSubmit']?.(values)
-      })
-    })
-
-    // 提交并合并输入数据
-    this.inputs?.submitAndMerge?.((val: object, outputRels: AnyType) => {
-      const _val: AnyType = isObject(val) ? val : {};
-
-      this.formInstance.validate()
-        .then((res) => {
-          outputRels?.["onMergeSubmit"]?.(ObjectUtils.assign({}, res, _val));
+      // 提交表单
+      this.inputs?.submit?.((val: AnyType, outputRels: AnyType) => {
+        this.formInstance.validate().then((res) => {
+          const values = res?.values ?? {}
+          outputRels?.['onSubmit']?.(values)
         })
-        .catch(() => {
-        });
-    });
+      })
 
-    this.inputs?.setFieldsValue?.((val) => {
-      if (isEmpty(val) || !isObject(val)) {
-        return;
-      }
-      this.setFormValues(val);
-      // 触发「表单数据输入」
-      // slots["content"].inputs["setFieldsValue"](val);
-    });
+      // 提交并合并输入数据
+      this.inputs?.submitAndMerge?.((val: object, outputRels: AnyType) => {
+        const _val: AnyType = isObject(val) ? val : {};
 
-    this.inputs?.getFieldsValue?.((val: AnyType, outputRels: AnyType) => {
-      const values = this.formInstance.getValues();
-      outputRels?.['returnValues']?.(values)
-    })
+        this.formInstance.validate()
+          .then((res) => {
+            const values = res?.values ?? {}
+            outputRels?.["onMergeSubmit"]?.(ObjectUtils.assign({}, values, _val));
+          })
+          .catch(() => {
+          });
+      });
+
+      this.inputs?.setFieldsValue?.((val) => {
+        if (isEmpty(val) || !isObject(val)) {
+          return;
+        }
+        this.setFormValues(val);
+        // 触发「表单数据输入」
+        this.slotsIO?.content?.inputs?.setFieldsValue?.(val);
+      });
+
+      this.inputs?.getFieldsValue?.((val: AnyType, outputRels: AnyType) => {
+        const values = this.formInstance.getValues();
+        outputRels?.['returnValues']?.(values)
+      })
+    }, 0)
   }
 
   /** 设置表单数据，并且通过IO设置到子表单项里 */
   setFormValues(val: AnyType) {
     this.data.items.forEach(item => {
-      const itemValue: AnyType = (val ?? {})?.[item.id];
+      const itemValue: AnyType = (val ?? {})?.[item.name ?? item.id];
       this.childrenInputs?.[item.id]?.setValue(itemValue);
     })
     this.formInstance.setValues(val)
@@ -476,6 +484,9 @@ export default struct MyBricksFormContainer {
               this.formInstance.setFieldValue(formItem.name || formItem.label, changeAction.value);
             }
           },
+        },
+        inputValues: {
+          setFieldsValue: this.slotsIO?.content?.inputs?.setFieldsValue
         },
         itemWrap: (com: AnyType): AnyType => {
           const formItem = this.getFormItem(com);

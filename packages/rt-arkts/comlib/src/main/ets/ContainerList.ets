@@ -58,6 +58,7 @@ export default struct MyBricksContainerList {
 
   @Local dataSource: Array<DataSourceItem> = []
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   @Local maxItemHeight: number = -1

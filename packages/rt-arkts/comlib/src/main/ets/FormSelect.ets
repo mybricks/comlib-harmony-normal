@@ -72,6 +72,7 @@ export default struct MyBricksFormSelect {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Local selectedIndex?: number = 0
@@ -105,14 +106,9 @@ export default struct MyBricksFormSelect {
         .fontSize(14)
       Text(">")
     }
-    .padding({
-      top:10,
-      bottom:10,
-      left:20,
-      right:20
-    })
     .backgroundColor(Color.White)
     .width("100%")
+    .constraintSize({ minHeight: 24 })
     .onClick(()=>{
       TextPickerDialog.show({
         range: this.data.optionLabels,

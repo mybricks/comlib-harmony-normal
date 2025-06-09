@@ -68,6 +68,12 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     return this
   }
 
+  private initPadding?: Padding
+  padding(pad: Padding) {
+    this.initPadding = pad
+    return this
+  }
+
   // private initPaddingTop?: Length
   // padding(len: Length) {
   //   this.initPaddingTop = len
@@ -145,10 +151,10 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       })
     }
 
-    let paddingTop = 0
-    let paddingLeft = 0
-    let paddingRight = 0
-    let paddingBottom = 0
+    let paddingTop = this.initPadding?.top ?? 0
+    let paddingLeft = this.initPadding?.left ?? 0
+    let paddingRight = this.initPadding?.right ?? 0
+    let paddingBottom = this.initPadding?.bottom ?? 0
 
     const configPaddings = this.css?.padding ? String(this.css?.padding).split?.(' ') : [];
     if (configPaddings.length === 4) {
@@ -178,6 +184,13 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
         right: paddingValue,
         top: paddingValue,
         bottom: paddingValue
+      })
+    } else {
+      instance.padding({
+        left: paddingLeft,
+        right: paddingRight,
+        top: paddingTop,
+        bottom: paddingBottom
       })
     }
 

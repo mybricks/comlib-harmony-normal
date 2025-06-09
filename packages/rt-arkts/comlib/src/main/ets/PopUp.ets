@@ -63,6 +63,7 @@ export default struct MyBricksPopup {
   @Param parentSlot?: AnyType = undefined;
   @Param _env?: _Env = undefined
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (name: SlotsParamsContent) => void = emptySlot;
 
   @Computed
