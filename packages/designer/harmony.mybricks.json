@@ -11,10 +11,11 @@
     "./src/_call-phone/com.json",
     "./src/_vibrate/com.json",
     "./src/_scan-qrcode/com.json",
-    "./src/_chooseMedia/com.json",
-    "./src/_chooseFile/com.json",
+    "./src/_choose-media/com.json",
+    "./src/_choose-file/com.json",
     "./src/_get-location/com.json",
     "./src/_text-to-speech/com.json",
+    "./src/_send-sms/com.json",
     {
       "title": "系统",
       "visible": false,

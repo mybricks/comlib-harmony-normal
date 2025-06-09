@@ -1,0 +1,38 @@
+{
+  "title": "发送短信",
+  "namespace": "mybricks.harmony._sendSms",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "使用SIM卡发送短信",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "send",
+      "title": "短信内容",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onSuccess",
+      "title": "发送成功",
+      "schema": {
+        "type": "follow"
+      }
+    },
+    {
+      "id": "onFail",
+      "title": "发送失败",
+      "schema": {
+        "type": "follow"
+      }
+    }
+  ]
+}

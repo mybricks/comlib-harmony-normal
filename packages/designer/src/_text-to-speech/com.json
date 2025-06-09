@@ -15,7 +15,7 @@
       "id": "text",
       "title": "播报内容",
       "schema": {
-        "type": "number"
+        "type": "string"
       }
     }
   ],
