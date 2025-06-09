@@ -69,6 +69,7 @@ export default struct MyBricksButton {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   aboutToAppear(): void {

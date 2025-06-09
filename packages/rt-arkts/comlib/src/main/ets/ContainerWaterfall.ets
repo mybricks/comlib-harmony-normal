@@ -82,6 +82,7 @@ export default struct MyBricksContainerWaterfall {
 
   @Local dataSource: Array<DataSourceItem> = []
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   aboutToAppear(): void {

@@ -39,6 +39,7 @@ export default struct MyBricksContainerBasic {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   aboutToAppear(): void {

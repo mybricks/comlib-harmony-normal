@@ -110,6 +110,7 @@ export default struct MyBricksTabs {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (params: SlotsParamsTabItem) => void = emptySlot;
 
   @Local isFixed: boolean = false

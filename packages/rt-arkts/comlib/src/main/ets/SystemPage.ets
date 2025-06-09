@@ -33,6 +33,7 @@ export default struct MyBricksSystemPage {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (params: AnyType) => void = emptySlot;
 
   @Local isRefreshing: boolean = false;

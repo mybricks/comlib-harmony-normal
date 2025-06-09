@@ -70,6 +70,13 @@ const FORMAT_MAP: AnyType = {
 const LAST_TEN_YEAR = new Date(new Date().setFullYear(new Date().getFullYear() - 10))
 const AFTER_TEN_YEAR = new Date(new Date().setFullYear(new Date().getFullYear() + 10))
 
+export interface SlotsParams {
+  id: string,
+  style?: CSSProperties
+}
+
+@Builder function emptySlot(params: SlotsParams) {}
+
 @ComponentV2
 export default struct MyBricksFormDateTime {
   @Param data: Data = new Data()
@@ -78,6 +85,9 @@ export default struct MyBricksFormDateTime {
   @Param outputs?: Outputs = undefined
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @Param slotsIO?: AnyType = undefined;
+  @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Local showPicker: boolean = false
   @Local valueInDate: Date | undefined = undefined
@@ -212,9 +222,7 @@ export default struct MyBricksFormDateTime {
           .fontColor(['#000000', Color.White])
       }
       .width('100%')
-      .height(44)
       .backgroundColor(Color.White)
-      .padding({ left: 16, right: 16 })
       .onClick(() => {
         this.dialogController?.open()
       })
@@ -280,7 +288,7 @@ struct DateDialog {
               this.cancel();
             }
           }).backgroundColor(Color.Transparent)
-            .fontColor('#FF0A59F7')
+          .fontColor('#FF0A59F7')
         Button('确认')
           .onClick(() => {
             if (this.controller != undefined) {
@@ -294,12 +302,12 @@ struct DateDialog {
         top: 16,
       })
     }
-      .padding({
-        top: 24,
-        left: 24,
-        right: 24,
-        bottom: 8
-      })
+    .padding({
+      top: 24,
+      left: 24,
+      right: 24,
+      bottom: 8
+    })
   }
 }
 

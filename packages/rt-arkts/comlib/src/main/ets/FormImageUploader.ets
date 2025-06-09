@@ -83,6 +83,7 @@ export default struct MyBricksFormImageUploader {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   @Local LocalImgList: Array<LocalImgList> = []
@@ -224,8 +225,6 @@ export default struct MyBricksFormImageUploader {
 
     }
     .width("100%")
-    .height("100%")
-
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-square'])
     )

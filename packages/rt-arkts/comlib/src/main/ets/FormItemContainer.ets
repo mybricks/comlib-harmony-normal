@@ -59,6 +59,7 @@ interface ItemParamsInputValues {
 export interface SlotsParamsItem {
   id: string,
   inputValues: ItemParamsInputValues
+  outputs: AnyType
 }
 
 @Builder function emptySlot(params: SlotsParamsItem) {}
@@ -72,6 +73,7 @@ export default struct MyBricksFormInput {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   aboutToAppear(): void {
@@ -85,19 +87,12 @@ export default struct MyBricksFormInput {
 
     this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = val;
-      outputRels?.["setValueComplete"]?.(val);
+      this.slotsIO?.formItem?.inputs?.curValue?.(this.data.value);
     })
-
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
       outputRels?.["returnValue"]?.(this.data.value);
     })
-
-    this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.data.value = '';
-      outputRels?.["resetValueComplete"]?.('');
-    })
-
   }
 
 
@@ -105,7 +100,21 @@ export default struct MyBricksFormInput {
     Column() {
       this.slots({
         id: 'formItem',
-        inputValues: {curValue:this.data.value}
+        inputValues: {
+          curValue: this.slotsIO?.formItem?.inputs?.curValue
+        },
+        outputs: {
+          setCurValue: this.slotsIO?.formItem?.outputs?.setCurValue?.((value: AnyType) => {
+            this.data.value = value;
+
+            this.parentSlot?._inputs["onChange"]?.({
+              id: this.uid,
+              value,
+            });
+
+            this.outputs?.onChange?.(value);
+          })
+        }
       })
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
