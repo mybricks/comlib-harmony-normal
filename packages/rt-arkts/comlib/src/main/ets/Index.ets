@@ -59,6 +59,18 @@ export {
 } from './_ScanQrcode'
 
 export {
+  default as mybricks_harmony__chooseMedia,
+  DataType as mybricks_harmony__chooseMedia_DataType,
+  Data as mybricks_harmony__chooseMedia_Data
+} from './_ChooseMedia'
+
+export {
+  default as mybricks_harmony__chooseFile,
+  DataType as mybricks_harmony__chooseFile_DataType,
+  Data as mybricks_harmony__chooseFile_Data
+} from './_ChooseFile'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
