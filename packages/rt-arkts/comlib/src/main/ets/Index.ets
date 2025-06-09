@@ -59,6 +59,30 @@ export {
 } from './_ScanQrcode'
 
 export {
+  default as mybricks_harmony__chooseMedia,
+  DataType as mybricks_harmony__chooseMedia_DataType,
+  Data as mybricks_harmony__chooseMedia_Data
+} from './_ChooseMedia'
+
+export {
+  default as mybricks_harmony__chooseFile,
+  DataType as mybricks_harmony__chooseFile_DataType,
+  Data as mybricks_harmony__chooseFile_Data
+} from './_ChooseFile'
+
+export {
+  default as mybricks_harmony__getLocation,
+  DataType as mybricks_harmony__getLocation_DataType,
+  Data as mybricks_harmony__getLocation_Data
+} from './_GetLocation'
+
+export {
+  default as mybricks_harmony__textToSpeech,
+  DataType as mybricks_harmony__textToSpeech_DataType,
+  Data as mybricks_harmony__textToSpeech_Data
+} from './_TextToSpeech'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data

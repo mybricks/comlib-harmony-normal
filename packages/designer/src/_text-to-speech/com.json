@@ -1,0 +1,52 @@
+{
+  "title": "AI语音播报",
+  "namespace": "mybricks.harmony._textToSpeech",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "AI机器人将文字转换为语音播报",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "text",
+      "title": "播报内容",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onStart",
+      "title": "播报开始",
+      "schema": {
+        "type": "follow"
+      }
+    },
+    {
+      "id": "onStop",
+      "title": "播报停止",
+      "schema": {
+        "type": "follow"
+      }
+    },
+    {
+      "id": "onComplete",
+      "title": "播报结束",
+      "schema": {
+        "type": "follow"
+      }
+    },
+    {
+      "id": "onError",
+      "title": "播报失败",
+      "schema": {
+        "type": "follow"
+      }
+    }
+  ]
+}
