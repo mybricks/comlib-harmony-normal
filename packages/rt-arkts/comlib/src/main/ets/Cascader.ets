@@ -8,12 +8,6 @@ interface CascaderItem {
   children?: CascaderItem[]
 }
 
-// Tab项定义
-interface Tab {
-  _id: string
-  tabName: string
-}
-
 // 数据类型定义
 export interface DataType {
   placeholder?: string,
@@ -43,14 +37,8 @@ interface Outputs {
   onChange: (value: CascaderItem) => void
 }
 
-interface RenderTabItemParams {
-  path: CascaderItem,
-  index: number,
-  isActive: boolean
-}
-
 @ComponentV2
-export default struct MyBricksSideBar {
+export default struct MyBricksCascader {
   @Param data: Data = new Data()
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined
@@ -61,11 +49,12 @@ export default struct MyBricksSideBar {
   @Local selectedValues: string[] = []
   /** 已选择的层级 */
   @Local selectedPath: CascaderItem[] = []
+  @Local activeIndex: number = 0
+
   @Local isFixed: boolean = false
   @Local tabBarModifier: CommonModifier = new CommonModifier();
   @Local isVertical: boolean = true;
   @Local text: string = '文本';
-  @Local currentTabId?: string
   private controller: TabsController = new TabsController();
 
   aboutToAppear() {
@@ -84,19 +73,38 @@ export default struct MyBricksSideBar {
     this.tabBarModifier.align(Alignment.Start);
   }
 
+  getSeletableList(index: number) {
+    if (index === 0) {
+      return this.options
+    }
+    return this.selectedPath[index - 1].children
+  }
+
+  hasSelected(itemValue: string) {
+    return this.selectedPath.some(t => t.value === itemValue)
+  }
+
   @Builder
   renderTabContent(index: number) {
     Column() {
       List({ space: 0, initialIndex: 0 }) {
-        ForEach(this.cascaderPath[index]?.children, (item: CascaderItem) => {
+        ForEach(this.getSeletableList(index), (item: CascaderItem) => {
           ListItem() {
             Row() {
               Text(item.label)
                 .fontSize(14)
-              SymbolGlyph($r('sys.symbol.chevron_right'))
-                .fontSize(20)
-                .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-                .fontColor(['#000000', Color.White])
+                .fontColor(this.hasSelected(item.value) ? 'red' : '#000000')
+                .fontWeight(this.hasSelected(item.value) ? 500 : 400)
+              Column() {
+                if (this.hasSelected(item.value)) {
+                  SymbolGlyph($r('sys.symbol.checkmark'))
+                    .fontSize(20)
+                    .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+                    .fontColor([this.hasSelected(item.value) ? 'red' : '#000000', Color.White])
+                    .fontWeight(this.hasSelected(item.value) ? 500 : 400)
+                }
+              }
+
             }
             .justifyContent(FlexAlign.SpaceBetween)
             .width('100%')
@@ -107,8 +115,17 @@ export default struct MyBricksSideBar {
               right: 16
             })
             .onClick(() => {
-              this.selectedPath[this.selectedPath.length] = item
-              this.controller.changeIndex(this.selectedPath.length + 1)
+              const hasSelected = this.hasSelected(item.value)
+              if (hasSelected) {
+                return
+              }
+              // 切换选择，后面的选择都需要取消
+              this.selectedPath[index] = item
+              this.selectedPath.splice(index + 1)
+
+              if (item.children?.length) {
+                this.activeIndex = index + 1
+              }
             })
           }
         }, (item: CascaderItem) => item.value)
@@ -118,73 +135,29 @@ export default struct MyBricksSideBar {
     .height('100%')
   }
 
-  @Builder
-  renderTabItem(params: RenderTabItemParams) {
-    Column() {
-      Text(params?.path.label).fontSize(12).fontColor(params.isActive ? '#FF686B' : "#434343")
-      Line()
-        .position({
-          left: 0,
-          top: '50%',
-        })
-        .width(3)
-        .height(15)
-        .translate({ y: '-50%' })
-        .backgroundColor(params.isActive ? '#FF686B' : Color.Transparent)
-        .borderRadius(10)
-    }
-    // .align(Alignment.Bottom)
-    .align(Alignment.Center)
-    .width('100%')
-    // .flexGrow(1)
-    .height(45)
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
-    .backgroundColor(params.isActive ? '#FFFFFF' : Color.Transparent)
-    .onClick(() => {
-      this.controller.changeIndex(params.index)
-      // this.currentTabId = this.data.tabs[params.index]._id
-    })
-  }
-
-  // setCurrentTabId (currentTabId: string) {
-  //   const index = this.data.tabs.findIndex((tab) => tab._id == currentTabId);
-  //   if (index === -1) {
-  //     return;
-  //   }
-  //   const findItem = this.data.tabs[index];
-  //
-  //   this.currentTabId = currentTabId
-  //
-  //   this.outputs?.changeTab?.({
-  //     id: findItem._id,
-  //     title: findItem.tabName,
-  //     index,
-  //   });
-  // }
-
   @Computed
   get cascaderPath(): CascaderItem[] {
     if (this.selectedPath.length === 0) {
       return [
         {
           label: this.data.placeholder,
-          value: '__',
+          value: '_0_',
           children: this.options
         }
       ]
     }
-    return this.selectedPath.concat({
-      label: this.data.placeholder,
-      value: '__',
-      children: this.selectedPath[this.selectedPath.length - 1].children
-    });
+    const nextOption = this.selectedPath[this.selectedPath.length - 1]
+
+    if (nextOption?.children?.length) {
+      return this.selectedPath.concat({
+        label: this.data.placeholder,
+        value: String(Math.random()),
+        children: nextOption.children
+      });
+    }
+    return this.selectedPath;
   }
 
-  @Computed
-  get activeIndex(): number {
-    return this.selectedPath.length
-  }
 
   build() {
     Column() {
@@ -208,16 +181,16 @@ export default struct MyBricksSideBar {
               })
               .board({ borderRadius: 0 })
               .selectedMode(SelectedMode.INDICATOR)
-              .labelStyle({ unselectedColor: '#646566', selectedColor: '#323233', font: { size: 14 } })
-          )
+              .labelStyle({ unselectedColor: '#646566', selectedColor: '#323233', font: { size: 14, weight: 500 } })
+          ).id(path.value)
         }, (item: CascaderItem) => item.value)
       }
       .backgroundColor(Color.Transparent)
       .width('100%')
       .barMode(BarMode.Scrollable)
+      .animationDuration(0)
       .onChange(index => {
-        return
-        this.selectedPath.slice(0, index)
+        this.activeIndex = index
       })
     }
     .width('100%')

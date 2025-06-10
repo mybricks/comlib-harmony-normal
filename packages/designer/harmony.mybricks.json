@@ -4,8 +4,8 @@
     "./src/_muilt-input-js/com.json",
     "./src/_connector/com.json",
     "./src/_show-toast/com.json",
+    "./src/_back-to/com.json",
     "./src/_aes-encode/com.json",
-    "./src/_router/com.json",
     "./src/_format/com.json",
     "./src/_timer-delay/com.json",
     "./src/_call-phone/com.json",
@@ -16,6 +16,7 @@
     "./src/_get-location/com.json",
     "./src/_text-to-speech/com.json",
     "./src/_send-sms/com.json",
+    "./src/_open-petal-map/com.json",
     {
       "title": "系统",
       "visible": false,
@@ -44,7 +45,6 @@
         "./src/tabs/com.json",
         "./src/container-list/com.json",
         "./src/container-waterfall/com.json",
-        "./src/form-container/com.json",
         "./src/container-condition/com.json",
         "./src/sidebar/com.json"
       ]
@@ -52,7 +52,9 @@
     {
       "title": "数据录入",
       "comAry": [
+        "./src/form-container/com.json",
         "./src/form-input/com.json",
+        "./src/form-stepper/com.json",
         "./src/form-textarea/com.json",
         "./src/form-password/com.json",
         "./src/form-switch/com.json",
@@ -74,6 +76,12 @@
         "./src/cell/com.json",
         "./src/qrcode/com.json",
         "./src/cascader/com.json"
+      ]
+    },
+    {
+      "title": "华为",
+      "comAry": [
+        "./src/petal-map/com.json"
       ]
     },
     {

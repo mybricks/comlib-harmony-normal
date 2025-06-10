@@ -1,0 +1,52 @@
+{
+  "title": "华为地图",
+  "namespace": "mybricks.harmony._openPetalMap",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "调用华为地图的能力",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "call",
+      "title": "调用",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "poiId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onSuccess",
+      "title": "触发成功",
+      "schema": {
+        "type": "follow"
+      }
+    },
+    {
+      "id": "onFail",
+      "title": "触发失败",
+      "schema": {
+        "type": "follow"
+      }
+    }
+  ]
+}
