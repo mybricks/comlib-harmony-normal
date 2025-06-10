@@ -90,6 +90,7 @@ const getDefaultTabItem = (id) => {
 export default {
   "@init": ({ style, data, env }) => {
     style.width = "100%";
+    style.height = '100%'
     data.id = env.canvas.id;
 
     setTimeout(() => {
@@ -248,18 +249,18 @@ export default {
                 },
               },
             },
-            {
-              title: "禁用页面滚动",
-              type: "switch",
-              value: {
-                get({ data }) {
-                  return data.disableScroll;
-                },
-                set({ data }, value) {
-                  data.disableScroll = value;
-                },
-              },
-            },
+            // {
+            //   title: "禁用页面滚动",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.disableScroll;
+            //     },
+            //     set({ data }, value) {
+            //       data.disableScroll = value;
+            //     },
+            //   },
+            // },
  
             // {
             //   title: "页面别名",
