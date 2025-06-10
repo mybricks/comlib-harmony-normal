@@ -193,7 +193,7 @@ export default {
               options: {
                 defaultOpen: true,
                 plugins: [
-                  { type: "background", config: { disableBackgroundImage: true, disableGradient: true } }
+                  { type: "background" }
                 ],
               },
               value: {
