@@ -187,7 +187,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
   }
 
   if (env.runtime) {
-    contentStyle.height = 667
+    //contentStyle.height = 667
     contentStyle.flex = 'auto'
   }
 
