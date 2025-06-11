@@ -25,7 +25,7 @@ export default function (props) {
     <View className={css.header}>
       <StatusBar
         color={statusBarStyle.color}
-        background={statusBarStyle.backgroundColor}
+        background={data.navigationStyle === 'none' ? 'transparent' : statusBarStyle.backgroundColor}
         fixed={data.navigationStyle === 'none'}
       />
       <View style={{ background: navigationBarStyle.backgroundColor }}>
@@ -86,7 +86,7 @@ function StatusBar({ color, background, fixed = false }) {
     >
       <View className={css.left}>
         <View className={css.time}>10:32</View>
-        {/* <View className={css.net}>中国移动</View> */}
+        <View className={css.net}>中国移动</View>
       </View>
       <View className={css.battery}>
         {Icons.Battery}

@@ -182,7 +182,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
   ]);
 
   let contentStyle = {}
-  if (data.navigationStyle === "default") {
+  if (data.navigationStyle === "default" || data.navigationStyle === 'custom') {
     contentStyle = {...pageBackgroundStyle}
   }
 
@@ -198,7 +198,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
       //自定义导航和隐藏导航，在这里配置背景
       style={{
         height: "100%",
-        ...(data.navigationStyle !== "default" ? pageBackgroundStyle : {}),
+        ...(data.navigationStyle !== "default" || data.navigationStyle === 'custom' ? pageBackgroundStyle : {}),
       }}
     >
       {/* Header start */}
