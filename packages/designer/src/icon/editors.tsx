@@ -13,28 +13,67 @@ export default {
       cate0.title = "常规";
       cate0.items = [
         {
-          title: "图标设置",
-          items: [
-            {
-              title: "图标",
-              description: "设置徽标内容时请注意为组件设置合适的尺寸",
-              type: "editorRender",
-              options: {
-                render: (props) => {
-                  return <IconSelector value={props.editConfig.value}  />;
-                },
-              },
-              value: {
-                get({ data }) {
-                  return data.icon;
-                },
-                set({ data }, value: string) {
-                  data.icon = value;
-                },
-              },
+          title: "图标",
+          type: "editorRender",
+          options: {
+            render: (props) => {
+              return <IconSelector value={props.editConfig.value}  />;
             },
-          ],
+          },
+          value: {
+            get({ data }) {
+              return data.icon;
+            },
+            set({ data }, value: string) {
+              data.icon = value;
+            },
+          },
         },
+        {
+          title: "大小",
+          type: "inputnumber",
+          options: [{ min: 1 }],
+          value: {
+            get({ data }) {
+              return [data.fontSize];
+            },
+            set({ data }, value: string) {
+              data.fontSize = value?.[0];
+            },
+          },
+        },
+        {
+          title: "颜色",
+          type: "colorpicker",
+          value: {
+            get({ data }) {
+              return data.fontColor?.[0];
+            },
+            set({ data }, value: string) {
+              data.fontColor[0] = value;
+            },
+          },
+        },
+        {
+          title: "绘制粗细",
+          type: "select",
+          options: [
+            { label: '纤细', value: 100 },
+            { label: '细', value: 300 },
+            { label: '常规', value: 400 },
+            { label: '粗', value: 500 },
+            { label: '较粗', value: 600 },
+            { label: '最粗', value: 800 },
+          ],
+          value: {
+            get({ data }) {
+              return data.fontWeight;
+            },
+            set({ data }, value: number) {
+              data.fontWeight = value;
+            },
+          },
+        }
       ];
   
       cate1.title = "样式";

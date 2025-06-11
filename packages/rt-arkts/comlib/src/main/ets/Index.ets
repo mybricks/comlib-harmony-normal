@@ -119,6 +119,12 @@ export {
 } from './Text'
 
 export {
+  default as mybricks_harmony_icon,
+  DataType as mybricks_harmony_icon_DataType,
+  Data as mybricks_harmony_icon_Data
+} from './Icon'
+
+export {
   default as mybricks_harmony_image,
   DataType as mybricks_harmony_image_DataType,
   Data as mybricks_harmony_image_Data
