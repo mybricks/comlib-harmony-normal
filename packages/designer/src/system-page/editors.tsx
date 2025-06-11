@@ -199,7 +199,7 @@ export default {
               value: {
                 get({ data }) {
                   return {
-                    backgroundColor: data.backgroundColor,
+                    backgroundColor: data.background,
                     backgroundImage: data.backgroundImage,
                     backgroundPosition: data.backgroundPosition || "center top",
                     backgroundSize: data.backgroundSize,

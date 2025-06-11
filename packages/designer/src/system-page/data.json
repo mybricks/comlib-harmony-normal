@@ -1,8 +1,8 @@
 {
   "navigationStyle": "default",
   "navigationBarStyle": {
-    "color": "#ffffff",
-    "backgroundColor": "#464646"
+    "color": "#464646",
+    "backgroundColor": "#ffffff"
   },
   "navigationBarTitleText": "页面标题",
   "homeButton": false,
@@ -16,7 +16,7 @@
   "background": "#ffffff",
   "enablePullDownRefresh": false,
   "backgroundTextStyle": "dark",
-  "backgroundColor": "#464646",
+  "backgroundColor": "#ffffff",
   "enableShareAppMessage": false,
   "disableScroll": false,
   "disableSwipeBack": false,
