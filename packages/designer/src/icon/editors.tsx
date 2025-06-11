@@ -55,15 +55,16 @@ export default {
           },
         },
         {
-          title: "绘制粗细",
+          title: "线宽",
           type: "select",
           options: [
-            { label: '纤细', value: 100 },
+            { label: '超细', value: 100 },
+            { label: '较细', value: 200 },
             { label: '细', value: 300 },
             { label: '常规', value: 400 },
-            { label: '粗', value: 500 },
-            { label: '较粗', value: 600 },
-            { label: '最粗', value: 800 },
+            { label: '宽', value: 500 },
+            { label: '较宽', value: 600 },
+            { label: '超宽', value: 800 },
           ],
           value: {
             get({ data }) {
