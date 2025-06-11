@@ -32,6 +32,10 @@ import {
   mybricks_harmony_cell_Data,
   mybricks_harmony_formSelect,
   mybricks_harmony_formSelect_Data,
+  mybricks_harmony_formStepper,
+  mybricks_harmony_formStepper_Data,
+  mybricks_harmony_map,
+  mybricks_harmony_map_Data,
   mybricks_harmony_formCheckbox,
   mybricks_harmony_formRate,
   mybricks_harmony_formRate_Data,
@@ -79,42 +83,44 @@ struct Index {
   slots(params: ESObject) {
     if (params.id === 'content') {
 
-      mybricks_harmony_cascader({
-        data: new mybricks_harmony_cascader_Data({
-          options: cascaderMockData
-        })
-      })
+      // mybricks_harmony_map()
+
+      // mybricks_harmony_cascader({
+      //   data: new mybricks_harmony_cascader_Data({
+      //     options: cascaderMockData
+      //   })
+      // })
 
       // mybricks_harmony_formRate({
       //
       // })
 
-      mybricks_harmony_formSelect({
-        data: new mybricks_harmony_formSelect_Data({
-            label:"下拉选择",
-            name:"下拉选择",
-            placeholder:"点击选择",
-            value:"",
-          options:[{
-            "label": "公开",
-            "value": "公开"
-          },{
-            "label": "仅好友可见",
-            "value": "仅好友可见"
-          },{
-            "label": "微信",
-            "value": "微信"
-          },{
-            "label": "支付宝",
-            "value": "支付宝"
-          }]
-        }),
-        styles: {
-          '.mybricks-select': {
-            // 'height': '100px'
-          }
-        }
-      })
+      // mybricks_harmony_formSelect({
+      //   data: new mybricks_harmony_formSelect_Data({
+      //       label:"下拉选择",
+      //       name:"下拉选择",
+      //       placeholder:"点击选择",
+      //       value:"",
+      //     options:[{
+      //       "label": "公开",
+      //       "value": "公开"
+      //     },{
+      //       "label": "仅好友可见",
+      //       "value": "仅好友可见"
+      //     },{
+      //       "label": "微信",
+      //       "value": "微信"
+      //     },{
+      //       "label": "支付宝",
+      //       "value": "支付宝"
+      //     }]
+      //   }),
+      //   styles: {
+      //     '.mybricks-select': {
+      //       // 'height': '100px'
+      //     }
+      //   }
+      // })
       // mybricks_form_container({
       //   data: new mybricks_form_container_Data({
       //     useSubmitButton: true,
@@ -199,20 +205,20 @@ struct Index {
       //   }
       // })
 
-      mybricks_harmony_formImageUploader({
-        data: new mybricks_harmony_formImageUploader_Data({
-          maxCount:5
-        }),
-        styles: {"root":{"width":"100%","height":"100"}}
-      })
-
-      mybricks_harmony_formFileUploader({
-        data: new mybricks_harmony_formFileUploader_Data({
-          maxCount:5
-        }),
-        styles: {"root":{"width":"100%","height":"100"}
-        }
-      })
+      // mybricks_harmony_formImageUploader({
+      //   data: new mybricks_harmony_formImageUploader_Data({
+      //     maxCount:5
+      //   }),
+      //   styles: {"root":{"width":"100%","height":"100"}}
+      // })
+      //
+      // mybricks_harmony_formFileUploader({
+      //   data: new mybricks_harmony_formFileUploader_Data({
+      //     maxCount:5
+      //   }),
+      //   styles: {"root":{"width":"100%","height":"100"}
+      //   }
+      // })
       // mybricks_harmony_button({
       //   data: new mybricks_harmony_button_Data({
       //     text: this.message
@@ -252,21 +258,26 @@ struct Index {
       //   styles: {"root":{"width":"100%","height":"fit-content"}}
       // })
 
-      mybricks_harmony_tabs({
-        data: new mybricks_harmony_tabs_Data({
-          "mode": "topbar",
-          "new_index": 3,
-          "tabs": [{ "_id": "tabId1", "tabName": "标签项1", "badge": "" },
-            { "_id": "tabId2", "tabName": "标签项2", "badge": "" }],
-          "edit": { "currentItemId": "", "currentTabId": "tabId1" },
-          "initChangeTab": false,
-          "sticky": false,
-          "slotStyle": { "position": "smart" },
-          "contentShowType": "switch"
-        }),
-        styles: { "root": { "width": '100%', "height": 200 } },
-        slots: this.textSlots
+      mybricks_harmony_formStepper({
+        data: new mybricks_harmony_formStepper_Data(),
+        styles: {"root":{"width":"100%","height":"fit-content"}}
       })
+
+      // mybricks_harmony_tabs({
+      //   data: new mybricks_harmony_tabs_Data({
+      //     "mode": "topbar",
+      //     "new_index": 3,
+      //     "tabs": [{ "_id": "tabId1", "tabName": "标签项1", "badge": "" },
+      //       { "_id": "tabId2", "tabName": "标签项2", "badge": "" }],
+      //     "edit": { "currentItemId": "", "currentTabId": "tabId1" },
+      //     "initChangeTab": false,
+      //     "sticky": false,
+      //     "slotStyle": { "position": "smart" },
+      //     "contentShowType": "switch"
+      //   }),
+      //   styles: { "root": { "width": '100%', "height": 200 } },
+      //   slots: this.textSlots
+      // })
 
       // mybricks_harmony_sidebar({
       //

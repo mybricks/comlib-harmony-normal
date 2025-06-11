@@ -29,10 +29,10 @@ export {
 } from './_ConnectorGlobalHeaders'
 
 export {
-  default as mybricks_harmony__router,
-  DataType as mybricks_harmony__router_DataType,
-  Data as mybricks_harmony__router_Data
-} from './_Router'
+  default as mybricks_harmony__backTo,
+  DataType as mybricks_harmony__backTo_DataType,
+  Data as mybricks_harmony__backTo_Data
+} from './_BackTo'
 
 export {
   default as mybricks_harmony__aesEncode,
@@ -51,6 +51,12 @@ export {
   DataType as mybricks_harmony__vibrate_DataType,
   Data as mybricks_harmony__vibrate_Data
 } from './_Vibrate'
+
+export {
+  default as mybricks_harmony__openPetalMap,
+  DataType as mybricks_harmony__openPetalMap_DataType,
+  Data as mybricks_harmony__openPetalMap_Data
+} from './_OpenPetalMap'
 
 export {
   default as mybricks_harmony__scanQrcode,
@@ -159,6 +165,12 @@ export {
   DataType as mybricks_harmony_formInput_DataType,
   Data as mybricks_harmony_formInput_Data,
 } from './FormInput'
+
+export {
+  default as mybricks_harmony_formStepper,
+  DataType as mybricks_harmony_formStepper_DataType,
+  Data as mybricks_harmony_formStepper_Data,
+} from './FormStepper'
 
 export {
   default as mybricks_harmony_formTextarea,
@@ -275,6 +287,12 @@ export {
   DataType as mybricks_harmony_line_DataType,
   Data as mybricks_harmony_line_Data,
 } from './Line'
+
+export {
+  default as mybricks_harmony_map,
+  DataType as mybricks_harmony_map_DataType,
+  Data as mybricks_harmony_map_Data,
+} from './Map'
 
 export {
   default as mybricks_harmony_formImageUploader,

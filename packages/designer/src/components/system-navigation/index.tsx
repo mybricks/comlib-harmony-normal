@@ -30,7 +30,7 @@ export default function (props) {
       />
       <View style={{ background: navigationBarStyle.backgroundColor }}>
         {data.navigationStyle === 'default' && (
-          <DefaultNavigation data={data} />
+          <DefaultNavigation data={data} onBack={onBack} />
         )}
         {data.navigationStyle === 'custom' &&
           slots['header']?.render({
@@ -44,12 +44,13 @@ export default function (props) {
   )
 }
 
-function DefaultNavigation({ data }) {
+function DefaultNavigation({ data, onBack }) {
   return (
     <View className={css.nav}>
       <View
         className={css.left}
         style={{ color: data.navigationBarStyle?.color, paddingLeft: 16 }}
+        onClick={onBack}
       >
         {
           !!data.showBackIcon && <svg width="24" height="24">

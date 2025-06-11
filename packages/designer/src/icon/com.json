@@ -1,0 +1,20 @@
+{
+  "title": "图标",
+  "namespace": "mybricks.harmony.icon",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "icon": "./icon.svg",
+  "version": "1.0.0",
+  "description": "按钮",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "inputs": [
+  ],
+  "outputs": [
+    {
+      "id": "onClick",
+      "title": "点击时"
+    }
+  ]
+}
