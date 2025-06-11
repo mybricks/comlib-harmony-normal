@@ -35,10 +35,10 @@ export function Swiper(props: SwiperProps) {
     }
   }, [env?.runtime?.debug,env.edit])
 
-  useEffect(()=>{
-    const randomNumber = Math.floor(Math.random() * 1000000000);
-    setSwiperKey(randomNumber)
-  },[data.items])
+  // useEffect(()=>{
+  //   const randomNumber = Math.floor(Math.random() * 1000000000);
+  //   setSwiperKey(randomNumber)
+  // },[data.items])
 
   return (
     <View className={`${css.wrapper} mybricks-swiper-wrapper ${className}`}>
