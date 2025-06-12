@@ -114,6 +114,7 @@ export default struct MyBricksPopup {
                 .backgroundColor('#ffffff')
             )
             .center()
+            .clip(true)
           }
           if (this.data.position === 'bottom') {
             Column() {
@@ -126,6 +127,7 @@ export default struct MyBricksPopup {
                 .backgroundColor('#ffffff')
             )
             .bottom()
+            .clip(true)
           }
           if (this.data.position === 'top') {
             Column() {
@@ -138,6 +140,7 @@ export default struct MyBricksPopup {
                 .backgroundColor('#ffffff')
             )
             .top()
+            .clip(true)
           }
           if (this.data.position === 'left') {
             Column() {
@@ -150,6 +153,7 @@ export default struct MyBricksPopup {
                 .backgroundColor('#ffffff')
             )
             .left()
+            .clip(true)
           }
           if (this.data.position === 'right') {
             Column() {
@@ -162,6 +166,7 @@ export default struct MyBricksPopup {
                 .backgroundColor('#ffffff')
             )
             .right()
+            .clip(true)
           }
         }
         .height('100%')

@@ -34,7 +34,7 @@ interface Inputs {
 }
 
 interface Outputs {
-
+  onClick: () => void
 }
 
 @ComponentV2
@@ -47,17 +47,23 @@ export default struct MyBricksIcon {
   @Param parentSlot?: AnyType = undefined;
 
   aboutToAppear(): void {
-
   }
 
   build() {
-    SymbolGlyph($r(`sys.symbol.ohos_${this.data.icon}`))
-      .fontSize(this.data.fontSize)
-      .fontWeight(this.data.fontWeight)
-      .fontColor([this.data.fontColor?.[0], Color.White])
-      .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-      .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'])
-      )
+    Column() {
+      SymbolGlyph($r(`sys.symbol.${this.data.icon}`))
+        .fontSize(this.data.fontSize)
+        .fontWeight(this.data.fontWeight)
+        .fontColor([this.data.fontColor?.[0], Color.White])
+        .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+        .width(this.data.fontSize)
+        .height(this.data.fontSize)
+    }
+    .onClick(() => {
+      this.outputs?.onClick?.()
+    })
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
   }
 }

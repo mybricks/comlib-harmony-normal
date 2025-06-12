@@ -169,7 +169,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
     }
 
     if (data.background) {
-      result["backgroundColor"] = data.background;
+      result["backgroundColor"] = data.backgroundColor;
     }
 
     return result;
@@ -178,7 +178,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
     data.backgroundSize,
     data.backgroundRepeat,
     data.backgroundPosition,
-    data.background,
+    data.backgroundColor,
   ]);
 
   let contentStyle = {}
