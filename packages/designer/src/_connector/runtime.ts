@@ -50,11 +50,10 @@ function isPlainObject(value) {
 }
 
 export default function ({ env, data, inputs, outputs, onError }) {
-  if (!env.runtime) {
-    return;
-  }
-
   if (data.immediate) {
+    if (!env.runtime) {
+      return;
+    }
     callCon({ env, data, outputs });
   } else {
     inputs["call"]((params) => {

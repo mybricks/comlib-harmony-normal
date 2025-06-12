@@ -2,10 +2,6 @@ import * as Taro from "@tarojs/taro";
 import { isH5 } from "../utils/env";
 
 export default function ({ env, data, inputs, outputs }) {
-  if (!env.runtime) {
-    return;
-  }
-
   inputs["chooseMedia"](() => {
     let params = {
       count: data.count,
