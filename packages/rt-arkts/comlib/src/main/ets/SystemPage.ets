@@ -5,11 +5,17 @@ export type DataType = AnyType
 
 @ObservedV2
 export class Data implements DataType {
-  @Trace background: string
+  navigationStyle?: string
+  navigationBarStyle?: AnyType
   enabledPulldown: boolean = false
+  backgroundImage?: string
+  backgroundColor?: string
 
   constructor(config: DataType) {
-    this.background = config.background
+    this.navigationBarStyle = config?.navigationBarStyle
+    this.navigationStyle = config?.navigationStyle
+    this.backgroundColor = config?.backgroundColor ?? config.background
+    this.backgroundImage = config?.backgroundImage
   }
 }
 
@@ -38,6 +44,11 @@ export default struct MyBricksSystemPage {
 
   @Local isRefreshing: boolean = false;
 
+  @Local backgroundStyle: AnyType = parseBackgroundStyle({
+    backgroundColor: this.data.backgroundColor,
+    backgroundImage: this.data.backgroundImage,
+  })
+
   aboutToAppear(): void {
 
   }
@@ -45,9 +56,13 @@ export default struct MyBricksSystemPage {
   @Builder
   renderContent () {
     Column() {
-      this.slots({
-        id: 'header'
-      })
+      if (this.data.navigationStyle === 'custom') {
+        Row() {
+          this.slots({
+            id: 'header'
+          })
+        }.backgroundColor(this.data.navigationBarStyle?.backgroundColor)
+      }
       Scroll() {
         Column() {
           this.slots({
@@ -60,6 +75,7 @@ export default struct MyBricksSystemPage {
       }
       .height('100%')
       .align(Alignment.TopStart)
+      .applyScrollBackground(this.data.navigationStyle === 'custom' || this.data.navigationStyle === 'default' ? this.backgroundStyle : {})
     }
     .height('100%')
     .width('100%')
@@ -70,7 +86,7 @@ export default struct MyBricksSystemPage {
       Refresh({ refreshing: this.isRefreshing }) {
         this.renderContent()
       }
-        .backgroundColor(this.data?.background)
+        .applyRefreshBackground(this.data.navigationStyle === 'none' ? this.backgroundStyle : {})
         .onRefreshing(() => {
           // 数据刷新逻辑
         })
@@ -78,7 +94,85 @@ export default struct MyBricksSystemPage {
       Column() {
         this.renderContent()
       }
-        .backgroundColor(this.data?.background)
+        .applyColumnBackground(this.data.navigationStyle === 'none' ? this.backgroundStyle : {})
     }
   }
+}
+
+@Extend(Column)
+function applyColumnBackground(backgroundStyle: AnyType) {
+  .backgroundColor(backgroundStyle?.backgroundColor ?? Color.Transparent)
+  .backgroundImage(backgroundStyle?.backgroundImage ?? undefined)
+  .linearGradient(backgroundStyle?.linearGradient ?? {})
+}
+
+@Extend(Refresh)
+function applyRefreshBackground(backgroundStyle: AnyType) {
+  .backgroundColor(backgroundStyle?.backgroundColor ?? Color.Transparent)
+  .backgroundImage(backgroundStyle?.backgroundImage ?? undefined)
+  .linearGradient(backgroundStyle?.linearGradient ?? {})
+}
+
+@Extend(Scroll)
+function applyScrollBackground(backgroundStyle: AnyType) {
+  .backgroundColor(backgroundStyle?.backgroundColor ?? Color.Transparent)
+  .backgroundImage(backgroundStyle?.backgroundImage ?? undefined)
+  .linearGradient(backgroundStyle?.linearGradient ?? {})
+}
+
+function parseBackgroundStyle(styleObject: AnyType): AnyType {
+  // 提取背景色
+  const backgroundColor: string = styleObject?.backgroundColor;
+
+  // 提取渐变字符串
+  const backgroundImage: string = styleObject?.backgroundImage;
+
+  // 判断是否为图片URL
+  if (backgroundImage?.startsWith?.('url(')) {
+    // 提取URL
+    const urlMatch = backgroundImage.match(/url\((.*?)\)/);
+    const imageUrl = urlMatch ? urlMatch[1] : '';
+
+    return {
+      backgroundColor: backgroundColor,
+      backgroundImage: imageUrl
+    };
+  }
+
+  // 如果是渐变，则处理渐变
+  if (backgroundImage?.startsWith?.('linear-gradient')) {
+    // 解析角度
+    const angleMatch = backgroundImage.match(/(\d+)deg/);
+    const angle = angleMatch ? parseInt(angleMatch[1]) : 0;
+
+    // 解析颜色停止点
+    const colorStops = backgroundImage.match(/rgba?\([^)]+\)\s+\d+%/g);
+
+    const colorStopsAry = Array.isArray(colorStops) ? colorStops : []
+
+    // 转换颜色格式和位置
+    const colors: AnyType = colorStopsAry.map((stop: string) => {
+      const result = stop.split(/\s+/);
+      const colorPart = result?.[0];
+      const positionPart = result?.[1];
+      const position = parseFloat(positionPart) / 100;
+
+      return [colorPart, position];
+    });
+
+    const linearGradient: AnyType = {
+      angle: angle,
+      colors: colors
+    }
+
+    return {
+      backgroundColor: backgroundColor,
+      linearGradient
+    };
+  }
+
+  // 如果既不是图片也不是渐变，返回默认背景色
+  return {
+    backgroundColor: backgroundColor
+  };
 }
