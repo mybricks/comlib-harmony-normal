@@ -10,11 +10,18 @@ export default {
     style: [
       {
         title: "搜索框样式",
-        options: ["font","background","border"],
+        options: ["background","border"],
         target({id}){
           return [`.mybricks-searchBar`]
         }
       }, 
+      {
+        title: "搜索按钮样式",
+        options: ["background","border"],
+        target({id}){
+          return [`.mybricks-searchButton`]
+        }
+      },
       {
         title: "内容文本",
         options: ["font"],
@@ -84,6 +91,19 @@ export default {
               data.searchButtonText = value;
             },
           },
+        },
+        {
+          title:"展示搜索图标",
+          type: "switch",
+          description: '展示搜索输入框前的图标',
+          value: {
+            get({ data }: EditorResult<Data>) {
+              return data.showSearchIcon;
+            },
+            set({ data }: EditorResult<Data>, value: boolean) {
+              data.showSearchIcon = value;
+            }
+          }
         },
         {
           title: '自定义图标',
