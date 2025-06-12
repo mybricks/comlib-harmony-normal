@@ -91,6 +91,10 @@ export default function ({ env, data, inputs, outputs }) {
     }
   }, [data.clearable, value.length])
 
+  useEffect(()=>{
+    console.log("showSearchIcon",data.showSearchIcon)
+  },[data.showSearchIcon])
+
   return (
     <View className={cx(css.searchBox, "mybricks-searchBar")}>
       {/* 搜索框禁用时在上方加一层View，不然点击不生效 */}
@@ -109,7 +113,7 @@ export default function ({ env, data, inputs, outputs }) {
         onClear={onClear}
         onSearch={onSearch}
         onBlur={onBlur}
-        icon={icon}
+        icon={data.showSearchIcon ? icon : undefined}
         clearable={false}
         autoFocus={autoFocus}
       />

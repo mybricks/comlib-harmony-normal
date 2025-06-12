@@ -167,7 +167,7 @@ export default {
           type: "_homepage",
         },
         // { ...entryPagePathEditor },
-        //   MybricksTabBarEditor[".mybricks-tabBar"].items[0],
+          MybricksTabBarEditor[".mybricks-tabBar"].items[0],
         {
           title: "顶部栏",
           items: MybricksNavigationEditor[".mybricks-navigation"].items,
@@ -200,7 +200,7 @@ export default {
               value: {
                 get({ data }) {
                   return {
-                    backgroundColor: data.background,
+                    backgroundColor: data.backgroundColor,
                     backgroundImage: data.backgroundImage,
                     backgroundPosition: data.backgroundPosition || "center top",
                     backgroundSize: data.backgroundSize,
@@ -226,7 +226,7 @@ export default {
                     value?.backgroundRepeat !== undefined
                       ? value.backgroundRepeat
                       : data.backgroundRepeat;
-                  data.background =
+                  data.backgroundColor =
                     value?.backgroundColor !== undefined
                       ? value.backgroundColor
                       : data.backgroundColor;

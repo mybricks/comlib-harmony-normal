@@ -69,6 +69,18 @@ export default {
           },
         },
       },
+      {
+        title: "显示滚动条",
+        type: "switch",
+        value: {
+          get({ data }) {
+            return data.scrollBar;
+          },
+          set({ data }, value) {
+            data.scrollBar = value;
+          },
+        },
+      },
       {},
       // {
       //   catelogChange: {

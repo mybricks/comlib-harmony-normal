@@ -167,10 +167,9 @@ export default function ({ env, data, inputs, outputs, slots }) {
     if (data.backgroundPosition) {
       result["backgroundPosition"] = data.backgroundPosition;
     }
-
-    if (data.background) {
-      result["backgroundColor"] = data.backgroundColor;
-    }
+    
+      result["backgroundColor"] = data.backgroundColor ?? data.background;
+    
 
     return result;
   }, [
