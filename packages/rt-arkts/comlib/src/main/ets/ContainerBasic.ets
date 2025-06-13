@@ -56,14 +56,17 @@ export default struct MyBricksContainerBasic {
     .align(Alignment.Start)
     .height('100%')
     .width('100%')
+    .clip(true)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(
       new ApplyStyleModifier(this.styles['> .mybricks-container'])
     )
-    .onClick(() => {
-      this.outputs?.onClick?.()
-    })
+    .parallelGesture(
+      TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
+        this.outputs?.onClick?.()
+      })
+    )
   }
 }

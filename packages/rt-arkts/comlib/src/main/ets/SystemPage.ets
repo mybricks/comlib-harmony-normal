@@ -73,8 +73,9 @@ export default struct MyBricksSystemPage {
         .alignItems(HorizontalAlign.Start)
         .align(Alignment.Start)
       }
-      .height('100%')
+      .layoutWeight(1)
       .align(Alignment.TopStart)
+      .expandSafeArea([SafeAreaType.SYSTEM],[SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
       .applyScrollBackground(this.data.navigationStyle === 'custom' || this.data.navigationStyle === 'default' ? this.backgroundStyle : {})
     }
     .height('100%')
@@ -86,6 +87,7 @@ export default struct MyBricksSystemPage {
       Refresh({ refreshing: this.isRefreshing }) {
         this.renderContent()
       }
+      .expandSafeArea([SafeAreaType.SYSTEM],[SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
         .applyRefreshBackground(this.data.navigationStyle === 'none' ? this.backgroundStyle : {})
         .onRefreshing(() => {
           // 数据刷新逻辑
@@ -94,6 +96,7 @@ export default struct MyBricksSystemPage {
       Column() {
         this.renderContent()
       }
+      .expandSafeArea([SafeAreaType.SYSTEM],[SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
         .applyColumnBackground(this.data.navigationStyle === 'none' ? this.backgroundStyle : {})
     }
   }
