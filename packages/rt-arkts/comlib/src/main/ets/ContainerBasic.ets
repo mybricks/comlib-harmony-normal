@@ -56,6 +56,7 @@ export default struct MyBricksContainerBasic {
     .align(Alignment.Start)
     .height('100%')
     .width('100%')
+    .clip(true)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
