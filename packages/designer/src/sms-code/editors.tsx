@@ -62,6 +62,30 @@ export default {
           },
         },
         {
+          title: "显示为密文",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.isPassword;
+            },
+            set({ data }, value) {
+              data.isPassword = value;
+            },
+          },
+        },
+        {
+          title: "隐藏宫格下方操作按钮",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.hideOptButton;
+            },
+            set({ data }, value) {
+              data.hideOptButton = value;
+            },
+          },
+        },
+        {
           title: "验证码倒数秒数",
           type: "InputNumber",
           options: [{ min: 1 }],

@@ -29,6 +29,11 @@ export default function (props) {
     inputs["resetValue"]((val) => {
       setValue("");
     });
+
+    inputs?.["setValue"]?.((val, outputRels) => {
+      setValue(val);
+      outputRels?.["setValueDone"]?.(val);
+    });
   }, []);
 
   useEffect(() => {
@@ -45,7 +50,7 @@ export default function (props) {
     const Points: JSX.Element[] = [];
 
     for (let i = 0; i < data.length; i++) {
-      const char = value[i];
+      const char =  value[i];
       const bordered = i !== 0 && !data.gutter;
       let showCursor = focus && i === value.length;
 
@@ -69,7 +74,7 @@ export default function (props) {
             id="mybricks-input-item"
             style={style}
           >
-            {char}
+            {char && data.isPassword ? "*" : char}
             {showCursor && <View className={css.cursor} />}
           </View>
           {i === data.length / 2 - 1 && data.showLine && (
@@ -81,7 +86,7 @@ export default function (props) {
       );
     }
     return Points;
-  }, [focus, data.gutter, data.length, mask, value, data.showLine, error]);
+  }, [focus, data.gutter, data.length, mask, value, data.showLine, error,data.isPassword]);
 
   const onSmsInput = useCallback((e) => {
     let input = e.detail.value;
@@ -149,12 +154,16 @@ export default function (props) {
           onBlur={onSmSBlur}
         />
       </View>
+
+      {!data.hideOptButton && 
       <View>
         <View className={css.desc} id="mybricks-input-desc" onClick={resendSMS}>
           <View className="mybricks-desc">{displayNormalText}</View>
         </View>
         <View>{data.desc}</View>
       </View>
+      }
+
 
     </View>
   );

@@ -11,14 +11,14 @@
   "preview": "./preview.png",
   "inputs": [
     {
-      "id": "startCountdown",
-      "title": "开始计时",
-      "desc": "开始倒数计时",
+      "id": "setValue",
+      "title": "设置值",
+      "desc": "设置输入的值",
       "schema": {
-        "type": "any"
+        "type": "string"
       },
       "rels": [
-        "startCountdownDone"
+        "setValueDone"
       ]
     },
     {
@@ -30,6 +30,17 @@
       },
       "rels": [
         "returnValue"
+      ]
+    },
+    {
+      "id": "startCountdown",
+      "title": "开始计时",
+      "desc": "开始倒数计时",
+      "schema": {
+        "type": "any"
+      },
+      "rels": [
+        "startCountdownDone"
       ]
     },
     {
@@ -73,6 +84,13 @@
     {
       "id": "returnValue",
       "title": "值输出",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "id": "setValueDone",
+      "title": "设置值完成后输出",
       "schema": {
         "type": "string"
       }
