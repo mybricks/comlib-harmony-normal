@@ -12,29 +12,23 @@ export default {
       {
         title: "输入框",
         options: ["border", "padding", "background"],
-        target({ id }) {
-          return [".mybricks-password", ".mybricks-h5Password"];
-        },
+        target:[".mybricks-password", ".mybricks-h5Password"]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target({ id }) {
-          return [
-            `.mybricks-password .taroify-input`,
-            `.mybricks-h5Password .taroify-input .taroify-native-input`,
-          ];
-        },
+        target:[
+          `.mybricks-password .taroify-input`,
+          `.mybricks-h5Password .taroify-input .taroify-native-input`,
+        ]
       },
       {
         title: "提示内容文本",
         options: ["font"],
-        target({ id }) {
-          return [
-            `.mybricks-password .taroify-input__placeholder`,
-            `.mybricks-h5Password .taroify-native-input::placeholder`,
-          ];
-        },
+        target:[
+          `.mybricks-password .taroify-input__placeholder`,
+          `.mybricks-h5Password .taroify-native-input::placeholder`,
+        ]
       },
     ],
     items({ data, output, style }, cate0, cate1, cate2) {

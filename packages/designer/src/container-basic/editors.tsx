@@ -14,9 +14,7 @@ export default {
       {
         title: "样式",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target({ id }) {
-          return `> .mybricks-container`;
-        },
+        target: "> .mybricks-container"
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {

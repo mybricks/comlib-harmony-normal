@@ -11,26 +11,20 @@ export default {
       {
         title: "输入框",
         options: ["border", "padding", "background"],
-        target({ id }) {
-          return [`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`];
-        },
+        target:[`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target({ id }) {
-          return [`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`];
-        },
+        target: [`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`]
       },
       {
         title: "提示内容文本",
         options: ["font"],
-        target({ id }) {
-          return [
-            `.mybricks-input .taroify-input__placeholder`,
-            `.mybricks-h5Input .taroify-native-input::placeholder`,
-          ];
-        },
+        target:[
+          `.mybricks-input .taroify-input__placeholder`,
+          `.mybricks-h5Input .taroify-native-input::placeholder`,
+        ]
       },
     ],
     items: ({ data, inputs, output, style }, cate0, cate1, cate2) => {

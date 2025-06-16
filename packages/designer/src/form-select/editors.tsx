@@ -32,29 +32,19 @@ export default {
       {
         title: "输入框",
         options: ["border", "size", "padding", "background"],
-        target({ id }) {
-          return [".mybricks-select", ".mybricks-h5Select"];
-        },
+        target: [".mybricks-select", ".mybricks-h5Select"]
       },
       {
         title: "内容文本",
         options: ["font"],
         description:"选择完成后，下拉框中内容的样式",
-        target({ id }) {
-          return [
-            `#a-${id} .mybricks-input`,
-          ];
-        },
+        target: `.mybricks-input`,
       },
       {
         title: "提示内容文本",
         options: ["font"],
         description:"未选择时，下拉框中提示内容的样式",
-        target({ id }) {
-          return [
-            `#a-${id} .mybricks-placeholder`,
-          ];
-        },
+        target: ".mybricks-placeholder"
       },
     ],
     items({ data, output, style }, cate0, cate1, cate2) {

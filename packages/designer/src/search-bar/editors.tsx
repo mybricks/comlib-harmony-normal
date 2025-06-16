@@ -11,31 +11,22 @@ export default {
       {
         title: "搜索框样式",
         options: ["background","border"],
-        target({id}){
-          return [`.mybricks-searchBar`]
-        }
+        target: [`.mybricks-searchBar`]
       }, 
       {
         title: "搜索按钮样式",
         options: ["background","border"],
-        target({id}){
-          return [`.mybricks-searchButton`]
-        }
+        target: [`.mybricks-searchButton`]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target({id}){
-          // console.log(`${id} .mybricks-searchBar .taroify-search .taroify-search__content .taroify-cell .taroify-cell__value .taroify-form-control .taroify-input`)
-          return [`.mybricks-searchBar .mybricks-searchBar-input .taroify-input`]
-        }
+        target:[`.mybricks-searchBar .mybricks-searchBar-input .taroify-input`]
       },
       {
         title: "提示内容文本",
         options: ["font"],
-        target({id}){
-          return [`.mybricks-searchBar .mybricks-searchBar-input .taroify-input__placeholder`]
-        }
+        target: [`.mybricks-searchBar .mybricks-searchBar-input .taroify-input__placeholder`]
       }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {

@@ -16,22 +16,18 @@ export default {
       {
         title: "内容文本",
         options: ["font"],
-        target({ id }) {
-          return [
-            ".taroify-textarea__wrapper .mybricks-textarea",
-            ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-          ];
-        },
+        target:[
+          ".taroify-textarea__wrapper .mybricks-textarea",
+          ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+        ]
       },
       {
         title: "提示内容文本",
         options: ["font"],
-        target({ id }) {
-          return [
-            ".taroify-textarea__wrapper .taroify-textarea__placeholder",
-            ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
-          ];
-        },
+        target:[
+          ".taroify-textarea__wrapper .taroify-textarea__placeholder",
+          ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+        ]
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
