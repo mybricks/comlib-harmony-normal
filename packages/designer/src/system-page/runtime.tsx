@@ -113,12 +113,6 @@ export default function ({ env, data, inputs, outputs, slots }) {
     if (!data.useTabBar) {
       return 0;
     }
-    if (data.tabBar.length < 2) {
-      return -1;
-    }
-    if (data.tabBar.length > 5) {
-      return -2;
-    }
     let isContain = data.tabBar.find((item) => {
       return item.scene.id == env.canvas.id;
     });
@@ -132,18 +126,6 @@ export default function ({ env, data, inputs, outputs, slots }) {
     switch (useTabBar) {
       case 0:
         return null;
-      case -1:
-        return (
-          <View className={css.tabBarErrorTip}>
-            （标签页数量少于2个，标签栏不显示）
-          </View>
-        );
-      case -2:
-        return (
-          <View className={css.tabBarErrorTip}>
-            （标签页数量大于5，标签栏不显示）
-          </View>
-        );
       default:
         return <SystemTabbar data={data} env={env} />;
     }
