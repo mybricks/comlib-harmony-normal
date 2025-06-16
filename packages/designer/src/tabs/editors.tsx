@@ -68,6 +68,8 @@ export default {
                 return data.tabWidthType ?? "fill";
               },
               set({ data }, value) {
+                console.log("set",value)
+                data.tabWidthType = ''
                 data.tabWidthType = value;
               },
             },
@@ -104,6 +106,14 @@ export default {
                 target: ".taroify-tabs__tab:not(.taroify-tabs__tab--active)",
               },
               {
+                title: "默认样式-文本",
+                catelog: "默认样式",
+                options: [
+                  { type: "font", config: { disableTextAlign: true } },
+                ],
+                target: ".taroify-tabs__text:not(.taroify-tabs__text--active)",
+              },
+              {
                 title: "选中样式",
                 catelog: "选中样式",
                 options: [
@@ -114,6 +124,14 @@ export default {
                   { type: "background" },
                 ],
                 target: ".taroify-tabs__tab--active",
+              },
+              {
+                title: "选中样式-文本",
+                catelog: "选中样式",
+                options: [
+                  { type: "font", config: { disableTextAlign: true } },
+                ],
+                target: ".taroify-tabs__text--active",
               },
             ],
           },
