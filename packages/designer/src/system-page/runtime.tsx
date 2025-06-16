@@ -40,7 +40,7 @@ const getDefaultTabItem = (id) => {
 };
 
 export default function ({ env, data, inputs, outputs, slots }) {
-  data.id = env.canvas.id;
+  // data.id = env.canvas.id;
 
   useEffect(() => {
     window.__entryPagePath__?.on(data.id, (val) => {
