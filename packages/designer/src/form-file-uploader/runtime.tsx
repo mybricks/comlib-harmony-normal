@@ -185,24 +185,34 @@ export default function (props) {
     }
 
     if (isH5()) {
-      return (
-        <label className={cx(css.uploader, "mybricks-square")}>
-          <input
-            className={css.input}
-            type="file"
-            onChange={handleFileChange}
-          />
-          <div className={css.icon_placeholder}>+上传文件</div>
-        </label>
-      );
+      if(env.edit){
+        //编辑态不能触发
+        return (
+          <div className={cx(css.uploader, "mybricks-square")}>
+            <div className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</div>
+          </div>
+        );
+      }else{
+        //运行时可以触发
+        return (
+          <label className={cx(css.uploader, "mybricks-square")}>
+            <input
+              className={css.input}
+              type="file"
+              onChange={handleFileChange}
+            />
+            <div className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</div>
+          </label>
+        );
+      }
     }
 
     return (
       <View className={cx(css.uploader, "mybricks-square")} onClick={onChooseFile}>
-        <View className={css.icon_placeholder}>+上传文件</View>
+        <View className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</View>
       </View>
     );
-  }, [env, value, data.maxCount, data.iconSlot]);
+  }, [env, value, data.maxCount, data.iconSlot,data.buttonText]);
 
   const uploaderSlot = useMemo(() => {
     if (data.maxCount && value.length >= data.maxCount) {

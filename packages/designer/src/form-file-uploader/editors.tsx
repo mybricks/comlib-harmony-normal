@@ -75,6 +75,18 @@ export default {
           },
         },
         {
+          title:"上传按钮文案",
+          type: "text",
+          value: {
+            get({data}) {
+                return data.buttonText;
+            },
+            set({data},value){
+              data.buttonText = value;
+            }
+          }
+        },
+        {
           title: "提示内容",
           type: "text",
           value: {
@@ -154,4 +166,17 @@ export default {
       ];
     },
   },
+  ".mybricks-button-text":{
+    "@dblclick": {
+      type: "text",
+      value: {
+        get({ data }) {
+          return data.buttonText;
+        },
+        set({ data }, val) {
+          data.buttonText = val;
+        },
+      },
+    },
+  }
 };

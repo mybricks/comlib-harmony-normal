@@ -439,4 +439,40 @@ export default {
       },
     ],
   },
+  ".mybricks-navigation-title": {
+    "@dblclick": {
+      type: "text",
+      value: {
+        get(props) {
+          console.log("标题的双击事件")
+          const { data, focusArea } = props;
+          return data.navigationBarTitleText
+        },
+        set(props, value) {
+          const { data, focusArea } = props;
+          data.navigationBarTitleText = value
+        },
+      },
+    }
+  },
+  ".mybricks-tabbar-text": {
+    "@dblclick": {
+      type: "text",
+      value: {
+        get(props) {
+          const { data, focusArea } = props;
+          let innerText = focusArea.ele.innerText;
+          return innerText
+        },
+        set(props, value) {
+          const { data, focusArea } = props;
+
+          let tabBar = JSON.parse(JSON.stringify(data.tabBar));
+          tabBar[focusArea.index].text = value;
+          data.tabBar = tabBar;
+          window.__tabbar__?.set(tabBar);
+        },
+      },
+    }
+  }
 };

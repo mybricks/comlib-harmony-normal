@@ -70,7 +70,9 @@ function DefaultNavigation({ data, onBack }) {
         className={css.title}
         style={{ color: data.navigationBarStyle?.color }}
       >
-        {data.navigationBarTitleText}
+        <View class="mybricks-navigation-title">
+          {data.navigationBarTitleText}
+        </View>
       </View>
 
       <View className={css.right}></View>
