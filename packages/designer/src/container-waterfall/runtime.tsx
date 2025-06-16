@@ -224,25 +224,36 @@ export const ContainerList = ({ env, data, inputs, outputs, slots }) => {
   }, [data._edit_status_]);
 
   const _dataSource = useMemo(() => {
-    if (env.runtime) {
-      return dataSource;
-    } else {
-      return new Array(3 * data.layout.column).fill(null).map((_, index) => {
+
+    if(env.edit || env?.runtime?.debug?.prototype){
+      //编辑态时需要mockdata
+      let res = new Array(3 * data.layout.column).fill(null).map((_, index) => {
         return { [rowKey]: index, index: index };
       });
+      console.log("列表模拟数据-waterfall",res)
+      return res
+    }else{
+      return dataSource;
     }
-  }, [dataSource, env.runtime, data.layout.column]);
+
+  }, [
+    dataSource, 
+    data.layout.column,
+    env.edit,
+    env?.runtime?.debug?.prototype
+  ]);
 
   const _2DdataSource = useMemo(() => {
-    if (env.runtime) {
-      return to2D(dataSource, data.layout.column);
-    } else {
+
+    if(env.edit || env?.runtime?.debug?.prototype){
       let list = new Array(3 * data.layout.column)
         .fill(null)
         .map((_, index) => {
           return { [rowKey]: index, index: index };
         });
       return to2D(list, data.layout.column);
+    }else{
+      return to2D(dataSource, data.layout.column);
     }
 
     function to2D(items, column) {
@@ -255,7 +266,12 @@ export const ContainerList = ({ env, data, inputs, outputs, slots }) => {
 
       return result;
     }
-  }, [dataSource, env.runtime, data.layout.column]);
+  }, [
+    dataSource, 
+    data.layout.column,
+    env.edit,
+    env?.runtime?.debug?.prototype
+  ]);
 
   /**
    * 提示信息
