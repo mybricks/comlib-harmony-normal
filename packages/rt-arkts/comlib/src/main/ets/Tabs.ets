@@ -131,6 +131,8 @@ export default struct MyBricksTabs {
 
     this.inputs?.activeTabId?.((index)=>{
       this.currentTabIndex = index
+      const tab = this.data.tabs[index]
+      this.setCurrentTabId(tab._id)
     })
 
     this.inputs?.dataSource?.((ds: InputTabData[], outputRels: AnyType) => {
