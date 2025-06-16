@@ -6,6 +6,7 @@ import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 
 import { UIAbility } from '@kit.AbilityKit';
+import common from '@ohos.app.ability.common';
 import { window, UIContext } from '@kit.ArkUI';
 
 import { camera } from '@kit.CameraKit';
@@ -39,26 +40,25 @@ interface IOContext {
   outputs: Outputs
 }
 
+const ui_context = getContext(this) as common.UIAbilityContext;
+
 
 export default (context: IOContext) => {
   const data: Data = context.data
   const inputs: Inputs = context.inputs
   const outputs: Outputs = context.outputs
 
-  let windowStage: window.WindowStage | null = null; // 需在生命周期回调中赋值
-  windowStage?.getMainWindow((err, win) => {
-    if (err) return;
-    uiContext = win.getUIContext(); // 获取UIContext
-  });
+  // let windowStage: window.WindowStage | null = null; // 需在生命周期回调中赋值
 
 
-  let windowClass: window.Window | undefined = undefined;
-  let uiContext: UIContext | null = null;
-  uiContext = windowClass?.getUIContext();
+
+  // let windowClass: window.Window | undefined = undefined;
+  // let uiContext: UIContext | null = null;
+  // uiContext = windowClass?.getUIContext();
 
 
   inputs?.open?.((val: AnyType) => {
-    camera.getCameraManager(uiContext)
+ //   camera.getCameraManager(ui_context)
 
   })
 
