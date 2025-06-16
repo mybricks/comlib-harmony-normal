@@ -444,7 +444,6 @@ export default {
       type: "text",
       value: {
         get(props) {
-          console.log("标题的双击事件")
           const { data, focusArea } = props;
           return data.navigationBarTitleText
         },
