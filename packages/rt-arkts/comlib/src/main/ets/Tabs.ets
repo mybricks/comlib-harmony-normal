@@ -193,16 +193,25 @@ export default struct MyBricksTabs {
           this.styles[params.isActive ? '.taroify-tabs__text--active' : '.taroify-tabs__text:not(.taroify-tabs__text--active)']
         ))
 
-      Line()
-        .width(40)
-        .height(3)
-        .zIndex(-1)
-        .attributeModifier(
-          new ApplyStyleModifier(
-            this.styles['.taroify-tabs__line']
+      if(params.isActive){
+        Line()
+          .width(40)
+          .height(3)
+          .zIndex(-1)
+          .attributeModifier(
+            new ApplyStyleModifier(
+              this.styles['.taroify-tabs__line']
+            ).backgroundColor(params.isActive ? '#00F500' : Color.Transparent)
           )
-          .backgroundColor(params.isActive ? '#00F500' : Color.Transparent)
-        )
+      }else{
+        Line()
+          .width(40)
+          .height(3)
+          .zIndex(-1)
+          .backgroundColor(Color.Transparent)
+
+      }
+
     }
     .align(Alignment.Center)
     .height(44)
