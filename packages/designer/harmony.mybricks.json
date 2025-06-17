@@ -89,7 +89,8 @@
       "title": "其它",
       "comAry": [
         "./src/support/com.json",
-        "./src/line/com.json"
+        "./src/line/com.json",
+        "./src/timer/com.json"
       ]
     }
   ],
