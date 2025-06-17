@@ -41,7 +41,7 @@ export class DynamicArrayData {
 
   init = () => {};
 
-  editors = ({ data }, { title = "数据源", array, effects }) => {
+  editors = ({ data }, { title = "", array, effects }) => {
     const keyName = this.keyName;
 
     const modeKeyName = `${keyName}_dynamic`;
@@ -69,7 +69,6 @@ export class DynamicArrayData {
           },
         },
         {
-          title: "数据源",
           type: "array",
           ifVisible({ data }) {
             return !!!data[modeKeyName];
