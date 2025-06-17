@@ -64,7 +64,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
     }
 
     // 监听数据
-    window.__tabbar__?.on(data.id, onTabbarChange);
+    window.__tabbar__?.on(onTabbarChange);
 
     let defaultTabBar = window.__tabbar__?.get() ?? [];
 
