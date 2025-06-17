@@ -1,9 +1,13 @@
 {
-  "name": "@ohos/mybricks-comlib-harmony-normal",
+  "name": "@mybricks/comlib-harmony-normal",
   "version": "1.0.0",
-  "description": "Please describe the basic information.",
+  "description": "MyBricks.ai团队提供的通用组件库，包含通用ui和计算组件",
   "main": "Index.ets",
-  "author": "",
-  "license": "Apache-2.0",
-  "dependencies": {}
+  "author": "MyBricks.ai",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "1.11.13",
+    "@ohos/axios": "2.2.6"
+  },
+  "devDependencies": {}
 }
