@@ -59,10 +59,12 @@ export default function ({ env, data, inputs, outputs, slots }) {
    * 页面初始化
    */
   useEffect(() => {
-    // 监听数据
-    window.__tabbar__?.on(data.id, (val) => {
+    const onTabbarChange = (val) => {
       data.tabBar = JSON.parse(JSON.stringify(val));
-    });
+    }
+
+    // 监听数据
+    window.__tabbar__?.on(data.id, onTabbarChange);
 
     let defaultTabBar = window.__tabbar__?.get() ?? [];
 
@@ -98,7 +100,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
     }
 
     return () => {
-      window.__tabbar__?.off(data.id);
+      window.__tabbar__?.off(onTabbarChange);
     };
   }, []);
 
