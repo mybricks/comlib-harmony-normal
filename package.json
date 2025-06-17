@@ -3,6 +3,9 @@
   "version": "2.0.24",
   "description": "通用鸿蒙组件库",
   "main": "index.js",
+  "scripts": {
+    "upload": "node scripts/upload"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com:mybricks/comlib-harmony-normal.git"
@@ -12,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/mybricks/comlib-harmony-normal/issues"
   },
-  "homepage": "https://github.com/mybricks/comlib-harmony-normal#readme"
+  "homepage": "https://github.com/mybricks/comlib-harmony-normal#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "axios": "^1.10.0"
+  }
 }
