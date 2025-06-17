@@ -156,6 +156,12 @@ export default struct MyBricksTabs {
     });
   }
 
+  getWidth(num:number){
+    // return '100%'
+    const res = 100 / num
+    return `${res}%`
+  }
+
   @Builder
   renderTabContent(tab: Tab, index: number) {
     Column() {
@@ -190,6 +196,7 @@ export default struct MyBricksTabs {
       Text(params?.tab.tabName)
         .flexGrow(1)  // 让Text填充剩余空间
         .height('100%') // 占满高度
+        .width("100%")
         .textAlign(TextAlign.Center)
         .attributeModifier(new ApplyStyleModifier(
           this.styles[params.isActive ? '.taroify-tabs__text--active' : '.taroify-tabs__text:not(.taroify-tabs__text--active)']
@@ -215,6 +222,7 @@ export default struct MyBricksTabs {
       }
 
     }
+    .width(this.getWidth(this.data.tabs.length))
     .align(Alignment.Center)
     .height(44)
     .justifyContent(FlexAlign.SpaceBetween)
