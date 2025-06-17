@@ -109,41 +109,41 @@ export default {
         {
           title: "事件",
           items: [
-            {
-              title: "单击事件类型",
-              type: "select",
-              options: [
-                {
-                  label: "自定义",
-                  value: "",
-                },
-                // {
-                //   label: "预览图片",
-                //   value: "previewImage",
-                // },
-              ],
-              value: {
-                get({ data, outputs }) {
-                  return data.clickType || "";
-                },
-                set({ data, output }, value) {
-                  data.clickType = value;
+            // {
+            //   title: "单击事件类型",
+            //   type: "select",
+            //   options: [
+            //     {
+            //       label: "自定义",
+            //       value: "",
+            //     },
+            //     // {
+            //     //   label: "预览图片",
+            //     //   value: "previewImage",
+            //     // },
+            //   ],
+            //   value: {
+            //     get({ data, outputs }) {
+            //       return data.clickType || "";
+            //     },
+            //     set({ data, output }, value) {
+            //       data.clickType = value;
 
-                  // 非自定义时清空 output
-                  if (value) {
-                    output.remove("onClick");
-                  } else {
-                    output.add({
-                      id: "onClick",
-                      title: "单击",
-                      schema: {
-                        type: "string",
-                      },
-                    });
-                  }
-                },
-              },
-            },
+            //       // 非自定义时清空 output
+            //       if (value) {
+            //         output.remove("onClick");
+            //       } else {
+            //         output.add({
+            //           id: "onClick",
+            //           title: "单击",
+            //           schema: {
+            //             type: "string",
+            //           },
+            //         });
+            //       }
+            //     },
+            //   },
+            // },
             {
               ifVisible({ data }) {
                 return !data.clickType;
