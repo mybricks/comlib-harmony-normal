@@ -167,6 +167,9 @@ export default {
                   let defaultItem = {
                     tabId: id,
                     tabName: title,
+                    layout: {
+                      position: "smart"
+                    }
                   };
 
                   return defaultItem;
@@ -227,7 +230,13 @@ export default {
                 slot.add({
                   id: action?.value._id,
                   title: action?.value.tabName,
+                  layout: "smart"
                 });
+                
+                const slotInstance = slot.get(action?.value._id)
+                setSlotLayout(slotInstance, {position: "smart"});
+
+
 
                 outputs.add({
                   id: `changeTab_${action?.value._id}`,
@@ -250,7 +259,6 @@ export default {
               },
               onUpdate: ({ slot }, action) => {
                 slot.setTitle(action?.value._id, action?.value.tabName);
-
                 outputs.setTitle(
                   `changeTab_${action?.value._id}`,
                   action?.value.tabName
@@ -470,7 +478,7 @@ export default {
           value: {
             get({ data, slots }) {
               const defaultLayout = {
-                position:"smart"
+                position: "smart"
               }
               const tab = getFocusTab(props)
               return tab.layout || defaultLayout;
