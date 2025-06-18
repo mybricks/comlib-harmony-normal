@@ -8,6 +8,7 @@
   "target.arkts": "@arkts/src/text.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
+  "ai": "./ai.ts",
   "icon": "./icon.svg",
   "inputs": [
     {

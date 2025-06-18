@@ -8,5 +8,6 @@
   "description": "Mybricks 技术支持",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
-  "editors": "./editors.tsx"
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts"
 }

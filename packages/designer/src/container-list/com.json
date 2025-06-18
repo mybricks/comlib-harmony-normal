@@ -9,6 +9,7 @@
   "target.arkts": "@arkts/src/containerList.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
+  "ai": "./ai.ts",
   "icon": "./icon.svg",
   "inputs": [
     {

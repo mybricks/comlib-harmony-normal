@@ -11,6 +11,7 @@
   "target.arkts": "@arkts/src/image.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
+  "ai": "./ai.ts",
   "inputs": [
     {
       "id": "setSrc",
