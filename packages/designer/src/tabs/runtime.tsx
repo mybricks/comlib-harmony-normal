@@ -331,7 +331,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
 
     if (ContentShowType.Roll === data.contentShowType) {
       setInClickType(true); // 标记为点击触发
-      console.log("点击tab进行切换", currentTabId);
+      // console.log("点击tab进行切换", currentTabId);
 
       // 找到对应 Tab 的位置
       const targetTab = updatedTabs.find((tab) => tab._id === currentTabId);
@@ -454,7 +454,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
 
   //真机运行时，计算出每个tab的顶部距离和高度
   useEffect(() => {
-    console.log("data.tabs", data.tabs, data.useDynamicTab);
+    // console.log("data.tabs", data.tabs, data.useDynamicTab);
     if (data.contentShowType == ContentShowType.Switch || !data.contentShowType) {
       return
     }
@@ -496,7 +496,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
   const innerOnScroll = useCallback((e) => {
 
     if (inClickType) {
-      console.log("忽略滚动事件，因为是点击触发");
+      // console.log("忽略滚动事件，因为是点击触发");
       return; // 忽略滚动事件
     }
 
@@ -508,7 +508,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
     });
 
     if (findItem) {
-      console.log("找到内容", findItem)
+      // console.log("找到内容", findItem)
       _scrollingCurrentTabId(findItem._id);
     }
   }, [inClickType, updatedTabs]);
@@ -549,7 +549,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
               height: `calc(100% - ${tabsHeight != 0 ? tabsHeight : "44"}px)`,
               display: isActive ? "block" : "none", // 控制显示和隐藏
             }}
-            className={cx(css.tab_content, env.edit && css.minHeight)}
+            className={cx(css.tab_content, env.edit && css.minHeight, "mybricks-tab-content")}
           >
             {slots[tab._id]?.render?.({
               key: tab._id,

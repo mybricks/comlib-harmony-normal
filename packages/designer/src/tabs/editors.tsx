@@ -296,7 +296,6 @@ export default {
           description: "开启后，可通过连线动态配置左侧的选项列表",
           value: {
             get({ data, slot }) {
-              console.log("data.useDynamicTab", data.useDynamicTab);
               if (!data.useDynamicTab) {
                 try {
                   slot.remove("tabItem");
@@ -390,30 +389,30 @@ export default {
         //   },
         // },
         {},
-        {
-          title: "内容区",
-          items: [
-            {
-              title: "布局",
-              type: "layout",
-              value: {
-                get({ data, slots }) {
-                  console.log("data.layout",data.layout)
-                  return data.layout;
-                },
-                set({ data, slots }, value) {
-                  data.layout = value;
+        // {
+        //   title: "内容区",
+        //   items: [
+        //     {
+        //       title: "布局",
+        //       type: "layout",
+        //       value: {
+        //         get({ data, slots }) {
+        //           console.log("data.layout",data.layout)
+        //           return data.layout;
+        //         },
+        //         set({ data, slots }, value) {
+        //           data.layout = value;
 
-                  for (let i = 0; i < data.tabs.length; i++) {
-                    console.log("设置布局", data.tabs[i], slots.get(data.tabs[i]._id))
-                    setSlotLayout(slots.get(data.tabs[i]._id), value);
-                  }
-                  
-                },
-              },
-            },
-          ]
-        },
+        //           for (let i = 0; i < data.tabs.length; i++) {
+        //             console.log("设置布局", data.tabs[i], slots.get(data.tabs[i]._id))
+        //             setSlotLayout(slots.get(data.tabs[i]._id), value);
+        //           }
+
+        //         },
+        //       },
+        //     },
+        //   ]
+        // },
         {},
         {
           title: "事件",
@@ -458,6 +457,35 @@ export default {
         // },
       ];
     },
+  },
+
+  ".mybricks-tab-content": {
+    title: "内容区",
+    items: (props, cate1, cate2, cate3) => {
+      cate1.title = "常规";
+      cate1.items = [
+        {
+          title: "布局",
+          type: "layout",
+          value: {
+            get({ data, slots }) {
+              const defaultLayout = {
+                position:"smart"
+              }
+              const tab = getFocusTab(props)
+              return tab.layout || defaultLayout;
+            },
+            set({ data, slots }, value) {
+              const tab = getFocusTab(props)
+
+              tab.layout = value;
+              setSlotLayout(slots.get(tab._id), value);
+
+            },
+          },
+        },
+      ]
+    }
   },
 
   ".taroify-tabs__tab": {

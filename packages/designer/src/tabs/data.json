@@ -4,11 +4,17 @@
   "tabs": [
     {
       "_id": "tabId1",
-      "tabName": "标签项1"
+      "tabName": "标签项1",
+      "layout": {
+        "position": "smart"
+      }
     },
     {
       "_id": "tabId2",
-      "tabName": "标签项2"
+      "tabName": "标签项2",
+      "layout": {
+        "position": "smart"
+      }
     }
   ],
   "edit": {
@@ -16,13 +22,10 @@
   },
   "initChangeTab": false,
   "navBarGutter": 12,
-  "sticky":false,
-  "slotStyle":{
+  "sticky": false,
+  "slotStyle": {
     "position": "smart"
   },
   "lastTabHeight": -1,
-  "contentShowType":"switch",
-  "layout":{
-    "position": "smart"
-  }
+  "contentShowType": "switch"
 }
