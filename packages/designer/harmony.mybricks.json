@@ -1,5 +1,5 @@
 {
-  "componentType": "MP",
+  "componentType": "HM",
   "comAry": [
     "./src/_muilt-input-js/com.json",
     "./src/_connector/com.json",
@@ -95,6 +95,6 @@
     }
   ],
   "namespace": "mybricks.normal-harmony.taro",
-  "userName": "mybricks",
-  "tags": "react"
+  "tags": "react",
+  "domain": "https://my.mybricks.world"
 }
