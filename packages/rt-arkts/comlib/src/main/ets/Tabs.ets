@@ -122,8 +122,9 @@ export default struct MyBricksTabs {
   @Local windowHeight: number = 0
   @Local windowWidth: number = 0
   @Local safeAreaHeight: number = 0
+  @Local screenWidth: number = 0
 
-  aboutToAppear() {
+  async aboutToAppear() {
     // 初始化当前tab
     if(this.data.tabs.length > 0) {
       this.currentTabId = this.data.tabs[0]._id
@@ -154,12 +155,17 @@ export default struct MyBricksTabs {
         })
       }
     });
+
+    this.screenWidth = vp2px(100)
+
+    console.log("screenWidth",this.screenWidth)
   }
 
   getWidth(num:number){
     // return '100%'
-    const res = 100 / num
-    return `${res}%`
+    // const res = 100 / num
+    const res = this.screenWidth / num
+    return res
   }
 
   @Builder
@@ -210,7 +216,7 @@ export default struct MyBricksTabs {
           .attributeModifier(
             new ApplyStyleModifier(
               this.styles['.taroify-tabs__line']
-            ).backgroundColor(params.isActive ? '#00F500' : Color.Transparent)
+            ).backgroundColor(params.isActive ? '#EE0A24' : Color.Transparent)
           )
       }else{
         Line()
