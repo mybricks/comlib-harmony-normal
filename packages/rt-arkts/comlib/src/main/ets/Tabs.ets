@@ -122,8 +122,9 @@ export default struct MyBricksTabs {
   @Local windowHeight: number = 0
   @Local windowWidth: number = 0
   @Local safeAreaHeight: number = 0
+  @Local screenWidth: number = 0
 
-  aboutToAppear() {
+  async aboutToAppear() {
     // 初始化当前tab
     if(this.data.tabs.length > 0) {
       this.currentTabId = this.data.tabs[0]._id
@@ -154,6 +155,17 @@ export default struct MyBricksTabs {
         })
       }
     });
+
+    this.screenWidth = vp2px(100)
+
+    console.log("screenWidth",this.screenWidth)
+  }
+
+  getWidth(num:number){
+    // return '100%'
+    // const res = 100 / num
+    const res = this.screenWidth / num
+    return res
   }
 
   @Builder
@@ -188,8 +200,10 @@ export default struct MyBricksTabs {
   renderTabItem(params: RenderTabItemParams) {
     Column() {
       Text(params?.tab.tabName)
-        .flexGrow(1)  // 让Text填充剩余空间
+
+
         .height('100%') // 占满高度
+        // .width("100%")
         .textAlign(TextAlign.Center)
         .attributeModifier(new ApplyStyleModifier(
           this.styles[params.isActive ? '.taroify-tabs__text--active' : '.taroify-tabs__text:not(.taroify-tabs__text--active)']
@@ -203,7 +217,7 @@ export default struct MyBricksTabs {
           .attributeModifier(
             new ApplyStyleModifier(
               this.styles['.taroify-tabs__line']
-            ).backgroundColor(params.isActive ? '#00F500' : Color.Transparent)
+            ).backgroundColor(params.isActive ? '#EE0A24' : Color.Transparent)
           )
       }else{
         Line()
@@ -215,6 +229,10 @@ export default struct MyBricksTabs {
       }
 
     }
+    .flexGrow(1)  // 让Text填充剩余空间
+    .layoutWeight(1)
+    // .width(this.getWidth(this.data.tabs.length))
+    .width("100%")
     .align(Alignment.Center)
     .height(44)
     .justifyContent(FlexAlign.SpaceBetween)
@@ -242,15 +260,63 @@ export default struct MyBricksTabs {
 
   build() {
     Column() {
+      // 自定义tab顶部标签页
+      Row(){
+        ForEach(this.data.tabs, (tab: Tab,index: number) => {
+          Column(){
+            Text(tab.tabName)
+              // .height('100%') // 占满高度
+              .layoutWeight(1)
+                // .width("100%")
+              .textAlign(TextAlign.Center)
+              .attributeModifier(new ApplyStyleModifier(
+                this.styles[this.currentTabId === tab._id ? '.taroify-tabs__text--active' : '.taroify-tabs__text:not(.taroify-tabs__text--active)']
+              ))
+
+            if(this.currentTabId === tab._id){
+              Line()
+                .width(40)
+                .height(3)
+                .zIndex(-1)
+                .attributeModifier(
+                  new ApplyStyleModifier(
+                    this.styles['.taroify-tabs__line']
+                  ).backgroundColor(this.currentTabId === tab._id ? '#EE0A24' : Color.Transparent)
+                )
+            }else{
+              Line()
+                .width(40)
+                .height(3)
+                .zIndex(-1)
+                .backgroundColor(Color.Transparent)
+
+            }
+          }
+          .onClick(()=>{
+            // this.currentTabId = tab._id
+            this.currentTabIndex = index
+            const tab = this.data.tabs[index]
+            this.setCurrentTabId(tab._id)
+          })
+          .height(44)
+          .flexGrow(1)  // 让Text填充剩余空间
+          .layoutWeight(1)
+          .alignItems(HorizontalAlign.Center)
+          .justifyContent(FlexAlign.Center)
+          .attributeModifier(new ApplyStyleModifier(
+            this.styles[this.currentTabId === tab._id ? '.taroify-tabs__tab--active' : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
+          )) //样式编辑器配置背景
+        })
+      }
       // Tabs组件
       Tabs({ barPosition: BarPosition.Start,index: this.currentTabIndex}) {
         ForEach(this.data.tabs, (tab: Tab, index: number) => {
           TabContent() {
             this.renderTabContent(tab, index)
           }
-          .tabBar(this.renderTabItem({ tab, index, isActive: this.currentTabId === tab._id }))
         })
       }
+      .barHeight(0)
       .scrollable(this.data.swipeable)
       .barMode(BarMode.Scrollable, {
         nonScrollableLayoutStyle: this.data.tabWidthType === 'fit' ? LayoutStyle.ALWAYS_CENTER : LayoutStyle.ALWAYS_AVERAGE_SPLIT

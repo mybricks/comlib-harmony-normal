@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  background: #fa6400;
+  background-color: #fa6400;
   color: #ffffff;
   border-radius: 60px;
   border-width: 0px;
@@ -18,6 +18,12 @@
 
   &::after {
     display: none;
+  }
+
+  &.button:active {
+    filter: brightness(105%); 
+    background-color: #fa6400;
+    color: #ffffff;
   }
 
   .text {
@@ -29,6 +35,6 @@
     display: block;
     width: 16px;
     height: 16px;
-    
   }
+
 }
