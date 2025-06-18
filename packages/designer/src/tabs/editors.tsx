@@ -1,6 +1,7 @@
 import { uuid } from "../utils";
 import { DynamicArrayData } from "./../utils/dynamic-array";
 import comJson from "./com.json";
+import setSlotLayout from "../utils/setSlotLayout";
 
 const ScopeSlotInputs = comJson.slots[0].inputs;
 const dynamicArrayData = new DynamicArrayData({ keyName: "tabs" });
@@ -68,7 +69,6 @@ export default {
                 return data.tabWidthType ?? "fill";
               },
               set({ data }, value) {
-                console.log("set",value)
                 data.tabWidthType = ''
                 data.tabWidthType = value;
               },
@@ -300,7 +300,7 @@ export default {
               if (!data.useDynamicTab) {
                 try {
                   slot.remove("tabItem");
-                } catch (e) {}
+                } catch (e) { }
               }
               return data.useDynamicTab;
             },
@@ -389,6 +389,31 @@ export default {
         //     },
         //   },
         // },
+        {},
+        {
+          title: "内容区",
+          items: [
+            {
+              title: "布局",
+              type: "layout",
+              value: {
+                get({ data, slots }) {
+                  console.log("data.layout",data.layout)
+                  return data.layout;
+                },
+                set({ data, slots }, value) {
+                  data.layout = value;
+
+                  for (let i = 0; i < data.tabs.length; i++) {
+                    console.log("设置布局", data.tabs[i], slots.get(data.tabs[i]._id))
+                    setSlotLayout(slots.get(data.tabs[i]._id), value);
+                  }
+                  
+                },
+              },
+            },
+          ]
+        },
         {},
         {
           title: "事件",

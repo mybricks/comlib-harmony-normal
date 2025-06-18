@@ -195,12 +195,14 @@
     {
       "id": "tabId1",
       "capacity": 1,
-      "title": "标签项1"
+      "title": "标签项1",
+      "layout": "smart"
     },
     {
       "id": "tabId2",
       "capacity": 1,
-      "title": "标签项2"
+      "title": "标签项2",
+      "layout": "smart"
     }
   ]
 }
