@@ -260,11 +260,13 @@ export default struct MyBricksTabs {
 
   build() {
     Column() {
+      // 自定义tab顶部标签页
       Row(){
         ForEach(this.data.tabs, (tab: Tab,index: number) => {
           Column(){
             Text(tab.tabName)
-              .height('100%') // 占满高度
+              // .height('100%') // 占满高度
+              .layoutWeight(1)
                 // .width("100%")
               .textAlign(TextAlign.Center)
               .attributeModifier(new ApplyStyleModifier(
@@ -291,7 +293,10 @@ export default struct MyBricksTabs {
             }
           }
           .onClick(()=>{
-            this.currentTabId = tab._id
+            // this.currentTabId = tab._id
+            this.currentTabIndex = index
+            const tab = this.data.tabs[index]
+            this.setCurrentTabId(tab._id)
           })
           .height(44)
           .flexGrow(1)  // 让Text填充剩余空间
