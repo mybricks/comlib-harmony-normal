@@ -9,17 +9,21 @@
   display: flex;
   align-items: center;
   text-align: center;
-  background: #fa6400;
+  background-color: #fa6400;
   color: #ffffff;
   border-radius: 60px;
   border-width: 0px;
   border-style: solid;
   font-size: 14px;
-  -webkit-text-fill-color: #ffffff;
-  -webkit-text-fill-color: #ffffff;
 
   &::after {
     display: none;
+  }
+
+  &.button:active {
+    filter: brightness(105%); 
+    background-color: #fa6400;
+    color: #ffffff;
   }
 
   .text {
@@ -33,9 +37,4 @@
     height: 16px;
   }
 
-}
-
-.button:active {
-  background-color: #fa6400 !important;
-  opacity: 0.8;
 }
