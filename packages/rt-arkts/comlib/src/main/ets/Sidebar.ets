@@ -1,7 +1,6 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties, ApplyFontStyleModifier } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 import { CommonModifier } from '@kit.ArkUI';
-import { ApplyFontStyleModifier } from '../../cp-test/comlib/utils/GetDesignStyle';
 
 type ContentShowType = "roll" | "switch"
 

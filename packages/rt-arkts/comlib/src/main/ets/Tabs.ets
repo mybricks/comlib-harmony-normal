@@ -35,6 +35,7 @@ export interface DataType {
   slotStyle?: CSSProperties
   contentShowType: ContentShowType
   useDynamicTab?: boolean
+  hideContent?: boolean
 }
 
 @ObservedV2
@@ -47,6 +48,7 @@ export class Data implements DataType {
   @Trace contentShowType: ContentShowType
   @Trace useDynamicTab: boolean
   @Trace initChangeTab: boolean
+  @Trace hideContent: boolean
 
   constructor(config?: DataType) {
     this.tabs = config?.tabs ?? []
@@ -57,6 +59,7 @@ export class Data implements DataType {
     this.contentShowType = config?.contentShowType ?? "switch"
     this.useDynamicTab = config?.useDynamicTab ?? false
     this.initChangeTab = config?.initChangeTab ?? false
+    this.hideContent = config?.hideContent ?? false
   }
 }
 
@@ -311,10 +314,11 @@ export default struct MyBricksTabs {
         })
       }
       if(!this.data.hideContent){
-      ForEach(this.data.tabs, (tab: Tab, index: number) => {
-        this.renderTabContent(tab, index)
-      })
+        ForEach(this.data.tabs, (tab: Tab, index: number) => {
+          this.renderTabContent(tab, index)
+        })
       }
+
     }
     .width('100%')
     .height('100%')

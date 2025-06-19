@@ -9,7 +9,8 @@ export interface DataType {
   duration?: number,
   showIndicator?: boolean,
   contentType?: ContentType,
-  circular?: boolean
+  circular?: boolean,
+  indicatorColor?: string
 }
 
 interface DataSourceItem {
@@ -25,6 +26,7 @@ export class Data implements DataType {
   @Trace showIndicator?: boolean
   @Trace contentType?: ContentType
   @Trace circular?: boolean
+  @Trace indicatorColor?: string
 
 
   constructor(config: DataType) {
@@ -34,6 +36,7 @@ export class Data implements DataType {
     this.showIndicator = config.showIndicator
     this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
+    this.indicatorColor = config.indicatorColor
   }
 }
 
@@ -96,7 +99,7 @@ export default struct MyBricksSwiper {
       .indicator(
         Indicator.dot()
           .color(this.data.showIndicator ? Color.Gray : Color.Transparent)
-          .selectedColor(this.data.showIndicator ? Color.Blue : Color.Transparent)
+          .selectedColor(this.data.showIndicator ? this.data.indicatorColor : Color.Transparent)
       )
     }
     .width('100%')
