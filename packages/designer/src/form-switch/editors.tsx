@@ -60,6 +60,29 @@ export default {
           },
         },
       ];
+
+      cate1.title = "鸿蒙样式"
+      cate1.items = [
+
+        {
+          title: "切换按钮",
+          type: "styleNew",
+          options: {
+            defaultOpen: true,
+            plugins: [
+              { type: "background", config: { disableBackgroundImage: true, disableGradient: true } },
+            ],
+          },
+          value: {
+            get({ data, focusArea }) {
+              return data.backgroundColor
+            },
+            set({ data, focusArea, slot }, value) {
+              data.backgroundColor = value.backgroundColor
+            },
+          },
+        }
+      ]
     },
   },
 };
