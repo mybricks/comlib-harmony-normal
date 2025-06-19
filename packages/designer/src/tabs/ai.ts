@@ -13,6 +13,7 @@ tabs: array = [
 slotStyle: object = {}
 tabWidthType: ['fill', 'fit'] = 'fill' # 标签项宽度配置，是适应内容还是平均铺满
 contentShowType: string = "switch"
+hideContent: boolean = false # 开启后可以只展示tabs，而不渲染插槽内容
 
 slots插槽
 tabId1: 标签项1内容
