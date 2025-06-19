@@ -189,7 +189,7 @@ export default struct MyBricksTabs {
       }
     }
     .width('100%')
-    .height('100%')
+    .height("auto")
     .visibility(this.currentTabId === tab._id ? Visibility.Visible : Visibility.None)
   }
 
@@ -310,22 +310,8 @@ export default struct MyBricksTabs {
           )) //样式编辑器配置背景
         })
       }
-      // Tabs组件
-      Tabs({ barPosition: BarPosition.Start,index: this.currentTabIndex}) {
-        ForEach(this.data.tabs, (tab: Tab, index: number) => {
-          TabContent() {
-            this.renderTabContent(tab, index)
-          }
-        })
-      }
-      .barHeight(0)
-      .scrollable(this.data.swipeable)
-      .barMode(BarMode.Scrollable, {
-        nonScrollableLayoutStyle: this.data.tabWidthType === 'fit' ? LayoutStyle.ALWAYS_CENTER : LayoutStyle.ALWAYS_AVERAGE_SPLIT
-      })
-      .onChange((index: number) => {
-        const tab = this.data.tabs[index]
-        this.setCurrentTabId(tab._id)
+      ForEach(this.data.tabs, (tab: Tab, index: number) => {
+        this.renderTabContent(tab, index)
       })
     }
     .width('100%')
