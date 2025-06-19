@@ -92,18 +92,16 @@ export default struct MyBricksButton {
     Button({ type: ButtonType.Normal }) {
       Text(this.data.text)
         .halfLeading(true)
+        .margin({
+          left:14,
+          right:14
+        })
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-button'])
             .fontSize(14)
             .fontColor('#ffffff')
         )
     }
-    .padding({
-      top: 0,
-      bottom: 0,
-      left: 14,
-      right: 14
-    })
     .type(ButtonType.Normal)
     .onClick(() => {
       if (this.data.disabled) {
