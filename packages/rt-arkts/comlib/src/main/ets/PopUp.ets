@@ -184,6 +184,9 @@ export default struct MyBricksPopup {
       .expandSafeArea([SafeAreaType.SYSTEM],[SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
       .transition(TransitionEffect.OPACITY
         .animation({ duration: 300, curve: Curve.Friction, delay: 0 }))
+      .onClick(() => {
+        this.handleOverlayClick()
+      })
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
