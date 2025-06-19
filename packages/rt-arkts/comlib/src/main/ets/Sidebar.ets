@@ -1,6 +1,7 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 import { CommonModifier } from '@kit.ArkUI';
+import { ApplyFontStyleModifier } from '../../cp-test/comlib/utils/GetDesignStyle';
 
 type ContentShowType = "roll" | "switch"
 
@@ -136,7 +137,11 @@ export default struct MyBricksSideBar {
   @Builder
   renderTabItem(params: RenderTabItemParams) {
     Column() {
-      Text(params?.tab.tabName).fontSize(12).fontColor(params.isActive ? '#FF686B' : "#434343")
+      Text(params?.tab.tabName).fontSize(12).fontColor(params.isActive ? '#FF686B' : "#434343").attributeModifier(
+        new ApplyFontStyleModifier(
+        this.styles[params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)']
+        )
+      )
       Line()
         .position({
           left: 0,
@@ -147,6 +152,11 @@ export default struct MyBricksSideBar {
          .translate({ y: '-50%' })
         .backgroundColor(params.isActive ? '#FF686B' : Color.Transparent)
         .borderRadius(10)
+        .attributeModifier(
+           new ApplyStyleModifier(
+             this.styles[params.isActive ? '.taroify-sidebar-tab--active:before' : '']
+           )
+        )
     }
     // .align(Alignment.Bottom)
     .align(Alignment.Center)
