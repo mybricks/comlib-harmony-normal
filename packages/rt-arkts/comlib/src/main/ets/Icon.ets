@@ -58,11 +58,11 @@ export default struct MyBricksIcon {
         .renderingStrategy(SymbolRenderingStrategy.SINGLE)
         .width("auto")
         .height(this.data.fontSize)
-        .onClick(()=>{
-          this.outputs?.onClick()
-        })
 
     }
+    .onClick(()=>{
+      this.outputs?.onClick()
+    })
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
     .attributeModifier(
