@@ -329,3 +329,9 @@ export {
   DataType as mybricks_harmony_petalMap_DataType,
   Data as mybricks_harmony_petalMap_Data,
 } from './PetalMap'
+
+export {
+  default as mybricks_harmony_containerRow,
+  DataType as mybricks_harmony_containerRow_DataType,
+  Data as mybricks_harmony_containerRow_Data,
+} from './ContainerRow'
