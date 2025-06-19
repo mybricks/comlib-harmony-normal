@@ -3,5 +3,6 @@
   "hideLabel": false,
   "name": "开关",
   "value": false,
-  "type": "switch"
+  "type": "switch",
+  "backgroundColor":""
 }
