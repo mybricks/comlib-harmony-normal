@@ -14,11 +14,12 @@ styleAry声明
 按钮: .mybricks-button
 - 默认样式: 
   - borderRadius: 60
-  - backgroundColor: #000000
-- 可编辑样式: backgroundColor、border、padding相关
+  - backgroundColor: #FA6400
+  - fontColor: #FFFFFF
+  - fontSize: 14px
+- 可编辑样式: backgroundColor、border、padding、font相关
 
 美观度注意事项
-- 内容文本默认是水平垂直居中的，可以配置固定高度；
-- 组件默认有左右两边14的内边距，注意按钮宽度，在宽度不够的时候也可以通过padding: 0去除内间距`
+- 内容文本默认是水平垂直居中的，可以配置固定高度；`
   }
 }
