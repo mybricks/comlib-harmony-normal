@@ -3,7 +3,8 @@ export default {
     return {}
   },
   prompts: {
-    summary: '一个普通的按钮',
+    summary: `图标，内置丰富的图标类型，也可作为图标样式的按钮使用
+何时使用：什么时候都必须使用。`,
     usage: `
   data声明
   icon: string = "camera"
@@ -12,7 +13,15 @@ export default {
   fontWeight: number = 400
 
   styleAry声明
-  无
+  图标: .mybricks-icon 
+  - 默认样式: 无
+  - 可配置样式: padding、backgroundColor、border
+
+  layout声明
+  width: 可配置，默认为fit-content
+  height: 不可配置，默认为fit-content
+
+  通过layout的固定宽高可以实现类似按钮的效果
 
   <允许使用的图标>
   airplane_fill
@@ -103,5 +112,10 @@ export default {
   worldclock
   xmark
   </允许使用的图标>`
+  },
+  modifyTptJson: (component) => {
+    if (component?.data?.fontColor) {
+      component.data.fontColor = [component.data.fontColor]
+    }
   }
 }

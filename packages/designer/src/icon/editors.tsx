@@ -9,6 +9,13 @@ export default {
     options: ["width", "height"],
   },
   ":root": {
+    style: [
+      {
+        title: "图标",
+        options: ["border", "padding", "background"],
+        target: ".mybricks-icon",
+      },
+    ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "常规";
       cate0.items = [

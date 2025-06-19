@@ -3,7 +3,7 @@ export default {
     return {}
   },
   prompts: {
-    summary: '一个普通的文本',
+    summary: '文本',
     usage: `
 data声明
 text: string = "文本内容"
@@ -32,5 +32,20 @@ styleAry声明
 </flex>
 </flex>
 \`\`\``
+  },
+  modifyTptJson: (component) => {
+    if (component?.style?.styleAry) {
+      component?.style?.styleAry.forEach(item => {
+        if (!item.css) {
+          item.css = {}
+        }
+        if (item.css?.fontSize) {
+          const realFontSize = String(item.css.fontSize)?.indexOf('px') > -1 ? parseFloat(item.css.fontSize) : item.css.fontSize
+          if (realFontSize > 14) {
+            item.css.lineHeight = `${realFontSize + 6}px`
+          }
+        }
+      })
+    }
   }
 }

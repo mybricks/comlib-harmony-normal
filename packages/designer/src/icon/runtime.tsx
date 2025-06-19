@@ -5,7 +5,7 @@ import { SymbolGlyph } from './../components/symbol-glyph'
 
 export default function ({ env, data, logger, slots, inputs, outputs, title }) {
   return (
-    <View className={css.icon} onClick={() => outputs?.onClick?.()}>
+    <View className={css.icon + ' mybricks-icon'} onClick={() => outputs?.onClick?.()}>
       <SymbolGlyph
         name={data.icon}
         fontColor={data.fontColor}

@@ -7,6 +7,7 @@
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
+  "ai": "./ai.ts",
   "icon": "./icon.svg",
   "preview": "https://assets.mybricks.world/AKbpTc6oYtY0tDaECneZfLh5e42sDKDt-1743578212707.png",
   "inputs": [

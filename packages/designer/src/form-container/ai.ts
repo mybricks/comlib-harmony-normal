@@ -1,3 +1,5 @@
+import { uuid } from './../utils'
+
 export default {
   ':root'({ data }) {
     return {}
@@ -71,4 +73,45 @@ export default {
   \`\`\`
   注意：表单的插槽不允许子组件为flex，仅允许为表单项`
   },
+  modifyTptJson: (component) => {
+    if (!component?.data) {
+      component.data = {}
+    }
+    if (!component.data?.items) {
+      component.data.items = []
+    }
+    component.slots?.content?.comAry?.forEach((com, index) => {
+      let item = component.data.items[index]
+  
+      if (!item && com?.data?.name) {
+        item = component.data.items[index] = {}
+      }
+  
+      if (!com?.data?.name) {
+        return
+      }
+  
+      item.id = uuid();
+      item.comName = uuid();
+      item.hidden = item.hidden ?? false;
+      item.visible = item.visible ?? true;
+  
+      if (!item.label) {
+        item.label = com.data?.label
+      }
+  
+      if (!!!com.data?.label && !item.hideLabel) {
+        item.hideLabel = true
+      }
+  
+      if (!item.name) {
+        item.name = com.data?.name ?? com.data?.label
+      }
+  
+      if (com) {
+        com.id = item.id
+        com.name = item.comName
+      }
+    })
+  }
 }

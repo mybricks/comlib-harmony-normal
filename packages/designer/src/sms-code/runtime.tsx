@@ -70,8 +70,8 @@ export default function (props) {
             className={classNames(css.input_item, {
               [css.input_item_focus]: showCursor,
               [css.input_item_error]: error,
+              'mybricks-input-item': true
             })}
-            id="mybricks-input-item"
             style={style}
           >
             {char && data.isPassword ? "*" : char}
@@ -157,14 +157,12 @@ export default function (props) {
 
       {!data.hideOptButton && 
       <View>
-        <View className={css.desc} id="mybricks-input-desc" onClick={resendSMS}>
+        <View className={css.desc + ' mybricks-input-desc'} onClick={resendSMS}>
           <View className="mybricks-desc">{displayNormalText}</View>
         </View>
         <View>{data.desc}</View>
       </View>
       }
-
-
     </View>
   );
 }

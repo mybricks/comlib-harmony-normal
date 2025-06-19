@@ -33,5 +33,18 @@ export default {
   layout声明
   width: 可配置
   height: 不可配置，默认为fit-content`
+  },
+  modifyTptJson: (component) => {
+    component.style?.styleAry?.forEach?.((style, index) => {
+      if (style.selector === ".input") {
+        style.selector = [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`]
+      }
+      if (style.selector === ".text") {
+        style.selector = [`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`]
+      }
+      if (style.selector === ".placeholder") {
+        style.selector = [`.mybricks-input .taroify-input__placeholder`, `.mybricks-h5Input .taroify-native-input::placeholder`]
+      }
+    })
   }
 }
