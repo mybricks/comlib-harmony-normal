@@ -298,6 +298,8 @@ export default struct MyBricksTabs {
             const tab = this.data.tabs[index]
             this.setCurrentTabId(tab._id)
           })
+          .backgroundImageSize(ImageSize.Cover) // 或 ImageSize.Contain
+          .backgroundImagePosition(Alignment.Center) // 设置背景图片居中
           .height(44)
           .flexGrow(1)  // 让Text填充剩余空间
           .layoutWeight(1)
