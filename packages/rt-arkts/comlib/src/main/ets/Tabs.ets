@@ -310,9 +310,11 @@ export default struct MyBricksTabs {
           )) //样式编辑器配置背景
         })
       }
+      if(!this.data.hideContent){
       ForEach(this.data.tabs, (tab: Tab, index: number) => {
         this.renderTabContent(tab, index)
       })
+      }
     }
     .width('100%')
     .height('100%')

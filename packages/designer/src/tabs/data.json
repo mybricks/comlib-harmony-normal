@@ -27,5 +27,6 @@
     "position": "smart"
   },
   "lastTabHeight": -1,
-  "contentShowType": "switch"
+  "contentShowType": "switch",
+  "hideContent": false
 }
