@@ -98,7 +98,7 @@ export default struct MyBricksContainerRow {
     } else if (item.widthMode === 'fit-content') {
       columnStyle.width = 'fit-content'
     } else if (item.widthMode === 'number') {
-      // widthLayout.width = item.width
+      columnStyle.width = item.width
     } else if (item.widthMode === 'percent') {
       columnStyle.width = `${item.width}%`
     }
@@ -115,6 +115,7 @@ export default struct MyBricksContainerRow {
             id: item.id,
           })
         }
+        .flexShrink(item.widthMode === 'auto' ? 1 : 0)
         .attributeModifier(
           new ColumnModifier(this.getColumnStyle(item))
         )
