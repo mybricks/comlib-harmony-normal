@@ -134,13 +134,15 @@ export default struct MyBricksFormRadio{
     if (this.ready) {
       Flex({ direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row }) {
         ForEach(this.data.options, (item: Option, index: number) => {
-          Radio({ value: item.label, group: this.uniqueRroupId })
-            .checked(item.value === this.activeValue)
-            .radioStyle({
-              checkedBackgroundColor: this.selectedStyle.backgroundColor,
-              uncheckedBorderColor: this.unSelectedStyle.borderColor
-            })
-            .onChange((isChecked: boolean) => {
+
+          Row(){
+            Radio({ value: item.label, group: this.uniqueRroupId })
+              .checked(item.value === this.activeValue)
+              .radioStyle({
+                checkedBackgroundColor: this.selectedStyle.backgroundColor,
+                uncheckedBorderColor: this.unSelectedStyle.borderColor
+              })
+              .onChange((isChecked: boolean) => {
                 if (isChecked) {
                   this.activeValue = item.value
                   this.outputs?.onChange(item.value)
@@ -149,7 +151,13 @@ export default struct MyBricksFormRadio{
                     value:item.value,
                   });
                 }
+              })
+
+            Text(item.label).fontSize(13).margin({
+              left:1
             })
+          }
+
         })
       }
       .width('100%')

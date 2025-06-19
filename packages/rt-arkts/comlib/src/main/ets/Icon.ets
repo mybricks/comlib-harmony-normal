@@ -56,14 +56,18 @@ export default struct MyBricksIcon {
         .fontWeight(this.data.fontWeight)
         .fontColor([this.data.fontColor?.[0], Color.White])
         .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-        .width(this.data.fontSize)
+        .width("auto")
         .height(this.data.fontSize)
         .onClick(()=>{
           this.outputs?.onClick()
         })
+
     }
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-icon'])
+    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

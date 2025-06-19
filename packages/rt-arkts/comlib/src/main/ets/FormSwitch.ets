@@ -8,6 +8,7 @@ export interface DataType {
   name: string
   value: boolean
   type: 'switch' | 'checkbox'
+  backgroundColor: string
 }
 
 // Data 类实现
@@ -19,6 +20,7 @@ export class Data implements DataType {
   @Trace value: boolean
   @Trace type: 'switch' | 'checkbox'
   @Trace disabled: boolean = false
+  @Trace backgroundColor: string = ''
 
   constructor(config?: Partial<DataType>) {
     // 默认值
@@ -27,6 +29,7 @@ export class Data implements DataType {
     this.name = config?.name ?? '开关'
     this.value = config?.value ?? false
     this.type = config?.type ?? 'switch'
+    this.backgroundColor = config?.backgroundColor ?? ''
   }
 }
 
@@ -84,6 +87,7 @@ export default struct MyBricksFormSwitch {
             value:this.data.value,
           });
         })
+        .selectedColor(this.data.backgroundColor)
     }
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)
