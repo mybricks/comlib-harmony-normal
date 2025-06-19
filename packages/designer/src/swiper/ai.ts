@@ -42,10 +42,10 @@ styleAry声明
     contentType: 'custom',
   }}
 > // 注意: contentType为custom时，渲染插槽里的自定义内容，插槽要和items数量保持一致
-  <slots.item1 title="轮播项" layout={{ width: '100%' }}>
-  </slots.item1>
-  <slots.item2 title="轮播项" layout={{ width: '100%' }}>
-  </slots.item2>
+  <slots.slot_item1 title="轮播项" layout={{ width: '100%' }}>
+  </slots.slot_item1>
+  <slots.slot_item2 title="轮播项" layout={{ width: '100%' }}>
+  </slots.slot_item2>
 </mybricks.harmony.swiper>
 \`\`\`
 

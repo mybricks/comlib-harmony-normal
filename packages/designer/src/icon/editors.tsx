@@ -2,8 +2,8 @@ import IconSelector from "./editors/icon-selector";
 
 export default {
   "@init": ({ style, data }) => {
-    style.width = "auto";
-    style.height = "auto";
+    style.width = data.fontSize;
+    style.height = data.fontSize;
   },
   "@resize": {
     options: ["width", "height"],
