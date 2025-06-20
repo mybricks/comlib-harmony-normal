@@ -126,30 +126,28 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       instance.borderStyle(settingBorder.style)
       instance.borderColor(settingBorder.color)
     }
-    if ([this.css.borderTop, this.css.borderBottom, this.css.borderLeft, this.css.borderRight].every(item => !isNil(item) && typeof item === 'string')) {
-      const borderTop = parseBorder(this.css.borderTop as string)
-      const borderLeft = parseBorder(this.css.borderLeft as string)
-      const borderRight = parseBorder(this.css.borderRight as string)
-      const borderBottom = parseBorder(this.css.borderBottom as string)
-      instance.borderWidth({
-        top: borderTop.width,
-        left: borderLeft.width,
-        right: borderRight.width,
-        bottom: borderBottom.width
-      })
-      instance.borderStyle({
-        top: borderTop.style,
-        left: borderLeft.style,
-        right: borderRight.style,
-        bottom: borderBottom.style
-      })
-      instance.borderColor({
-        top: borderTop.color,
-        left: borderLeft.color,
-        right: borderRight.color,
-        bottom: borderBottom.color
-      })
-    }
+    const borderTop = parseBorder(this.css.borderTop as string)
+    const borderLeft = parseBorder(this.css.borderLeft as string)
+    const borderRight = parseBorder(this.css.borderRight as string)
+    const borderBottom = parseBorder(this.css.borderBottom as string)
+    instance.borderWidth({
+      top: borderTop.width,
+      left: borderLeft.width,
+      right: borderRight.width,
+      bottom: borderBottom.width
+    })
+    instance.borderStyle({
+      top: borderTop.style,
+      left: borderLeft.style,
+      right: borderRight.style,
+      bottom: borderBottom.style
+    })
+    instance.borderColor({
+      top: borderTop.color,
+      left: borderLeft.color,
+      right: borderRight.color,
+      bottom: borderBottom.color
+    })
 
     let paddingTop = this.initPadding?.top ?? 0
     let paddingLeft = this.initPadding?.left ?? 0
@@ -187,10 +185,10 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       })
     } else {
       instance.padding({
-        left: paddingLeft,
-        right: paddingRight,
-        top: paddingTop,
-        bottom: paddingBottom
+        left: this.css.paddingLeft,
+        right: this.css.paddingRight,
+        top: this.css.paddingTop,
+        bottom: this.css.paddingBottom
       })
     }
 
@@ -275,11 +273,14 @@ export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute |
 
 
 interface BorderRsult {
-  width: number
-  style: BorderStyle
-  color: string | Color
+  width?: number
+  style?: BorderStyle
+  color?: string | Color
 }
 function parseBorder(borderStr: string): BorderRsult {
+  if (!borderStr) {
+    return {}
+  }
   const match = borderStr.match(/^(\d*\.?\d+\w+)\s+(solid|dashed|dotted)\s+(.+)$/);
 
   let style: BorderStyle = BorderStyle.Solid

@@ -1,4 +1,5 @@
 import {
+  ApplyStyleModifier,
   ApplyRootStyleModifier,
   CSSProperties
 } from './utils/GetDesignStyle'
@@ -6,6 +7,10 @@ import { AnyType } from './types'
 
 interface SlotStyle {
   flexDirection: "column" | "row"
+  justifyContent: 'flex-start' | 'center' | 'flex-end' | 'space-around' | 'space-between'
+  alignItems: 'flex-start' | 'center' | 'flex-end'
+  height: Length
+  width: Length
 }
 interface Item {
   id: string;
@@ -21,13 +26,21 @@ export interface DataType {
 @ObservedV2
 export class Data implements DataType {
   slotStyle: SlotStyle = {
-    flexDirection: 'column'
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    height: 'fit-content',
+    width: 'fit-content'
   };
   items: Item[] = [];
 
   constructor(config: DataType) {
     this.slotStyle = config?.slotStyle || {
-      flexDirection: 'column'
+      flexDirection: 'column',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      height: 'fit-content',
+      width: 'fit-content'
     }
     this.items = config.items || []
   }
@@ -76,6 +89,10 @@ class ColumnModifier implements AttributeModifier<ColumnAttribute> {
   }
 }
 
+interface GeneratedObjectLiteralInterface_1 {
+  direction: FlexDirection;
+}
+
 @ComponentV2
 export default struct MyBricksContainerRow {
   @Param data: Data = new Data({});
@@ -105,10 +122,52 @@ export default struct MyBricksContainerRow {
     return columnStyle
   }
 
+  getRootFlexOptions() {
+    const flexOptions: FlexOptions = {}
+
+    flexOptions.direction = this.data.slotStyle.flexDirection === "column" ? FlexDirection.Column : FlexDirection.Row
+
+    switch (this.data.slotStyle.justifyContent) {
+      case 'flex-start':
+        flexOptions.justifyContent = FlexAlign.Start
+        break
+      case 'center':
+        flexOptions.justifyContent = FlexAlign.Center
+        break
+      case 'flex-end':
+        flexOptions.justifyContent = FlexAlign.End
+        break
+      case 'space-around':
+        flexOptions.justifyContent = FlexAlign.SpaceAround
+        break
+      case 'space-between':
+        flexOptions.justifyContent = FlexAlign.SpaceBetween
+        break
+      default:
+        flexOptions.justifyContent = FlexAlign.Start
+        break
+    }
+
+    switch (this.data.slotStyle.alignItems) {
+      case 'flex-start':
+        flexOptions.alignItems = ItemAlign.Start
+        break
+      case 'center':
+        flexOptions.alignItems = ItemAlign.Center
+        break
+      case 'flex-end':
+        flexOptions.alignItems = ItemAlign.End
+        break
+      default:
+        flexOptions.alignItems = ItemAlign.Start
+        break
+    }
+
+    return flexOptions
+  }
+
   build() {
-    Flex({
-      direction: this.data.slotStyle.flexDirection === "column" ? FlexDirection.Column : FlexDirection.Row
-    }) {
+    Flex(this.getRootFlexOptions()) {
       ForEach(this.data.items, (item: Item) => {
         Column() {
           this.slots({
@@ -121,6 +180,11 @@ export default struct MyBricksContainerRow {
         )
       })
     }
+    .height(this.data.slotStyle.height)
+    .width(this.data.slotStyle.width)
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles[':root'])
+    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
