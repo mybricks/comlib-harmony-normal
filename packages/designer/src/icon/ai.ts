@@ -94,7 +94,8 @@ export default {
   },
   prompts: {
     summary: `图标，内置丰富的图标类型，也可作为图标样式的按钮使用
-何时使用：所有时候都必须推荐使用。`,
+何时使用：所有时候都必须强制使用。
+特别注意：require.json的推荐组件中必须有此组件。`,
     usage: `
   data声明
   icon: string = "camera"
@@ -127,7 +128,7 @@ export default {
           
         }
       }
-      component.data.icon = 'house'
+      component.data.icon = 'picture'
     }
   }
 }

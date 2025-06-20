@@ -4,12 +4,17 @@ export default {
     return {}
   },
   prompts: {
-    summary: '多行输入textarea',
+    summary: '下拉选择，点击弹出下拉选择picker',
     usage: `data声明
-label: string = "多行输入"
-name: string = "多行输入"
-value: string = "" # 输入框值
-placeholder: string = "请输入内容" # 占位提示文本
+label: string = "下拉选择"
+name: string = "下拉选择"
+placeholder: string = "点击选择"
+value: string = ""
+options: Array<{
+  label: string,
+  value: string
+}>
+arrow: 'right' | 'down' | 'none' = 'right'
 
 schema声明
 form-item
@@ -18,7 +23,8 @@ styleAry声明
 输入框: .input
   - 默认样式:
     - border: none
-  - 可编辑样式: 无
+  - 可编辑样式: 
+    - 无（非必要不加边框，不然会有割裂感）
 内容文本: .text
   - 默认样式:
     - color: #323233
@@ -37,13 +43,13 @@ height: 不可配置，默认为fit-content`
   modifyTptJson: (component) => {
     component.style?.styleAry?.forEach?.((style, index) => {
       if (style.selector === ".input") {
-        style.selector = ".taroify-textarea__wrapper"
+        style.selector = [".mybricks-select", ".mybricks-h5Select"]
       }
       if (style.selector === ".text") {
-        style.selector = [".taroify-textarea__wrapper .mybricks-textarea", ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea"]
+        style.selector = `#a-${component?.id} .mybricks-input`
       }
       if (style.selector === ".placeholder") {
-        style.selector = [".taroify-textarea__wrapper .taroify-textarea__placeholder", ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder"]
+        style.selector = `#a-${component?.id} .mybricks-placeholder`
       }
     })
   }

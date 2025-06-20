@@ -8,10 +8,11 @@ export const SymbolGlyph = ({
   fontSize = 16,
   fontColor = [],
   fontWeight = 400,
-  name
+  name,
+  className = ''
 }) => {
   return (
-    <View class={css.hmIcon} style={{ fontSize, color: fontColor?.[0], fontWeight }}>
+    <View class={`${css.hmIcon} ${className}`} style={{ fontSize, color: fontColor?.[0], fontWeight }}>
       {SystemIcons[name]}
     </View>
   )

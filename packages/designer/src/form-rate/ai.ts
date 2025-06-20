@@ -26,6 +26,12 @@ width: 可配置
 height: 不可配置，默认为fit-content`
   },
   modifyTptJson: (component) => {
-    
+    if (!component?.data) {
+      component.data = {}
+    }
+    component.data = {
+      ...component.data,
+      allowHalf: false
+    }
   }
 }

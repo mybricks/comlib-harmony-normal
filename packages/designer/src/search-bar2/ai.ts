@@ -1,24 +1,25 @@
 export default {
-  ignore: true
+  ignore: true,
 //   ':root' ({ data }) {
 //     return {}
 //   },
 //   prompts: {
-//     summary: '搜索框组件，搜索框内含有搜索图标的组件',
+//     summary: '搜索框组件，搜索框内左侧含有搜索图标，也支持在右侧展示一个搜索按钮',
 //     usage: `data声明
 // placeholderText: string = "请输入关键词"
-// label?: string # 搜索框左侧文本，无则不展示
-// showSearchButton: boolean = true # 搜索框右侧圆角按钮，false则不展示
+// showSearchButton: boolean = false # 搜索框右侧按钮，false则不展示
+// searchButtonText?: string = "搜索" # 右侧按钮的文本内容
 
 // styleAry声明
 // 输入框: .searchBar
 //   - 默认样式:
-//     - border: none
+//     - borderRadius: 2px
 //     - paddingLeft: 12px
-//     - paddingRight: 12px
-//   - 可编辑样式: 
-//     - background
-//     - border（非必要不加边框，不然会有割裂感）
+//     - paddingRight: 3px
+//     - paddingTop: 3px
+//     - paddingBottom: 3px
+//     - backgroundColor: #f7f8fa
+//   - 可编辑样式: background、padding、border（非必要不加边框，不然会有割裂感）相关
 // 输入框文本: .text
 //   - 默认样式:
 //     - color: #323233
@@ -35,12 +36,10 @@ export default {
 //   - 默认样式:
 //     - color: #ffffff
 //     - background: #fa6400
-//     - width: 80px
-//     - height: 33px
-//     - margin-right: 8px
-//     - border-radius: 60px
+//     - width: 50px
+//     - borderRadius: 2px
 //   - 可编辑样式:
-//     - color、background、width、height、marginRight、borderRadius`
+//     - color、background、width、border相关`
 //   },
 //   modifyTptJson: (component) => {
 //     component?.style?.styleAry?.forEach((style, index) => {
@@ -48,10 +47,10 @@ export default {
 //         style.selector = ".mybricks-searchBar"
 //       }
 //       if (style.selector == ".text") {
-//         style.selector = ".mybricks-searchBar .mybricks-searchBar-input .taroify-input"
+//         style.selector = ".mybricks-searchBar-input .taroify-native-input"
 //       }
 //       if (style.selector == ".placeholder") {
-//         style.selector = ".mybricks-searchBar .mybricks-searchBar-input .taroify-input__placeholder"
+//         style.selector = ".mybricks-searchBar-input .taroify-native-input::placeholder"
 //       }
 //       if (style.selector == ".button") {
 //         style.selector = ".mybricks-searchButton"

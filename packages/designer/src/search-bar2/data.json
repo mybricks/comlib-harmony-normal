@@ -1,0 +1,11 @@
+{
+  "placeholderText": "请输入关键词",
+  "label": "",
+  "disabled": false,
+  "showSearchIcon": true,
+  "showSearchButton": false,
+  "searchButtonText": "搜索",
+  "iconDistance": 4,
+  "autoFocus": false,
+  "clearable": false
+}

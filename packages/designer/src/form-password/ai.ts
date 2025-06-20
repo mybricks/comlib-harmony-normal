@@ -5,7 +5,7 @@ export default {
   },
   prompts: {
     summary: '密码输入框',
-    usage: `data数据模型
+    usage: `data声明
 label: string = "密码输入"
 name: string = "密码输入"
 placeholder: string = "请输入密码"
