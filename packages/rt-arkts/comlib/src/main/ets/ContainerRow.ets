@@ -80,8 +80,11 @@ class ColumnModifier implements AttributeModifier<ColumnAttribute> {
 
     if (style.width || (typeof style.width === "number")) {
       instance.width(style.width)
+    }
+
+    if (typeof style.minWidth === "number") {
       instance.constraintSize({
-        minWidth: style.width
+        minWidth: style.minWidth
       })
     }
 
