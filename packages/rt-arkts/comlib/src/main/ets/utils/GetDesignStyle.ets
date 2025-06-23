@@ -125,29 +125,30 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       instance.borderWidth(settingBorder.width)
       instance.borderStyle(settingBorder.style)
       instance.borderColor(settingBorder.color)
+    } else {
+      const borderTop = parseBorder(this.css.borderTop as string)
+      const borderLeft = parseBorder(this.css.borderLeft as string)
+      const borderRight = parseBorder(this.css.borderRight as string)
+      const borderBottom = parseBorder(this.css.borderBottom as string)
+      instance.borderWidth({
+        top: borderTop.width,
+        left: borderLeft.width,
+        right: borderRight.width,
+        bottom: borderBottom.width
+      })
+      instance.borderStyle({
+        top: borderTop.style,
+        left: borderLeft.style,
+        right: borderRight.style,
+        bottom: borderBottom.style
+      })
+      instance.borderColor({
+        top: borderTop.color,
+        left: borderLeft.color,
+        right: borderRight.color,
+        bottom: borderBottom.color
+      })
     }
-    const borderTop = parseBorder(this.css.borderTop as string)
-    const borderLeft = parseBorder(this.css.borderLeft as string)
-    const borderRight = parseBorder(this.css.borderRight as string)
-    const borderBottom = parseBorder(this.css.borderBottom as string)
-    instance.borderWidth({
-      top: borderTop.width,
-      left: borderLeft.width,
-      right: borderRight.width,
-      bottom: borderBottom.width
-    })
-    instance.borderStyle({
-      top: borderTop.style,
-      left: borderLeft.style,
-      right: borderRight.style,
-      bottom: borderBottom.style
-    })
-    instance.borderColor({
-      top: borderTop.color,
-      left: borderLeft.color,
-      right: borderRight.color,
-      bottom: borderBottom.color
-    })
 
     let paddingTop = this.initPadding?.top ?? 0
     let paddingLeft = this.initPadding?.left ?? 0
