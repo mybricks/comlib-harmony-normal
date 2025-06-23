@@ -58,13 +58,17 @@ export default struct MyBricksIcon {
         .renderingStrategy(SymbolRenderingStrategy.SINGLE)
         .width("auto")
         .height(this.data.fontSize)
-
+        .position({
+          left: '50%',
+          top: '50%',
+        })
+        .translate({ y: '-50%', x: '-50%' })
     }
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center)
     .onClick(()=>{
       this.outputs?.onClick()
     })
-    .alignItems(HorizontalAlign.Center)
-    .justifyContent(FlexAlign.Center)
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-icon'])
     )

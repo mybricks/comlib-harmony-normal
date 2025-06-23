@@ -5,7 +5,10 @@ export default {
     return {}
   },
   prompts: {
-    summary: '表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮',
+    summary: `表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮
+何时使用：仅在需要搜集信息的表单页面中使用，其他时候可以直接使用表单项组件搭建而成
+特别注意：使用此组件必须引用其他schema=form-item的组件的表单项组件
+`,
     usage: `
   data声明
   submitButtonText: string = "提交"
