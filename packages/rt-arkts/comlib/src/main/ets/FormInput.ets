@@ -159,11 +159,13 @@ export default struct MyBricksFormInput {
             .fontSize(14)
             .fontColor('#000000')
         )
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
-            .backgroundColor(Color.Transparent)
-        )
-    }.attributeModifier(
+
+    }
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
+      .backgroundColor(Color.Transparent)
+    )
+    .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
   }

@@ -378,6 +378,9 @@ export default {
         },
         {
           title: "内容展示方式",
+          ifVisible({ data }: EditorResult<Data>) {
+            return !data.hideContent;
+          },
           type: "radio",
           description:
             "锚定显示：在同一个页面显示所有内容，点击后滚动到对应区域；切换显示：在不同页面显示对应的侧边栏内容",
@@ -409,7 +412,7 @@ export default {
         //     },
         //   },
         // },
-        {},
+        // {},
         // {
         //   title: "内容区",
         //   items: [
@@ -585,7 +588,7 @@ export default {
                   { type: "font", config: { disableTextAlign: true } },
                   { type: "size" },
                   { type: "border" },
-                  { type: "padding" },
+                  // { type: "padding" },
                   { type: "background" },
                 ],
               },

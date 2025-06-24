@@ -312,7 +312,8 @@ export default struct MyBricksTabs {
             this.styles[this.currentTabId === tab._id ? '.taroify-tabs__tab--active' : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
           )) //样式编辑器配置背景
         })
-      }
+      }.attributeModifier(new ApplyStyleModifier(this.styles['.taroify-tabs__wrap .taroify-tabs__wrap__scroll']))
+
       if(!this.data.hideContent){
         ForEach(this.data.tabs, (tab: Tab, index: number) => {
           this.renderTabContent(tab, index)

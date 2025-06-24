@@ -153,7 +153,7 @@ export default {
             onAdd(_id) {
               slots.add({
                 id: `slot_${_id}`,
-                title: `轮播项${data._count+=1}`,
+                title: `轮播项${data._count += 1}`,
               });
 
               return {};
