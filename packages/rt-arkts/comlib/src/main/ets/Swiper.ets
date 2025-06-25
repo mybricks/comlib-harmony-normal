@@ -79,11 +79,11 @@ export default struct MyBricksSwiper {
 
     //获取指示器选中颜色
     const indicatorColor = this.styles[".mybricks-swiper-wrapper .indicator.indicator-active"]
-    this.indicatorColor = indicatorColor.backgroundColor
+    this.indicatorColor = indicatorColor?.backgroundColor
 
     //获取指示器非选中颜色
     const indicatorColorDefault = this.styles[".mybricks-swiper-wrapper .indicator:not(.indicator-active)"]
-    this.indicatorColorDefault = indicatorColorDefault.backgroundColor
+    this.indicatorColorDefault = indicatorColorDefault?.backgroundColor
   }
 
   build() {
