@@ -93,6 +93,7 @@ export default struct MyBricksFormInput {
   @Param parentSlot?: AnyType = undefined;
 
   aboutToAppear(): void {
+    
     this.inputs?.setDisabled((val, outputRels: AnyType) => {
       this.data.disabled = true;
     })
@@ -154,17 +155,16 @@ export default struct MyBricksFormInput {
             value,
           });
         })
+        .backgroundColor(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.backgroundColor ?? "#F5F5F5")
         .attributeModifier(
-          new ApplyFontStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
+          new ApplyFontStyleModifier(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input'])
             .fontSize(14)
             .fontColor('#000000')
         )
+        .borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
 
     }
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
-      .backgroundColor(Color.Transparent)
-    )
+
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
