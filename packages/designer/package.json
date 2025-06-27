@@ -1,6 +1,6 @@
 {
   "name": "@mybricks/comlib-harmony-normal",
-  "version": "0.0.22",
+  "version": "1.0.20",
   "description": "通用鸿蒙组件库",
   "main": "index.js",
   "repository": {
