@@ -298,8 +298,7 @@ export default struct MyBricksTabs {
                   .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
                   .height(this.parseStyleValue(this.styles['.taroify-tabs__line']?.height) || 3)
                   .zIndex(-1)
-                  .backgroundColor(this.currentTabId === tab._id ? this.styles['.taroify-tabs__line']?.backgroundColor :
-                  Color.Transparent)
+                  .backgroundColor(this.styles['.taroify-tabs__line']?.backgroundColor || "#EE0A24")
               } else {
                 Column()
                   .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
