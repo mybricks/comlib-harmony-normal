@@ -169,7 +169,7 @@ export default struct MyBricksFormStepper {
       }
 
     }
-    .alignItems(HorizontalAlign.Start)
+    .alignItems(HorizontalAlign.End)
     .justifyContent(FlexAlign.Start)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
