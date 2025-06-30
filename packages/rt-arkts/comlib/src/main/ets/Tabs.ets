@@ -130,10 +130,14 @@ export default struct MyBricksTabs {
   @Local windowHeight: number = 0
   @Local windowWidth: number = 0
   @Local safeAreaHeight: number = 0
-  @Local screenWidth: number = 0
   @Local tabsTextColor: AnyType = ''
   @Local tabsTextColorActive: AnyType = ''
   @Local tabsLineStyle: AnyType = ''
+
+  @Local contentWidth: AnyType = 0
+  @Local screenWidth: AnyType = 0
+
+  private scroller: Scroller = new Scroller()
 
   async aboutToAppear() {
 
@@ -175,18 +179,40 @@ export default struct MyBricksTabs {
         })
       }
     });
-
-    this.screenWidth = vp2px(100)
-
-    console.log("screenWidth", this.screenWidth)
   }
 
-  getWidth(num: number) {
-    // return '100%'
-    // const res = 100 / num
-    const res = this.screenWidth / num
-    return res
+  private handleTabScroll(index: number) {
+    // 如果内容宽度小于等于屏幕宽度，不需要滚动
+    if (this.contentWidth <= this.screenWidth) {
+      return
+    }
+
+    // 计算每个标签的估计宽度
+    const tabWidth = this.parseStyleValue(this.styles['.taroify-tabs__tab--active']?.width) ||
+      (this.screenWidth / Math.min(this.data.tabs.length, 4))
+
+    let scrollPosition = 0
+
+    // 如果是最后几个标签
+    if (index >= this.data.tabs.length - 2) {
+      // 滚动到最右端，留出一定余量
+      scrollPosition = this.contentWidth - this.screenWidth
+    } else {
+      // 计算目标位置，使当前标签尽量居中
+      scrollPosition = Math.max(0, (tabWidth * index) - (this.screenWidth - tabWidth) / 2)
+    }
+
+    // 使用动画滚动到目标位置
+    this.scroller.scrollTo({
+      xOffset: scrollPosition,
+      yOffset: 0,
+      animation: {
+        duration: 300,
+        curve: Curve.EaseOut
+      }
+    })
   }
+
 
   @Builder
   renderTabContent(tab: Tab, index: number) {
@@ -244,78 +270,92 @@ export default struct MyBricksTabs {
   build() {
     Column() {
       // 自定义tab顶部标签页
-      Row() {
-        ForEach(this.data.tabs, (tab: Tab, index: number) => {
-          Column() {
-            Text(tab.tabName)
-              .height('100%')// 占满高度
-              .layoutWeight(1)// .width("100%")
-              .textAlign(TextAlign.Center)
-              .fontColor(
-                this.styles[
-                this.currentTabId === tab._id
-                  ? '.taroify-tabs__tab--active'
-                  : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
-                ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
-              )
-              .fontSize(
-                this.styles[
-                this.currentTabId === tab._id
-                  ? '.taroify-tabs__tab--active'
-                  : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
-                ]?.fontSize || 14
-              )
+      Scroll(this.scroller) {
+        Row() {
+          ForEach(this.data.tabs, (tab: Tab, index: number) => {
+            Column() {
+              Text(tab.tabName)
+                .height('100%')// 占满高度
+                .layoutWeight(1)// .width("100%")
+                .textAlign(TextAlign.Center)
+                .fontColor(
+                  this.styles[
+                  this.currentTabId === tab._id
+                    ? '.taroify-tabs__tab--active'
+                    : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                  ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
+                )
+                .fontSize(
+                  this.styles[
+                  this.currentTabId === tab._id
+                    ? '.taroify-tabs__tab--active'
+                    : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                  ]?.fontSize || 14
+                )
 
-            if (this.currentTabId === tab._id) {
-              Column()
-                .width(this.parseStyleValue(this.styles['.taroify-tabs__line'].width) || 45)
-                .height(this.parseStyleValue(this.styles['.taroify-tabs__line'].height) || 3)
-                .zIndex(-1)
-                .backgroundColor(this.currentTabId === tab._id ? this.styles['.taroify-tabs__line'].backgroundColor :
-                Color.Transparent)
-            } else {
-              Column()
-                .width(this.parseStyleValue(this.styles['.taroify-tabs__line'].width) || 45)
-                .height(this.parseStyleValue(this.styles['.taroify-tabs__line'].height) || 3)
-                .zIndex(-1)
-                .backgroundColor(Color.Transparent)
+              if (this.currentTabId === tab._id) {
+                Column()
+                  .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
+                  .height(this.parseStyleValue(this.styles['.taroify-tabs__line']?.height) || 3)
+                  .zIndex(-1)
+                  .backgroundColor(this.currentTabId === tab._id ? this.styles['.taroify-tabs__line']?.backgroundColor :
+                  Color.Transparent)
+              } else {
+                Column()
+                  .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
+                  .height(this.parseStyleValue(this.styles['.taroify-tabs__line']?.height) || 3)
+                  .zIndex(-1)
+                  .backgroundColor(Color.Transparent)
+
+              }
 
             }
+            .onClick(() => {
+              // this.currentTabId = tab._id
+              this.currentTabIndex = index
+              const tab = this.data.tabs[index]
+              this.setCurrentTabId(tab._id)
 
-          }
-          .onClick(() => {
-            // this.currentTabId = tab._id
-            this.currentTabIndex = index
-            const tab = this.data.tabs[index]
-            this.setCurrentTabId(tab._id)
-          })
-          .backgroundImageSize(ImageSize.Cover) // 或 ImageSize.Contain
-          .backgroundImagePosition(Alignment.Center) // 设置背景图片居中
-          .height(44)
-          // .flexGrow(1)  // 让Text填充剩余空间
-          .layoutWeight(this.data.tabWidthType === 'fill' ? 1 : '')
-          .alignItems(HorizontalAlign.Center)
-          .justifyContent(FlexAlign.Center)
-          .attributeModifier(new ApplyStyleModifier(
-            this.styles[this.currentTabId === tab._id ? '.taroify-tabs__tab--active' :
-              '.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
-          ))
-          .padding({
-            left: this.styles[
-            this.currentTabId === tab._id
-              ? '.taroify-tabs__tab--active'
-              : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
-            ]?.paddingLeft || 12,
-            right: this.styles[
-            this.currentTabId === tab._id
-              ? '.taroify-tabs__tab--active'
-              : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
-            ]?.paddingRight || 12,
-          })
+              this.handleTabScroll(index)
+            })
+            .backgroundImageSize(ImageSize.Cover) // 或 ImageSize.Contain
+            .backgroundImagePosition(Alignment.Center) // 设置背景图片居中
+            .height(44)
+            // .flexGrow(1)  // 让Text填充剩余空间
+            .layoutWeight(this.data.tabWidthType === 'fill' ? 1 : '')
+            .alignItems(HorizontalAlign.Center)
+            .justifyContent(FlexAlign.Center)
+            .attributeModifier(new ApplyStyleModifier(
+              this.styles[this.currentTabId === tab._id ? '.taroify-tabs__tab--active' :
+                '.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
+            ))
+            .padding({
+              left: this.styles[
+              this.currentTabId === tab._id
+                ? '.taroify-tabs__tab--active'
+                : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+              ]?.paddingLeft || 12,
+              right: this.styles[
+              this.currentTabId === tab._id
+                ? '.taroify-tabs__tab--active'
+                : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+              ]?.paddingRight || 12,
+            })
 
+          })
+        }.onAreaChange((oldArea: Area, newArea: Area)=>{
+          this.contentWidth = newArea.width
         })
+
+
       }
       .width('100%')
+      .onAreaChange((oldArea: Area, newArea: Area)=>{
+        this.screenWidth = newArea.width
+      })
+      .scrollable(this.contentWidth > this.screenWidth ? ScrollDirection.Horizontal : ScrollDirection.None) // 设置横向滚动
+      .scrollBar(BarState.Off)  // 隐藏滚动条
+      .edgeEffect(EdgeEffect.Spring) // 设置滚动到边缘时的效果
       .attributeModifier(new ApplyStyleModifier(this.styles['.taroify-tabs__wrap .taroify-tabs__wrap__scroll']))
 
       if (!this.data.hideContent) {

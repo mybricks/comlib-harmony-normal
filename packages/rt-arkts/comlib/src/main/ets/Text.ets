@@ -3,14 +3,20 @@ import { AnyType } from './types'
 
 export interface DataType {
   text: string
+  ellipsis?: boolean
+  maxLines?: number
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace text: string
+  @Trace ellipsis: boolean
+  @Trace maxLines: number
 
   constructor(config: DataType) {
     this.text = config.text
+    this.ellipsis = config?.ellipsis || false
+    this.maxLines = config?.maxLines || 1
   }
 }
 
@@ -43,6 +49,8 @@ export default struct MyBricksText {
     Column() {
       Text(this.data.text)
         .wordBreak(WordBreak.BREAK_WORD)
+        .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None }) // 超出显示省略号
+        .maxLines(this.data.maxLines)  // 设置最大行数为1
         .halfLeading(true) // 添加了这个文本就可以垂直居中
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-text'])
