@@ -48,10 +48,13 @@ export default struct MyBricksText {
   build() {
     Column() {
       Text(this.data.text)
+        .lineBreakStrategy(LineBreakStrategy.GREEDY)
         .wordBreak(WordBreak.BREAK_WORD)
         .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None }) // 超出显示省略号
-        .maxLines(this.data.maxLines)  // 设置最大行数为1
+        .maxLines(this.data.ellipsis ? this.data.maxLines : undefined)  // 设置最大行数为1
         .halfLeading(true) // 添加了这个文本就可以垂直居中
+        .width('100%')
+        .height('auto')
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-text'])
             .fontSize(14)
