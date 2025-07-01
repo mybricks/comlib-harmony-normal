@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern } from './utils/StyleMatching'
 
 type InputAlignType = 'left' | 'right' | 'center';
 
@@ -155,13 +156,25 @@ export default struct MyBricksFormInput {
             value,
           });
         })
-        .backgroundColor(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.backgroundColor ?? "#F5F5F5")
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input'])
             .fontSize(14)
             .fontColor('#000000')
         )
-        .borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
+        //.backgroundColor(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.backgroundColor ?? "#F5F5F5")
+        .backgroundColor(getStyleValueByPattern(
+          this.styles,
+          ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
+          'backgroundColor',
+          '#F5F5F5'
+        ))
+        //.borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
+        .borderRadius(getStyleValueByPattern(
+          this.styles,
+          ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
+          'borderRadius',
+          10
+        ))
 
     }
 
