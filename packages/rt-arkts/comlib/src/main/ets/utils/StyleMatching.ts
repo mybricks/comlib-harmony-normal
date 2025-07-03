@@ -1,6 +1,6 @@
 import { AnyType } from '../types'
 
-export  function getStyleValueByPattern<T>(
+export function getStyleValueByPattern<T>(
   styles: Record<string, AnyType>,
   selectorParts: string[],
   property?: string,
@@ -30,14 +30,14 @@ export  function getStyleValueByPattern<T>(
   const matchingKey = Object.keys(styles).find(key =>
   normalizeSelector(key) === targetSelector
   );
-  if(property){
+  if (property) {
     return matchingKey ? processValue(styles[matchingKey][property]) : defaultValue;
-  }else{
+  } else {
     return matchingKey ? styles[matchingKey] : defaultValue;
   }
 }
 
-export function parseRadius(radiusStr:string):AnyType {
+export function parseRadius(radiusStr: string): AnyType {
   const values = radiusStr.trim().split(/\s+/);
   const numbers = values.map(val => parseInt(val));
   switch (numbers.length) {
@@ -110,4 +110,30 @@ export function parseLinearGradient(gradientStr: string): GradientResult {
       colors: []
     };
   }
+}
+
+export function parseBorder(borderStr: string, defaultColor: string = "#fff", defaultWidth: number = 1) {
+  // 确保输入是字符串
+  if (!borderStr) {
+    return {
+      width: defaultWidth,
+      color:defaultColor
+    }
+  }
+  if (typeof borderStr !== 'string') {
+    throw new Error('Input must be a string');
+  }
+
+  // 提取宽度
+  const widthMatch = borderStr.match(/(\d+)px/);
+  const width = widthMatch ? parseInt(widthMatch[1]) : void 0;
+
+  // 提取RGB颜色
+  const rgbMatch = borderStr.match(/rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/);
+  const color = rgbMatch ? `rgb(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]})` : void 0;
+
+  return {
+    width: width || defaultWidth,
+    color: color || defaultColor
+  };
 }

@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseBorder } from './utils/StyleMatching'
 
 // Data Option 接口定义
 export interface Option {
@@ -78,7 +79,7 @@ export default struct MyBricksFormCheckbox{
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor || '#BBBBBB',
+      border: style?.border,
       backgroundColor: style?.backgroundColor,
       borderRadius: style?.borderRadius
     };
@@ -88,7 +89,7 @@ export default struct MyBricksFormCheckbox{
   get selectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-active .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor || '#1989FA', //默认值，对齐H5
+      border: style?.border, //默认值，对齐H5
       backgroundColor: style?.backgroundColor || '#1989FA', //默认值，对齐H5
       borderRadius: style?.borderRadius
     };
@@ -164,12 +165,10 @@ export default struct MyBricksFormCheckbox{
             .backgroundColor(this.selectedValues.includes(item.value)
               ? this.selectedStyle.backgroundColor
               : this.unSelectedStyle.backgroundColor)
-            .border({
-              width: 1,
-              color: this.selectedValues.includes(item.value)
-                ? this.selectedStyle.borderColor
-                : this.unSelectedStyle.borderColor
-            })
+            .border(this.selectedValues.includes(item.value)
+              ? parseBorder(this.selectedStyle.border,'#1989FA',1)
+              : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
+            )
             .onClick(() => {
               if (this.selectedValues.includes(item.value)) {
                 // 取消选中
