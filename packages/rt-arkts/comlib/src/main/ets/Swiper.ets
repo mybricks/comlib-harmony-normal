@@ -106,6 +106,7 @@ export default struct MyBricksSwiper {
           }
         })
       }
+      .height("100%")
       .autoPlay(this.data.autoplay)
       .duration(this.data.duration)
       .loop(this.data.circular)

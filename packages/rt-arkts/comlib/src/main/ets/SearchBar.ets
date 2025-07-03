@@ -1,5 +1,11 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import {
+  ApplyRootStyleModifier,
+  ApplyStyleModifier,
+  ApplyFontStyleModifier,
+  CSSProperties
+} from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern, parseRadius } from './utils/StyleMatching'
 
 type InputAlignType = 'left' | 'right' | 'center';
 
@@ -18,14 +24,14 @@ function convertInputAlignToTextAlign(align: InputAlignType): TextAlign {
 
 export interface DataType {
   placeholderText?: string
-  label?:string
-  disabled?:boolean
-  showSearchButton?:boolean
-  searchButtonText?:string
+  label?: string
+  disabled?: boolean
+  showSearchButton?: boolean
+  searchButtonText?: string
   iconDistance?: number
-  autoFocus?:boolean
-  clearable?:boolean
-  showSearchIcon?:boolean
+  autoFocus?: boolean
+  clearable?: boolean
+  showSearchIcon?: boolean
 }
 
 @ObservedV2
@@ -40,7 +46,6 @@ export class Data implements DataType {
   @Trace clearable?: boolean
   @Trace showSearchIcon?: boolean
 
-
   constructor(config?: DataType) {
     this.placeholderText = config?.placeholderText
     this.label = config?.label
@@ -50,14 +55,14 @@ export class Data implements DataType {
     this.iconDistance = config?.iconDistance
     this.autoFocus = config?.autoFocus
     this.clearable = config?.clearable
-    this.showSearchIcon = config?.showSearchIcon
+    this.showSearchIcon = config?.showSearchIcon || true
   }
 }
 
 interface Inputs {
   setValue: (fn: (val: string, outputRels?: void) => void) => void
   getValue: (fn: (val: AnyType, outputRels?: AnyType) => void) => void
-  focus: (fn:(val: AnyType, outputRels?: AnyType) => void) => void
+  focus: (fn: (val: AnyType, outputRels?: AnyType) => void) => void
 }
 
 interface Outputs {
@@ -70,6 +75,8 @@ interface Outputs {
   focusDone: (value: string) => void
 }
 
+
+
 @ComponentV2
 export default struct MyBricksSearchBar {
   @Param data: Data = new Data();
@@ -78,7 +85,6 @@ export default struct MyBricksSearchBar {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
-
   @Local value?: string
 
   aboutToAppear(): void {
@@ -98,49 +104,67 @@ export default struct MyBricksSearchBar {
 
   }
 
+  @Computed
+  get borderRadiusStyle(): AnyType {
+    const style:AnyType = getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'])
+    console.log("style",style)
+    if(style.borderRadius){
+      //统一的圆角值
+      return parseRadius(style.borderRadius)
+    }
+    return undefined
+  }
+
   build() {
     Column() {
-      Row(){
-        Text(this.data.label).textAlign(TextAlign.Center).width(this.data.label ? '10%': void 0).fontSize(13)
+      Row() {
+        Text(this.data.label).textAlign(TextAlign.Center).width(this.data.label ? '10%' : void 0).fontSize(13)
 
-        Row(){
-          if(this.data.showSearchIcon){
+        Row() {
+          if (this.data.showSearchIcon) {
             Image($r('sys.media.ohos_ic_public_search_filled'))
               .width(15)
               .height(15)
               .fillColor("#C4C2C2")
               .margin({
-                left:10,
-                right:5
+                left: 10,
+                right: 5
               })
           }
           TextInput({
-            placeholder:this.data.placeholderText,
-            text:this.value
+            placeholder: this.data.placeholderText,
+            text: this.value
           })
             .enabled(!this.data.disabled)
             .placeholderColor("#999999")
             .placeholderFont({
-              size:13
+              size: 13
             })
             .fontSize(13)
             .backgroundColor(Color.Transparent)
-            .layoutWeight(1) // 添加这一行使其占据剩余空间
-            .margin({right: 5}) // 添加右边距
-            .onChange((value)=>{
+            .layoutWeight(1)// 添加这一行使其占据剩余空间
+            // .margin({ right: 5 })// 添加右边距
+            .onChange((value) => {
               this.value = value
             })
-            .onClick((value)=>{
-              if(this.data.disabled){
+            .onClick((value) => {
+              if (this.data.disabled) {
                 this.outputs?.onClick(this.value || this.data.placeholderText || "")
               }
             })
             .defaultFocus(this.data.autoFocus)
+            .padding(0)
 
           if (this.data.showSearchButton) {
-            Button(this.data.searchButtonText)
-              .fontColor(Color.White)
-              .fontSize(14)
+            Button({ type: ButtonType.Normal }){
+              Text(this.data.searchButtonText)
+                .halfLeading(true)
+                .attributeModifier(
+                  new ApplyFontStyleModifier(this.styles['.mybricks-searchBar .mybricks-searchButton'])
+                    .fontSize(14)
+                    .fontColor('#ffffff')
+                )
+            }
               .margin({
                 right: 5,
                 top: 5,
@@ -148,24 +172,25 @@ export default struct MyBricksSearchBar {
                 left: 5
               })
               .onClick(() => {
-                if(this.data.disabled){
+                if (this.data.disabled) {
                   this.outputs?.onClick(this.value || this.data.placeholderText || "")
-                }else{
+                } else {
                   this.outputs?.onSearch(this.value ?? "")
                 }
 
               })
-              .width(60)
-              .height(30)
               .attributeModifier(
-              new ApplyStyleModifier(this.styles['.mybricks-searchButton'])
-                .backgroundColor("#00CF22")
+                new ApplyStyleModifier(this.styles['.mybricks-searchBar .mybricks-searchButton'])
+                  .backgroundColor("#3679FF")
+              )
+              .width(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "width", 60))
+              .height(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "height", 30))
+              .borderRadius(this.borderRadiusStyle)
 
-            )
           }
         }
         .onClick(() => {
-          if(this.data.disabled) {
+          if (this.data.disabled) {
             // 禁用状态下的点击事件
             this.outputs?.onClick(this.value || this.data.placeholderText || "")
           }
@@ -181,7 +206,6 @@ export default struct MyBricksSearchBar {
         )
 
       }.justifyContent(FlexAlign.Start)
-
 
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])

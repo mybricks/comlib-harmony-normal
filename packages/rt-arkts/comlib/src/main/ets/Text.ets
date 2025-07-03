@@ -53,7 +53,7 @@ export default struct MyBricksText {
         .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None }) // 超出显示省略号
         .maxLines(this.data.ellipsis ? this.data.maxLines : undefined)  // 设置最大行数为1
         .halfLeading(true) // 添加了这个文本就可以垂直居中
-        .width('100%')
+        // .width('100%') //这里不能是100%，会导致文本的宽度配置没有生效
         .height('auto')
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-text'])
