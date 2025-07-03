@@ -68,3 +68,46 @@ export function parseRadius(radiusStr:string):AnyType {
       return 0;
   }
 }
+
+interface GradientResult {
+  angle: number;
+  colors: Array<[string, number]>;
+}
+
+export function parseLinearGradient(gradientStr: string): GradientResult {
+  try {
+    // 移除 'linear-gradient(' 和最后的 ')'
+    const content: string = gradientStr.replace(/^linear-gradient\(|\)$/g, '');
+
+    // 使用正则表达式匹配角度
+    const angleMatch = content.match(/(\d+)deg/);
+    const angle: number = angleMatch ? parseInt(angleMatch[1]) : 0;
+
+    // 使用正则表达式匹配rgba颜色和百分比
+    const colorRegex = /rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)\s*\d+%/g;
+    const colorMatches = content.match(colorRegex);
+
+    const colors: Array<[string, number]> = [];
+
+    if (colorMatches) {
+      colorMatches.forEach(match => {
+        // 分离rgba和百分比
+        const lastSpaceIndex = match.lastIndexOf(' ');
+        const rgba = match.substring(0, lastSpaceIndex);
+        const percent = parseInt(match.substring(lastSpaceIndex).replace('%', ''));
+        colors.push([rgba, percent / 100]);
+      });
+    }
+
+    return {
+      angle: angle,
+      colors: colors
+    };
+  } catch (error) {
+    console.error('Invalid gradient string format:', error);
+    return {
+      angle: 0,
+      colors: []
+    };
+  }
+}
