@@ -156,6 +156,12 @@ export default struct MyBricksFormInput {
             value,
           });
         })
+        .padding(getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'padding', undefined) === undefined ? {
+          left:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingLeft', 0),
+          right:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingRight', 0),
+          top:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingTop', 0),
+          bottom:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingBottom', 0),
+        } : getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'padding', 0))
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input'])
             .fontSize(14)
@@ -166,16 +172,24 @@ export default struct MyBricksFormInput {
           this.styles,
           ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
           'backgroundColor',
-          '#F5F5F5'
+          '#FFF'
         ))
         //.borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
-        .borderRadius(getStyleValueByPattern(
+        .borderRadius(
+          getStyleValueByPattern(
           this.styles,
           ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
           'borderRadius',
-          10
+          0
         ))
-
+        // .height('100%')
+        .height(getStyleValueByPattern(
+          this.styles,
+          ['root'],
+          'height',
+          undefined
+        ))
+        .width('100%')
     }
 
     .attributeModifier(
