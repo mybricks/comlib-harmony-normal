@@ -77,8 +77,8 @@ export default struct MyBricksFormSwitch {
     })
 
     //获取开关颜色
-    const style = this.styles['.taroify-switch--checked']
-    this.switchColor = style.backgroundColor
+    const style = this.styles?.['.taroify-switch--checked']
+    this.switchColor = style?.backgroundColor
   }
 
   build() {
