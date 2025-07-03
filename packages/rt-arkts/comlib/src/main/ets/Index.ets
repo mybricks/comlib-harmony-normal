@@ -11,9 +11,9 @@ export {
 } from './_Format'
 
 export {
-  default as mybricks_harmony__TimerDelay,
-  DataType as mybricks_harmony__TimerDelay_DataType,
-  Data as mybricks_harmony__TimerDelay_Data
+  default as mybricks_harmony__timerDelay,
+  DataType as mybricks_harmony__timerDelay_DataType,
+  Data as mybricks_harmony__timerDelay_Data
 } from './_TimerDelay'
 
 export {
