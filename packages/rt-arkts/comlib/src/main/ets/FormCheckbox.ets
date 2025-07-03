@@ -68,7 +68,7 @@ export default struct MyBricksFormCheckbox{
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
-  @Local activeValue: string | number = ''
+  // @Local activeValue: string | number = ''
   @Local selectedValues: AnyType [] = [];
   @Local ready: boolean = true
 
@@ -96,32 +96,33 @@ export default struct MyBricksFormCheckbox{
     // 初始化值
     this.inputs?.setValue((val: AnyType, outputRels: AnyType) => {
       if (val === null || val === undefined) {
-        this.activeValue = ''
-      } else if (typeof val === 'string' || typeof val === 'number') {
-        this.activeValue = val
+        this.selectedValues = []
+      } else if (Array.isArray(val)) {
+        this.selectedValues = val
       }
-      outputRels?.['setValueComplete']?.(this.activeValue)
+      outputRels?.['setValueComplete']?.(this.selectedValues)
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
-      outputRels?.['returnValue'](this.activeValue)
+      outputRels?.['returnValue'](this.selectedValues)
     })
 
     this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.activeValue = ''
-      outputRels?.['resetValueComplete']?.('')
+      this.selectedValues = []
+      outputRels?.['resetValueComplete']?.([])
     })
 
     this.ready = this.data.defaultRenderMode === "dynamic" ? false : true
+
     this.inputs?.setOptions((val) => {
       if (Array.isArray(val)) {
         this.data.options = val
         this.ready = true
 
-        const checkedItem = val.filter(item => item.checked).pop()
-        if (checkedItem) {
-          this.activeValue = checkedItem.value
-        }
+        // const checkedItem = val.filter(item => item.checked).pop()
+        // if (checkedItem) {
+        //   this.activeValue = checkedItem.value
+        // }
       }
     })
 
