@@ -340,14 +340,19 @@ export default struct MyBricksTabs {
                 : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
               ]?.paddingRight || 12,
             })
+            .width('auto')
 
           })
-        }.onAreaChange((oldArea: Area, newArea: Area)=>{
+        }
+        .onAreaChange((oldArea: Area, newArea: Area)=>{
           this.contentWidth = newArea.width
         })
-
-
+        .justifyContent(FlexAlign.Start)
       }
+      .margin({
+        bottom:10
+      })
+      .align(Alignment.Start)
       .width('100%')
       .onAreaChange((oldArea: Area, newArea: Area)=>{
         this.screenWidth = newArea.width
