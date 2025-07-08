@@ -7,7 +7,7 @@ export default {
   prompts: {
     summary: `表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮
 何时使用：仅在需要搜集信息的表单页面中使用，其他时候可以直接使用表单项组件搭建而成
-特别注意：使用此组件必须引用其他schema=form-item的组件的表单项组件
+特别注意：使用此组件必须推荐其他schema=form-item的组件的表单项组件
 `,
     usage: `
   data声明
@@ -74,7 +74,7 @@ export default {
     </slots.content>
   </mybricks.harmony.formContainer>
   \`\`\`
-  注意：表单的插槽不允许子组件为flex，仅允许为表单项`
+  注意：表单的插槽不允许直接子组件为flex，仅允许schema=form-item的表单项组件。`
   },
   modifyTptJson: (component) => {
     if (!component?.data) {
