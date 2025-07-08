@@ -20,7 +20,7 @@ export function getStyleValueByPattern<T>(
       // 移除'px'并转换为数字
       return parseInt(value.replace('px', ''));
     }
-    return value || 0;
+    return value || undefined;
   };
 
   // 规范化目标选择器
@@ -30,11 +30,16 @@ export function getStyleValueByPattern<T>(
   const matchingKey = Object.keys(styles).find(key =>
   normalizeSelector(key) === targetSelector
   );
-  if (property) {
-    return matchingKey ? processValue(styles[matchingKey][property]) : defaultValue;
-  } else {
-    return matchingKey ? styles[matchingKey] : defaultValue;
+  if (!matchingKey) {
+    return defaultValue;
   }
+
+  if (property) {
+    const styleValue = styles?.[matchingKey]?.[property];
+    return styleValue ? processValue(styleValue) : defaultValue;
+  }
+
+  return styles[matchingKey] ?? defaultValue;
 }
 
 export function parseRadius(radiusStr: string): AnyType {

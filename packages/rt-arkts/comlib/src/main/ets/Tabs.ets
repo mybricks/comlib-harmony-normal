@@ -12,6 +12,8 @@ import { AnyType } from './types'
 
 import { getFilterSelector } from './utils/cssSelector';
 
+import { getStyleValueByPattern } from './utils/StyleMatching'
+
 type ContentShowType = "roll" | "switch"
 
 // Tab项定义
@@ -276,40 +278,41 @@ export default struct MyBricksTabs {
         Row() {
           ForEach(this.data.tabs, (tab: Tab, index: number) => {
             Column() {
-              Text(tab.tabName)
-                .height('100%')// 占满高度
-                .layoutWeight(1)// .width("100%")
-                .textAlign(TextAlign.Center)
-                .fontColor(
-                  this.styles[
-                  this.currentTabId === tab._id
-                    ? `.taroify-tabs__tab--active${getFilterSelector()}`
-                    : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-                  ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
-                )
-                .fontSize(
-                  this.styles[
-                  this.currentTabId === tab._id
-                    ? `.taroify-tabs__tab--active${getFilterSelector()}`
-                    : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-                  ]?.fontSize || 14
-                )
+              Stack({ alignContent: Alignment.Bottom }) {  // 使用Stack布局来实现绝对定位效果
+                Column() {
+                  Text(tab.tabName)
+                    .height('100%')
+                    .layoutWeight(1)
+                    .textAlign(TextAlign.Center)
+                    .fontColor(
+                      this.styles[
+                      this.currentTabId === tab._id
+                        ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                        : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
+                      ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
+                    )
+                    .fontSize(
+                      this.styles[
+                      this.currentTabId === tab._id
+                        ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                        : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
+                      ]?.fontSize || 14
+                    )
+                }
 
-              if (this.currentTabId === tab._id) {
                 Column()
                   .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) || 45)
                   .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) || 3)
-                  .zIndex(-1)
-                  .backgroundColor(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
-              } else {
-                Column()
-                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) || 45)
-                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) || 3)
-                  .zIndex(-1)
-                  .backgroundColor(Color.Transparent)
-
+                  .backgroundColor(
+                    this.currentTabId === tab._id
+                      ? (this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
+                      : Color.Transparent
+                  )
+                  // .position({ x: '50%', y: 0 }) // 设置绝对定位
+                  // .translate({ x: '-50%', y: 0 }) // 居中对齐
               }
-
+              // .width('100%')
+              .height('100%')
             }
             .onClick(() => {
               // this.currentTabId = tab._id
@@ -321,7 +324,16 @@ export default struct MyBricksTabs {
             })
             .backgroundImageSize(ImageSize.Cover) // 或 ImageSize.Contain
             .backgroundImagePosition(Alignment.Center) // 设置背景图片居中
-            .height(44)
+            .height(getStyleValueByPattern(
+              this.styles,
+              [
+                this.currentTabId === tab._id
+                  ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                  : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
+              ],
+              'height',
+              35
+            ))
             // .flexGrow(1)  // 让Text填充剩余空间
             .layoutWeight(this.data.tabWidthType === 'fill' ? 1 : '')
             .alignItems(HorizontalAlign.Center)
