@@ -10,6 +10,8 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getFilterSelector } from './utils/cssSelector';
+
 type ContentShowType = "roll" | "switch"
 
 // Tab项定义
@@ -141,10 +143,10 @@ export default struct MyBricksTabs {
 
   async aboutToAppear() {
 
-    const tabsTextActive = this.styles['.taroify-tabs__tab--active']
+    const tabsTextActive = this.styles[`.taroify-tabs__tab--active${getFilterSelector()}`]
     this.tabsTextColorActive = tabsTextActive.color
 
-    const tabsText = this.styles['.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
+    const tabsText = this.styles[`.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`]
     this.tabsTextColor = tabsText.color
 
 
@@ -281,28 +283,28 @@ export default struct MyBricksTabs {
                 .fontColor(
                   this.styles[
                   this.currentTabId === tab._id
-                    ? '.taroify-tabs__tab--active'
-                    : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                    ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                    : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
                   ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
                 )
                 .fontSize(
                   this.styles[
                   this.currentTabId === tab._id
-                    ? '.taroify-tabs__tab--active'
-                    : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                    ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                    : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
                   ]?.fontSize || 14
                 )
 
               if (this.currentTabId === tab._id) {
                 Column()
-                  .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
-                  .height(this.parseStyleValue(this.styles['.taroify-tabs__line']?.height) || 3)
+                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) || 45)
+                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) || 3)
                   .zIndex(-1)
-                  .backgroundColor(this.styles['.taroify-tabs__line']?.backgroundColor || "#EE0A24")
+                  .backgroundColor(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
               } else {
                 Column()
-                  .width(this.parseStyleValue(this.styles['.taroify-tabs__line']?.width) || 45)
-                  .height(this.parseStyleValue(this.styles['.taroify-tabs__line']?.height) || 3)
+                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) || 45)
+                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) || 3)
                   .zIndex(-1)
                   .backgroundColor(Color.Transparent)
 
@@ -325,19 +327,19 @@ export default struct MyBricksTabs {
             .alignItems(HorizontalAlign.Center)
             .justifyContent(FlexAlign.Center)
             .attributeModifier(new ApplyStyleModifier(
-              this.styles[this.currentTabId === tab._id ? '.taroify-tabs__tab--active' :
-                '.taroify-tabs__tab:not(.taroify-tabs__tab--active)']
+              this.styles[this.currentTabId === tab._id ? `.taroify-tabs__tab--active${getFilterSelector()}` :
+                `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`]
             ))
             .padding({
               left: this.styles[
               this.currentTabId === tab._id
-                ? '.taroify-tabs__tab--active'
-                : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
               ]?.paddingLeft || 12,
               right: this.styles[
               this.currentTabId === tab._id
-                ? '.taroify-tabs__tab--active'
-                : '.taroify-tabs__tab:not(.taroify-tabs__tab--active)'
+                ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
               ]?.paddingRight || 12,
             })
             .width('auto')
