@@ -62,6 +62,7 @@ function emptySlot(params: SlotsParams) {
 interface ColumnStyle {
   flex?: number;
   width?: "fit-content" | number | string;
+  minWidth?: number
 }
 
 type Style = Record<string, string | number>;
@@ -79,6 +80,12 @@ class ColumnModifier implements AttributeModifier<ColumnAttribute> {
 
     if (style.width || (typeof style.width === "number")) {
       instance.width(style.width)
+    }
+
+    if (typeof style.minWidth === "number") {
+      instance.constraintSize({
+        minWidth: style.minWidth
+      })
     }
 
     if (style.flex) {
@@ -115,7 +122,7 @@ export default struct MyBricksContainerRow {
     } else if (item.widthMode === 'fit-content') {
       columnStyle.width = 'fit-content'
     } else if (item.widthMode === 'number') {
-      columnStyle.width = item.width
+      columnStyle.minWidth = item.width as number
     } else if (item.widthMode === 'percent') {
       columnStyle.width = `${item.width}%`
     }

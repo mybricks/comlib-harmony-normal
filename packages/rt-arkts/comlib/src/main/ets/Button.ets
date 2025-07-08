@@ -3,6 +3,8 @@ import { AnyType } from './types'
 
 import { BasicStylesType, Styles } from "./types/Styles"
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 interface MyBricksButtonStyles {
   color: Styles.Color
   fontSize: Styles.FontSize
@@ -56,6 +58,9 @@ export interface SlotsParams {
   style?: CSSProperties
 }
 
+
+
+
 @Builder function emptySlot(params: SlotsParams) {}
 
 @ComponentV2
@@ -73,6 +78,7 @@ export default struct MyBricksButton {
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   aboutToAppear(): void {
+
     this.inputs?.setDisabled((val, outputRels: AnyType) => {
       this.data.disabled = !!val;
       outputRels?.["setDisabledSuccess"]?.(val);
@@ -114,5 +120,7 @@ export default struct MyBricksButton {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    //渐变色需要通过链式调用单独配置
+    .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button'],'backgroundImage')))
   }
 }

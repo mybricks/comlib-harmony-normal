@@ -1,5 +1,12 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import {
+  ApplyRootStyleModifier,
+  ApplyStyleModifier,
+  ApplyFontStyleModifier,
+  CSSProperties
+} from './utils/GetDesignStyle'
 import { AnyType } from './types'
+
+import { parseBorder } from './utils/StyleMatching'
 
 // Data Option 接口定义
 export interface Option {
@@ -60,25 +67,24 @@ interface Outputs {
 
 
 @ComponentV2
-export default struct MyBricksFormRadio{
+export default struct MyBricksFormRadio {
   @Param data: Data = new Data()
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined
   @Param outputs?: Outputs = undefined
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
-
   @Local activeValue: string | number = ''
   @Local ready: boolean = true
-
   @Local uniqueRroupId: string = String(Math.random())
 
   @Computed
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor,
-      backgroundColor: style?.backgroundColor
+      border: style?.border,
+      backgroundColor: style?.backgroundColor,
+      borderRadius: style?.borderRadius || '100%' //单选默认是圆形
     };
   }
 
@@ -86,12 +92,17 @@ export default struct MyBricksFormRadio{
   get selectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-active .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor,
-      backgroundColor: style?.backgroundColor
+      border: style?.border,
+      backgroundColor: style?.backgroundColor || '#1989FA',
+      borderRadius: style?.borderRadius || '100%' //单选默认是圆形
     };
   }
 
   aboutToAppear(): void {
+
+    const res = parseBorder(this.selectedStyle.border,'#1989FA',1)
+    console.log("res",res)
+
     // 初始化值
     this.inputs?.setValue((val: AnyType, outputRels: AnyType) => {
       if (val === null || val === undefined) {
@@ -132,32 +143,55 @@ export default struct MyBricksFormRadio{
 
   build() {
     if (this.ready) {
-      Flex({ direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row }) {
+      Flex({
+        direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row,
+        justifyContent: FlexAlign.Start,
+        alignItems: ItemAlign.Start
+      }) {
         ForEach(this.data.options, (item: Option, index: number) => {
-
-          Row(){
-            Radio({ value: item.label, group: this.uniqueRroupId })
-              .checked(item.value === this.activeValue)
-              .radioStyle({
-                checkedBackgroundColor: this.selectedStyle.backgroundColor,
-                uncheckedBorderColor: this.unSelectedStyle.borderColor
-              })
-              .onChange((isChecked: boolean) => {
-                if (isChecked) {
-                  this.activeValue = item.value
-                  this.outputs?.onChange(item.value)
-                  this.parentSlot?._inputs?.["onChange"]?.({
-                    id: this.uid,
-                    value:item.value,
-                  });
-                }
-              })
-
-            Text(item.label).fontSize(13).margin({
-              left:1
+          Flex({ justifyContent: FlexAlign.Start, alignItems: ItemAlign.Center }) {
+            // 自定义radio容器
+            Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+              // 选中时显示的圆点
+              if (item.value === this.activeValue) {
+                SymbolGlyph($r(`sys.symbol.checkmark`))
+                  .fontSize(12)
+                  .fontWeight(700)
+                  .fontColor([Color.White])
+                  .width("auto")
+                  .height("auto")
+              }
+            }
+            .width(20)
+            .height(20)
+            .borderRadius(item.value === this.activeValue
+              ? this.selectedStyle.borderRadius
+              : this.unSelectedStyle.borderRadius)
+            .backgroundColor(item.value === this.activeValue
+              ? this.selectedStyle.backgroundColor
+              : this.unSelectedStyle.backgroundColor)
+            .border(item.value === this.activeValue
+                ? parseBorder(this.selectedStyle.border,'#1989FA',1)
+                : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
+            )
+            .onClick(() => {
+              if (item.value !== this.activeValue) {
+                this.activeValue = item.value;
+                // 触发onChange事件
+                this.outputs?.onChange(this.activeValue);
+                this.parentSlot?._inputs?.["onChange"]?.({
+                  id: this.uid,
+                  value: this.activeValue,
+                });
+              }
             })
-          }
 
+            Text(item.label)
+              .margin({ left: 8 })
+              .fontSize(13)
+          }
+          .width('auto')
+          .margin({ right: this.data.gap, bottom: this.data.direction === 'vertical' ? 17 : 0 })
         })
       }
       .width('100%')

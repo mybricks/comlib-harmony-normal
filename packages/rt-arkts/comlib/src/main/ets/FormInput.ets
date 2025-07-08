@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern } from './utils/StyleMatching'
 
 type InputAlignType = 'left' | 'right' | 'center';
 
@@ -93,6 +94,7 @@ export default struct MyBricksFormInput {
   @Param parentSlot?: AnyType = undefined;
 
   aboutToAppear(): void {
+    
     this.inputs?.setDisabled((val, outputRels: AnyType) => {
       this.data.disabled = true;
     })
@@ -154,16 +156,43 @@ export default struct MyBricksFormInput {
             value,
           });
         })
+        .padding(getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'padding', undefined) === undefined ? {
+          left:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingLeft', 0),
+          right:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingRight', 0),
+          top:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingTop', 0),
+          bottom:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingBottom', 0),
+        } : getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'padding', 0))
         .attributeModifier(
-          new ApplyFontStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
+          new ApplyFontStyleModifier(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input'])
             .fontSize(14)
             .fontColor('#000000')
         )
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-input,.mybricks-h5Input .taroify-native-input'])
-            .backgroundColor(Color.Transparent)
-        )
-    }.attributeModifier(
+        //.backgroundColor(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.backgroundColor ?? "#F5F5F5")
+        .backgroundColor(getStyleValueByPattern(
+          this.styles,
+          ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
+          'backgroundColor',
+          '#FFF'
+        ))
+        //.borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
+        .borderRadius(
+          getStyleValueByPattern(
+          this.styles,
+          ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
+          'borderRadius',
+          0
+        ))
+        // .height('100%')
+        .height(getStyleValueByPattern(
+          this.styles,
+          ['root'],
+          'height',
+          undefined
+        ))
+        .width('100%')
+    }
+
+    .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
   }

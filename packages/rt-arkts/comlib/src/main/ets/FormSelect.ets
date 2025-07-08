@@ -104,7 +104,10 @@ export default struct MyBricksFormSelect {
       Text(this.data.value || this.data.placeholder)
         .fontColor(this.data.value ? '#182431' : '#B9B9B9')
         .fontSize(14)
-      Text(">")
+      SymbolGlyph($r('sys.symbol.chevron_right'))
+        .fontSize(16)
+        .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+        .fontColor(['#000000', Color.White])
     }
     .backgroundColor(Color.White)
     .width("100%")

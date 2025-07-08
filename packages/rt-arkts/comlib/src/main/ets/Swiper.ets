@@ -67,10 +67,23 @@ export default struct MyBricksSwiper {
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
+  @Local indicatorColor?: AnyType = '#558EFF'
+  @Local indicatorColorDefault?: AnyType = '#D9D9D9'
+
+
+
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
       this.data.items = array
     })
+
+    //获取指示器选中颜色
+    const indicatorColor = this.styles[".mybricks-swiper-wrapper .indicator.indicator-active"]
+    this.indicatorColor = indicatorColor?.backgroundColor
+
+    //获取指示器非选中颜色
+    const indicatorColorDefault = this.styles[".mybricks-swiper-wrapper .indicator:not(.indicator-active)"]
+    this.indicatorColorDefault = indicatorColorDefault?.backgroundColor
   }
 
   build() {
@@ -93,20 +106,21 @@ export default struct MyBricksSwiper {
           }
         })
       }
+      .height("100%")
       .autoPlay(this.data.autoplay)
       .duration(this.data.duration)
       .loop(this.data.circular)
       .indicator(
         Indicator.dot()
-          .color(this.data.showIndicator ? Color.Gray : Color.Transparent)
-          .selectedColor(this.data.showIndicator ? this.data.indicatorColor : Color.Transparent)
+          .color(this.data.showIndicator ? this.indicatorColorDefault : Color.Transparent)
+          .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
+      )
+      .attributeModifier(
+        new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
       )
     }
     .width('100%')
     .height('100%')
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
-    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

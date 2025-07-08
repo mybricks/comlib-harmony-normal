@@ -24,34 +24,34 @@ export default {
         options: ["font", "padding", "border", "background"],
         target: ".mybricks-text",
       },
-      // {
-      //   title: "开启文本省略",
-      //   type: "Switch",
-      //   value: {
-      //     get({ data }) {
-      //       return data.ellipsis;
-      //     },
-      //     set({ data }, val: boolean) {
-      //       data.ellipsis = val;
-      //     },
-      //   },
-      // },
-      // {
-      //   ifVisible({ data }) {
-      //     return data.ellipsis;
-      //   },
-      //   title: "最大行数",
-      //   type: "InputNumber",
-      //   options: [{ min: 1 }],
-      //   value: {
-      //     get({ data }) {
-      //       return [data.maxLines];
-      //     },
-      //     set({ data }, val) {
-      //       data.maxLines = val[0];
-      //     },
-      //   },
-      // },
+      {
+        title: "开启文本省略",
+        type: "Switch",
+        value: {
+          get({ data }) {
+            return data.ellipsis;
+          },
+          set({ data }, val: boolean) {
+            data.ellipsis = val;
+          },
+        },
+      },
+      {
+        ifVisible({ data }) {
+          return data.ellipsis;
+        },
+        title: "最大行数",
+        type: "InputNumber",
+        options: [{ min: 1 }],
+        value: {
+          get({ data }) {
+            return [data.maxLines];
+          },
+          set({ data }, val) {
+            data.maxLines = val[0];
+          },
+        },
+      },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "常规";

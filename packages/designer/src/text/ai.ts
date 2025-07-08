@@ -7,7 +7,8 @@ export default {
     usage: `
 data声明
 text: string = "文本内容"
-ellipsis: boolean = false 
+ellipsis: boolean = false
+maxLines: number = "0"
 
 slots插槽
 无

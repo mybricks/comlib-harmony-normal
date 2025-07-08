@@ -59,6 +59,8 @@ export default struct MyBricksFormSwitch {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
+  @Local switchColor?: AnyType = "#FA6400"
+
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = !!val;
@@ -73,6 +75,10 @@ export default struct MyBricksFormSwitch {
       this.data.value = false;
       outputRels?.["resetValueComplete"]?.(false);
     })
+
+    //获取开关颜色
+    const style = this.styles?.['.taroify-switch--checked']
+    this.switchColor = style?.backgroundColor
   }
 
   build() {
@@ -87,7 +93,7 @@ export default struct MyBricksFormSwitch {
             value:this.data.value,
           });
         })
-        .selectedColor(this.data.backgroundColor)
+        .selectedColor(this.switchColor)
     }
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)

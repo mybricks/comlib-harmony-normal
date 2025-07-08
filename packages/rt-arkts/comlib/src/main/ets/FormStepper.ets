@@ -81,27 +81,95 @@ export default struct MyBricksFormStepper {
 
   build() {
     Column() {
-      CounterComponent({
-        options: {
-          type: CounterType.LIST,
-          numberOptions: {
-            min: this.data.min,
-            value: this.data.value,
-            max: this.data.max,
-            onChange: (value: number) => {
-              this.data.value = value
-              this.outputs?.onChange?.(value)
+      // CounterComponent({
+      //   options: {
+      //     type: CounterType.LIST,
+      //     numberOptions: {
+      //       min: this.data.min,
+      //       value: this.data.value,
+      //       max: this.data.max,
+      //       onChange: (value: number) => {
+      //         this.data.value = value
+      //         this.outputs?.onChange?.(value)
+      //
+      //         this.parentSlot?._inputs?.["onChange"]?.({
+      //           id: this.uid,
+      //           value:this.data.value,
+      //         });
+      //       }
+      //     },
+      //   }
+      // })
 
-              this.parentSlot?._inputs?.["onChange"]?.({
-                id: this.uid,
-                value:this.data.value,
-              });
-            }
-          },
+      Row(){
+        //减少
+        Column(){
+          Text("-")
+            .fontColor("#fa6400")
+            .fontSize(25)
+            .lineHeight(25)
+            .fontWeight(200)
         }
-      })
+        .width(25)
+        .height(25)
+        .backgroundColor(Color.White)
+        .border({
+          width: 1,
+          color: "#fa6400",
+          radius: 20,
+          style: BorderStyle.Solid
+        })
+        .onClick(()=>{
+          const new_value = this.data.value - this.data.step
+          if(new_value >= this.data.min){
+            this.data.value = new_value
+            this.outputs?.onChange?.(this.data.value)
+            this.parentSlot?._inputs?.["onChange"]?.({
+              id: this.uid,
+              value:this.data.value,
+            });
+          }
+        })
+        //数字回显
+        Column(){
+          Text(String(this.data.value)).fontSize(13).margin({
+            left:10,
+            right:10
+          })
+        }.width("auto")
+        //增加
+        Column(){
+          Text("+")
+            .fontColor("#ffffff")
+            .fontSize(25)
+            .lineHeight(25)
+            .fontWeight(200)
+        }
+        .width(25)
+        .height(25)
+        .backgroundColor("#fa6400")
+        .border({
+          width: 1,
+          color: "#fa6400",
+          radius: 20,
+          style: BorderStyle.Solid
+        })
+        .onClick(()=>{
+          const new_value = this.data.value + this.data.step
+          if(new_value <= this.data.max){
+            this.data.value = new_value
+
+            this.outputs?.onChange?.(this.data.value)
+            this.parentSlot?._inputs?.["onChange"]?.({
+              id: this.uid,
+              value:this.data.value,
+            });
+          }
+        })
+      }
+
     }
-    .alignItems(HorizontalAlign.Start)
+    .alignItems(HorizontalAlign.End)
     .justifyContent(FlexAlign.Start)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])

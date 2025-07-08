@@ -2,6 +2,7 @@ import { uuid } from "../utils";
 import { DynamicArrayData } from "./../utils/dynamic-array";
 import comJson from "./com.json";
 import setSlotLayout from "../utils/setSlotLayout";
+import { getFilterSelector } from '../utils/cssSelector';
 
 const ScopeSlotInputs = comJson.slots[0].inputs;
 const dynamicArrayData = new DynamicArrayData({ keyName: "tabs" });
@@ -103,16 +104,16 @@ export default {
                   { type: "padding" },
                   { type: "background" },
                 ],
-                target: ".taroify-tabs__tab:not(.taroify-tabs__tab--active)",
+                target: `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`,
               },
-              {
-                title: "默认样式-文本",
-                catelog: "默认样式",
-                options: [
-                  { type: "font", config: { disableTextAlign: true } },
-                ],
-                target: ".taroify-tabs__text:not(.taroify-tabs__text--active)",
-              },
+              // {
+              //   title: "默认样式-文本",
+              //   catelog: "默认样式",
+              //   options: [
+              //     { type: "font", config: { disableTextAlign: true } },
+              //   ],
+              //   target: ".taroify-tabs__text:not(.taroify-tabs__text--active)",
+              // },
               {
                 title: "选中样式",
                 catelog: "选中样式",
@@ -123,16 +124,16 @@ export default {
                   { type: "padding" },
                   { type: "background" },
                 ],
-                target: ".taroify-tabs__tab--active",
+                target: `.taroify-tabs__tab--active${getFilterSelector()}`,
               },
-              {
-                title: "选中样式-文本",
-                catelog: "选中样式",
-                options: [
-                  { type: "font", config: { disableTextAlign: true } },
-                ],
-                target: ".taroify-tabs__text--active",
-              },
+              // {
+              //   title: "选中样式-文本",
+              //   catelog: "选中样式",
+              //   options: [
+              //     { type: "font", config: { disableTextAlign: true } },
+              //   ],
+              //   target: ".taroify-tabs__text--active",
+              // },
             ],
           },
         ],
@@ -144,7 +145,7 @@ export default {
           { type: "background", config: { disableBackgroundImage: true } },
           { type: "size", config: { disableWidth: false } },
         ],
-        target: ".taroify-tabs__line",
+        target: ({id})=> `.taroify-tabs__line${getFilterSelector()}`
       },
     ],
     items({ data, input, slots, outputs }, cate0, cate1, cate2) {
@@ -378,6 +379,9 @@ export default {
         },
         {
           title: "内容展示方式",
+          ifVisible({ data }: EditorResult<Data>) {
+            return !data.hideContent;
+          },
           type: "radio",
           description:
             "锚定显示：在同一个页面显示所有内容，点击后滚动到对应区域；切换显示：在不同页面显示对应的侧边栏内容",
@@ -409,7 +413,7 @@ export default {
         //     },
         //   },
         // },
-        {},
+        // {},
         // {
         //   title: "内容区",
         //   items: [
@@ -585,7 +589,7 @@ export default {
                   { type: "font", config: { disableTextAlign: true } },
                   { type: "size" },
                   { type: "border" },
-                  { type: "padding" },
+                  // { type: "padding" },
                   { type: "background" },
                 ],
               },

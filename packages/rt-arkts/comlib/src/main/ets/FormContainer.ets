@@ -66,8 +66,9 @@ export struct MyBricksFormItem {
         }
         .width('auto')
         .layoutWeight(1)
-        .alignItems(HorizontalAlign.Start)
+        .alignItems(HorizontalAlign.End)
       }
+      .width('100%')
     }.padding({
       top: 10,
       bottom: 10,

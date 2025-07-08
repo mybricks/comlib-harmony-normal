@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseBorder } from './utils/StyleMatching'
 
 // Data Option 接口定义
 export interface Option {
@@ -34,7 +35,7 @@ export class Data implements DataType {
     this.options = config?.options ?? []
     this.direction = config?.direction ?? 'horizontal'
     this.disabled = config?.disabled ?? false
-    this.gap = config?.gap ?? 8
+    this.gap = config?.gap ?? 12
     this.columns = config?.columns
     this.defaultRenderMode = config?.defaultRenderMode
   }
@@ -68,7 +69,7 @@ export default struct MyBricksFormCheckbox{
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
 
-  @Local activeValue: string | number = ''
+  // @Local activeValue: string | number = ''
   @Local selectedValues: AnyType [] = [];
   @Local ready: boolean = true
 
@@ -78,8 +79,9 @@ export default struct MyBricksFormCheckbox{
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor,
-      backgroundColor: style?.backgroundColor
+      border: style?.border,
+      backgroundColor: style?.backgroundColor,
+      borderRadius: style?.borderRadius
     };
   }
 
@@ -87,8 +89,9 @@ export default struct MyBricksFormCheckbox{
   get selectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-active .taroify-icon'] ?? {}
     return {
-      borderColor: style?.borderColor,
-      backgroundColor: style?.backgroundColor
+      border: style?.border, //默认值，对齐H5
+      backgroundColor: style?.backgroundColor || '#1989FA', //默认值，对齐H5
+      borderRadius: style?.borderRadius
     };
   }
 
@@ -96,32 +99,33 @@ export default struct MyBricksFormCheckbox{
     // 初始化值
     this.inputs?.setValue((val: AnyType, outputRels: AnyType) => {
       if (val === null || val === undefined) {
-        this.activeValue = ''
-      } else if (typeof val === 'string' || typeof val === 'number') {
-        this.activeValue = val
+        this.selectedValues = []
+      } else if (Array.isArray(val)) {
+        this.selectedValues = val
       }
-      outputRels?.['setValueComplete']?.(this.activeValue)
+      outputRels?.['setValueComplete']?.(this.selectedValues)
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
-      outputRels?.['returnValue'](this.activeValue)
+      outputRels?.['returnValue'](this.selectedValues)
     })
 
     this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.activeValue = ''
-      outputRels?.['resetValueComplete']?.('')
+      this.selectedValues = []
+      outputRels?.['resetValueComplete']?.([])
     })
 
     this.ready = this.data.defaultRenderMode === "dynamic" ? false : true
+
     this.inputs?.setOptions((val) => {
       if (Array.isArray(val)) {
         this.data.options = val
         this.ready = true
 
-        const checkedItem = val.filter(item => item.checked).pop()
-        if (checkedItem) {
-          this.activeValue = checkedItem.value
-        }
+        // const checkedItem = val.filter(item => item.checked).pop()
+        // if (checkedItem) {
+        //   this.activeValue = checkedItem.value
+        // }
       }
     })
 
@@ -131,42 +135,63 @@ export default struct MyBricksFormCheckbox{
     })
   }
 
+
   build() {
     if (this.ready) {
-      Flex({ direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row }) {
+      Flex({ direction: this.data.direction === 'vertical' ? FlexDirection.Column : FlexDirection.Row ,
+        justifyContent: FlexAlign.Start,
+        alignItems:ItemAlign.Start
+      }) {
         ForEach(this.data.options, (item: Option, index: number) => {
-
-          Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
-            Checkbox({
-              name: item.label,
-              group: this.uniqueRroupId
-            })
-              .select(this.selectedValues.includes(item.value))// 检查是否在选中数组中
-              .selectedColor(this.selectedStyle.backgroundColor)
-              .unselectedColor(this.unSelectedStyle.backgroundColor)
-              .shape(CheckBoxShape.ROUNDED_SQUARE)
-              .onChange((isChecked: boolean) => {
-                // 更新选中值数组
-                if (isChecked) {
-                  // 避免重复添加
-                  if (!this.selectedValues.includes(item.value)) {
-                    this.selectedValues = [...this.selectedValues, item.value];
-                  }
-                } else {
-                  this.selectedValues = this.selectedValues.filter((val: string) => val !== item.value);
+          Flex({ justifyContent: FlexAlign.Start, alignItems: ItemAlign.Center }) {
+            // 自定义checkbox容器
+            Flex({ justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+              // 选中时显示的勾选图标
+              if (this.selectedValues.includes(item.value)) {
+                SymbolGlyph($r(`sys.symbol.checkmark`))
+                  .fontSize(12)
+                  .fontWeight(700)
+                  .fontColor([Color.White])
+                  .width("auto")
+                  .height("auto")
+              }
+            }
+            .width(20)
+            .height(20)
+            .borderRadius(this.selectedValues.includes(item.value)
+              ? this.selectedStyle.borderRadius
+              : this.unSelectedStyle.borderRadius
+            )
+            .backgroundColor(this.selectedValues.includes(item.value)
+              ? this.selectedStyle.backgroundColor
+              : this.unSelectedStyle.backgroundColor)
+            .border(this.selectedValues.includes(item.value)
+              ? parseBorder(this.selectedStyle.border,'#1989FA',1)
+              : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
+            )
+            .onClick(() => {
+              if (this.selectedValues.includes(item.value)) {
+                // 取消选中
+                this.selectedValues = this.selectedValues.filter((val: string) => val !== item.value);
+              } else {
+                // 选中
+                if (!this.selectedValues.includes(item.value)) {
+                  this.selectedValues = [...this.selectedValues, item.value];
                 }
-                // 输出选中的数组
-                this.outputs?.onChange(this.selectedValues);
-
-                this.parentSlot?._inputs?.["onChange"]?.({
-                  id: this.uid,
-                  value:this.selectedValues,
-                });
-              })
+              }
+              // 触发onChange事件
+              this.outputs?.onChange(this.selectedValues);
+              this.parentSlot?._inputs?.["onChange"]?.({
+                id: this.uid,
+                value: this.selectedValues,
+              });
+            })
 
             Text(item.label)
+              .margin({ left: 8 })
           }
-
+          .width('auto')
+          .margin({ right: this.data.gap, bottom: this.data.direction === 'vertical' ? 17 : 0 })
 
         })
       }
@@ -177,4 +202,5 @@ export default struct MyBricksFormCheckbox{
       )
     }
   }
+
 }

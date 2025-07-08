@@ -37,6 +37,14 @@ interface Outputs {
   onClick: () => void
 }
 
+//这些图标是长方形，需要单独进行判断然后Width配置为"auto"
+const non_square_icon = [
+  "chevron_down",
+  "chevron_left",
+  "chevron_right",
+  "chevron_up"
+]
+
 @ComponentV2
 export default struct MyBricksIcon {
   @Param data: Data = new Data();
@@ -56,8 +64,11 @@ export default struct MyBricksIcon {
         .fontWeight(this.data.fontWeight)
         .fontColor([this.data.fontColor?.[0], Color.White])
         .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-        .width("auto")
+        .width(non_square_icon.includes(this.data.icon) ? 'auto' : this.data.fontSize)
         .height(this.data.fontSize)
+        .alignSelf(ItemAlign.Center)
+        .align(Alignment.Center)
+        .renderFit(RenderFit.CENTER)
         .position({
           left: '50%',
           top: '50%',
