@@ -88,19 +88,29 @@ export function parseLinearGradient(gradientStr: string): GradientResult {
     const angleMatch = content.match(/(\d+)deg/);
     const angle: number = angleMatch ? parseInt(angleMatch[1]) : 0;
 
-    // 使用正则表达式匹配rgba颜色和百分比
-    const colorRegex = /rgba\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)\s*\d+%/g;
+    // 使用正则表达式匹配颜色和百分比
+    // 支持 rgba, rgb, hex 和颜色名称
+    const colorRegex = /(?:rgba?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(?:,\s*[\d.]+\s*)?\)|#[0-9a-fA-F]{3,6}|\w+)\s*(\d+)%/g;
     const colorMatches = content.match(colorRegex);
 
     const colors: Array<[string, number]> = [];
 
     if (colorMatches) {
       colorMatches.forEach(match => {
-        // 分离rgba和百分比
+        // 分离颜色和百分比
         const lastSpaceIndex = match.lastIndexOf(' ');
-        const rgba = match.substring(0, lastSpaceIndex);
-        const percent = parseInt(match.substring(lastSpaceIndex).replace('%', ''));
-        colors.push([rgba, percent / 100]);
+        let color, percentStr;
+
+        if (lastSpaceIndex === -1) {
+          // 如果没有空格（比如 "0%" 单独出现），这可能是个错误情况
+          return;
+        } else {
+          color = match.substring(0, lastSpaceIndex).trim();
+          percentStr = match.substring(lastSpaceIndex).trim();
+        }
+
+        const percent = parseInt(percentStr.replace('%', ''));
+        colors.push([color, percent / 100]);
       });
     }
 

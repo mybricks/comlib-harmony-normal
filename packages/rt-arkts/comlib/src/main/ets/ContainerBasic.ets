@@ -1,6 +1,8 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 export interface DataType {
   layout?: CSSProperties
 }
@@ -63,6 +65,7 @@ export default struct MyBricksContainerBasic {
     .attributeModifier(
       new ApplyStyleModifier(this.styles['> .mybricks-container'])
     )
+    .linearGradient(parseLinearGradient(String(this.styles['> .mybricks-container']?.backgroundImage)))
     .parallelGesture(
       TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
         this.outputs?.onClick?.()
