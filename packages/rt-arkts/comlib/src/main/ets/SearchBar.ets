@@ -108,11 +108,11 @@ export default struct MyBricksSearchBar {
   get borderRadiusStyle(): AnyType {
     const style:AnyType = getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'])
     console.log("style",style)
-    if(style.borderRadius){
+    if(style?.borderRadius){
       //统一的圆角值
       return parseRadius(style.borderRadius)
     }
-    return undefined
+    return 60
   }
 
   build() {

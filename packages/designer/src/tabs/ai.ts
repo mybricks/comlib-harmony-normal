@@ -68,7 +68,13 @@ styleAry声明
         }
       }
       if (style.selector === ".taroify-tabs__tab") {
-        style.selector = `.taroify-tabs__tab:not(.taroify-tabs__tab--active)`
+        style.selector = `.taroify-tabs__tab:not(.taroify-tabs__tab--active):not(#{id} *[data-isslot="1"] *)`
+      }
+      if (style.selector === ".taroify-tabs__tab--active") {
+        style.selector = `.taroify-tabs__tab--active:not(#{id} *[data-isslot="1"] *)`
+      }
+      if (style.selector === ".taroify-tabs__line") {
+        style.selector = `.taroify-tabs__line:not(#{id} *[data-isslot="1"] *)`
       }
     })
 

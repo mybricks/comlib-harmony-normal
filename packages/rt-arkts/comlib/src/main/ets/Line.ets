@@ -42,7 +42,7 @@ export default struct MyBricksLine {
     .backgroundColor("#FA6400")
     .width("100%")
     .height("100%")
-    .backgroundColor(this.styles['.mybricks-line']?.backgroundColor || this.styles[':root']?.backgroundColor)
+    .backgroundColor(this.styles['.mybricks-line']?.backgroundColor || this.styles[':root']?.backgroundColor || '#FA6400')
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-line'])
     )

@@ -69,20 +69,17 @@ export default struct MyBricksIcon {
         .alignSelf(ItemAlign.Center)
         .align(Alignment.Center)
         .renderFit(RenderFit.CENTER)
-        .position({
-          left: '50%',
-          top: '50%',
-        })
-        .translate({ y: '-50%', x: '-50%' })
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-icon'])
+        )
     }
+    .width('100%')  // 确保Column有宽度
+    .height('100%') // 确保Column有高度
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Center)
     .onClick(()=>{
       this.outputs?.onClick()
     })
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-icon'])
-    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
