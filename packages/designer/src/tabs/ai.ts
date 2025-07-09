@@ -20,10 +20,11 @@ tabId1: 标签项1内容
 tabId2: 标签项2内容
 
 styleAry声明
-标签栏: .taroify-tabs__wrap .taroify-tabs__wrap__scroll
-  - 默认样式: 无
-  - 可编辑样式: backgroundColor、border相关
-标签项（未选中）: .taroify-tabs__tab:not(.taroify-tabs__tab--active)
+标签栏: .taroify-tabs
+  - 默认样式: 
+    - height: 44px # 仅配置标签栏的高度，不算内容高度
+  - 可编辑样式: backgroundColor、border、height相关
+标签项（未选中）: .taroify-tabs__tab
   - 默认样式:
     - color: #646566
   - 可编辑样式: color
@@ -37,7 +38,6 @@ styleAry声明
     - height = 3px
     - backgroundColor: #EE0A24
   - 可编辑样式: width、height、backgroundColor
-Tabs整体: .mybricks-tabs
 
 使用案例
 \`\`\`dsl file="page.dsl"
@@ -56,5 +56,32 @@ Tabs整体: .mybricks-tabs
   </slots.tabId2>
 </mybricks.harmony.tabs>
 \`\`\``
+  },
+  modifyTptJson: (component) => {
+    let configHeight
+
+    component.style?.styleAry?.forEach?.((style, index) => {
+      if (style.selector === ".taroify-tabs") {
+        style.selector = ".taroify-tabs__wrap .taroify-tabs__wrap__scroll"
+        if (style?.css?.height) {
+          configHeight = style?.css?.height
+        }
+      }
+      if (style.selector === ".taroify-tabs__tab") {
+        style.selector = `.taroify-tabs__tab:not(.taroify-tabs__tab--active)`
+      }
+    })
+
+    if (configHeight) {
+      component.style.styleAry.push({
+        selector: '.taroify-tabs__wrap',
+        css: {
+          height: configHeight
+        }
+      })
+    }
+   
   }
+
+
 }

@@ -35,6 +35,18 @@ styleAry声明
 \`\`\``
   },
   modifyTptJson: (component) => {
+    const isConfigCenter = component?.data?.styleAry?.some(s => {
+      return s.css?.textAlign === 'center'
+    })
+
+    // 幻觉处理：配置了center代表肯定要居中，此时不能配置非100%，不然不会居中
+    if (isConfigCenter && component?.layout?.width !== '100%') {
+      if (!component.layout) {
+        component.layout = {}
+      }
+      component.layout.width = '100%'
+    }
+
     if (component?.style?.styleAry) {
       component?.style?.styleAry.forEach(item => {
         if (!item.css) {
