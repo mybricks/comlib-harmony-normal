@@ -502,7 +502,7 @@ export default struct MyBricksFormContainer {
         }
       })
       this.submitButton()
-    }
+    }.attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-field']))
   }
 }
 
