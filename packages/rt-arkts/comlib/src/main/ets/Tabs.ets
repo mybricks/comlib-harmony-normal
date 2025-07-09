@@ -292,12 +292,12 @@ export default struct MyBricksTabs {
                       ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
                     )
                     .fontSize(
-                      this.styles[
+                    getStyleValueByPattern(this.styles,[
                       this.currentTabId === tab._id
                         ? `.taroify-tabs__tab--active${getFilterSelector()}`
                         : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-                      ]?.fontSize || 14
-                    )
+                    ],"fontSize",14)
+                  )
                 }
 
                 Column()
@@ -363,9 +363,6 @@ export default struct MyBricksTabs {
         })
         .justifyContent(FlexAlign.Start)
       }
-      .margin({
-        bottom:10
-      })
       .align(Alignment.Start)
       .width('100%')
       .onAreaChange((oldArea: Area, newArea: Area)=>{

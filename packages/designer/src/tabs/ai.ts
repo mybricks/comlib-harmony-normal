@@ -23,15 +23,15 @@ styleAry声明
 标签栏: .taroify-tabs__wrap .taroify-tabs__wrap__scroll
   - 默认样式: 无
   - 可编辑样式: backgroundColor、border相关
-标签项（未选中）: .taroify-tabs__tab:not(.taroify-tabs__tab--active)
+标签项（未选中）: .taroify-tabs__tab:not(.taroify-tabs__tab--active):not(#{id} *[data-isslot="1"] *)
   - 默认样式:
     - color: #646566
   - 可编辑样式: color
-标签项（已选中）: .taroify-tabs__tab--active
+标签项（已选中）: .taroify-tabs__tab--active:not(#{id} *[data-isslot="1"] *)
   - 默认样式:
     - color: #323233
   - 可编辑样式: color
-标签项选中条: .taroify-tabs__line
+标签项选中条: .taroify-tabs__line:not(#{id} *[data-isslot="1"] *)
   - 默认样式: 一个位于高亮标签项下方的选中条
     - width = 40px
     - height = 3px
