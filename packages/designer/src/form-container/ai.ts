@@ -1,6 +1,7 @@
 import { uuid } from './../utils'
 
 export default {
+  ignore: true,
   ':root'({ data }) {
     return {}
   },

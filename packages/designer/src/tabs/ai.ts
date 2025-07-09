@@ -11,7 +11,7 @@ tabs: array = [
   {_id: "tabId2", tabName: "标签项2"}
 ]
 slotStyle: object = {}
-tabWidthType: ['fill', 'fit'] = 'fill' # 标签项宽度配置，是适应内容还是平均铺满
+tabWidthType: ['fill', 'fit'] = 'fill' # 标签项宽度配置，是适应内容还是平均铺满，适应内容时每个标签项宽度由内布局定，平均铺满时每个标签项会平分宽度
 contentShowType: string = "switch"
 hideContent: boolean = false # 开启后可以只展示tabs，而不渲染插槽内容
 
@@ -27,11 +27,15 @@ styleAry声明
 标签项（未选中）: .taroify-tabs__tab
   - 默认样式:
     - color: #646566
-  - 可编辑样式: color
+    - backgroundColor: #ffffff
+    - borderRaidus: 0px
+  - 可编辑样式: color、backgroundColor、borderRaidus
 标签项（已选中）: .taroify-tabs__tab--active
   - 默认样式:
     - color: #323233
-  - 可编辑样式: color
+    - backgroundColor: #ffffff
+    - borderRaidus: 0px
+  - 可编辑样式: color、backgroundColor、borderRaidus
 标签项选中条: .taroify-tabs__line
   - 默认样式: 一个位于高亮标签项下方的选中条
     - width = 40px

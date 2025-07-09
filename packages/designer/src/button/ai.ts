@@ -14,10 +14,10 @@ styleAry声明
 按钮: .mybricks-button
 - 默认样式: 
   - borderRadius: 60
-  - backgroundColor: #FA6400
-  - fontColor: #FFFFFF
+  - backgroundColor: #fa6400
+  - color: #ffffff
   - fontSize: 14px
-- 可编辑样式: backgroundColor、border、padding、font相关
+- 可编辑样式: backgroundColor、border、padding、font、color相关
 
 美观度注意事项
 - 内容文本默认是水平垂直居中的，可以配置固定高度；

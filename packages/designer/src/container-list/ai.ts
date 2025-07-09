@@ -7,11 +7,7 @@ export default {
 何时使用：对于商品列表、各类动态数据的列表时使用，可以用静态数据的不要使用`,
     usage: `data声明
 direction: ['row', 'column'] = 'column'
-spacing: number = 0 
-grid: {
-  column: number = 0 
-  gutter: [number, number] = [8, 8] # 间距[水平,垂直]
-}
+spacing: number = 0 # 间距，当竖向排列时，为垂直间距；当横向排列时，为水平间距
 rowKey: string = "id" 
 
 slots插槽
