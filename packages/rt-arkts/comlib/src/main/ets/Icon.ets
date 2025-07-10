@@ -69,9 +69,6 @@ export default struct MyBricksIcon {
         .alignSelf(ItemAlign.Center)
         .align(Alignment.Center)
         .renderFit(RenderFit.CENTER)
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-icon'])
-        )
     }
     .width('100%')  // 确保Column有宽度
     .height('100%') // 确保Column有高度
@@ -80,6 +77,9 @@ export default struct MyBricksIcon {
     .onClick(()=>{
       this.outputs?.onClick()
     })
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-icon'])
+    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
