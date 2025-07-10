@@ -98,10 +98,6 @@ export default struct MyBricksButton {
     Button({ type: ButtonType.Normal }) {
       Text(this.data.text)
         .halfLeading(true)
-        .margin({
-          left:14,
-          right:14
-        })
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-button'])
             .fontSize(14)
