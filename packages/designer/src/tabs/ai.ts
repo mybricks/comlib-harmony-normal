@@ -42,6 +42,8 @@ styleAry声明
     - height = 3px
     - backgroundColor: #EE0A24
   - 可编辑样式: width、height、backgroundColor
+  - 不可编辑样式: display
+  - 重要补充: 如果要隐藏掉高亮标签项下方的选中条，配置颜色为透明即可，不能配置为 display: none;
 
 使用案例
 \`\`\`dsl file="page.dsl"
