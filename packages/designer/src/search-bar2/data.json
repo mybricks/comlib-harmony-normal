@@ -7,5 +7,6 @@
   "searchButtonText": "搜索",
   "iconDistance": 4,
   "autoFocus": false,
-  "clearable": false
+  "clearable": false,
+  "searchIcon":"magnifyingglass"
 }

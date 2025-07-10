@@ -263,6 +263,12 @@ export {
 } from './SearchBar'
 
 export {
+  default as mybricks_harmony_searchBar2,
+  DataType as mybricks_harmony_searchBar2_DataType,
+  Data as mybricks_harmony_searchBar2_Data,
+} from './SearchBar2'
+
+export {
   default as mybricks_harmony_formContainer,
   DataType as mybricks_harmony_formContainer_DataType,
   Data as mybricks_harmony_formContainer_Data,

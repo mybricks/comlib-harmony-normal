@@ -1,3 +1,4 @@
+import IconSelector from "./editors/icon-selector";
 export default {
   "@init": ({ style, data }) => {
     style.width = 375;
@@ -10,18 +11,18 @@ export default {
     style: [
       {
         title: "搜索框样式",
-        options: ["background","border"],
+        options: ["background", "border"],
         target: [`.mybricks-searchBar`]
-      }, 
+      },
       {
         title: "搜索按钮样式",
-        options: ["background","border"],
+        options: ["background", "border"],
         target: [`.mybricks-searchButton`]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target:[`.mybricks-searchBar-input .taroify-native-input`]
+        target: [`.mybricks-searchBar-input .taroify-native-input`]
       },
       {
         title: "提示内容文本",
@@ -84,7 +85,7 @@ export default {
           },
         },
         {
-          title:"展示搜索图标",
+          title: "展示搜索图标",
           type: "switch",
           description: '展示搜索输入框前的图标',
           value: {
@@ -95,6 +96,26 @@ export default {
               data.showSearchIcon = value;
             }
           }
+        },
+        {
+          title: "图标",
+          type: "editorRender",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.showSearchIcon;
+          },
+          options: {
+            render: (props) => {
+              return <IconSelector value={props.editConfig.value} />;
+            },
+          },
+          value: {
+            get({ data }) {
+              return data.searchIcon;
+            },
+            set({ data }, value: string) {
+              data.searchIcon = value;
+            },
+          },
         },
         // {
         //   title: '自定义图标',
@@ -122,59 +143,59 @@ export default {
         //     },
         //   },
         // },
-        {
-          title: '上传',
-          type: 'ImageSelector',
-          description: '上传自定义图标',
-          ifVisible: ({ data }) => {
-            return data.isCustom;
-          },
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.src;
-            },
-            set({ data }: EditorResult<Data>, value: string) {
-              data.src = value;
-            }
-          }
-        },
-        {
-          title: '尺寸',
-          type: 'InputNumber',
-          description: '图标大小',
-          options: [
-            { title: '高度', min: 0, width: 100 },
-            { title: '宽度', min: 0, width: 100 }
-          ],
-          ifVisible: ({ data }) => {
-            return data.isCustom;
-          },
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.contentSize || [14, 14];
-            },
-            set({ data }: EditorResult<Data>, value: [number, number]) {
-              data.contentSize = value;
-            }
-          }
-        },
-        {
-          title: '间距',
-          type: 'Inputnumber',
-          options: [{min: 0, max: 1000, width: 200}],
-          description: '图标与文字间的距离',
-          ifVisible({data}: EditorResult<Data>) {
-            return data.isCustom;
-          },
-          value: {
-            get({data}: EditorResult<Data>) {
-              return [data.iconDistance];
-            },
-            set({data}: EditorResult<Data>, value: number[]) {
-              data.iconDistance = value[0];
-            }
-          }
-        },
+        // {
+        //   title: '上传',
+        //   type: 'ImageSelector',
+        //   description: '上传自定义图标',
+        //   ifVisible: ({ data }) => {
+        //     return data.isCustom;
+        //   },
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return data.src;
+        //     },
+        //     set({ data }: EditorResult<Data>, value: string) {
+        //       data.src = value;
+        //     }
+        //   }
+        // },
+        // {
+        //   title: '尺寸',
+        //   type: 'InputNumber',
+        //   description: '图标大小',
+        //   options: [
+        //     { title: '高度', min: 0, width: 100 },
+        //     { title: '宽度', min: 0, width: 100 }
+        //   ],
+        //   ifVisible: ({ data }) => {
+        //     return data.isCustom;
+        //   },
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return data.contentSize || [14, 14];
+        //     },
+        //     set({ data }: EditorResult<Data>, value: [number, number]) {
+        //       data.contentSize = value;
+        //     }
+        //   }
+        // },
+        // {
+        //   title: '间距',
+        //   type: 'Inputnumber',
+        //   options: [{min: 0, max: 1000, width: 200}],
+        //   description: '图标与文字间的距离',
+        //   ifVisible({data}: EditorResult<Data>) {
+        //     return data.isCustom;
+        //   },
+        //   value: {
+        //     get({data}: EditorResult<Data>) {
+        //       return [data.iconDistance];
+        //     },
+        //     set({data}: EditorResult<Data>, value: number[]) {
+        //       data.iconDistance = value[0];
+        //     }
+        //   }
+        // },
         {
           title: "动作",
           items: [
