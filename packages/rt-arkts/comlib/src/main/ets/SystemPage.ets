@@ -12,12 +12,14 @@ export class Data implements DataType {
   enabledPulldown: boolean = false
   backgroundImage?: string
   backgroundColor?: string
+  bottomSpace?: number
 
   constructor(config: DataType) {
     this.navigationBarStyle = config?.navigationBarStyle
     this.navigationStyle = config?.navigationStyle
     this.backgroundColor = config?.backgroundColor ?? config.background
     this.backgroundImage = config?.backgroundImage
+    this.bottomSpace = config?.bottomSpace
   }
 }
 
@@ -77,6 +79,9 @@ export default struct MyBricksSystemPage {
       .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
       .applyScrollBackground(this.data.navigationStyle === 'custom' || this.data.navigationStyle === 'default' ?
       this.backgroundStyle : {})
+      .padding({
+        bottom:this.data.bottomSpace || 30
+      })
     }
     .height('100%')
     .width('100%')
