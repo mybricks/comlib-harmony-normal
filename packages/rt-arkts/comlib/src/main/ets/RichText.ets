@@ -1,5 +1,7 @@
 import { CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { ApplyStyleModifier } from '../../cp-test/comlib/utils/GetDesignStyle'
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
 
 export interface DataType {
   content: string
@@ -99,6 +101,9 @@ export default struct MyBricksRichText {
       this.data.content = val
       this.ready = true
     })
+
+    // const res = parseLinearGradient(getStyleValueByPattern(this.styles,['.taro_html'],'backgroundImage'))
+    // console.log("res",res)
   }
 
   build() {
@@ -106,6 +111,9 @@ export default struct MyBricksRichText {
       if (this.shouldDisplay) {
         RichText(this.processedContent)
           .width('100%')
+          .attributeModifier(new ApplyStyleModifier(this.styles['.taro_html']))
+          .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.taro_html'],'backgroundImage')))
+
       }
     }
   }

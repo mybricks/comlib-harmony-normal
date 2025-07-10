@@ -1,6 +1,8 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 export interface DataType {
   scope: string,
   type: string,
@@ -80,6 +82,7 @@ export default struct MyBricksIcon {
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-icon'])
     )
+    .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-icon'],'backgroundImage')))
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

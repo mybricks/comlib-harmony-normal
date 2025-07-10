@@ -1,6 +1,8 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 export interface DataType {
   text: string
   ellipsis?: boolean
@@ -60,6 +62,7 @@ export default struct MyBricksText {
             .fontSize(14)
             .fontColor('#333333')
         )
+        .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-text'],'backgroundImage')))
     }
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Start)
