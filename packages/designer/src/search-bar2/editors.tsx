@@ -117,6 +117,35 @@ export default {
             },
           },
         },
+        {
+          title:"图标颜色",
+          type:"colorpicker",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.showSearchIcon;
+          },
+         value: {
+            get({ data }) {
+              return data.searchIconColor?.[0];
+            },
+            set({ data }, value: string) {
+              console.log("配置的颜色",value)
+              data.searchIconColor[0] = value;
+            },
+          },
+        },
+        {
+          title: "图标大小",
+          type: "inputnumber",
+          options: [{ min: 1 }],
+          value: {
+            get({ data }) {
+              return [data.searchIconFontSize];
+            },
+            set({ data }, value: string) {
+              data.searchIconFontSize = value?.[0];
+            },
+          },
+        },
         // {
         //   title: '自定义图标',
         //   type: 'switch',

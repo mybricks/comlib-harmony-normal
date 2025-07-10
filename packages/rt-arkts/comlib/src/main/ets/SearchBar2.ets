@@ -32,6 +32,9 @@ export interface DataType {
   autoFocus?: boolean
   clearable?: boolean
   showSearchIcon?: boolean
+  searchIcon?: string
+  searchIconColor?: Array<AnyType>
+  searchIconFontSize?: number
 }
 
 @ObservedV2
@@ -45,6 +48,9 @@ export class Data implements DataType {
   @Trace autoFocus?: boolean
   @Trace clearable?: boolean
   @Trace showSearchIcon?: boolean
+  @Trace searchIcon?: string | undefined
+  @Trace searchIconColor?: Array<AnyType>
+  @Trace searchIconFontSize?: number
 
   constructor(config?: DataType) {
     this.placeholderText = config?.placeholderText
@@ -56,6 +62,9 @@ export class Data implements DataType {
     this.autoFocus = config?.autoFocus
     this.clearable = config?.clearable
     this.showSearchIcon = config?.showSearchIcon || true
+    this.searchIcon = config?.searchIcon
+    this.searchIconColor = config?.searchIconColor
+    this.searchIconFontSize = config?.searchIconFontSize
   }
 }
 
@@ -74,6 +83,14 @@ interface Outputs {
   returnValue: (value: string) => void
   focusDone: (value: string) => void
 }
+
+//这些图标是长方形，需要单独进行判断然后Width配置为"auto"
+const non_square_icon = [
+  "chevron_down",
+  "chevron_left",
+  "chevron_right",
+  "chevron_up"
+]
 
 
 
@@ -122,10 +139,15 @@ export default struct MyBricksSearchBar {
 
         Row() {
           if (this.data.showSearchIcon) {
-            Image($r('sys.media.ohos_ic_public_search_filled'))
-              .width(15)
-              .height(15)
-              .fillColor("#C4C2C2")
+            SymbolGlyph($r(`sys.symbol.${this.data.searchIcon}`))
+              .fontSize(this.data.searchIconFontSize)
+              .width(non_square_icon.includes(this.data.searchIcon) ? 'auto' : this.data.searchIconFontSize)
+              .height(this.data.searchIconFontSize)
+              .fontColor([this.data.searchIconColor?.[0], Color.White])
+              .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+              .alignSelf(ItemAlign.Center)
+              .align(Alignment.Center)
+              .renderFit(RenderFit.CENTER)
               .margin({
                 left: 10,
                 right: 5
@@ -181,7 +203,7 @@ export default struct MyBricksSearchBar {
               })
               .attributeModifier(
                 new ApplyStyleModifier(this.styles['.mybricks-searchBar .mybricks-searchButton'])
-                  .backgroundColor("#3679FF")
+                  .backgroundColor("#FA6400")
               )
               .width(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "width", 60))
               .height(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "height", 30))
@@ -201,11 +223,12 @@ export default struct MyBricksSearchBar {
         .alignItems(VerticalAlign.Center)
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-searchBar'])
-            .borderRadius(50)
-            .backgroundColor(Color.White)
+            .borderRadius(2)
+            .backgroundColor("#F7F8FA")
         )
 
-      }.justifyContent(FlexAlign.Start)
+      }
+      .justifyContent(FlexAlign.Start)
 
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])

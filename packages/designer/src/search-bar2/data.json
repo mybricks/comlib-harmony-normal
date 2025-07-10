@@ -8,5 +8,7 @@
   "iconDistance": 4,
   "autoFocus": false,
   "clearable": false,
-  "searchIcon":"magnifyingglass"
+  "searchIcon":"magnifyingglass",
+  "searchIconColor":["#303030"],
+  "searchIconFontSize":24
 }

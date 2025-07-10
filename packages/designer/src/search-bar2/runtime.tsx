@@ -79,7 +79,7 @@ export default function ({ env, data, inputs, outputs }) {
         <View className={css.searchBoxDisabled} onClick={onClick}></View>
       )}
       {
-        data.showSearchIcon && <SymbolGlyph className={cx(css.icon, 'mybricks-searchBar-input')} name={data.searchIcon} />
+        data.showSearchIcon && <SymbolGlyph className={cx(css.icon, 'mybricks-searchBar-input')} name={data.searchIcon} fontColor={data.searchIconColor} fontSize={data.searchIconFontSize} />
       }
       <Input
         className={cx(css.searchBar, 'mybricks-searchBar-input')}
