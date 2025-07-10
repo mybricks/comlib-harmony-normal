@@ -1,4 +1,9 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import {
+  ApplyRootStyleModifier,
+  ApplyStyleModifier,
+  ApplyFontStyleModifier,
+  CSSProperties
+} from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
 import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
@@ -96,53 +101,67 @@ export default struct MyBricksFormTextarea {
 
   build() {
     Column() {
-      TextArea({
-        text: this.data.value,
-        placeholder: this.data.placeholder
-      })
-        .fontColor(getStyleValueByPattern(this.styles,[
-          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-        ],
-          'color',
-          '#000000'
-        ))
-        .fontSize(getStyleValueByPattern(this.styles,[
-          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-        ],
-          'fontSize',
-
-        ))
-        .placeholderColor(getStyleValueByPattern(this.styles,[
-          ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
-        ],
-          'color',
-          '#999999'
-        ))
-        .placeholderFont({
-          size:getStyleValueByPattern(this.styles,[
-            ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+      Column() {
+        TextArea({
+          text: this.data.value,
+          placeholder: this.data.placeholder
+        })
+          .fontColor(getStyleValueByPattern(this.styles, [
+            ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+          ],
+            'color',
+            '#000000'
+          ))
+          .fontSize(getStyleValueByPattern(this.styles, [
+            ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
           ],
             'fontSize',
 
-          )
-        })
-        .height('100%')
-        .fontSize(14)
-        .maxLength(this.data.limit)
-        .enabled(!this.data.disabled)
-        .onChange((value: string) => {
-          this.data.value = value;
-          this.outputs?.onChange?.(value);
+          ))
+          .placeholderColor(getStyleValueByPattern(this.styles, [
+            ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+          ],
+            'color',
+            '#999999'
+          ))
+          .placeholderFont({
+            size: getStyleValueByPattern(this.styles, [
+              ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+            ],
+              'fontSize',
 
-          this.parentSlot?._inputs?.["onChange"]?.({
-            id: this.uid,
-            value:this.data.value,
-          });
-        })
-        .attributeModifier(
-          new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
-            .backgroundColor(Color.Transparent)
-        )
+            )
+          })
+          .fontSize(14)
+          .maxLength(this.data.limit)
+          .enabled(!this.data.disabled)
+          .onChange((value: string) => {
+            this.data.value = value;
+            this.outputs?.onChange?.(value);
+
+            this.parentSlot?._inputs?.["onChange"]?.({
+              id: this.uid,
+              value: this.data.value,
+            });
+          })
+          .flexGrow(1) // 占用剩余空间
+          .flexShrink(1) // 允许收缩（防止溢出）
+          .width('100%')
+          .padding(0)
+          .borderRadius(0)
+          .backgroundColor(Color.Transparent)
+        // .showCounter(true)  //原生计数器不能配置字体颜色
+
+
+        Text(`${this.data.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
+      }
+      .alignItems(HorizontalAlign.End)
+      .height('100%')
+      .attributeModifier(
+        new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
+          .backgroundColor(Color.Transparent)
+      )
+
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
