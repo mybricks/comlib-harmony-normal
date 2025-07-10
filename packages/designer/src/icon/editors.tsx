@@ -81,23 +81,22 @@ export default {
               data.fontWeight = value;
             },
           },
-        }
-      ];
-  
-      cate1.title = "样式";
-      cate1.items = [];
-  
-      cate2.title = "动作";
-      cate2.items = [
-        {
-          title: "单击",
-          type: "_event",
-          options: {
-            outputId: "onClick",
-          },
         },
+        {
+          title: "事件",
+          items: [{
+            title: "单击",
+            type: "_event",
+            options: {
+              outputId: "onClick",
+            },
+          },]
+        }
+
+
       ];
+
     },
   }
-  
+
 };
