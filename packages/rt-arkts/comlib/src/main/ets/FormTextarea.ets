@@ -1,6 +1,8 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 export interface DataType {
   hideLabel: boolean,
   label: string,
@@ -98,7 +100,32 @@ export default struct MyBricksFormTextarea {
         text: this.data.value,
         placeholder: this.data.placeholder
       })
-        .placeholderColor('#999999')
+        .fontColor(getStyleValueByPattern(this.styles,[
+          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+        ],
+          'color',
+          '#000000'
+        ))
+        .fontSize(getStyleValueByPattern(this.styles,[
+          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+        ],
+          'fontSize',
+
+        ))
+        .placeholderColor(getStyleValueByPattern(this.styles,[
+          ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+        ],
+          'color',
+          '#999999'
+        ))
+        .placeholderFont({
+          size:getStyleValueByPattern(this.styles,[
+            ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+          ],
+            'fontSize',
+
+          )
+        })
         .height('100%')
         .fontSize(14)
         .maxLength(this.data.limit)
