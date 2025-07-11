@@ -1,6 +1,11 @@
-import { CSSProperties } from './utils/GetDesignStyle'
+
 import { AnyType } from './types'
-import { ApplyStyleModifier } from '../../cp-test/comlib/utils/GetDesignStyle'
+import {
+  ApplyRootStyleModifier,
+  ApplyStyleModifier,
+  ApplyFontStyleModifier,
+  CSSProperties
+} from './utils/GetDesignStyle'
 import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
 
 export interface DataType {

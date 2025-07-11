@@ -152,7 +152,7 @@ export default {
       cate0.title = "常规";
       cate0.items = [
         dynamicArrayData.editors(
-          { data },
+          { data:data },
           {
             title: "标签项",
             array: {
@@ -183,7 +183,8 @@ export default {
                 onRemove(_id) {
                   const item = findItemByInnerId(_id, data);
                   input.remove(_id);
-                  outputs.remove(`changeTab_${item._id}`);
+                  outputs.remove(`changeTab_${item?._id}`);
+                  data.edit.currentTabId = data.tabs[0]?._id;
                   // slots.remove(_id);
 
                   // if (id === data.defaultActiveId) {
@@ -498,13 +499,14 @@ export default {
                 position: "smart"
               }
               const tab = getFocusTab(props)
-              return tab.layout || defaultLayout;
+              console.log("tab",tab)
+              return tab?.layout || defaultLayout;
             },
             set({ data, slots }, value) {
               const tab = getFocusTab(props)
 
               tab.layout = value;
-              setSlotLayout(slots.get(tab._id), value);
+              setSlotLayout(slots.get(tab?._id), value);
 
             },
           },
@@ -530,8 +532,8 @@ export default {
             set({ data, focusArea, slot, output }, value) {
               if (!focusArea) return;
               focusItem.tabName = value;
-              slot.setTitle(focusItem._id, value);
-              output.setTitle("changeTab_" + focusItem._id, value);
+              slot.setTitle(focusItem?._id, value);
+              output.setTitle("changeTab_" + focusItem?._id, value);
             },
           },
         },
@@ -539,7 +541,7 @@ export default {
           title: "切换到该标签时",
           type: "_event",
           options: {
-            outputId: `changeTab_${focusItem._id}`,
+            outputId: `changeTab_${focusItem?._id}`,
           },
         },
         {
@@ -550,11 +552,12 @@ export default {
               value: {
                 set({ data, slot, input, outputs, focusArea }) {
                   if (!focusArea) return;
-                  const item = findItemByInnerId(focusItem._id, data);
-                  outputs.remove(`changeTab_${item._id}`);
+                  const item = findItemByInnerId(focusItem?._id, data);
+                  outputs.remove(`changeTab_${item?._id}`);
                   data.tabs.splice(focusArea.index, 1);
-                  input.remove(focusItem._id);
-                  slot.remove(focusItem._id);
+                  input.remove(focusItem?._id);
+                  slot.remove(focusItem?._id);
+                  data.edit.currentTabId = data.tabs[0]?._id;
                 },
               },
             },
@@ -569,7 +572,7 @@ export default {
           type: "switch",
           value: {
             get({ data }) {
-              return !!focusItem.useStyle;
+              return !!focusItem?.useStyle;
             },
             set({ data }, value) {
               focusItem.useStyle = value;
@@ -594,14 +597,14 @@ export default {
                 ],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return !!focusItem.useStyle;
+                return !!focusItem?.useStyle;
               },
               value: {
                 get({ data }) {
-                  return focusItem.style;
+                  return focusItem?.style;
                 },
                 set({ data }, value) {
-                  focusItem.style = value;
+                  focusItem?.style = value;
                 },
               },
             },
@@ -620,11 +623,11 @@ export default {
                 ],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return !!focusItem.useStyle;
+                return !!focusItem?.useStyle;
               },
               value: {
                 get({ data }) {
-                  return focusItem.activeStyle;
+                  return focusItem?.activeStyle;
                 },
                 set({ data }, value) {
                   focusItem.activeStyle = value;
@@ -647,8 +650,8 @@ export default {
           const focusItem = getFocusTab(props);
           if (!focusArea) return;
           focusItem.tabName = value;
-          slot.setTitle(focusItem._id, value);
-          output.setTitle("changeTab_" + focusItem._id, value);
+          slot.setTitle(focusItem?._id, value);
+          output.setTitle("changeTab_" + focusItem?._id, value);
         },
       },
     },

@@ -1,6 +1,8 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+
 export interface DataType {
 
 }
@@ -49,5 +51,6 @@ export default struct MyBricksLine {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-line'],'backgroundImage')))
   }
 }

@@ -401,6 +401,13 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
     setCurrentTabId(currentTabId);
   }
 
+  useEffect(()=>{
+    //在编辑态，删除项目后自动回到第一项
+    if(!data?.edit?.currentTabId) return
+    currentTabIdRef.current = data.edit.currentTabId;
+    setCurrentTabId(data.edit.currentTabId);
+  },[data.edit.currentTabId,data.tabs])
+
   const emptyView = useMemo(() => {
     if (env.edit && data.tabs.length === 0) {
       return <View className={css.empty}>暂无内容，请配置标签项</View>;
