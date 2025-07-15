@@ -97,7 +97,6 @@ export default struct MyBricksContainerWaterfall {
   }
 
   build() {
-    Column() {
       WaterFlow() {
         ForEach(this.dataSource, (item: DataSourceItem, index) => {
           FlowItem() {
@@ -112,14 +111,10 @@ export default struct MyBricksContainerWaterfall {
       .columnsTemplate(generateColumnsTemplate(this.data?.layout?.column))
       .columnsGap(this.data.layout?.gutter[1])
       .rowsGap(this.data.layout?.gutter[0])
-
-    }
-    .alignItems(HorizontalAlign.Start)
-    .align(Alignment.Start)
-    .height('100%')
-    .width('100%')
-    .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
+      .align(Alignment.Start)
+      .width('100%')
+      .attributeModifier(
+        new ApplyRootStyleModifier(this.styles['root'])
+      )
   }
 }

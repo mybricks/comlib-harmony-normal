@@ -78,6 +78,25 @@ export default function ({ id, env, data, style, inputs, outputs }) {
     }
   }, [data.ellipsis, data.maxLines, ready, displayState]);
 
+  const verticalStyle = useMemo(() => {
+    if (data?.direction == "horizonal") {
+      return {
+
+      }
+    } else if (data?.direction == "vertical") {
+      return {
+        writingMode: 'vertical-rl',
+        WebkitWritingMode: 'vertical-rl',
+        textOrientation: 'upright',
+        WebkitTextOrientation: 'upright',
+      }
+    } else {
+      return {
+
+      }
+    }
+  }, [data?.direction])
+
   const maxLines = useMemo(() => {
     if (data.ellipsis) {
       return { maxLines: data.maxLines };
@@ -124,7 +143,7 @@ export default function ({ id, env, data, style, inputs, outputs }) {
           onClick={onClick}
         >
           <View className={SkeletonCx}>
-            <View ref={textRef} className={ellipsisCx} style={textStyle}>
+            <View ref={textRef} className={ellipsisCx} style={{...textStyle,...verticalStyle}}>
               {text}
             </View>
           </View>

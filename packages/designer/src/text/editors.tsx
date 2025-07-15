@@ -37,6 +37,22 @@ export default {
         },
       },
       {
+        title: "文本方向",
+        type: "radio",
+        options: [
+          { label: "横排", value: "horizonal" },
+          { label: "纵排", value: "vertical" },
+        ],
+        value: {
+          get({ data }) {
+            return data.direction || "horizonal";
+          },
+          set({ data }, value) {
+            data.direction = value;
+          },
+        },
+      },
+      {
         ifVisible({ data }) {
           return data.ellipsis;
         },

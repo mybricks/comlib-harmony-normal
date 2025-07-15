@@ -499,7 +499,6 @@ export default {
                 position: "smart"
               }
               const tab = getFocusTab(props)
-              console.log("tab",tab)
               return tab?.layout || defaultLayout;
             },
             set({ data, slots }, value) {

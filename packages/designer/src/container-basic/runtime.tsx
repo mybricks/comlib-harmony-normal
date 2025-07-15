@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { View } from "@tarojs/components";
 import css from "./style.less";
 import cx from "classnames";
@@ -18,13 +18,26 @@ export default function ({ env, data, slots, inputs, outputs }) {
     outputs["onClick"]?.();
   }, []);
 
+  const style_sub = useMemo(() => {
+    if (data.overflowVisible) {
+      return {
+        overflow: "visible",
+      }
+    } else {
+      return {
+        overflow: "hidden"
+      }
+    }
+  }, [data.overflowVisible])
+
   return (
-    <View className={cx(css.container, "mybricks-container")} onClick={onClick}>
-      {slots["content"].render({
-        style: {
-          ...data.layout,
-        },
-      })}
-    </View>
+      <View className={cx(css.container, "mybricks-container")} style={style_sub} onClick={onClick}>
+        {slots["content"].render({
+          style: {
+            ...data.layout,
+          },
+        })}
+      </View>
+
   );
 }

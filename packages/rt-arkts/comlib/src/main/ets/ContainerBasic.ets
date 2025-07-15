@@ -5,14 +5,17 @@ import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatchi
 
 export interface DataType {
   layout?: CSSProperties
+  overflowVisible?: boolean
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace layout?: CSSProperties
+  @Trace overflowVisible?: boolean
 
   constructor(config: DataType) {
     this.layout = config?.layout ?? {}
+    this.overflowVisible = config?.overflowVisible ?? false
   }
 }
 
@@ -58,7 +61,7 @@ export default struct MyBricksContainerBasic {
     .align(Alignment.Start)
     .height('100%')
     .width('100%')
-    .clip(true)
+    .clip(this.data.overflowVisible ? false : true)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
