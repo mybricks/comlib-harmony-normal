@@ -3,7 +3,7 @@ export default {
     return {}
   },
   prompts: {
-    summary: '标签页组件，用于切换标签项，是一个文字+下方选中条的tab形态',
+    summary: '标签页组件，用于切换标签项，是一个文字+下方选中条的tab形态(在遇到多个高度相似按钮排列在一起,且有一个为高亮态时高优先使用)',
     usage: `data数据模型
 new_index: number = 3
 tabs: array = [
@@ -29,21 +29,38 @@ styleAry声明
     - color: #646566
     - backgroundColor: #ffffff
     - borderRaidus: 0px
-  - 可编辑样式: color、backgroundColor、borderRaidus
+    - fontSize: 14px
+    - paddingLeft: 12px
+    - paddingRight: 12px
+  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关
+  - 不可编辑样式: 所有margin相关的（marginLeft、marginBottom、marginRight、marginTop）
 标签项（已选中）: .taroify-tabs__tab--active
   - 默认样式:
     - color: #323233
     - backgroundColor: #ffffff
     - borderRaidus: 0px
-  - 可编辑样式: color、backgroundColor、borderRaidus
+    - fontSize: 14px
+    - paddingLeft: 12px
+    - paddingRight: 12px
+  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关
+  - 不可编辑样式: 所有margin相关的（marginLeft、marginBottom、marginRight、marginTop）
 标签项选中条: .taroify-tabs__line
   - 默认样式: 一个位于高亮标签项下方的选中条
     - width = 40px
     - height = 3px
     - backgroundColor: #EE0A24
-  - 可编辑样式: width、height、backgroundColor
+  - 可编辑样式: width、height、backgroundColor、borderRadius
   - 不可编辑样式: display
   - 重要补充: 如果要隐藏掉高亮标签项下方的选中条，配置颜色为透明即可，不能配置为 display: none;
+
+注意事项:
+  - 你是高级产品经理，有非常全面的思考，能精准识别出页面上哪些功能是带有切换逻辑的，最高优先使用tab组件，以实现正常的切换逻辑
+    - 比如一些看起来像按钮组（包含多个相似按钮，可能有一个颜色和其他按钮不同），要实现点击后高亮态切换，这种情况下用tab组件是最合理的
+    - 比如有些日历、月份选择，点击后切到对应的时间并高亮，这种也是用tab组件最合理的
+    - 比如有多段文本并排在一起，其中有一个文本带有下划线，这种需要额外关注，可能会有切换逻辑
+    - 如果遇到有些功能是需要tab组件的，但是使用tab组件会导致UI还原度不高，这种情况也优先使用tab组件，以交互功能为优先
+    - 目前tab组件暂时不支持红点，所以遇到带红点的tab时，忽略掉红点，直接使用tab组件即可
+  - 标签项（未选中） .taroify-tabs__tab 和 标签项（已选中）.taroify-tabs__tab--active 的borderRadius、padding必须保持高度一致，不然在切换时会有视觉上的不和谐
 
 使用案例
 \`\`\`dsl file="page.dsl"

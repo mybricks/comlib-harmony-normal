@@ -9,6 +9,7 @@ data声明
 text: string = "文本内容"
 ellipsis: boolean = false
 maxLines: number = "0"
+direction: string = "horizonal" | "vertical"
 
 slots插槽
 无
@@ -19,7 +20,8 @@ styleAry声明
 美观度注意事项
 - 尽量不用全黑的字体颜色，而是用柔和一些的颜色比如深灰色
 - 在保证可读性的前提下，尽量使用小字体
-- 注意文本和其他组件之间要留有适量的边距（通过layout进行配置）
+- 注意文本和其他组件之间要留有适量的边距(通过layout进行配置)
+- 根据需求&图片的需求描述,当文字是竖排时,direction应为 vertical
 
 使用案例
 \`\`\`dsl file="page.dsl"
