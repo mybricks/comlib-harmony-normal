@@ -4,7 +4,7 @@
   "description": "通用鸿蒙组件库",
   "main": "index.js",
   "scripts": {
-    "upload": "node scripts/upload"
+    "generate:code": "node scripts/generate"
   },
   "repository": {
     "type": "git",

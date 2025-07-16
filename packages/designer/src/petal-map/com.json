@@ -204,11 +204,5 @@
         "properties": {}
       }
     }
-  ],
-  "slots": [
-    {
-      "id": "content",
-      "title": "内容"
-    }
   ]
 }

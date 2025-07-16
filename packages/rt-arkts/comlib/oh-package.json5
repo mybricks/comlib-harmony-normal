@@ -7,7 +7,8 @@
   "license": "MIT",
   "dependencies": {
     "dayjs": "1.11.13",
-    "@ohos/axios": "2.2.6"
+    "@ohos/axios": "2.2.6",
+    "@mybricks/render-utils": "1.0.1"
   },
   "devDependencies": {}
 }

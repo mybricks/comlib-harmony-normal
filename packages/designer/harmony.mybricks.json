@@ -15,7 +15,6 @@
     "./src/_choose-file/com.json",
     "./src/_get-location/com.json",
     "./src/_text-to-speech/com.json",
-    "./src/_send-sms/com.json",
     "./src/_open-petal-map/com.json",
     {
       "title": "系统",
