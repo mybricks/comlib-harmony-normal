@@ -33,6 +33,19 @@ interface Outputs {
   onClick: (value: string) => void
 }
 
+function textAlignParse(cssTextAlign: AnyType): AnyType {
+  switch(cssTextAlign.toLowerCase()) {
+    case 'left':
+      return HorizontalAlign.Start;
+    case 'right':
+      return HorizontalAlign.End;
+    case 'center':
+      return HorizontalAlign.Center;
+    default:
+      return HorizontalAlign.Start; // 默认值
+  }
+}
+
 @ComponentV2
 export default struct MyBricksText {
   @Param data: Data = new Data({
@@ -87,7 +100,7 @@ export default struct MyBricksText {
       }
     }
     .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Start)
+    .alignItems(textAlignParse(this.styles?.['.mybricks-text']?.textAlign))
     .onClick(() => {
       this.outputs?.onClick(this.data.text)
     })

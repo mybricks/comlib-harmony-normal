@@ -32,8 +32,8 @@ styleAry声明
     - fontSize: 14px
     - paddingLeft: 12px
     - paddingRight: 12px
-  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关
-  - 不可编辑样式: 所有margin相关的（marginLeft、marginBottom、marginRight、marginTop）
+  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关、margin相关
+    - 如果要修改margin，务必要保证和 .taroify-tabs__tab--active 的margin保持一致，不然点击切换的时候会闪动
 标签项（已选中）: .taroify-tabs__tab--active
   - 默认样式:
     - color: #323233
@@ -42,8 +42,8 @@ styleAry声明
     - fontSize: 14px
     - paddingLeft: 12px
     - paddingRight: 12px
-  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关
-  - 不可编辑样式: 所有margin相关的（marginLeft、marginBottom、marginRight、marginTop）
+  - 可编辑样式: color、backgroundColor、borderRaidus、fontSize、padding相关、margin相关
+      - 如果要修改margin，务必要保证和 .taroify-tabs__tab 的margin保持一致，不然点击切换的时候会闪动
 标签项选中条: .taroify-tabs__line
   - 默认样式: 一个位于高亮标签项下方的选中条
     - width = 40px
