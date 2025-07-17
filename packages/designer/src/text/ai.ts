@@ -16,12 +16,18 @@ slots插槽
 
 styleAry声明
 文本容器: .mybricks-text
+- 默认样式:
+    - color: #333333
+    - font-size: 14px
+    - line-height: 16px
+- 可编辑样式: text-align、color、fontsize、background-color、border、padding
 
 美观度注意事项
 - 尽量不用全黑的字体颜色，而是用柔和一些的颜色比如深灰色
 - 在保证可读性的前提下，尽量使用小字体
 - 注意文本和其他组件之间要留有适量的边距(通过layout进行配置)
 - 根据需求&图片的需求描述,当文字是竖排时,direction应为 vertical
+- 文本可以综合考虑，是否配置为居中
 
 使用案例
 \`\`\`dsl file="page.dsl"
