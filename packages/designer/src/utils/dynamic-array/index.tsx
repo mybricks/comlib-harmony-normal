@@ -63,7 +63,7 @@ export class DynamicArrayData {
           options: {
             render: () => {
               return (
-                <div style={{ marginTop: -36 }}></div>
+                <div style={{ marginTop: -10 }}></div>
               );
             },
           },
