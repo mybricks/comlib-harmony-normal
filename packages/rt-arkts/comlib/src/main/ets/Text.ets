@@ -34,7 +34,7 @@ interface Outputs {
 }
 
 function textAlignParse(cssTextAlign: AnyType): AnyType {
-  switch(cssTextAlign.toLowerCase()) {
+  switch(cssTextAlign) {
     case 'left':
       return HorizontalAlign.Start;
     case 'right':
