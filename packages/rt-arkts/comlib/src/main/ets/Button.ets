@@ -106,11 +106,9 @@ export default struct MyBricksButton {
     }
     .type(ButtonType.Normal)
     .onClick(() => {
-      if (this.data.disabled) {
-        return
-      }
       this.outputs?.onClick(this.data.text)
     })
+    .enabled(!this.data.disabled)
     .align(Alignment.Center)
     .attributeModifier(new ApplyStyleModifier(this.styles[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button']).borderRadius('50%').backgroundColor('#fa6400'))
     .attributeModifier(

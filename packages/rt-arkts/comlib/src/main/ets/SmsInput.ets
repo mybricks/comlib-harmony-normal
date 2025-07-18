@@ -12,7 +12,8 @@ export interface DataType {
   counting: boolean,
   currentCount: number,
   isError: boolean,
-  desc: string
+  desc: string,
+  hideOptButton: boolean
 }
 
 @ObservedV2
@@ -28,6 +29,7 @@ export class Data implements DataType {
   @Trace currentCount: number
   @Trace isError: boolean
   @Trace desc: string
+  @Trace hideOptButton: boolean
 
   constructor(config?: Partial<DataType>) {
     this.value = config?.value ?? '' //已加
@@ -41,6 +43,7 @@ export class Data implements DataType {
     this.currentCount = config?.currentCount ?? 0 //已加
     this.isError = config?.isError ?? false
     this.desc = config?.desc ?? "收不到验证码？"//已加
+    this.hideOptButton = config?.hideOptButton ?? false
   }
 }
 
@@ -232,26 +235,27 @@ export default struct SmsInput {
       .margin({ top: 0 })
       .width('100%')
 
-      Row(){
-        Text(this.data.counting ? `${this.data.currentCount}${this.data.countDownText}` :this.data.retryText)
-          .fontColor(this.data.counting ? '#787878' : '#548CFF')
-          .fontSize(14)
-          .onClick(()=>{
-            this.handleRetryClick()
-          })
+      if(!this.data.hideOptButton){
+        Row(){
+          Text(this.data.counting ? `${this.data.currentCount}${this.data.countDownText}` :this.data.retryText)
+            .fontColor(this.data.counting ? '#787878' : '#548CFF')
+            .fontSize(14)
+            .onClick(()=>{
+              this.handleRetryClick()
+            })
 
-        Text(this.data.counting ? "":this.data.desc)
-          .fontColor('#4B4B4B')
-          .fontSize(14)
-          .onClick(()=>{
-            this.outputs?.onClickDesc?.(this.data.value)
-          }
-          )
+          Text(this.data.counting ? "":this.data.desc)
+            .fontColor('#4B4B4B')
+            .fontSize(14)
+            .onClick(()=>{
+              this.outputs?.onClickDesc?.(this.data.value)
+            }
+            )
+        }
+        .width('100%')
+        .justifyContent(FlexAlign.SpaceBetween)
+        .margin({top:25})
       }
-      .width('100%')
-      .justifyContent(FlexAlign.SpaceBetween)
-      .margin({top:25})
-
     }
 
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
