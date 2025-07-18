@@ -18,20 +18,20 @@ export default function ({ env, data, slots, inputs, outputs }) {
     outputs["onClick"]?.();
   }, []);
 
-  const style_sub = useMemo(() => {
-    if (data.overflowVisible) {
-      return {
-        overflow: "visible",
-      }
-    } else {
-      return {
-        overflow: "hidden"
-      }
-    }
-  }, [data.overflowVisible])
+  // const style_sub = useMemo(() => {
+  //   if (data.overflowVisible) {
+  //     return {
+  //       overflow: "visible",
+  //     }
+  //   } else {
+  //     return {
+  //       overflow: "hidden"
+  //     }
+  //   }
+  // }, [data.overflowVisible])
 
   return (
-      <View className={cx(css.container, "mybricks-container")} style={style_sub} onClick={onClick}>
+      <View className={cx(css.container, "mybricks-container")} onClick={onClick}>
         {slots["content"].render({
           style: {
             ...data.layout,

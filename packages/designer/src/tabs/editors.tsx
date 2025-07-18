@@ -145,14 +145,14 @@ export default {
           { type: "background", config: { disableBackgroundImage: true } },
           { type: "size", config: { disableWidth: false } },
         ],
-        target: ({id})=> `.taroify-tabs__line${getFilterSelector()}`
+        target: ({ id }) => `.taroify-tabs__line${getFilterSelector()}`
       },
     ],
     items({ data, input, slots, outputs }, cate0, cate1, cate2) {
       cate0.title = "常规";
       cate0.items = [
         dynamicArrayData.editors(
-          { data:data },
+          { data: data },
           {
             title: "标签项",
             array: {
@@ -234,9 +234,9 @@ export default {
                   title: action?.value.tabName,
                   layout: "smart"
                 });
-                
+
                 const slotInstance = slot.get(action?.value._id)
-                setSlotLayout(slotInstance, {position: "smart"});
+                setSlotLayout(slotInstance, { position: "smart" });
 
 
 
@@ -325,10 +325,20 @@ export default {
                   };
                 });
                 slot.add(comJson.slots[0]);
+                //默认配置为智能布局
+                const style = {
+                    "position": "smart"
+                  }
+                  setSlotLayout(slots.get(comJson.slots[0]?.id), style);
               } else {
                 //动态标签页关闭时，还原存储的slot
                 data.slotStorage.forEach((item) => {
                   slot.add(item);
+                  //还原的时候配置为智能布局
+                  const style = {
+                    "position": "smart"
+                  }
+                  setSlotLayout(slots.get(item?.id), style);
                 });
                 slot.remove("tabItem");
                 data.slotStorage = [];
@@ -370,7 +380,7 @@ export default {
           type: "switch",
           description: "开启后tab内容项不展示",
           value: {
-            get({data}){
+            get({ data }) {
               return data.hideContent
             },
             set({ data }, value) {

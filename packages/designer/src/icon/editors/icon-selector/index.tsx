@@ -60,12 +60,10 @@ export default function ({ value }) {
   return (
     <div className={css["editor-icon"]}>
       <button className={css["editor-icon__button"]} onClick={toggle}>
-        <Icon
-          type={value.get()}
-          size={16}
-          className={css["editor-icon__button-editIcon"]}
-        />
-        {`${visible ? "关闭" : "打开"}`}图标选择器
+        <div style={{display:"flex",justifyContent:"center",alignItems:"center",width:"100%",height:"100%"}}>
+        <SymbolGlyph name={value.get()}  fontSize={15} />
+        <div style={{marginLeft:5}}>{`${visible ? "关闭" : "打开"}`}图标选择器</div>
+        </div>
       </button>
 
       <Drawer
