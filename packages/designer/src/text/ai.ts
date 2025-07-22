@@ -9,6 +9,7 @@ data声明
 text: string = "文本内容"
 ellipsis: boolean = false
 maxLines: number = "0"
+direction: string = "horizonal" | "vertical"
 
 slots插槽
 无

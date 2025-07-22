@@ -114,7 +114,7 @@ styleAry声明
     - paddingTop: 3px
     - paddingBottom: 3px
     - backgroundColor: #f7f8fa
-  - 可编辑样式: background、padding、border（非必要不加边框，不然会有割裂感）相关
+  - 可编辑样式: background、border（非必要不加边框，不然会有割裂感）相关
 输入框文本: .text
   - 默认样式:
     - color: #323233

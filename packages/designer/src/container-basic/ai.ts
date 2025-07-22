@@ -1,6 +1,6 @@
 export default {
   ignore: true,
-  ':root' ({ data }) {
+  ':root'({ data }) {
 
   }
 }
