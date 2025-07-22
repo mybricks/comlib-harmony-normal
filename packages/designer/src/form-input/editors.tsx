@@ -11,19 +11,19 @@ export default {
       {
         title: "输入框",
         options: ["border", "padding", "background"],
-        target:[`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`]
+        target:[`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target: [`.mybricks-input`, `.mybricks-h5Input .taroify-native-input`]
+        target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`]
       },
       {
         title: "提示内容文本",
         options: ["font"],
         target:[
-          `.mybricks-input .taroify-input__placeholder`,
           `.mybricks-h5Input .taroify-native-input::placeholder`,
+          `.mybricks-input .taroify-input__placeholder`,
         ]
       },
     ],

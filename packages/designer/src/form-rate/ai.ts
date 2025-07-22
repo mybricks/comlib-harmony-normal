@@ -5,7 +5,8 @@ export default {
   },
   prompts: {
     summary: '星星样式的评分组件，可以左右拖动评分',
-    usage: `data声明
+    usage: `星星样式的评分组件，可以左右拖动评分
+data声明
 label: string = "评分"
 name: string = "评分"
 count: number = 5
@@ -22,8 +23,14 @@ styleAry声明
     - fontSize: 12px
 
 layout声明
-width: 可配置
-height: 不可配置，默认为fit-content`
+width: 不可配置，建议配置fit-content
+height: 不可配置，默认为fit-content
+
+layout规则
+- width，取决count属性（代表有多少个星星，星星之间的间距为4px）和 fontSize 配置；
+- height，取决于 fontSize 和 lineHeight 配置；
+
+`
   },
   modifyTptJson: (component) => {
     if (!component?.data) {

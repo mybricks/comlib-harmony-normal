@@ -94,9 +94,10 @@ export default {
   },
   prompts: {
     summary: `图标，内置丰富的图标类型，也可作为图标样式的按钮使用
-何时使用：所有时候都必须强制使用。
-特别注意：require.json的推荐组件中必须有此组件。`,
-    usage: `
+何时使用：任何时候优先推荐此组件，当明确发现导航入口、图标时，使用此组件。
+`,
+    usage: `图标，内置丰富的图标类型，也可作为图标样式的按钮使用
+何时使用：任何时候优先推荐此组件，当明确发现导航入口、图标时，使用此组件，而不是图片。
   data声明
   icon: string = "camera"
   fontColor: string = "#000000"
@@ -112,7 +113,7 @@ export default {
   width: 可配置，默认为fontSize的值
   height: 可配置，默认为fontSize的值
 
-  通过layout的固定宽高可以实现类似按钮的效果
+  通过layout的固定宽高可以实现类似按钮和图片的效果
 
   <允许使用的图标>
   ${icons.join('\n')}

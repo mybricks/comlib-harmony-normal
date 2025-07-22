@@ -32,7 +32,7 @@ export default {
 
   layout声明
   width: 可配置
-  height: 不可配置，默认为fit-content`
+  height: 可配置，默认为fit-content`
   },
   modifyTptJson: (component) => {
     component.style?.styleAry?.forEach?.((style, index) => {
