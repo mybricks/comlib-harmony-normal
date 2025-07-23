@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern } from './utils/StyleMatching'
 
 export interface DataType {
   hideLabel: boolean,
@@ -141,8 +142,26 @@ export default struct MyBricksFormPassword {
         )
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-password,.mybricks-h5Password'])
-            .backgroundColor(Color.Transparent)
+            // .backgroundColor(Color.Transparent)
         )
+        .backgroundColor(getStyleValueByPattern(
+          this.styles,
+          ['.mybricks-h5Input .taroify-native-input'],
+          'backgroundColor',
+        ))
+        .height(getStyleValueByPattern(
+          this.styles,
+          ['root'],
+          'height',
+          undefined
+        ))
+        .borderRadius(
+          getStyleValueByPattern(
+            this.styles,
+            ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
+            'borderRadius',
+            0
+          ))
     }
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
