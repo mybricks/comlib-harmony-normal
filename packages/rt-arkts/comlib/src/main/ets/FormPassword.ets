@@ -120,7 +120,7 @@ export default struct MyBricksFormPassword {
         .placeholderFont({
           size: this.placeHolderStyle?.fontSize || 14
         })
-        .height('100%')
+        // .height('100%')
         .maxLength(this.data.maxlength)
         .enabled(!this.data.disabled)
         .contentType(ContentType.PASSWORD)
@@ -133,7 +133,7 @@ export default struct MyBricksFormPassword {
             value:this.data.value,
           });
         })
-        .layoutWeight(1)  // 输入框占剩余空间
+        // .layoutWeight(1)  // 输入框占剩余空间
         .attributeModifier(
           new ApplyFontStyleModifier(this.styles['.mybricks-password .taroify-input,.mybricks-h5Password .taroify-input .taroify-native-input'])
             .fontSize(14)
@@ -143,7 +143,10 @@ export default struct MyBricksFormPassword {
           new ApplyStyleModifier(this.styles['.mybricks-password,.mybricks-h5Password'])
             .backgroundColor(Color.Transparent)
         )
-    }.attributeModifier(
+    }
+    .alignItems(HorizontalAlign.Center)
+    .justifyContent(FlexAlign.Center)
+    .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
   }
