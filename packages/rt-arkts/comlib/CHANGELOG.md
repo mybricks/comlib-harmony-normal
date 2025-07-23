@@ -1,3 +1,6 @@
+# [1.0.3](https://github.com/mybricks/comlib-harmony-normal/compare/e1b5d06..c32796e) (2025-07-17)
+- 修复密码输入框高度问题
+
 # [1.0.2](https://github.com/mybricks/comlib-harmony-normal/compare/939f2ed..c32796e) (2025-07-17)
 - 优化文本、tabs、容器组件提示词
 - 文本组件真机环境支持竖排
