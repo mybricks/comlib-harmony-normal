@@ -23,22 +23,6 @@ export default {
               },
             },
           },
-          // {
-          //   title: "二维码类型",
-          //   type: "select",
-          //   options: [
-          //     { label: "二维码", value: "qrcode" },
-          //     { label: "条形码", value: "barcode" },
-          //   ],
-          //   value: {
-          //     get({ data }) {
-          //       return data.mode;
-          //     },
-          //     set({ data }, mode: string) {
-          //       data.mode = mode;
-          //     },
-          //   },
-          // },
         ],
       },
     ];

@@ -301,7 +301,6 @@ class Sandbox {
     // @ts-ignore
     delete originWindow.proxy;
     this.hasDisposed = true;
-    console.log('Sandbox was successfully destroyed')
   }
 }
 

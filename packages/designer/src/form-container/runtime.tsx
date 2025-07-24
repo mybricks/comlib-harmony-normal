@@ -307,21 +307,6 @@ export default function ({ env, data, inputs, outputs, slots }) {
           outputs["onSubmit"](form?.getValues());
           break;
       }
-
-      // if (data.skipValidation) {
-      //   outputs["onSubmit"](form?.getValues());
-      // } else {
-      //   form
-      //     ?.validate()
-      //     .then((res) => {
-      //       outputs["onSubmit"](res);
-      //     })
-      //     .catch((err) => {
-      //       // 遇到异常，自动回滚 loading 状态
-      //       setLoading(false);
-      //       console.error("validate", err);
-      //     });
-      // }
     }
   }, [data.useLoading, loading, data.skipValidation]);
 

@@ -17,16 +17,16 @@ export default {
         title: "内容文本",
         options: ["font"],
         target:[
-          ".taroify-textarea__wrapper .mybricks-textarea",
           ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+          ".taroify-textarea__wrapper .mybricks-textarea",
         ]
       },
       {
         title: "提示内容文本",
         options: ["font"],
         target:[
-          ".taroify-textarea__wrapper .taroify-textarea__placeholder",
           ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+          ".taroify-textarea__wrapper .taroify-textarea__placeholder",
         ]
       },
     ],

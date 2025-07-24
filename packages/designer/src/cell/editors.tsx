@@ -1,4 +1,4 @@
-import setSlotLayout from "../utils/setSlotLayout";
+import setSlotLayout from "../utils/set-slot-layout";
 
 export default {
   "@init": ({ style, data }) => {
@@ -212,7 +212,6 @@ export default {
               value: {
                 get({ data }) {
                   return (
-                    // 兜底编辑器 bug
                     data.leftSwipeStyle ?? {
                       paddingTop: "0px",
                       paddingLeft: "0px",
@@ -226,51 +225,6 @@ export default {
                 },
               },
             },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeft;
-            //   },
-            //   title: "左滑主按钮宽度",
-            //   type: "number",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeWidth;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeWidth = value;
-            //     },
-            //   },
-            // },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeft;
-            //   },
-            //   title: "左滑主按钮文字色",
-            //   type: "colorpicker",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeFontColor;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeFontColor = value;
-            //     },
-            //   },
-            // },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeft;
-            //   },
-            //   title: "左滑主按钮背景色",
-            //   type: "colorpicker",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeBgColor;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeBgColor = value;
-            //     },
-            //   },
-            // },
             {
               ifVisible({ data }) {
                 return data.useSwipeLeft;
@@ -336,7 +290,6 @@ export default {
               value: {
                 get({ data }) {
                   return (
-                    // 兜底编辑器 bug
                     data.leftSwipeStyleSecondary ?? {
                       paddingTop: "0px",
                       paddingLeft: "0px",
@@ -350,51 +303,6 @@ export default {
                 },
               },
             },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeftSecondary;
-            //   },
-            //   title: "左滑副按钮宽度",
-            //   type: "number",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeWidthSecondary;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeWidthSecondary = value;
-            //     },
-            //   },
-            // },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeftSecondary;
-            //   },
-            //   title: "左滑主按钮文字色",
-            //   type: "colorpicker",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeFontColorSecondary;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeFontColorSecondary = value;
-            //     },
-            //   },
-            // },
-            // {
-            //   ifVisible({ data }) {
-            //     return data.useSwipeLeftSecondary;
-            //   },
-            //   title: "左滑副按钮背景色",
-            //   type: "colorpicker",
-            //   value: {
-            //     get({ data }) {
-            //       return data.leftSwipeBgColorSecondary;
-            //     },
-            //     set({ data }, value) {
-            //       data.leftSwipeBgColorSecondary = value;
-            //     },
-            //   },
-            // },
             {
               ifVisible({ data }) {
                 return data.useSwipeLeftSecondary;

@@ -1,4 +1,4 @@
-import ImageShow from "./editor/imageShow";
+import ImageFitMode from "./../utils/editors/image-fit-mode";
 
 export default {
   "@init"({ style }) {
@@ -40,12 +40,6 @@ export default {
                   }
                 },
               },
-              // binding: {
-              //   with: 'data.src',
-              //   scheme: {
-              //     type: 'string'
-              //   }
-              // }
             },
             {
               title: "展示方式",
@@ -53,7 +47,7 @@ export default {
               description:
                 "展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用",
               options: {
-                render: ImageShow,
+                render: ImageFitMode,
               },
               value: {
                 get({ data, style }) {
@@ -63,91 +57,16 @@ export default {
                   };
                 },
                 set({}, value) {
-                  console.log(data.mode);
                   data.mode = value;
                 },
               },
             },
-            // {
-            //   title: "加载过渡",
-            //   items: [
-            //     {
-            //       title: "淡入动画",
-            //       desctiption: "加载图片时支持过渡动画，使图片展示更丝滑",
-            //       type: "switch",
-            //       value: {
-            //         get({ data }) {
-            //           return data.loadSmooth;
-            //         },
-            //         set({ data }, value: string) {
-            //           data.loadSmooth = value;
-            //         },
-            //       },
-            //     },
-            //   ],
-            // },
-            // {
-            //   title: "其它配置",
-            //   items: [
-            //     {
-            //       title: "支持长按识别微信二维码或转发、保存图片",
-            //       description: "支持长按识别微信二维码或转发、保存图片",
-            //       type: "switch",
-            //       value: {
-            //         get({ data }) {
-            //           return data.showMenuByLongpress ?? false;
-            //         },
-            //         set({ data }, value: string) {
-            //           data.showMenuByLongpress = value;
-            //         },
-            //       },
-            //     },
-            //   ],
-            // },
           ],
         },
         {
           title: "事件",
           items: [
-            // {
-            //   title: "单击事件类型",
-            //   type: "select",
-            //   options: [
-            //     {
-            //       label: "自定义",
-            //       value: "",
-            //     },
-            //     // {
-            //     //   label: "预览图片",
-            //     //   value: "previewImage",
-            //     // },
-            //   ],
-            //   value: {
-            //     get({ data, outputs }) {
-            //       return data.clickType || "";
-            //     },
-            //     set({ data, output }, value) {
-            //       data.clickType = value;
-
-            //       // 非自定义时清空 output
-            //       if (value) {
-            //         output.remove("onClick");
-            //       } else {
-            //         output.add({
-            //           id: "onClick",
-            //           title: "单击",
-            //           schema: {
-            //             type: "string",
-            //           },
-            //         });
-            //       }
-            //     },
-            //   },
-            // },
             {
-              ifVisible({ data }) {
-                return !data.clickType;
-              },
               title: "单击",
               type: "_event",
               options: {

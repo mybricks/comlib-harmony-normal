@@ -74,7 +74,7 @@ const useReachBottom = (callback, { env }) => {
   }, []);
 };
 
-export const ContainerList = ({ env, data, inputs, outputs, slots }) => {
+const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
   const [dataSource, setDataSource] = useState<DsItem[]>([]);
 
   const [status, setStatus] = useState<ListStatus>(ListStatus.IDLE);
@@ -230,7 +230,6 @@ export const ContainerList = ({ env, data, inputs, outputs, slots }) => {
       let res = new Array(3 * data.layout.column).fill(null).map((_, index) => {
         return { [rowKey]: index, index: index };
       });
-      console.log("列表模拟数据-waterfall",res)
       return res
     }else{
       return dataSource;
@@ -594,4 +593,4 @@ export const ContainerList = ({ env, data, inputs, outputs, slots }) => {
   );
 };
 
-export default ContainerList;
+export default ContainerWaterfall;

@@ -1,3 +1,5 @@
+import { IconSelector } from "./../utils/editors/icon-selector";
+
 export default {
   "@init": ({ style, data }) => {
     style.width = 375;
@@ -10,23 +12,23 @@ export default {
     style: [
       {
         title: "搜索框样式",
-        options: ["background","border"],
+        options: ["background", "border"],
         target: [`.mybricks-searchBar`]
-      }, 
+      },
       {
         title: "搜索按钮样式",
-        options: ["background","border"],
+        options: ["background", "border"],
         target: [`.mybricks-searchButton`]
       },
       {
         title: "内容文本",
         options: ["font"],
-        target:[`.mybricks-searchBar .mybricks-searchBar-input .taroify-input`]
+        target: [`.mybricks-searchBar-input .taroify-native-input`]
       },
       {
         title: "提示内容文本",
         options: ["font"],
-        target: [`.mybricks-searchBar .mybricks-searchBar-input .taroify-input__placeholder`]
+        target: [`.mybricks-searchBar-input .taroify-native-input::placeholder`]
       }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -84,7 +86,7 @@ export default {
           },
         },
         {
-          title:"展示搜索图标",
+          title: "展示搜索图标",
           type: "switch",
           description: '展示搜索输入框前的图标',
           value: {
@@ -97,83 +99,52 @@ export default {
           }
         },
         {
-          title: '自定义图标',
-          type: 'switch',
-          description: '是否使用自定义图标，开启后可以上传自定义图标',
-          value: {
-            get({data}: EditorResult<Data>) {
-              return data.isCustom;
+          title: "图标",
+          type: "editorRender",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.showSearchIcon;
+          },
+          options: {
+            render: (props) => {
+              return <IconSelector value={props.editConfig.value} />;
             },
-            set({data}: EditorResult<Data>, value: boolean) {
-              data.isCustom = value;
-            }
-          }
-        },
-        {
-          title: "展示清除图标",
-          description: "当输入框有内容时可点击图标清除所有文字",
-          type: "Switch",
+          },
           value: {
             get({ data }) {
-              return data.clearable;
+              return data.searchIcon;
             },
-            set({ data }, value) {
-              data.clearable = value;
+            set({ data }, value: string) {
+              data.searchIcon = value;
             },
           },
         },
         {
-          title: '上传',
-          type: 'ImageSelector',
-          description: '上传自定义图标',
-          ifVisible: ({ data }) => {
-            return data.isCustom;
+          title:"图标颜色",
+          type:"colorpicker",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.showSearchIcon;
           },
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.src;
+         value: {
+            get({ data }) {
+              return data.searchIconColor?.[0];
             },
-            set({ data }: EditorResult<Data>, value: string) {
-              data.src = value;
-            }
-          }
+            set({ data }, value: string) {
+              data.searchIconColor[0] = value;
+            },
+          },
         },
         {
-          title: '尺寸',
-          type: 'InputNumber',
-          description: '图标大小',
-          options: [
-            { title: '高度', min: 0, width: 100 },
-            { title: '宽度', min: 0, width: 100 }
-          ],
-          ifVisible: ({ data }) => {
-            return data.isCustom;
-          },
+          title: "图标大小",
+          type: "inputnumber",
+          options: [{ min: 1 }],
           value: {
-            get({ data }: EditorResult<Data>) {
-              return data.contentSize || [14, 14];
+            get({ data }) {
+              return [data.searchIconFontSize];
             },
-            set({ data }: EditorResult<Data>, value: [number, number]) {
-              data.contentSize = value;
-            }
-          }
-        },
-        {
-          title: '间距',
-          type: 'Inputnumber',
-          options: [{min: 0, max: 1000, width: 200}],
-          description: '图标与文字间的距离',
-          ifVisible({data}: EditorResult<Data>) {
-            return data.isCustom;
+            set({ data }, value: string) {
+              data.searchIconFontSize = value?.[0];
+            },
           },
-          value: {
-            get({data}: EditorResult<Data>) {
-              return [data.iconDistance];
-            },
-            set({data}: EditorResult<Data>, value: number[]) {
-              data.iconDistance = value[0];
-            }
-          }
         },
         {
           title: "动作",

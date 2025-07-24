@@ -163,8 +163,6 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
 
   //真机运行时，计算出每个tab的顶部距离和高度
   useEffect(() => {
-    console.log("data.tabs", data.tabs, data.useDynamicTab);
-  
     const updateTabsData = () => {
       const updatedTabs = [];
       let index = 0;

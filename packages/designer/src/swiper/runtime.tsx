@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { View, Image } from '@tarojs/components'
-import cx from 'classnames'
 import { Swiper, SwiperItem } from './../components/swiper'
 import EmptyCom from '../components/empty-com'
 import SkeletonImage from './../components/skeleton-image'
 import { isUndef } from './../utils/core'
-import * as Taro from '@tarojs/taro'
 import css from './style.less'
 
 export default function ({ env, data, inputs, outputs, style, slots }) {
@@ -121,8 +119,6 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
   if (env.edit && !data.items.length) {
     return <EmptyCom title="请配置幻灯片" />
   }
-
-  console.log(`slot_${data.items[current]?._id}`)
 
   return (
     <Swiper

@@ -12,8 +12,6 @@ export default function ({ env, data, inputs, outputs }) {
       camera: data.camera,
     };
 
-    console.log("params", params);
-
     Taro.chooseMedia({
       ...params,
       success(res) {

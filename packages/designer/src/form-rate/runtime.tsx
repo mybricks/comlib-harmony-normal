@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { View } from "@tarojs/components";
 import cx from "classnames";
 import { isObject, isString, isNumber, isEmpty } from "./../utils/core/type";
-import { Rate, Field } from "brickd-mobile";
+import { Rate } from "brickd-mobile";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
@@ -52,7 +51,6 @@ export default function (props) {
   }, []);
 
   return (
-    // <Field label={data.label} name={data.name}>
     <Rate
       value={value}
       onChange={onChange}
@@ -60,6 +58,5 @@ export default function (props) {
       allowHalf={data.allowHalf}
       disabled={data.disabled}
     />
-    // </Field>
   );
 }

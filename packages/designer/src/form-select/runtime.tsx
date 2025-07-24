@@ -10,7 +10,7 @@ import { ArrowRight } from "@taroify/icons";
 import { Input, Picker } from "brickd-mobile";
 import { isObject, isString, isNumber, isEmpty } from "../utils/type";
 import css from "./style.less";
-import useFormItemValue from "../utils/hooks/useFormItemValue";
+import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { isH5 } from "../utils/env";
 import cx from "classnames";
 import { uuid } from "../utils";

@@ -1,21 +1,11 @@
 import { uuid } from "../utils";
-import { DynamicArrayData } from "./../utils/dynamic-array";
+import { DynamicArrayData } from "./../utils/editors/dynamic-array";
 import comJson from "./com.json";
-import setSlotLayout from "../utils/setSlotLayout";
-import { getFilterSelector } from '../utils/cssSelector';
+import setSlotLayout from "../utils/set-slot-layout";
+import { getFilterSelector } from '../utils/css-selector';
 
 const ScopeSlotInputs = comJson.slots[0].inputs;
 const dynamicArrayData = new DynamicArrayData({ keyName: "tabs" });
-
-function getTabItem(data, focusArea) {
-  const tabId = focusArea.dataset.tabId;
-  for (let item of data.tabList) {
-    if (item.tabId === tabId) {
-      return item;
-    }
-  }
-  return {};
-}
 
 function findItemByInnerId(_id, data) {
   return data.tabs.find((t) => t._id === _id) ?? {};
@@ -106,14 +96,6 @@ export default {
                 ],
                 target: `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`,
               },
-              // {
-              //   title: "默认样式-文本",
-              //   catelog: "默认样式",
-              //   options: [
-              //     { type: "font", config: { disableTextAlign: true } },
-              //   ],
-              //   target: ".taroify-tabs__text:not(.taroify-tabs__text--active)",
-              // },
               {
                 title: "选中样式",
                 catelog: "选中样式",
@@ -126,14 +108,6 @@ export default {
                 ],
                 target: `.taroify-tabs__tab--active${getFilterSelector()}`,
               },
-              // {
-              //   title: "选中样式-文本",
-              //   catelog: "选中样式",
-              //   options: [
-              //     { type: "font", config: { disableTextAlign: true } },
-              //   ],
-              //   target: ".taroify-tabs__text--active",
-              // },
             ],
           },
         ],
@@ -213,7 +187,6 @@ export default {
             },
             effects: {
               // onRemove: ({ slot }, action) => {
-              //   console.log("effects-onRemove")
               //   // slot.remove(action?.value._id);
               // },
               onAdd: ({ slot }, action) => {
@@ -346,18 +319,7 @@ export default {
             },
           },
         },
-        // {
-        //   title: "支持滑动",
-        //   type: "switch",
-        //   value: {
-        //     get({ data }) {
-        //       return data.swipeable;
-        //     },
-        //     set({ data }, value) {
-        //       data.swipeable = value;
-        //     },
-        //   },
-        // },
+ 
         {
           title: "吸顶",
           type: "switch",
@@ -409,46 +371,6 @@ export default {
             },
           },
         },
-        // {
-        //   title: '内容最小高度（0表示不限制高度）',
-        //   type: 'text',
-        //   options: {
-        //     type: 'number',
-        //   },
-        //   value: {
-        //     get({ data }) {
-        //       return data.contentMinHeight
-        //     },
-        //     set({ data }, value) {
-        //       data.contentMinHeight = value
-        //     },
-        //   },
-        // },
-        // {},
-        // {
-        //   title: "内容区",
-        //   items: [
-        //     {
-        //       title: "布局",
-        //       type: "layout",
-        //       value: {
-        //         get({ data, slots }) {
-        //           console.log("data.layout",data.layout)
-        //           return data.layout;
-        //         },
-        //         set({ data, slots }, value) {
-        //           data.layout = value;
-
-        //           for (let i = 0; i < data.tabs.length; i++) {
-        //             console.log("设置布局", data.tabs[i], slots.get(data.tabs[i]._id))
-        //             setSlotLayout(slots.get(data.tabs[i]._id), value);
-        //           }
-
-        //         },
-        //       },
-        //     },
-        //   ]
-        // },
         {},
         {
           title: "事件",
@@ -474,23 +396,6 @@ export default {
             },
           ],
         },
-      ];
-
-      cate1.title = "高级";
-      cate1.items = [
-        // {
-        //   title: "升级",
-        //   type: "button",
-        //   value: {
-        //     set({ data, slots }) {
-        //       console.log("升级", slots.get("tabId1"));
-        //       console.log("升级", slots.get("tabId2"));
-
-        //       slots.get("tabId1").setLayout("flex-column");
-        //       slots.get("tabId2").setLayout("flex-column");
-        //     },
-        //   },
-        // },
       ];
     },
   },

@@ -29,7 +29,6 @@ export default function (props) {
     });
 
     inputs["setValue"]((val) => {
-      console.log("setValue", val);
       data.value = val;
       slots["formItem"].inputs["curValue"](data.value);
 

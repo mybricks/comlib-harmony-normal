@@ -1,11 +1,9 @@
-import entryPagePathEditor from "./editors/entry-page-path";
 import MybricksNavigationEditor from "./editors/mybricks-navigation";
 
 export default {
   ":root"({ data, output, style }, cate0, cate1, cate2) {
     cate0.title = "常规";
     cate0.items = [
-      { ...entryPagePathEditor },
       {
         title: "顶部导航栏",
         items: MybricksNavigationEditor[".mybricks-navigation"].items,

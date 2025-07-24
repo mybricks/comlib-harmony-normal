@@ -101,21 +101,6 @@ export default function ({ env, data, inputs, outputs, slots }) {
     return result;
   }, [data.content,pxDelta]);
 
-  // 处理图片点击事件
-  // const handleImageTap = useCallback(
-  //   (e) => {
-  //     const imageUrls = content
-  //       ?.match(/<img.*?src="(.*?)"/g)
-  //       .map((item) => item.match(/src="(.*?)"/)[1]);
-  //     if (imageUrls.length === 0) return;
-  //     Taro.previewImage({
-  //       urls: imageUrls,
-  //     });
-  //   },
-  //   [content]
-  // );
-
-  //
   const display = useMemo(() => {
     if (data.useDynamic && !ready && env.runtime) {
       return false;

@@ -278,7 +278,6 @@ export default {
             clearTimeout(lock);
             lock = setTimeout(() => {
               lock = null;
-              console.log("lock", lock);
             }, 100);
 
             // data.tabBar = tabBar;
@@ -311,7 +310,6 @@ export default {
             clearTimeout(lock);
             lock = setTimeout(() => {
               lock = null;
-              console.log("lock", lock);
             }, 100);
 
             // data.tabBar = tabBar;

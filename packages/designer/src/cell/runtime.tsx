@@ -54,8 +54,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
         return;
       }
       touchStartX.current = e.touches[0].clientX;
-
-      // console.log("onTouchStart", e.touches[0].clientX);
     },
     [data.useSwipeLeft]
   );
@@ -81,15 +79,12 @@ export default function ({ env, data, slots, inputs, outputs }) {
         return;
       }
 
-      // console.log("deltaX",deltaX,"translateXRef.current",translateXRef.current)
-
       let result = deltaX + translateXRef.current;
       if (result > 0) {
         result = 0;
       } else if (result < -(data.leftSwipeWidth+data.leftSwipeWidthSecondary)) {
         result = -(data.leftSwipeWidth+data.leftSwipeWidthSecondary);
       }
-      // console.log("onTouchMove", result);
 
       setCellStyle({
         transform: `translateX(${result}px)`,
@@ -104,8 +99,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
         return;
       }
 
-      // console.log("touchend", e.changedTouches[0]);
-
       let touche = e.changedTouches[0];
 
       if (touche.clientX >= touchStartX.current) {
@@ -116,7 +109,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
         });
       } else {
         translateXRef.current = -(parseInt(data.leftSwipeStyle.width)+parseInt(data.leftSwipeStyleSecondary.width));
-        // console.log("data.leftSwipeStyle.width2",parseInt(data.leftSwipeStyle.width),"data.leftSwipeStyleSecondary.width2",parseInt(data.leftSwipeStyleSecondary.width))
         setCellStyle({
           transform: `translateX(${-(parseInt(data.leftSwipeStyle.width)+parseInt(data.leftSwipeStyleSecondary.width))}px)`,
           transition: "transform 0.3s",

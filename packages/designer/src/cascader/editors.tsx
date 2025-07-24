@@ -114,25 +114,6 @@ export default {
           ],
         },
       ];
-
-      // cate1.title = "高级";
-      // cate1.items = [
-      //   {
-      //     title: "修复",
-      //     type: "button",
-      //     value: {
-      //       set({ data, input }) {
-      //         input.add("setValue", "设置值", {
-      //           title: "选中项数组",
-      //           type: "array",
-      //           items: {
-      //             type: "string",
-      //           },
-      //         });
-      //       },
-      //     },
-      //   },
-      // ];
     },
   },
 };

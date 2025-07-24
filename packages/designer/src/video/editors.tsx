@@ -23,18 +23,6 @@ export default {
               },
             },
           },
-          // {
-          //   title: "是否为直播源",
-          //   type: "Switch",
-          //   value: {
-          //     get({ data }) {
-          //       return data["is-live"];
-          //     },
-          //     set({ data }, isLive: boolean) {
-          //       data["is-live"] = isLive;
-          //     },
-          //   },
-          // },
           {
             title: "是否显示默认播放控件",
             type: "Switch",

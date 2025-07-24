@@ -1,4 +1,4 @@
-import setSlotLayout from "../utils/setSlotLayout";
+import setSlotLayout from "../utils/set-slot-layout";
 
 export default {
   "@init"({ data, style }) {
@@ -90,91 +90,7 @@ export default {
             outputId: "onClickOverlay",
           },
         },
-        // {
-        //   ifVisible({ data }) {
-        //     return data.position === "center";
-        //   },
-        //   title: "关闭按钮",
-        //   items: [
-        //     {
-        //       title: "显示",
-        //       type: "switch",
-        //       value: {
-        //         get({ data }) {
-        //           return data.visibleClose;
-        //         },
-        //         set({ data }, val) {
-        //           data.visibleClose = val;
-        //         },
-        //       },
-        //     },
-        //   ],
-        // },
-        // {
-        //   ifVisible({ data }) {
-        //     return data.position === "center" && data.visibleClose;
-        //   },
-        //   title: "点击关闭时",
-        //   type: "_event",
-        //   options: {
-        //     outputId: "onClose",
-        //   },
-        // },
-        // {
-        //   title: "样式",
-        //   type: "Style",
-        //   options: {
-        //     plugins: ["border", "bgColor", "bgImage"],
-        //   },
-        //   value: {
-        //     get({ data }) {
-        //       return data.contentStyle;
-        //     },
-        //     set({ data }, val) {
-        //       data.contentStyle = {
-        //         ...data.contentStyle,
-        //         ...val,
-        //       };
-        //     },
-        //   },
-        // },
       ];
-      // cate1.title = '样式'
-      // cate1.items = [
-      //   {
-      //     title: '样式',
-      //     type: 'Style',
-      //     options: {
-      //       plugins: ['border', 'bgColor', 'bgImage'],
-      //     },
-      //     value: {
-      //       get({ data }) {
-      //         return data.contentStyle
-      //       },
-      //       set({ data }, val) {
-      //         data.contentStyle = {
-      //           ...data.contentStyle,
-      //           ...val,
-      //         }
-      //       },
-      //     },
-      //   },
-      // ]
-      // cate2.title = '高级'
-      // cate2.items = [
-      //   {
-      //     title: '事件',
-      //     items: [
-      //       {
-      //         title: '点击遮罩时',
-      //         type: '_event',
-      //         options: {
-      //           outputId: 'onClickOverlay',
-      //         },
-      //       },
-      //     ],
-      //   }
-      // ]
     },
   },
 };

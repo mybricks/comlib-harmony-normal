@@ -1,4 +1,4 @@
-import setSlotLayout from "../../utils/setSlotLayout";
+import setSlotLayout from "../../utils/set-slot-layout";
 
 export default {
   ".mybricks-navigation": {

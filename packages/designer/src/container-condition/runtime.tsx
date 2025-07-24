@@ -4,7 +4,6 @@ import css from "./style.less";
 
 export default function ({ env, data, slots, inputs, outputs }) {
   const [innputId, setInputId] = useState(data.defaultActiveId);
-  const [bool, setBool] = useState();
 
   const activeId = useMemo(() => {
     if (env.edit) {
@@ -13,7 +12,7 @@ export default function ({ env, data, slots, inputs, outputs }) {
     return innputId;
   }, [data.items, data._editSelectId_, innputId]);
 
-  /** TODO 写在useEffect里时序有延迟，容易出现闪屏，先试试这样先 */
+  /** useMemo里注册IO */
   useMemo(() => {
     // 通过setValue来切换条件
     inputs["setValue"]?.((bool, relOutputs) => {
@@ -22,7 +21,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
         return;
       }
       setInputId(item.id);
-      setBool(bool);
       relOutputs["setValueDone"]?.(bool);
       outputs["changeCondition"]?.(bool)
       outputs[item.outputId]?.(bool);
@@ -33,7 +31,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
       inputs[item.id]?.((bool, relOutputs) => {
         if(item.id === activeId) {
           slots[item.id]?.inputs["itemData"]?.(bool);
-          setBool(bool);
           relOutputs["changeDone"]?.(bool);
           outputs[item.outputId]?.(bool);
           outputs["changeCondition"]?.(bool)
@@ -41,7 +38,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
         }
 
         setInputId(item.id);
-        setBool(bool);
         outputs["changeCondition"]?.(bool)
         outputs[item.outputId]?.(bool);
         relOutputs["changeDone"]?.(bool);

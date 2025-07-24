@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { ContainerList } from '../runtime'
-import { useDisabledArea } from './useDisabledArea'
+import ComponentRuntime from './runtime'
+import { useDisabledArea } from './../utils/hooks'
 
 export default (props) => {
 
@@ -8,8 +8,7 @@ export default (props) => {
 
   return (
     <DisabledArea>
-      <ContainerList {...props} />
+      <ComponentRuntime {...props} />
     </DisabledArea>
   )
-  
 }

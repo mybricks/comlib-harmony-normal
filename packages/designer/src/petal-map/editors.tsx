@@ -19,18 +19,6 @@ export default {
     items({ data, output, style }, cate0, cate1, cate2) {
       cate0.title = '常规'
       cate0.items = [
-        // {
-        //   title: '图标',
-        //   type: 'imageSelector',
-        //   value: {
-        //     get({ data }) {
-        //       return data.noticeIcon
-        //     },
-        //     set({ data }, val) {
-        //       data.noticeIcon = val
-        //     }
-        //   }
-        // },
         {
           title: '控件配置',
           items: [
@@ -101,44 +89,7 @@ export default {
             },
           ]
         },
-        // {
-        //   title: '覆盖物配置',
-        //   type: 'editorRender',
-        //   // description: '展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用',
-        //   options: {
-        //     render: GeoConfig,
-        //   },
-        //   value: {
-        //     get({ data, style }) {
-        //       return data.geos
-        //     },
-        //     set({}, value) {
-        //       data.geos = value
-        //     }
-        //   }
-        // },
       ]
-      // cate1.title = '样式'
-      // cate1.items = [
-      //   {
-      //     title: '样式',
-      //     type: 'Style',
-      //     options: {
-      //       plugins: ['border', 'bgColor', 'bgImage', 'font'],
-      //     },
-      //     value: {
-      //       get({ data }) {
-      //         return data.style
-      //       },
-      //       set({ data }, val) {
-      //         data.style = {
-      //           ...data.style,
-      //           ...val,
-      //         }
-      //       },
-      //     },
-      //   },
-      // ]
       cate1.title = '动作'
       cate1.items = [
         {

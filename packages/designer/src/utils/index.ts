@@ -1,15 +1,8 @@
 import * as Taro from "@tarojs/taro";
-import { useUpdateEffect } from "./hooks";
 
 export function getNavigationLayout(env) {
   if (env?.edit) {
     return {
-      // bottom: 56
-      // height: 32
-      // left: 281
-      // right: 368
-      // top: 24
-      // width: 87
       navigationHeight: 0,
       statusBarHeight: 0,
       titleBarHeight: 0,
@@ -19,11 +12,7 @@ export function getNavigationLayout(env) {
   let systemInfoSync = Taro.getSystemInfoSync();
   const ratio = systemInfoSync.windowWidth / 375; // 页面 px2rpx 比例
 
-  let menuButtonBoundingClientRect = Taro.getMenuButtonBoundingClientRect();
-
   let system = (systemInfoSync.system || "").toLocaleLowerCase();
-  console.log("systemInfoSync", systemInfoSync);
-
   const isIOS = system.indexOf("ios") > -1; // iOS title 高度 44px
   const isAndroid = system.indexOf("android") > -1; // Android title 高度 48px
 
@@ -56,8 +45,6 @@ export function uuid(pre = "u_", len = 6) {
   }
   return pre + rtn;
 }
-
-export { useUpdateEffect };
 
 export function deepCopy(obj: any, cache: any = []) {
   if (obj === null || typeof obj !== "object") {
@@ -240,30 +227,6 @@ export function dateFormate(date: Date | number, fmt: string) {
   return fmt;
 }
 
-// export const getFuncFromEvent = ({ evt, env }) => {
-//   if (!evt) {
-//     return () => {};
-//   }
-
-//   if (env.edit) {
-//     return;
-//   }
-
-//   if (evt && evt.type === 'link') {
-//     if (env?.yoda?.kwai) {
-//       if (/^kwai:\/\/.+/.test(evt.value)) {
-//         location.href = evt.value;
-//       } else {
-//         env.yoda.kwai.loadUrlOnNewPage({
-//           url: evt.value,
-//           type: 'back',
-//         });
-//       }
-//     } else {
-//       window.open(evt.value);
-//     }
-//   }
-// };
 export function wFormat(value: number) {
   if (typeof value === "string") {
     value = +value;
@@ -287,48 +250,12 @@ export function padZero(num: number | string, targetLength = 2): string {
   return str;
 }
 
-// export function share(env, logger) {
-//   if(env.kwai && env.kwai.share && typeof env.kwai.share === 'function') {
-//     env?.kwai?.share();
-//   } else {
-//     logger.error("无法调起分享");
-//   }
-// }
-
-// export function back(yoda: any) {
-//   if ((window as any)._physicalBackCb) {
-//     (window as any)._physicalBackCb();
-//   } else {
-//     if (yoda?.kwai?.popBack) {
-//       yoda.kwai.popBack();
-//     } else if (yoda?.kwai?.exitWebView) {
-//       yoda.kwai.exitWebView();
-//     } else {
-//       history?.back();
-//     }
-//   }
-// }
-
-// export function close(yoda: any) {
-//   if(yoda?.webview?.backOrClose) {
-//     yoda?.webview?.backOrClose().then((res) => {
-//       console.log('backOrClose');
-//     });
-//   } else {
-//     back(yoda);
-//   }
-// }
-
-// export {
-//   event
-// }
-
 /**
- * 暂时只针对白名单 ali2.a.kwimgs.com 域名的图片进行处理
+ * 暂时只针对白名单域名的图片进行处理
  * todo：提供公共的图片裁剪方法
  */
 export function resizeImage(url: string, options = {}): string {
-  const whitelist = ["ali2.a.kwimgs.com"];
+  const whitelist = [];
 
   let a = parseUrl(url);
   if (whitelist.indexOf(a.hostname) === -1) {

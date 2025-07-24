@@ -1,4 +1,4 @@
-export let basicIcons = [
+export const basicIcons = [
   "Arrow",
   "ArrowLeft",
   "ArrowUp",
@@ -11,7 +11,7 @@ export let basicIcons = [
   "Circle",
 ];
 
-export let outlinedIcons = [
+export const outlinedIcons = [
   "LocationOutlined",
   "LikeOutlined",
   "StarOutlined",
@@ -80,7 +80,7 @@ export let outlinedIcons = [
   "EyeOutlined",
 ];
 
-export let filledIcons = [
+export const filledIcons = [
   "Location",
   "Like",
   "Star",

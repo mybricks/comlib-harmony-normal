@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { Checkbox, Image } from "brickd-mobile";
 import { isObject, isString, isEmpty, isNumber } from "./../utils/type";
-import useFormItemValue from "../utils/hooks/useFormItemValue";
+import useFormItemValue from "../utils/hooks/use-form-item-value";
 import cx from "classnames";
 import { View } from "@tarojs/components";
 

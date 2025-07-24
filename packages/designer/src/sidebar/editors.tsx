@@ -143,7 +143,6 @@ export default {
           },
           value: {
             get({ data }) {
-              console.log("侧边栏数据", data.tabs);
               return data.tabs;
             },
             set({ data, slot, outputs }, value) {
@@ -154,7 +153,6 @@ export default {
 
               switch (action?.name) {
                 case "remove":
-                  console.log("remove",`changeTab_${action?.value._id}`)
                   outputs.remove(`changeTab_${action?.value._id}`);
                   slot.remove(action?.value._id);
                   break;
@@ -163,10 +161,6 @@ export default {
                     id: action?.value._id,
                     title: defaultItem.tabName,
                   });
-                  console.log("slot-add",{
-                    id: action?.value._id,
-                    title: defaultItem.tabName,
-                  })
                   outputs.add({
                     id: `changeTab_${action?.value._id}`,
                     title: action?.value.tabName,
@@ -262,7 +256,6 @@ export default {
               if (!focusArea) return;
               data.tabs.splice(focusArea.index, 1);
               // const _id = getFocusTab({ data, focusArea })?._id
-              console.log("remove",`changeTab_${focusItem._id}`)
               outputs.remove(`changeTab_${focusItem._id}`);
               slot.remove(focusItem._id);
               data.edit.currentTabId = data.tabs[0]?._id;

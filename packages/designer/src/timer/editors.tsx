@@ -23,41 +23,12 @@ export default {
         options: ["font"],
         target: ".mybricks_timer_separator",
       },
-      // {
-      //   title: "分割符背景",
-      //   options: ["size","background"],
-      //   target: ".mybricks_timer_separator_background",
-      // },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = '常规';
       cate0.items = [
         {
           items: [
-            // {
-            //   title:"临时-颜色",
-            //   type: 'colorpicker',
-            //   value: {
-            //     get({ data }) {
-            //       return data.color;
-            //     },
-            //     set({ data}, value: string) {
-            //       data.color = value;
-            //     },
-            //   },
-            // },
-            // {
-            //   title:"临时-大小",
-            //   type: 'textinput',
-            //   value: {
-            //     get({ data }) {
-            //       return data.size;
-            //     },
-            //     set({ data}, value: string) {
-            //       data.size = value;
-            //     },
-            //   },
-            // },
             {
               title:"时钟类型",
               type: 'select',

@@ -2,8 +2,7 @@ import MybricksNavigationEditor from "./editor/mybricks-navigation";
 import MybricksTabBarEditor from "./editor/mybricks-tabbar";
 import css from "./editors.less";
 import { defaultSelectedIconPath, defaultNormalIconPath } from "./const";
-import setSlotLayout from "../utils/setSlotLayout";
-import entryPagePathEditor from "./editor/entry-page-path";
+import setSlotLayout from "../utils/set-slot-layout";
 
 const Input = window.antd.Input;
 const message = window.antd?.message;
@@ -126,47 +125,9 @@ export default {
     items: ({ env, data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "页面";
       cate0.items = [
-        // {
-        //   title: "页面ID",
-        //   type: "editorRender",
-        //   options: {
-        //     render: (props) => {
-        //       let url = `${props.editConfig.value.get()}`;
-
-        //       const onCopy = (text) => {
-        //         const textarea = document.createElement("textarea");
-        //         textarea.value = text;
-        //         document.body.appendChild(textarea);
-        //         textarea.select();
-        //         document.execCommand("copy");
-        //         document.body.removeChild(textarea);
-
-        //         message.success("复制成功");
-        //       };
-
-        //       return (
-        //         <div
-        //           className={css.pagePath}
-        //           onClick={() => {
-        //             onCopy(url);
-        //           }}
-        //         >
-        //           <div className={css.url}>{url}</div>
-        //           <div className={css.copy}></div>
-        //         </div>
-        //       );
-        //     },
-        //   },
-        //   value: {
-        //     get({ data }) {
-        //       return data.id;
-        //     },
-        //   },
-        // },
         {
           type: "_homepage",
         },
-        // { ...entryPagePathEditor },
           MybricksTabBarEditor[".mybricks-tabBar"].items[0],
         {
           title: "顶部栏",
@@ -261,42 +222,6 @@ export default {
             //     },
             //   },
             // },
- 
-            // {
-            //   title: "页面别名",
-            //   description: "如果设置了页面别名，则将使用别名覆盖默认页面地址，多张页面设置别名时，所设置的值请勿重复",
-            //   type: "editorRender",
-            //   options: {
-            //     render: (props) => {
-            //       let url = `/pages/${props.editConfig.value.get()}/index`;
-    
-            //       return (
-            //         <div className={css.pageAlias}>
-            //           <div className={css.url}>
-            //             {
-            //               <Input
-            //                 className={css.input}
-            //                 defaultValue={props.editConfig.value.get()}
-            //                 onChange={(e) => {
-            //                   let value = e.target.value;
-            //                   props.editConfig.value.set(value);
-            //                 }}
-            //               />
-            //             }
-            //           </div>
-            //         </div>
-            //       );
-            //     },
-            //   },
-            //   value: {
-            //     get({ data }) {
-            //       return data.alias || "";
-            //     },
-            //     set({ data }, val) {
-            //       data.alias = val;
-            //     },
-            //   },
-            // },
           ],
         },
       ];
@@ -371,35 +296,9 @@ export default {
         //     },
         //   },
         // },
-        
-        
-
       ];
-
-      (cate2.title = "高级"),
-        (cate2.items = [
-          // {
-          //   title: "偷偷的upgrade",
-          //   type: "button",
-          //   // ifVisible({ data }: EditorResult<any>) {
-          //   //   return !!new URL(location.href).searchParams.get('update');
-          //   // },
-          //   value: {
-          //     set: ({ input, output }) => {
-          //       if (!output.get("pageDidShow")) {
-          //         output.add("pageDidShow", "当页面重新显示时", { type: "object" });
-          //       }
-          //       if (!output.get("pageDidHide")) {
-          //         output.add("pageDidHide", "当页面隐藏时", { type: "object" });
-          //       }
-          //     },
-          //   },
-          // },
-        ]);
     },
   },
-  // ...MybricksNavigationEditor,
-
   ".mybricks-backIcon": {
     style: [
       {

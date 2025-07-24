@@ -1,6 +1,5 @@
 import { Data, InputIds } from './constants';
 
-// TODO: 调试结束清除定时器
 export default function (props: RuntimeParams<Data>) {
   const { env, data, outputs, inputs } = props;
   let timer;

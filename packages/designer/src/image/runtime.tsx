@@ -109,7 +109,6 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       <SkeletonImage
         skeleton={env.edit ? false : !!data?.loadSmooth}
         className={cx(css.image, h5PolyfillClass, "mybricks-image")}
-        // src={!!data.src ? data.src : extra?.imageUrl}
         src={src}
         mode={data.mode}
         onClick={onClick}

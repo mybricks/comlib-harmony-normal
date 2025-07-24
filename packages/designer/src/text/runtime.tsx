@@ -8,7 +8,6 @@ import React, {
 import { View, Text } from "@tarojs/components";
 import cx from "classnames";
 import css from "./style.less";
-import * as Taro from "@tarojs/taro";
 
 export default function ({ id, env, data, style, inputs, outputs }) {
   const [ready, setReady] = useState(false);
@@ -96,14 +95,6 @@ export default function ({ id, env, data, style, inputs, outputs }) {
       }
     }
   }, [data?.direction])
-
-  const maxLines = useMemo(() => {
-    if (data.ellipsis) {
-      return { maxLines: data.maxLines };
-    } else {
-      return {};
-    }
-  }, [data.ellipsis, data.maxLines]);
 
   const onClick = useCallback((e) => {
     if (!env.runtime) {

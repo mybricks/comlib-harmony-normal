@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Taro from "@tarojs/taro";
 import { isObject, isString, isNumber, isEmpty } from "./../utils/type";
-import useFormItemValue from "../utils/hooks/useFormItemValue.ts";
-import { Field, Stepper } from "brickd-mobile";
+import useFormItemValue from "../utils/hooks/use-form-item-value";
+import { Stepper } from "brickd-mobile";
 import cx from "classnames";
 import css from "./style.less";
 

@@ -75,7 +75,6 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       setShowTime(formatTimeDiff(timeDiff));
       outputs.currentTime?.(timeDiff);
     } else {
-      console.log("清除计时器", timerIdRef.current)
       clearInterval(timerIdRef.current)
       outputs.finishCountDown?.(countDownStamp);
     }
@@ -114,21 +113,13 @@ export default function ({ env, data, inputs, outputs, title, style }) {
         newTimerId = setInterval(updateCountDown, 1000);
         break;
     }
-    timerIdRef.current = newTimerId; // Use ref to store timer ID
+    timerIdRef.current = newTimerId; 
 
     // 清理函数，在组件卸载时清除定时器
     return () => {
       clearInterval(newTimerId);
     };
   }, [data.clockType, env.runtime, countDown]);
-
-  // const myStyle = useMemo(() => {
-  //   return {
-  //     color:data.color,
-  //     fontSize: data.size + "px",
-  //   };
-  // }, [data.color,data.size]);
-
 
   return (
     <View

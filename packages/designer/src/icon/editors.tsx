@@ -1,4 +1,4 @@
-import IconSelector from "./editors/icon-selector";
+import { IconSelector } from "./../utils/editors/icon-selector";
 
 export default {
   "@init": ({ style, data }) => {

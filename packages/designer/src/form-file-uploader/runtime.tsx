@@ -4,7 +4,7 @@ import css from "./style.less";
 import cx from "classnames";
 import * as Taro from "@tarojs/taro";
 import { isNumber, isObject, isString, isEmpty } from "./../utils/type";
-import useFormItemValue from "../utils/hooks/useFormItemValue.ts";
+import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { isDesigner, isH5 } from "../utils/env";
 
 export default function (props) {
@@ -145,7 +145,6 @@ export default function (props) {
       type: "all",
       success: async (res) => {
         for (const tempFile of res.tempFiles) {
-          console.log("tempFile", tempFile);
 
           let result = {
             filePath: tempFile.path,
@@ -157,7 +156,7 @@ export default function (props) {
         }
       },
       fail: (err) => {
-        console.log("err", err);
+        console.error(err);
       },
     });
   }, [env.edit, value, data.maxCount, slots["customUpload"]]);

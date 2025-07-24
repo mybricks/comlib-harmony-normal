@@ -1,6 +1,6 @@
 import * as React from 'react';
-import  SideBar  from '../runtime'
-import { useDisabledArea } from './useDisabledArea'
+import ComponentRuntime from './runtime'
+import { useDisabledArea } from './../utils/hooks'
 
 export default (props) => {
 
@@ -8,8 +8,7 @@ export default (props) => {
 
   return (
     <DisabledArea>
-      <SideBar {...props} />
+      <ComponentRuntime {...props} />
     </DisabledArea>
   )
-  
 }

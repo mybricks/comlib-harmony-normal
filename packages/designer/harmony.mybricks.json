@@ -23,8 +23,7 @@
         "./src/system-page/com.json",
         "./src/system-webview/com.json",
         "./src/popup/com.json",
-        "./src/container-row/com.json",
-        "./src/search-bar/com.json"
+        "./src/container-row/com.json"
       ]
     },
     {
@@ -65,7 +64,7 @@
         "./src/form-radio/com.json",
         "./src/form-checkbox/com.json",
         "./src/sms-code/com.json",
-        "./src/search-bar2/com.json",
+        "./src/search-bar/com.json",
         "./src/form-file-uploader/com.json",
         "./src/form-image-uploader/com.json",
         "./src/form-item-container/com.json"

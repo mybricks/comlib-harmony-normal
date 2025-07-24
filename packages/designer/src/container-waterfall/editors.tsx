@@ -1,4 +1,4 @@
-import setSlotLayout from "../utils/setSlotLayout";
+import setSlotLayout from "../utils/set-slot-layout";
 
 const loadingOptions = [
   {
@@ -179,29 +179,6 @@ export default {
           },
         },
         items: [
-          // {
-          //   title: "类型",
-          //   type: "select",
-          //   catelog: "默认",
-          //   options: [
-          //     {
-          //       label: "网格布局",
-          //       value: "grid",
-          //     },
-          //     {
-          //       label: "瀑布流布局",
-          //       value: "waterfall",
-          //     },
-          //   ],
-          //   value: {
-          //     get({ data }) {
-          //       return data.layout.type;
-          //     },
-          //     set({ data }, value: string) {
-          //       data.layout.type = value;
-          //     },
-          //   },
-          // },
           {
             title: "列数",
             type: "Text",
@@ -350,14 +327,11 @@ export default {
         type: "editorRender",
         options: {
           render: (props) => {
-            console.warn("~~~~~!!!!!!");
-            console.warn(props.editConfig.value.get());
             return <div></div>;
           },
         },
         value: {
           get({ inputs, outputs }) {
-            console.log("~~~~~~~~~~~~~~~~");
             if (!outputs.get("afterRefreshDataSource")) {
               outputs.add("afterRefreshDataSource", "覆盖数据后", {
                 type: "any",

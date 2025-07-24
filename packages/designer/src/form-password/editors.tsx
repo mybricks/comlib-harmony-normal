@@ -12,22 +12,22 @@ export default {
       {
         title: "输入框",
         options: ["border", "padding", "background"],
-        target:[".mybricks-password", ".mybricks-h5Password"]
+        target:[".mybricks-h5Password", ".mybricks-password"]
       },
       {
         title: "内容文本",
         options: ["font"],
         target:[
-          `.mybricks-password .taroify-input`,
           `.mybricks-h5Password .taroify-input .taroify-native-input`,
+          `.mybricks-password .taroify-input`,
         ]
       },
       {
         title: "提示内容文本",
         options: ["font"],
         target:[
-          `.mybricks-password .taroify-input__placeholder`,
           `.mybricks-h5Password .taroify-native-input::placeholder`,
+          `.mybricks-password .taroify-input__placeholder`,
         ]
       },
     ],

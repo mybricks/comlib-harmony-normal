@@ -18,18 +18,10 @@ export default function ({
   const handleClose = useCallback(() => {
     _env?.currentScenes?.close?.();
     outputs?.["onClose"]?.();
-    // setShow(false);
   }, [_env]);
 
   /** setup */
   useEffect(() => {
-    // inputs["onShow"]?.(() => {
-    //   setShow(true);
-    // });
-    // inputs["onHide"]?.(() => {
-    //   setShow(false);
-    // });
-
     return () => {
       // 销毁，但没有事件
       _env?.currentScenes?.close?.();
@@ -40,8 +32,6 @@ export default function ({
     return cx({
       [css.popup]: true,
       [css.show]: true,
-      // [css.show]: show,
-      // [css.edit]: env.edit,
     });
   }, [show, env.edit]);
 
@@ -70,13 +60,6 @@ export default function ({
 
   /** hack style 设计器下面一些需要hack的样式 */
   const popupStyle = useMemo(() => {
-    // if (isInDesignerRuntime) { // 在设计器里模拟不超过小程序header的效果
-    //   return {
-    //     position: 'absolute'
-    //   }
-    // }
-
-    // return {};
 
     if (isInEdit) {
       /** 新场景需要一个宽高 */
@@ -89,7 +72,6 @@ export default function ({
     if (isInDesignerRuntime) {
       /** 设计器runtime时需要fixed会相对于更上层的元素 */
       return {
-        // position: 'absolute',
         width: 375,
       };
     }

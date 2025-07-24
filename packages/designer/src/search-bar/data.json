@@ -1,10 +1,14 @@
 {
   "placeholderText": "请输入关键词",
-  "label":"",
+  "label": "",
   "disabled": false,
-  "showSearchButton":false,
-  "searchButtonText":"搜索",
-  "iconDistance":4,
-  "autoFocus":false,
-  "clearable":false
+  "showSearchIcon": true,
+  "showSearchButton": false,
+  "searchButtonText": "搜索",
+  "iconDistance": 4,
+  "autoFocus": false,
+  "clearable": false,
+  "searchIcon":"magnifyingglass",
+  "searchIconColor":["#303030"],
+  "searchIconFontSize":15
 }

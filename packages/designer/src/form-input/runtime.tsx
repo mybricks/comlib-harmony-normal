@@ -6,7 +6,7 @@ import { View } from "@tarojs/components";
 import css from "./style.less";
 import { isH5 } from "../utils/env";
 import cx from "classnames";
-import { clearable } from "./clearable";
+import { clearable } from "./constant";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;

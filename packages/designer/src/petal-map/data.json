@@ -1,7 +1,4 @@
 {
-  "scale": 16,
-  "minScale": 3,
-  "maxScale": 20,
   "showScale": false,
   "showCompass": false,
   "enableZoom": true,

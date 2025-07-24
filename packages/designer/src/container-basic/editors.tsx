@@ -1,4 +1,4 @@
-import setSlotLayout from "../utils/setSlotLayout";
+import setSlotLayout from "../utils/set-slot-layout";
 
 export default {
   "@init"({ style }) {
@@ -33,18 +33,6 @@ export default {
             },
           },
         },
-        // {
-        //   title: "溢出显示",
-        //   type: "switch",
-        //   value: {
-        //     get({ data }) {
-        //       return data.overflowVisible
-        //     },
-        //     set({ data, slots }, val) {
-        //       data.overflowVisible = val
-        //     }
-        //   }
-        // },
         {},
         {
           title: "单击",

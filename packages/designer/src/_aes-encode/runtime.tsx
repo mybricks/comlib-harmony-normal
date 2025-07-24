@@ -1,4 +1,3 @@
-import * as Taro from "@tarojs/taro";
 import CryptoJS from "crypto-js";
 
 export default function ({ env, data, inputs, outputs }) {

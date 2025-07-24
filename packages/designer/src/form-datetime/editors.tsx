@@ -1,12 +1,4 @@
 import DatePicker from "./editor/date-picker";
-import setSlotLayout from "../utils/setSlotLayout";
-
-const LAST_TEN_YEAR = new Date(
-  new Date().setFullYear(new Date().getFullYear() - 10)
-);
-const AFTER_TEN_YEAR = new Date(
-  new Date().setFullYear(new Date().getFullYear() + 10)
-);
 
 export default {
   "@init": ({ style, data }) => {
@@ -50,8 +42,6 @@ export default {
             set({ data, slot, style }, value) {
               data.isSlot = value;
               if (value) {
-                // const slotInstance = slot.get("content");
-                // setSlotLayout(slotInstance, data.slotStyle);
                 style.height = 50;
                 style.width = 50;
               } else {
@@ -85,10 +75,6 @@ export default {
             { label: "时间", value: "time" },
             { label: "年", value: "year" },
             { label: "年-月", value: "year-month" },
-            // { label: "月-日", value: "month-day" },
-            // { label: "日期 小时", value: "date-hour" },
-            // { label: "日期 小时:分", value: "date-minute" },
-            // { label: "小时:分", value: "hour-minute" },
           ],
           value: {
             get({ data }) {
@@ -165,27 +151,6 @@ export default {
             },
           },
         },
-
-        // {
-        //   title: '时间范围',
-        //   type: 'editorRender',
-        //   description: '只有时间范围内的时间可以被选择',
-        //   options: {
-        //     render: DatePicker,
-        //   },
-        //   value: {
-        //     get({ data, style }) {
-        //       if (data.min == '' && data.max == '') {
-        //         return [LAST_TEN_YEAR.getTime(), AFTER_TEN_YEAR.getTime()]
-        //       }
-        //       return [data.min, data.max]
-        //     },
-        //     set({}, value) {
-        //     //  data.mode = value
-        //     }
-        //   }
-        // },
-
         {
           title: "当值变化",
           type: "_event",

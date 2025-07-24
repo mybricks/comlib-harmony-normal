@@ -76,7 +76,6 @@ export default {
           return data.duration;
         },
         set({ data }, value: string) {
-          console.log(value);
           data.duration = parseInt(`${value}`, 10) || 0;
         }
       }

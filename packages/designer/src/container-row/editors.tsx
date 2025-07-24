@@ -1,5 +1,5 @@
 import { uuid } from "../utils";
-import setSlotLayout from "../utils/setSlotLayout";
+import setSlotLayout from "../utils/set-slot-layout";
 
 function getItem({ data, focusArea }) {
   if (!focusArea) return {};
@@ -101,33 +101,6 @@ export default {
         },
       },
     ];
-    // cate1.title = "样式";
-    // cate1.items = [
-    //   {
-    //     title: "自动布局",
-    //     type: "layout",
-    //     options: [],
-    //     value: {
-    //       get({ data, slots }) {
-    //         const { slotStyle = {} } = data;
-    //         const slotInstance = slots.get("content");
-    //         setSlotLayout(slotInstance, slotStyle);
-    //         return slotStyle;
-    //       },
-    //       set({ data, slots }, val: any) {
-    //         if (!data.slotStyle) {
-    //           data.slotStyle = {};
-    //         }
-    //         data.slotStyle = {
-    //           ...data.slotStyle,
-    //           ...val,
-    //         };
-    //         const slotInstance = slots.get("content");
-    //         setSlotLayout(slotInstance, val);
-    //       },
-    //     },
-    //   },
-    // ];
   },
   ".mybricks-item": {
     title: "插槽",

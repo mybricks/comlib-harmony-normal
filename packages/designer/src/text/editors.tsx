@@ -84,24 +84,6 @@ export default {
             },
           },
         },
-        // {
-        //   title:"默认展示状态",
-        //   type:"radio",
-        //   description:"静态：原样显示文本；隐藏：在加载完成之前不显示任何内容；骨架：加载过程显示动效",
-        //   options: [
-        //     { label: "静态", value: "static" },
-        //     { label: "隐藏", value: "hidden" },
-        //     { label: "骨架", value: "skeleton" },
-        //   ],
-        //   value: {
-        //     get({ data }) {
-        //       return data.displayState || "static";
-        //     },
-        //     set({ data }, value: string) {
-        //       data.displayState = value;
-        //     },
-        //   },
-        // },
         {
           title: "事件",
           items: [

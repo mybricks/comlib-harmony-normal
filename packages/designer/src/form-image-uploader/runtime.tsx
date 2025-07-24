@@ -4,7 +4,7 @@ import css from "./style.less";
 import cx from "classnames";
 import * as Taro from "@tarojs/taro";
 import { isNumber, isObject, isString, isEmpty } from "./../utils/type";
-import useFormItemValue from "../utils/hooks/useFormItemValue.ts";
+import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { isDesigner, isH5 } from "../utils/env";
 import { plus } from "./icon"
 
@@ -160,8 +160,6 @@ export default function (props) {
       sourceType: isH5() ? ["album"] : ["album", "camera"],
       success: async (res) => {
         for (const tempFile of res.tempFiles) {
-          console.log("tempFile", tempFile);
-
           let result = {
             filePath: tempFile.path,
             size: tempFile.size,
