@@ -57,6 +57,14 @@ export default function ({
         data.disabled ? "mybricks-button-disable" : "mybricks-button"
       )}
       {...disabled}
+      onClick={(e) => {
+        if (env.runtime && !data.disabled) {
+          if (outputs["onClick"].getConnections().length) {
+            e.stopPropagation();
+          }
+          outputs["onClick"](data.text);
+        }
+      }}
     >
       <Text className={css.text}>{data.text}</Text>
     </Button>

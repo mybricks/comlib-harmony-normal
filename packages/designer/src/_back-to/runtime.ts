@@ -15,10 +15,5 @@ export default function ({ env, data, inputs, outputs }) {
       env.canvas.back(-delta);
       return;
     }
-
-    //runtime
-    Taro.navigateBack({
-      delta: delta,
-    });
   });
 }
