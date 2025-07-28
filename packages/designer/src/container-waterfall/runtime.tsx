@@ -8,8 +8,6 @@ import React, {
 import { View, Image } from "@tarojs/components";
 import css from "./style.less";
 import { uuid, debounce, throttle } from "../utils";
-import { List, Loading } from "brickd-mobile";
-import { Direction } from "./constant";
 import cx from "classnames";
 
 const rowKey = "_itemKey";
@@ -78,7 +76,7 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
   const [dataSource, setDataSource] = useState<DsItem[]>([]);
 
   const [status, setStatus] = useState<ListStatus>(ListStatus.IDLE);
-  const statusRef = useRef(false);
+  const statusRef = useRef<ListStatus>(ListStatus.IDLE);
 
   useReachBottom(
     () => {
@@ -174,54 +172,6 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
       flexBasis: `${100 / data.layout.column}%`,
     };
   }, [data.layout.column, data.layout.gutter]);
-
-  const hasMore = useMemo(() => {
-    return ListStatus.NOMORE !== status;
-  }, [status]);
-
-  const loading = useMemo(() => {
-    return ListStatus.LOADING === status;
-  }, [status]);
-
-  const error = useMemo(() => {
-    return ListStatus.ERROR === status;
-  }, [status]);
-
-  // const didMount = useRef(false);
-  useEffect(() => {
-    return;
-
-    // if (!didMount.current) {
-    //   // 不管上次配置的如何，第一次渲染必须配置成默认
-    //   data._edit_status_ = "默认";
-    //   didMount.current = true;
-    // }
-
-    if (env.edit) {
-      switch (true) {
-        case data._edit_status_ === "加载中": {
-          setStatus(ListStatus.LOADING);
-          statusRef.current = ListStatus.LOADING;
-          break;
-        }
-        case data._edit_status_ === "加载失败": {
-          setStatus(ListStatus.ERROR);
-          statusRef.current = ListStatus.ERROR;
-          break;
-        }
-        case data._edit_status_ === "没有更多": {
-          setStatus(ListStatus.NOMORE);
-          statusRef.current = ListStatus.NOMORE;
-          break;
-        }
-        default: {
-          setStatus(ListStatus.IDLE);
-          statusRef.current = ListStatus.IDLE;
-          break;
-        }
-      }
-    }
-  }, [data._edit_status_]);
 
   const _dataSource = useMemo(() => {
 
@@ -559,36 +509,6 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
           {useEmptyBar && $emptyBar}
         </View>
       ) : null}
-
-      {/* <List.Placeholder>
-        {loading && <Loading>{data.loadingTip ?? "..."}</Loading>}
-        {error && (data.errorTip ?? "加载失败，请重试")}
-        {!hasMore && (data.emptyTip ?? "没有更多了")}
-      </List.Placeholder> */}
-
-      {/* <>
-          {!!data?.scrollRefresh ? (
-            <>
-              {$list}
-              <List.Placeholder>
-                {loading && <Loading>{data.loadingTip ?? "..."}</Loading>}
-                {error && (data.errorTip ?? "加载失败，请重试")}
-                {!hasMore && (data.emptyTip ?? "没有更多了")}
-              </List.Placeholder>
-            </>
-          ) : (
-            <>
-              {status !== ListStatus.IDLE ? (
-                <List.Placeholder>
-                  {loading && <Loading>{data.loadingTip ?? "..."}</Loading>}
-                  {error && (data.errorTip ?? "加载失败，请重试")}
-                </List.Placeholder>
-              ) : (
-                $list
-              )}
-            </>
-          )}
-        </> */}
     </View>
   );
 };

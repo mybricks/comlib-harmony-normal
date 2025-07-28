@@ -1,67 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { uuid } from './../../utils'
-
+import React, { useEffect } from 'react';
+import { uuid } from './../../utils';
 
 class DisabledStyle {
+  styleEle;
+  styleEleId = `for_disable_focus_${uuid()}`;
 
-  styleEle = null
-  id1 = uuid();
-  id2 = uuid();
-
-  conetent = ''
-
-  
-  styleEleId = `for_disable_focus_${uuid()}`
-
-  constructor({ root }) {
-    const _styleEle = document.createElement('style')
-    _styleEle.id = `for_disable_focus_${uuid()}`;
+  constructor({ root, id1, id2 }) {
+    const _styleEle = document.createElement('style');
+    _styleEle.id = this.styleEleId;
     _styleEle.innerText = `
-    #${this.id1} #${this.id2} .disabled-area, #${this.id1} #${this.id2} .disabled-area * {
+    #${id1} #${id2} .disabled-area, #${id1} #${id2} .disabled-area * {
       pointer-events: none !important;
     }
     .disabled-area {
       opacity: 0.4;
       filter: blur(0.8px);
     }
-    `
-
+    `;
     
-    root.appendChild(_styleEle)
-
-    this.unmount = () => {
-      // const ele = root.getElementById?.(_styleEle.id)
-      // if (ele) {
-      //   ele.outerHTML = ''
-      // }
-    }
+    root.appendChild(_styleEle);
+    this.styleEle = _styleEle;
   }
 
-  unmount = () => {}
+  unmount() {
+    if (this.styleEle) {
+      try {
+        // 尝试直接移除元素
+        this.styleEle.remove();
+      } catch (e) {
+        // 降级处理：如果 remove 不可用，使用父节点移除
+        this.styleEle.parentNode?.removeChild(this.styleEle);
+      }
+      this.styleEle = null;
+    }
+  }
 }
 
-
 export const useDisabledArea = () => {
-  const [ids, setIds] = useState(['', ''])
-
+  // 直接生成 id
+  const id1 = uuid();
+  const id2 = uuid();
+  
   useEffect(() => {
-    const shaowDom = document.getElementById('_mybricks-geo-webview_');
-    const shaodowrooot = shaowDom?.shadowRoot
-    const disabledStyle = new DisabledStyle({ root: shaodowrooot })
-
-    setIds([disabledStyle.id1, disabledStyle.id2])
-
-    return () => {
-      disabledStyle.unmount()
+    const shadowDom = document.getElementById('_mybricks-geo-webview_');
+    const shadowRoot = shadowDom?.shadowRoot;
+    
+    if (!shadowRoot) {
+      console.warn('找不到shadowroot');
+      return;
     }
-  }, [])
 
+    const disabledStyle = new DisabledStyle({ 
+      root: shadowRoot,
+      id1,
+      id2
+    });
 
-  return ({ children }) => (
-    <div id={ids[0]}>
-      <div id={ids[1]}>
+    // 清理函数
+    return () => {
+      disabledStyle.unmount();
+    }
+  }, []);
+
+  // 返回一个组件
+  const DisabledArea = ({ children }) => (
+    <div id={id1}>
+      <div id={id2}>
         {children}
       </div>
     </div>
-  )
+  );
+
+  return DisabledArea;
 }
