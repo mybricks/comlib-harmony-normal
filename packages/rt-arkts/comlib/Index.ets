@@ -37,8 +37,6 @@ import {
   mybricks_harmony_popup_Data,
   mybricks_harmony_containerRow as BasicMyBricksHarmonyContainerRow,
   mybricks_harmony_containerRow_Data,
-  mybricks_harmony_searchBar as BasicMyBricksHarmonySearchBar,
-  mybricks_harmony_searchBar_Data,
   mybricks_harmony_image as BasicMyBricksHarmonyImage,
   mybricks_harmony_image_Data,
   mybricks_harmony_video as BasicMyBricksHarmonyVideo,
@@ -89,8 +87,8 @@ import {
   mybricks_harmony_formCheckbox_Data,
   mybricks_harmony_smsInput as BasicMyBricksHarmonySmsInput,
   mybricks_harmony_smsInput_Data,
-  mybricks_harmony_searchBar2 as BasicMyBricksHarmonySearchBar2,
-  mybricks_harmony_searchBar2_Data,
+  mybricks_harmony_searchBar as BasicMyBricksHarmonySearchBar,
+  mybricks_harmony_searchBar_Data,
   mybricks_harmony_formFileUploader as BasicMyBricksHarmonyFormFileUploader,
   mybricks_harmony_formFileUploader_Data,
   mybricks_harmony_formImageUploader as BasicMyBricksHarmonyFormImageUploader,
@@ -193,7 +191,9 @@ function MyBricksHarmonySystemPageBuilder(params: MyBricksComponentBuilderParams
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -240,7 +240,9 @@ function MyBricksHarmonySystemWebviewBuilder(params: MyBricksComponentBuilderPar
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -285,7 +287,9 @@ function MyBricksHarmonyPopupBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -332,7 +336,9 @@ function MyBricksHarmonyContainerRowBuilder(params: MyBricksComponentBuilderPara
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -370,51 +376,6 @@ export struct MyBricksHarmonyContainerRow {
 }
 
 @Builder
-function MyBricksHarmonySearchBarBuilder(params: MyBricksComponentBuilderParams) {
-  BasicMyBricksHarmonySearchBar({
-    uid: params.uid,
-    data: new mybricks_harmony_searchBar_Data(params.data as MyBricks.Any),
-    inputs: createInputsHandle(params),
-    outputs: createEventsHandle(params),
-    styles: createStyles(params),
-
-
-    parentSlot: params.parentSlot
-  })
-}
-
-@ComponentV2
-export struct MyBricksHarmonySearchBar {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySearchBarBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySearchBarBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
-@Builder
 function MyBricksHarmonyImageBuilder(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyImage({
     uid: params.uid,
@@ -424,7 +385,9 @@ function MyBricksHarmonyImageBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -469,7 +432,9 @@ function MyBricksHarmonyVideoBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -514,7 +479,9 @@ function MyBricksHarmonyButtonBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -561,7 +528,9 @@ function MyBricksHarmonyTextBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -606,7 +575,9 @@ function MyBricksHarmonyIconBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -651,7 +622,9 @@ function MyBricksHarmonyRichTextBuilder(params: MyBricksComponentBuilderParams) 
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -696,7 +669,9 @@ function MyBricksHarmonySwiperBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -743,7 +718,9 @@ function MyBricksHarmonyContainerBasicBuilder(params: MyBricksComponentBuilderPa
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -790,7 +767,9 @@ function MyBricksHarmonyTabsBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -837,7 +816,9 @@ function MyBricksHarmonyContainerListBuilder(params: MyBricksComponentBuilderPar
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -884,7 +865,9 @@ function MyBricksHarmonyContainerWaterfallBuilder(params: MyBricksComponentBuild
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -931,7 +914,9 @@ function MyBricksHarmonyContainerConditionBuilder(params: MyBricksComponentBuild
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -978,7 +963,9 @@ function MyBricksHarmonySidebarBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1025,7 +1012,9 @@ function MyBricksHarmonyFormContainerBuilder(params: MyBricksComponentBuilderPar
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1072,7 +1061,9 @@ function MyBricksHarmonyFormInputBuilder(params: MyBricksComponentBuilderParams)
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1117,7 +1108,9 @@ function MyBricksHarmonyFormStepperBuilder(params: MyBricksComponentBuilderParam
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1162,7 +1155,9 @@ function MyBricksHarmonyFormTextareaBuilder(params: MyBricksComponentBuilderPara
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1207,7 +1202,9 @@ function MyBricksHarmonyFormPasswordBuilder(params: MyBricksComponentBuilderPara
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1252,7 +1249,9 @@ function MyBricksHarmonyFormSwitchBuilder(params: MyBricksComponentBuilderParams
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1297,7 +1296,9 @@ function MyBricksHarmonyFormDatetimeBuilder(params: MyBricksComponentBuilderPara
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1344,7 +1345,9 @@ function MyBricksHarmonyFormRateBuilder(params: MyBricksComponentBuilderParams) 
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1389,7 +1392,9 @@ function MyBricksHarmonyFormSelectBuilder(params: MyBricksComponentBuilderParams
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1436,7 +1441,9 @@ function MyBricksHarmonyFormRadioBuilder(params: MyBricksComponentBuilderParams)
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1481,7 +1488,9 @@ function MyBricksHarmonyFormCheckboxBuilder(params: MyBricksComponentBuilderPara
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1526,7 +1535,9 @@ function MyBricksHarmonySmsInputBuilder(params: MyBricksComponentBuilderParams) 
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1562,21 +1573,23 @@ export struct MyBricksHarmonySmsInput {
 }
 
 @Builder
-function MyBricksHarmonySearchBar2Builder(params: MyBricksComponentBuilderParams) {
-  BasicMyBricksHarmonySearchBar2({
+function MyBricksHarmonySearchBarBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonySearchBar({
     uid: params.uid,
-    data: new mybricks_harmony_searchBar2_Data(params.data as MyBricks.Any),
+    data: new mybricks_harmony_searchBar_Data(params.data as MyBricks.Any),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
 @ComponentV2
-export struct MyBricksHarmonySearchBar2 {
+export struct MyBricksHarmonySearchBar {
   @Param @Require uid: string;
   @Param @Require title: string;
   @Param controller: MyBricks.Controller = Controller();
@@ -1593,12 +1606,12 @@ export struct MyBricksHarmonySearchBar2 {
         this.parentSlot.itemWrap({
           id: this.uid,
           inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySearchBar2Builder), this, this.parentSlot.itemWrap({
+        }).wrap.builder(wrapBuilder(MyBricksHarmonySearchBarBuilder), this, this.parentSlot.itemWrap({
           id: this.uid,
           inputs: this.controller._inputEvents
         }).params)
       } else {
-        MyBricksHarmonySearchBar2Builder(this)
+        MyBricksHarmonySearchBarBuilder(this)
       }
     }
     .attributeModifier(this.myBricksColumnModifier)
@@ -1616,7 +1629,9 @@ function MyBricksHarmonyFormFileUploaderBuilder(params: MyBricksComponentBuilder
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1663,7 +1678,9 @@ function MyBricksHarmonyFormImageUploaderBuilder(params: MyBricksComponentBuilde
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1710,7 +1727,9 @@ function MyBricksHarmonyFormItemContainerBuilder(params: MyBricksComponentBuilde
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1757,7 +1776,9 @@ function MyBricksHarmonyCellBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1804,7 +1825,9 @@ function MyBricksHarmonyQrcodeBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1849,7 +1872,9 @@ function MyBricksHarmonyCascaderBuilder(params: MyBricksComponentBuilderParams) 
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1894,7 +1919,9 @@ function MyBricksHarmonyPetalMapBuilder(params: MyBricksComponentBuilderParams) 
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1939,7 +1966,9 @@ function MyBricksHarmonySupportBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -1984,7 +2013,9 @@ function MyBricksHarmonyLineBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 
@@ -2029,7 +2060,9 @@ function MyBricksHarmonyTimerBuilder(params: MyBricksComponentBuilderParams) {
     styles: createStyles(params),
 
 
-    parentSlot: params.parentSlot
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env
   })
 }
 

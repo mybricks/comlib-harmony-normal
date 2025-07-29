@@ -67,7 +67,9 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
         styles: createStyles(params),
         ${hasSlots ? "slots: params.slots," : ""}
         ${hasSlots ? "slotsIO: params.slotsIO," : ""}
-        parentSlot: params.parentSlot
+        parentSlot: params.parentSlot,
+        env: context.env,
+        _env: context._env
       })
     }
     
