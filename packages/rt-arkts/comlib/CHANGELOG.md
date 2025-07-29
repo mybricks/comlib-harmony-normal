@@ -1,3 +1,8 @@
+# [1.0.4](https://github.com/mybricks/comlib-harmony-normal/compare/d0ccfef..d073b04) (2025-07-29)
+- 组件注入env、_env
+- 瀑布流组件搭建态性能优化
+- 删除冗余代码
+
 # [1.0.3](https://github.com/mybricks/comlib-harmony-normal/compare/e1b5d06..c32796e) (2025-07-17)
 - 修复密码输入框高度问题
 
