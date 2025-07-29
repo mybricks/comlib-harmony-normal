@@ -104,7 +104,6 @@ export default struct MyBricksPopup {
   handleOverlayClick () {
     if (this.data.maskClose) {
       this._env?.currentScenes.close?.()
-      this.env?.currentScenes.close?.()
 
       this.outputs?.onClickOverlay?.();
     }
