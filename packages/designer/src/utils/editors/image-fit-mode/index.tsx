@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
-
+import { IMAGE_MODE } from './../../image'
 import styles from "./index.less";
 
 const Segmented = window?.antd?.Segmented;
@@ -12,19 +12,6 @@ const isNumber = (num) => {
 const showToast = (msg: string) => {
   window?.antd?.message?.warning(msg);
 };
-
-enum IMAGE_MODE {
-  ASPECTFILL = "aspectFill",
-  OBJECTFIT = "objectFit",
-  TOP = "top",
-  LEFT = "left",
-  RIGHT = "right",
-  BOTTOM = "bottom",
-  ASPECTFIT = "aspectFit",
-  SCALETOFILL = "scaleToFill",
-  WIDTHFIX = "widthFix",
-  HEIGHTFIX = 'heightFix'
-}
 
 enum IMAGE_TYPE {
   CUT = 'cut',

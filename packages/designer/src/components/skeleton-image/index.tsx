@@ -8,7 +8,75 @@ import React, {
 } from 'react'
 import css from './index.less'
 import { View, Image, ImageProps } from '@tarojs/components'
-import { autoCdnCut } from './../../utils/image'
+import { autoCdnCut, IMAGE_MODE } from './../../utils/image'
+
+const HtmlImage: React.FC<{
+  src: string
+  mode?: IMAGE_MODE | string
+  className?: string
+  onClick?: (e: React.MouseEvent) => void
+  onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void
+  style?: CSSProperties
+}> = ({ src, mode, className, onClick, onLoad, onError, style }) => {
+  const imageStyle = useMemo(() => {
+    const baseStyle: CSSProperties = {
+      ...style,
+      maxWidth: '100%',
+    }
+
+    switch (mode) {
+      case IMAGE_MODE.ASPECTFILL:
+        return {
+          ...baseStyle,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }
+      case IMAGE_MODE.OBJECTFIT:
+        return {
+          ...baseStyle,
+          width: '100%',
+          height: '100%',
+          objectFit: 'none',
+        }
+      case IMAGE_MODE.ASPECTFIT:
+        return {
+          ...baseStyle,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+        }
+      case IMAGE_MODE.SCALETOFILL:
+        return {
+          ...baseStyle,
+          width: '100%',
+          height: '100%',
+          objectFit: 'fill',
+        }
+      case IMAGE_MODE.WIDTHFIX:
+        return {
+          ...baseStyle,
+          width: '100%',
+          height: 'auto',
+        }
+      default:
+        return baseStyle
+    }
+  }, [mode, style])
+
+  return (
+    <img
+      className={className}
+      src={src}
+      style={imageStyle}
+      onClick={onClick}
+      onLoad={onLoad}
+      onError={onError}
+    />
+  )
+}
+
 
 interface SkeletonImageProps extends ImageProps {
   useHtml?: boolean
@@ -91,10 +159,16 @@ export default function ({
       ></View>
       {_src &&
         (useHtml ? (
-          <img className={className} src={_src} />
+          <HtmlImage
+            className={className}
+            src={_src}
+            mode={mode}
+            onClick={_onClick}
+            onLoad={_onLoad}
+            onError={_onError}
+          />
         ) : (
           <Image
-            lazyLoad={false}
             className={className}
             src={_src}
             mode={mode}
