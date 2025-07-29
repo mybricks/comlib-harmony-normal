@@ -10,6 +10,23 @@ interface Tab {
   tabName: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 // 数据类型定义
 export interface DataType {
   tabs?:Tab[],
@@ -87,6 +104,9 @@ export default struct MyBricksSideBar {
   @Local text: string = '文本';
   @Local currentTabId?: string
   private controller: TabsController = new TabsController();
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear() {
      // this.data.tabs = [{_id:"1",tabName:"全部"},{_id:"2",tabName:"1号线"},{_id:"3",tabName:"2号线"}]

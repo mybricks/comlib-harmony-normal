@@ -6,6 +6,23 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 export interface DataType {
   direction?: 'row' | 'column',
   spacing?: number
@@ -71,6 +88,9 @@ export default struct MyBricksContainerList {
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
   @Local maxItemHeight: number = -1
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     this.inputs?.addDataSource((ds) => {

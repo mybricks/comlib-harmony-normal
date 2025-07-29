@@ -11,6 +11,23 @@ export interface DataType {
   enableZoom?: boolean
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace showScale?: boolean = false
@@ -45,6 +62,9 @@ export default struct MyBricksMap {
   private callback?: AsyncCallback<map.MapComponentController>;
   private mapController?: map.MapComponentController;
   private mapEventManager?: map.MapEventManager;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     // 地图初始化参数，设置地图中心点坐标及层级

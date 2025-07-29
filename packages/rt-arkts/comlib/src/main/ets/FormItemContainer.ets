@@ -21,6 +21,23 @@ export interface DataType {
   value: string,
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace disabled: boolean
@@ -75,6 +92,9 @@ export default struct MyBricksFormInput {
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     this.inputs?.setDisabled((val, outputRels: AnyType) => {

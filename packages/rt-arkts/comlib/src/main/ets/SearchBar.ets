@@ -34,6 +34,22 @@ export interface DataType {
   showSearchIcon?: boolean
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace placeholderText?: string
@@ -86,6 +102,9 @@ export default struct MyBricksSearchBar {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
   @Local value?: string
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
 

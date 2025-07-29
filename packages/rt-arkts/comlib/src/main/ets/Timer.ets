@@ -6,6 +6,23 @@ export interface DataType {
   countdown?: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace clockType?: string
@@ -39,6 +56,9 @@ export default struct MyBricksText {
   @Local initTime: number = new Date().getTime()
   @Local countDown: string = ""
   private timerID: number = -1
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   formatTime(date: Date): string {
     const hours = String(date.getHours()).padStart(2, '0')

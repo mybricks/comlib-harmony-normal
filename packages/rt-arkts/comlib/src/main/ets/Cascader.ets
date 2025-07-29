@@ -37,6 +37,24 @@ interface Outputs {
   onChange: (value: CascaderItem) => void
 }
 
+
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ComponentV2
 export default struct MyBricksCascader {
   @Param data: Data = new Data()
@@ -56,6 +74,9 @@ export default struct MyBricksCascader {
   @Local isVertical: boolean = true;
   @Local text: string = '文本';
   private controller: TabsController = new TabsController();
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear() {
     this.inputs?.addDataSource?.((ds, outputRels: AnyType) => {

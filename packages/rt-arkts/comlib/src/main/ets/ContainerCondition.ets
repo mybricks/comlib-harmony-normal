@@ -7,6 +7,23 @@ interface ItemType {
   outputId: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 export interface DataType {
   defaultActiveId: string
   _editSelectId_?: string
@@ -49,6 +66,9 @@ export default struct MyBricksCondition {
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Local inputId: string = ''
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear() {
     this.inputId = this.data.defaultActiveId

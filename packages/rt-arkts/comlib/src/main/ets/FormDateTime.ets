@@ -16,6 +16,23 @@ export interface DataType {
   isSlot: boolean
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace value: number | undefined
@@ -91,6 +108,9 @@ export default struct MyBricksFormDateTime {
 
   @Local showPicker: boolean = false
   @Local valueInDate: Date | undefined = undefined
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   dialogController: CustomDialogController | null = null
 

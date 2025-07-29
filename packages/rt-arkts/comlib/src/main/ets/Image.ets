@@ -16,6 +16,23 @@ export interface DataType {
   mode?: 'aspectFit' | 'cover' | string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace src?: string
@@ -47,6 +64,9 @@ export default struct MyBricksImage {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     this.inputs?.setSrc((src) => {

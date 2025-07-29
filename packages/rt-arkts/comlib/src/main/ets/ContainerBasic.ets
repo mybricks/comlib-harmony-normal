@@ -28,6 +28,23 @@ interface Outputs {
   onClick: (value?: AnyType) => void
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 export interface SlotsParams {
   id: string,
   style?: CSSProperties
@@ -46,6 +63,9 @@ export default struct MyBricksContainerBasic {
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
 
