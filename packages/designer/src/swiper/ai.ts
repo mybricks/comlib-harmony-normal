@@ -3,8 +3,10 @@ export default {
     return {}
   },
   prompts: {
-    summary: '轮播，支持图片轮播，自定义内容轮播',
-    usage: `data声明
+    summary: `轮播，下方带指示器的轮播容器，支持图片轮播，自定义内容轮播。
+特别注意：不是用于横滑的组件，横滑使用flex配置内容溢出为滚动即可。`,
+    usage: `轮播，下方带指示器的轮播容器，支持图片轮播，自定义内容轮播。
+data声明
 items: [
   {
     _id: string
