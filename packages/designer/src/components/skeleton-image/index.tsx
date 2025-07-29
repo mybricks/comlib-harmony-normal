@@ -5,22 +5,24 @@ import React, {
   useMemo,
   useState,
   CSSProperties,
-} from "react";
-import css from "./index.less";
-import { View, Image, ImageProps } from "@tarojs/components";
-import { autoCdnCut } from "./../../utils/image";
+} from 'react'
+import css from './index.less'
+import { View, Image, ImageProps } from '@tarojs/components'
+import { autoCdnCut } from './../../utils/image'
 
 interface SkeletonImageProps extends ImageProps {
-  skeleton?: boolean;
-  skeletonStyle?: CSSProperties;
-  cdnCut?: "auto" | "";
+  useHtml?: boolean
+  skeleton?: boolean
+  skeletonStyle?: CSSProperties
+  cdnCut?: 'auto' | ''
   cdnCutOption?: {
-    width?: number | string;
-    height?: number | string;
-  };
+    width?: number | string
+    height?: number | string
+  }
 }
 
 export default function ({
+  useHtml = false,
   skeleton = false,
   skeletonStyle,
   onLoad,
@@ -29,43 +31,43 @@ export default function ({
   className,
   src,
   mode,
-  cdnCut = "",
+  cdnCut = '',
   cdnCutOption = {},
   ...props
 }: SkeletonImageProps) {
-  const [loading, setLoading] = useState(!!skeleton);
+  const [loading, setLoading] = useState(!!skeleton)
 
   useEffect(() => {
     if (src && skeleton) {
-      setLoading(true);
+      setLoading(true)
     }
-  }, [src, skeleton]);
+  }, [src, skeleton])
 
   const _onLoad = useCallback(
     (e) => {
-      setLoading(false);
-      onLoad?.(e);
+      setLoading(false)
+      onLoad?.(e)
     },
     [onLoad]
-  );
+  )
 
   const _onClick = useCallback(
     (e) => {
-      onClick?.(e);
+      onClick?.(e)
     },
     [onClick]
-  );
+  )
 
   const _onError = useCallback(
     (e) => {
-      setLoading(false);
-      onError?.(e);
+      setLoading(false)
+      onError?.(e)
     },
     [onError]
-  );
+  )
 
   const _src = useMemo(() => {
-    if (cdnCut === "auto") {
+    if (cdnCut === 'auto') {
       const cutUrl = autoCdnCut(
         {
           url: src,
@@ -75,11 +77,11 @@ export default function ({
         {
           quality: 90,
         }
-      );
-      return cutUrl;
+      )
+      return cutUrl
     }
-    return src;
-  }, [src, cdnCut, cdnCutOption?.height, cdnCutOption?.height]);
+    return src
+  }, [src, cdnCut, cdnCutOption?.height, cdnCutOption?.height])
 
   return (
     <View className={css.com}>
@@ -87,23 +89,21 @@ export default function ({
         className={loading ? `${css.place}` : `${css.place} ${css.none}`}
         style={skeletonStyle}
       ></View>
-      {_src && (
-        <Image
-          // 开启懒加载，官方解释是 在即将进入一定范围（上下三屏）时才开始加载
-          lazyLoad
-          className={className}
-          src={_src}
-          mode={mode}
-          onClick={_onClick}
-          onLoad={_onLoad}
-          onError={_onError}
-          nativeProps={{
-            loading: "lazy",
-            decoding: "async",
-          }}
-          {...props}
-        />
-      )}
+      {_src &&
+        (useHtml ? (
+          <img className={className} src={_src} />
+        ) : (
+          <Image
+            lazyLoad={false}
+            className={className}
+            src={_src}
+            mode={mode}
+            onClick={_onClick}
+            onLoad={_onLoad}
+            onError={_onError}
+            {...props}
+          />
+        ))}
     </View>
-  );
+  )
 }

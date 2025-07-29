@@ -35,7 +35,7 @@ function styleStringToCSSProperties(styleString) {
   return cssProperties;
 }
 
-const Element = ({ item }) => {
+const Element = ({ item, useHtml }) => {
   const handlePreviewImage = (src) => {
     if (!src) {
       return;
@@ -59,6 +59,7 @@ const Element = ({ item }) => {
         : "scaleToFill";
     return (
       <SkeletonImage
+        useHtml={useHtml}
         skeleton
         src={src}
         style={cssStyle}
@@ -85,13 +86,13 @@ const Element = ({ item }) => {
   return <RichText style={{ display: "inline-block" }} nodes={[item]} />;
 };
 
-const Level = ({ node }) => {
+const Level = ({ node, useHtml }) => {
   // if (!node.continue || node.name == 'a') {
   //   return <Element item={node} />
   // }
 
   if (!Array.isArray(node.children) || node.children.length === 0) {
-    return <Element item={node} />;
+    return <Element item={node} useHtml={useHtml} />;
   }
 
   return (
@@ -100,7 +101,7 @@ const Level = ({ node }) => {
       style={styleStringToCSSProperties(node?.attrs?.style)}
     >
       {node.children.map((item) => {
-        return <Level node={item} />;
+        return <Level node={item} useHtml={useHtml} />;
       })}
     </View>
   );
@@ -112,6 +113,7 @@ export default ({
   selectable = true,
   imageMenuPrevent = true,
   imagePreview = true,
+  useHtml = false
 }) => {
   const [root, setRoot] = useState({ children: [] });
   const [controls, setControls] = useState({});
@@ -132,7 +134,7 @@ export default ({
           preview={"true"}
         />
       ) : (
-        <Level node={root} />
+        <Level node={root} useHtml={useHtml} />
       )}
     </View>
   );

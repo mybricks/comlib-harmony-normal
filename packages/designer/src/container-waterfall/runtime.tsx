@@ -250,6 +250,10 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
               itemData: item,
               index: index,
             },
+            cache:{
+              for: 0,
+              index: index,
+            },
             key: key,
             style: {
               height: slots["item"].size ? "unset" : "120px",
@@ -284,6 +288,10 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
           {slots["item"].render({
             inputValues: {
               itemData: item,
+              index: index,
+            },
+            cache:{
+              for: 0,
               index: index,
             },
             key: key,

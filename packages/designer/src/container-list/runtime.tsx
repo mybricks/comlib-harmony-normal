@@ -175,6 +175,10 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
               index: index,
             },
             key: key,
+            cache:{
+              for: 0,
+              index: index,
+            },
             style: {
               width:
                 slots["item"].size || data.direction === Direction.Column

@@ -97,6 +97,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       }
       return (
         <SkeletonImage
+          useHtml={env.edit}
           className={css.thumbnail}
           mode="aspectFill"
           src={data.items[current]?.thumbnail}
@@ -136,6 +137,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
         <SwiperItem className={css.swiperItem}>
           {data.contentType !== 'custom' ? (
             <SkeletonImage
+              useHtml={env.edit}
               className={css.thumbnail}
               mode="aspectFill"
               src={data.items[current]?.thumbnail}
@@ -167,6 +169,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
             >
               {data.contentType !== 'custom' ? (
                 <SkeletonImage
+                  useHtml={env.edit}
                   className={css.thumbnail}
                   mode="aspectFill"
                   src={shouldLoad ? item.thumbnail : ''}

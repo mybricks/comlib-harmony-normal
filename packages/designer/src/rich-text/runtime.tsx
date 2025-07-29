@@ -113,6 +113,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
       {display ? (
         <View className={css.richtext}>
           <RichText
+            useHtml={env.edit}
             className={"taro_html"}
             selectable={"selectable"}
             content={content}

@@ -107,6 +107,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
   return (
     <View className={css.com} ref={ele}>
       <SkeletonImage
+        useHtml={env.edit}
         skeleton={env.edit ? false : !!data?.loadSmooth}
         className={cx(css.image, h5PolyfillClass, "mybricks-image")}
         src={src}
