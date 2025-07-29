@@ -27,6 +27,23 @@ interface Tab {
   badge?: string,
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 // 数据类型定义
 export interface DataType {
   /** @deprecated */
@@ -140,6 +157,10 @@ export default struct MyBricksTabs {
 
   @Local contentWidth: AnyType = 0
   @Local screenWidth: AnyType = 0
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
+
 
   private scroller: Scroller = new Scroller()
 

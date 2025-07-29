@@ -4,6 +4,23 @@ import { AnyType } from './types';
 
 export type DataType = AnyType
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace url?: string
@@ -31,6 +48,9 @@ export default struct MyBricksWebview {
   @Param styles: Record<string, CSSProperties> = {}
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   controller: webview.WebviewController = new webview.WebviewController();
 

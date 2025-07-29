@@ -27,6 +27,23 @@ export interface DataType {
   defaultRenderMode?: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 // Data 类实现
 @ObservedV2
 export class Data implements DataType {
@@ -77,6 +94,9 @@ export default struct MyBricksFormRadio {
   @Local activeValue: string | number = ''
   @Local ready: boolean = true
   @Local uniqueRroupId: string = String(Math.random())
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   @Computed
   get unSelectedStyle(): AnyType {

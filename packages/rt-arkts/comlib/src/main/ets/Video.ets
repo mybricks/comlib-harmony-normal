@@ -12,6 +12,23 @@ export interface DataType {
   objectFit?: VideoFitType
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 export type VideoFitType = 'contain' | 'fill' | 'cover' | string;
 
 
@@ -61,6 +78,9 @@ export default struct MyBricksVideo {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   private getImageFit(e:VideoFitType): ImageFit {
     switch(e) {

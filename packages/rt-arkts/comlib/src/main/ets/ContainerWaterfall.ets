@@ -7,6 +7,24 @@ export interface DataType {
   layout?: GridLayoutConfig
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
+
 interface GridLayoutConfig {
   type: "grid"; // 固定为 grid 类型
   column: number;
@@ -84,6 +102,9 @@ export default struct MyBricksContainerWaterfall {
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     this.inputs?.addDataSource((ds) => {

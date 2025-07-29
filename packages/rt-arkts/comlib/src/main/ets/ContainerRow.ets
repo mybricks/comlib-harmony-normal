@@ -18,6 +18,24 @@ interface Item {
   slotStyle: CSSProperties
   width?: "fit-content" | number | string
 }
+
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 export interface DataType {
   slotStyle?: SlotStyle
   items?: Item[]
@@ -110,6 +128,9 @@ export default struct MyBricksContainerRow {
   @Param parentSlot?: AnyType = undefined;
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
 

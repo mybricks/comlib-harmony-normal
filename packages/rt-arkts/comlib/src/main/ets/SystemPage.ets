@@ -5,6 +5,23 @@ import { parseLinearGradient } from "./utils/StyleMatching"
 
 export type DataType = AnyType
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   navigationStyle?: string
@@ -49,6 +66,9 @@ export default struct MyBricksSystemPage {
     backgroundColor: this.data.backgroundColor,
     backgroundImage: this.data.backgroundImage,
   })
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
 

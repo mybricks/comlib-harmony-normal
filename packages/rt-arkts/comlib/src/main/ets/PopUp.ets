@@ -38,7 +38,16 @@ interface _Env {
   currentScenes: _EnvCurrentScenes
 }
 
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
 interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
   close: () => void
 }
 
@@ -62,6 +71,7 @@ export default struct MyBricksPopup {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
   @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (name: SlotsParamsContent) => void = emptySlot;
@@ -94,6 +104,8 @@ export default struct MyBricksPopup {
   handleOverlayClick () {
     if (this.data.maskClose) {
       this._env?.currentScenes.close?.()
+      this.env?.currentScenes.close?.()
+
       this.outputs?.onClickOverlay?.();
     }
   }

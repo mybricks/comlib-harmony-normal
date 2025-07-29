@@ -22,6 +22,23 @@ interface FormItem {
   comName?: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @Builder
 function emptyContent() {
 }
@@ -354,6 +371,9 @@ export default struct MyBricksFormContainer {
   @Local formInstance: FormValuesController = new FormValuesController()
 
   @Local childrenInputs: AnyType = {}
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     // this.formLayout = this.data.itemLayout

@@ -10,6 +10,23 @@ export interface DataType {
   disabled: boolean
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 @ObservedV2
 export class Data implements DataType {
   @Trace label: string
@@ -46,6 +63,9 @@ export default struct MyBricksRate {
   @Param parentSlot?: AnyType = undefined;
   
   @Local value: number = 0
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     // 处理输入事件

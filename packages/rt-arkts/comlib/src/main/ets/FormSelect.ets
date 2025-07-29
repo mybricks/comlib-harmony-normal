@@ -9,6 +9,23 @@ export interface DataType {
   options?: Option[];
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 interface Option {
   label: string;
   value: string;
@@ -76,6 +93,9 @@ export default struct MyBricksFormSelect {
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Local selectedIndex?: number = 0
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   aboutToAppear(): void {
     //连线设置下拉框值

@@ -41,6 +41,23 @@ export class Data implements DataType {
   }
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 interface Inputs {
   buttonText: (fn: (text: string) => void) => void
   setDisabled: (fn: (val: boolean, outputRels: void) => void) => void
@@ -73,6 +90,8 @@ export default struct MyBricksButton {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;

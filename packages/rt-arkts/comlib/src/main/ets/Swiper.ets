@@ -13,6 +13,23 @@ export interface DataType {
   indicatorColor?: string
 }
 
+interface _Env {
+  currentScenes: _EnvCurrentScenes
+}
+
+interface Env {
+  currentScenes: EnvCurrentScenes
+}
+
+interface _EnvCurrentScenes {
+  close: () => void
+}
+
+
+interface EnvCurrentScenes {
+  close: () => void
+}
+
 interface DataSourceItem {
   _id: string;
   thumbnail: string;
@@ -69,6 +86,9 @@ export default struct MyBricksSwiper {
 
   @Local indicatorColor?: AnyType = '#558EFF'
   @Local indicatorColorDefault?: AnyType = '#D9D9D9'
+
+  @Param _env?: _Env = undefined
+  @Param env?: Env = undefined
 
 
 
