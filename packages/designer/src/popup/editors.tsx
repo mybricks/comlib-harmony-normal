@@ -69,6 +69,18 @@ export default {
           },
         },
         {
+          title: "弹窗动画",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.animation ?? true
+            },
+            set({ data }, val) {
+              data.animation = val
+            }
+          }
+        },
+        {
           title: "点击蒙层关闭",
           type: "switch",
           value: {

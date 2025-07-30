@@ -129,6 +129,28 @@
       }
     }
   }
+
+   &.noAnimation {
+    &.show {
+      .overlay {
+        animation: none;
+        opacity: 1;
+      }
+
+      .main {
+        &.center .content,
+        &.top .content,
+        &.bottom .content,
+        &.left .content,
+        &.right .content {
+          animation: none;
+          transform: none;
+        }
+      }
+    }
+  }
+
+
 }
 
 @keyframes fadeIn {
@@ -188,5 +210,19 @@
 
   100% {
     transform: translateY(0);
+  }
+}
+
+.noAnimation {
+  // 禁用所有过渡动画
+  transition: none !important;
+  animation: none !important;
+  -webkit-animation: none !important;
+  
+  // 确保子元素也不会有动画
+  * {
+    transition: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
   }
 }
