@@ -32,8 +32,9 @@ export default function ({
     return cx({
       [css.popup]: true,
       [css.show]: true,
+      [css.noAnimation]: data?.animation === false
     });
-  }, [show, env.edit]);
+  }, [show, env.edit,data?.animation]);
 
   const mainCx = useMemo(() => {
     return cx({
