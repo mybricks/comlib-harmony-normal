@@ -177,7 +177,7 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
             key: key,
             cache:{
               for: 0,
-              index: index,
+              index: _idx,
             },
             style: {
               width:
