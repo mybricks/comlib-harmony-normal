@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { url } from '@kit.ArkTS';
 
 @Extend(Image) function aspectFit() {
   .objectFit(ImageFit.Contain)
@@ -99,9 +100,27 @@ export default struct MyBricksImage {
     }
   }
 
+  @Computed
+  get encodedSrc(): string {
+    const originUrl = this.data.svgPolyfill || this.data.src
+    try {
+      const urlObj = url.URL.parseURL(originUrl || '');
+      const params = new url.URLParams(urlObj.params);
+      // 对参数进行编码处理
+      const encodedParams = Array.from(params.entries())
+        .map((kv) => `${encodeURIComponent(kv[0])}=${encodeURIComponent(kv[1])}`)
+        .join('&');
+
+      return `${urlObj.origin}${urlObj.pathname}?${encodedParams}`;
+    } catch {
+      // 无效URL时返回原始值
+      return originUrl || '';
+    }
+  }
+
   build() {
     Column() {
-      Image(this.data.svgPolyfill || this.data.src)
+      Image(this.encodedSrc)
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-image'])
         )
