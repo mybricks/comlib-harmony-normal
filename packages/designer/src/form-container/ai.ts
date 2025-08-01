@@ -1,22 +1,38 @@
 import { uuid } from './../utils'
 
 export default {
-  ignore: true,
+  // ignore: true,
   ':root'({ data }) {
     return {}
   },
   prompts: {
-    summary: `表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮
-何时使用：仅在需要搜集信息的表单页面中使用，其他时候可以直接使用表单项组件搭建而成
+    summary: `表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮。
+主要作用：约等于 antd的form组件，帮忙搞定：
+1. 垂直/水平统一布局；
+2. 左侧自动对齐的 label 样式，表单项之间的默认的分割线；
+3. 数据收集、校验、提交按钮（可选）； 
+
+何时使用：依赖默认布局 / label 样式；
+- 期望统一水平/垂直布局、所有表单项 label 对齐、行距一致、且需要收集信息的情况；
+
+何时不应该使用：样式高度定制，或者表单项只有两个或两个以下；
+
 特别注意：使用此组件必须推荐其他schema=form-item的组件的表单项组件
 `,
     usage: `表单容器，可以渲染各种表单项并搜集表单数据，自带提交按钮。
-  何时使用：
-    - 仅在需要搜集信息的表单页面中使用；
-    - 非收集信息时，可以直接使用表单项组件搭建而成，无需使用表单组件；
-  特别注意：
+主要作用：约等于 antd的form组件，帮忙搞定：
+1. 垂直/水平统一布局；
+2. 左侧自动对齐的 label 样式，表单项之间的默认的分割线；
+3. 数据收集、校验、提交按钮（可选）； 
+
+何时使用：依赖默认布局 / label 样式；
+- 期望统一水平/垂直布局、所有表单项 label 对齐、行距一致、且需要收集信息的情况；
+
+何时不应该使用：样式高度定制，或者表单项只有两个或两个以下；
+
+特别注意：
   - 使用此组件必须推荐其他schema=form-item的组件的表单项组件；
-  - 此组件插槽默认为flex布局；
+  - 表单的插槽不允许直接子组件为其他标签，仅允许schema=form-item的表单项组件；
 
   data声明
   submitButtonText?: string = "提交" ## 提交按钮的文案，如果不配置此属性，则隐藏提交按钮
@@ -81,8 +97,7 @@ export default {
       />
     </slots.content>
   </mybricks.harmony.formContainer>
-  \`\`\`
-  注意：表单的插槽不允许直接子组件为flex，仅允许schema=form-item的表单项组件。`
+  \`\`\``
   },
   modifyTptJson: (component) => {
     if (!component?.data) {
@@ -91,6 +106,41 @@ export default {
     if (!component.data?.items) {
       component.data.items = []
     }
+
+    // // 兼容formContainer里丢进来其他组件的情况
+    // if (Array.isArray(component.slots.content.comAry)) {
+    //   component.slots.content.comAry = component.slots?.content?.comAry?.map((com, index) => {
+    //     const isComNotFormItem = com?.namespace?.indexOf('.form') === -1;
+    //     if (isComNotFormItem) {
+    //       const item = component.data.items?.[index]
+    //       if (item) {
+    //         const { width, height, marginLeft, marginRight, marginTop, marginBottom, ...others } = component.style ?? {}
+
+    //         component.style.width = '100%';
+    //         component.style.height = '100%';
+
+    //         return {
+    //           id: uuid(),
+    //           title: component.title,
+    //           namespace: 'mybricks.harmony.formItemContainer',
+    //           style: {
+    //             width,
+    //             height,
+    //             marginLeft,
+    //             marginRight,
+    //             marginTop,
+    //             marginBottom
+    //           },
+    //           comAry: [component]
+    //         }
+    //       } else {
+    //         return undefined
+    //       }
+    //     }
+    //     return com
+    //   }).filter(c => !!c)
+    // }
+
     component.slots?.content?.comAry?.forEach((com, index) => {
       let item = component.data.items[index]
   
@@ -98,9 +148,9 @@ export default {
         item = component.data.items[index] = {}
       }
   
-      if (!com?.data?.name) {
-        return
-      }
+      // if (!com?.data?.name) {
+      //   return
+      // }
   
       item.id = uuid();
       item.comName = uuid();
