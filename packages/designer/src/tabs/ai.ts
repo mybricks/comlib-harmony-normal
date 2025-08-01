@@ -10,7 +10,6 @@ tabs: array = [
   {_id: "tabId1", tabName: "标签项1"},
   {_id: "tabId2", tabName: "标签项2"}
 ]
-slotStyle: object = {}
 tabWidthType: ['fill', 'fit'] = 'fill' # 标签项宽度配置，是适应内容还是平均铺满，适应内容时每个标签项宽度由内布局定，平均铺满时每个标签项会平分宽度
 contentShowType: string = "switch"
 hideContent: boolean = false # 开启后可以只展示tabs，而不渲染插槽内容
