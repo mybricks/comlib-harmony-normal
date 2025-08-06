@@ -73,7 +73,7 @@ export default {
           type: "switch",
           value: {
             get({ data }) {
-              return data.animation ?? true
+              return data?.animation ?? true
             },
             set({ data }, val) {
               data.animation = val
