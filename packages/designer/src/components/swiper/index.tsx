@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   View,
   Swiper as TaroSwiper,
-  SwiperItem,
   SwiperProps,
 } from '@tarojs/components'
 import { polyfill_taro_swiper } from './../../utils/h5-polyfill'
@@ -36,9 +35,7 @@ export function Swiper(props: CustomSwiperProps) {
     children,
     className,
     indicator,
-    ...extra
   } = props
-  const [swiperKey, setSwiperKey] = useState(0)
 
   //判断是否是真机运行态
   const isRelEnv = useMemo(() => {
@@ -49,30 +46,9 @@ export function Swiper(props: CustomSwiperProps) {
     }
   }, [env?.runtime?.debug, env.edit])
 
-  const SwiperComp = useMemo(() => {
-    if (env.edit) {
-      return View
-    }
-    return TaroSwiper
-  }, [env.edit])
-
-  // useEffect(()=>{
-  //   const randomNumber = Math.floor(Math.random() * 1000000000);
-  //   setSwiperKey(randomNumber)
-  // },[data.items])
-
   return (
     <View className={`${css.wrapper} mybricks-swiper-wrapper ${className}`}>
-      <SwiperComp
-        key={swiperKey}
-        {...extra}
-        // className={`${css.swiper} mybricks-swiper`}
-        style={style}
-        current={current}
-        indicatorDots={false}
-      >
         {children}
-      </SwiperComp>
       {indicator && (
         <View className={'indicators'}>
           {Array.from(isRelEnv ? findArrayOrObject(children) : data.items).map(
@@ -95,4 +71,12 @@ export function Swiper(props: CustomSwiperProps) {
   )
 }
 
-export { SwiperItem }
+export const SwiperItem = ({
+  children,
+  index,
+  ...extra
+}) => {
+  return <View {...extra}>
+    {children}
+  </View>
+}

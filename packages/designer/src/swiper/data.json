@@ -14,5 +14,6 @@
   "duration": 500,
   "slideIndex": 0,
   "showIndicator": true,
-  "circular": true
+  "circular": true,
+  "itemOffsets": [0, 0]
 }
