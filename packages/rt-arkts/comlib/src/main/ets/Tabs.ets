@@ -96,7 +96,7 @@ interface InputTabData {
 
 interface Inputs {
   dataSource: (fn: (ds: InputTabData[], outputRels?: AnyType) => void) => void
-  activeTabId: (fn: (val: number, outputRels?: AnyType) => void) => void
+  activeTabId: (fn: (val: number) => void) => void
   setBadge: (fn: (val: AnyType) => void) => void
   setDesc: (fn: (val: AnyType) => void) => void
   getActiveTabId: (fn: (val: AnyType, outputRels?: AnyType) => void) => void
@@ -165,26 +165,18 @@ export default struct MyBricksTabs {
   private scroller: Scroller = new Scroller()
 
   async aboutToAppear() {
-
-    const tabsTextActive = this.styles[`.taroify-tabs__tab--active${getFilterSelector()}`]
-    this.tabsTextColorActive = tabsTextActive.color
-
-    const tabsText = this.styles[`.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`]
-    this.tabsTextColor = tabsText.color
-
-
-    // 初始化当前tab
-    if (this.data.tabs.length > 0) {
-      const tab = this.data.tabs[0]
-      this.setCurrentTabId(tab._id)
-    }
-
     this.inputs?.activeTabId?.((index) => {
       this.currentTabIndex = index
       const tab = this.data.tabs[index]
       this.setCurrentTabId(tab._id)
     })
-
+    
+    // 初始化当前tab
+    if (this.data.tabs.length > 0) {
+      const tab = this.data.tabs[0]
+      this.setCurrentTabId(tab._id)
+    }
+    
     this.inputs?.dataSource?.((ds: InputTabData[], outputRels: AnyType) => {
       if (Array.isArray(ds)) {
         this.data.tabs = ds.map(item => ({
