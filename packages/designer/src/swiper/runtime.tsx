@@ -123,20 +123,24 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
         // 搭建态下加载全部
         const shouldLoad = loadedImages.includes(index)
         const active = current === index
+
+        const offsetLeft = data.itemOffsets?.[0] ?? 0;
+        const offsetRight = data.itemOffsets?.[1] ?? 0;
+
         let width = '100%';
         let left = `${(current - index) * 100}%`;
         switch (true) {
           case current === index: {
-            width = `calc(100% - ${data.itemOffsets?.[1] + data.itemOffsets?.[0]}px)`;
-            left = `calc(0% + ${data.itemOffsets?.[0]}px)`
+            width = `calc(100% - ${offsetRight + offsetLeft}px)`;
+            left = `calc(0% + ${offsetLeft}px)`
             break
           }
           case current + 1 === index: {
-            left = `calc(100% - ${data.itemOffsets?.[1]}px)`
+            left = `calc(100% - ${offsetRight}px)`
             break
           }
           case current - 1 === index: {
-            left = `calc(-100% + ${data.itemOffsets?.[0]}px)`
+            left = `calc(-100% + ${offsetLeft}px)`
             break
           }
         }
