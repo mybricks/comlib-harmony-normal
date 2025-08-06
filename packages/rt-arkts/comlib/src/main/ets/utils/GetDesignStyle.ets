@@ -219,9 +219,12 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
         instance.backgroundImage(match?.[2])
       }
     }
-    
-    if (!isNil(this.css?.blur)) {
-      instance.blur(parseFloat(this.css?.blur as string))
+
+    if (!isNil(this.css?.filter)) {
+      const result: FilterResult = getFilterMethodAndParams(this.css.filter as string);
+      if (result.method === 'blur' && result.param) {
+        instance.blur(parseFloat(result.param as string))
+      }
     }
   }
 }
@@ -313,4 +316,26 @@ function parseBorder(borderStr: string): BorderRsult {
     style,
     color: match?.[3] ?? Color.Transparent
   };
+}
+
+interface FilterResult {
+  method?: string,
+  param?: string
+}
+function getFilterMethodAndParams (str: string): FilterResult {
+  const reg  = /^([^(]+)\(([^)]+)\)$/;
+
+  const match = str.match(reg);
+  if (match) {
+    const method = match[1];
+    const param  = match[2];
+    return {
+      method,
+      param
+    }
+  }
+  return {
+    method: undefined,
+    param: undefined
+  }
 }

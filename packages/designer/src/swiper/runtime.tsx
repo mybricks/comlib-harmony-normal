@@ -15,15 +15,6 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
     data.items?.length ? data.items?.length - 1 : 0,
   ]) // 默认加载第一个和最后一个图片
 
-  //判断是否是真机运行态
-  const isRelEnv = useMemo(() => {
-    if (env.runtime.debug || env.edit) {
-      return false
-    } else {
-      return true
-    }
-  }, [env.runtime.debug, env.edit])
-
   useEffect(() => {
     if (env.edit && !isUndef(data?.edit?.current)) {
       setCurrent(data?.edit?.current)
@@ -39,21 +30,10 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       if (!isNaN(parseFloat(index))) {
         setCurrent(current)
       }
-    }) 
+    })
   }, [])
 
   const onClick = useCallback(({ item, index }) => {
-    // if (item.customLink) {
-    //   Taro.navigateTo({
-    //     url: item.customLink,
-    //     fail: () => {
-    //       Taro.switchTab({
-    //         url: item.customLink,
-    //       });
-    //     },
-    //   });
-    //   return;
-    // }
     outputs['onClick']?.({ item, index })
   }, [])
 
@@ -139,59 +119,59 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       circular={env.edit ? false : data.circular}
       {...extra}
     >
-      {!isRelEnv && (
-        <SwiperItem className={css.swiperItem}>
-          {data.contentType !== 'custom' ? (
-            <SkeletonImage
-              useHtml={env.edit}
-              className={css.thumbnail}
-              mode="aspectFill"
-              src={data.items[current]?.thumbnail}
-              nativeProps={{
-                loading: 'lazy',
-                decoding: 'async',
-              }}
-              cdnCut="auto"
-              cdnCutOption={{ width: style.width, height: style.height }}
-            />
-          ) : (
-            <View key={data.items[current]?._id} style={{ width: '100%', height: '100%' }}>
-              {slots[`slot_${data.items[current]?._id}`]?.render()}
-            </View>
-          )}
-        </SwiperItem>
-      )}
-      {isRelEnv &&
-        data.items.map((item, index) => {
-          // 搭建态下加载全部
-          const shouldLoad = loadedImages.includes(index)
-          return (
-            <SwiperItem
-              key={item._id}
-              className={css.swiperItem}
-              onClick={() => {
-                onClick({ item, index })
-              }}
-            >
-              {data.contentType !== 'custom' ? (
-                <SkeletonImage
-                  useHtml={env.edit}
-                  className={css.thumbnail}
-                  mode="aspectFill"
-                  src={shouldLoad ? item.thumbnail : ''}
-                  nativeProps={{
-                    loading: 'lazy',
-                    decoding: 'async',
-                  }}
-                  cdnCut="auto"
-                  cdnCutOption={{ width: style.width, height: style.height }}
-                />
-              ) : (
-                slots[`slot_${item._id}`]?.render()
-              )}
-            </SwiperItem>
-          )
-        })}
+      {data.items.map((item, index) => {
+        // 搭建态下加载全部
+        const shouldLoad = loadedImages.includes(index)
+        const active = current === index
+        let width = '100%';
+        let left = `${(current - index) * 100}%`;
+        switch (true) {
+          case current === index: {
+            width = `calc(100% - ${data.itemOffsets?.[1] + data.itemOffsets?.[0]}px)`;
+            left = `calc(0% + ${data.itemOffsets?.[0]}px)`
+            break
+          }
+          case current + 1 === index: {
+            left = `calc(100% - ${data.itemOffsets?.[1]}px)`
+            break
+          }
+          case current - 1 === index: {
+            left = `calc(-100% + ${data.itemOffsets?.[0]}px)`
+            break
+          }
+        }
+        return (
+          <SwiperItem
+            key={item._id}
+            className={`${css.swiperItem} ${active ? css.active : ''}`}
+            style={{
+              left,
+              width,
+            }}
+            onClick={() => {
+              onClick({ item, index })
+            }}
+            index={index}
+          >
+            {data.contentType !== 'custom' ? (
+              <SkeletonImage
+                useHtml={env.edit}
+                className={css.thumbnail}
+                mode="aspectFill"
+                src={shouldLoad ? item.thumbnail : ''}
+                nativeProps={{
+                  loading: 'lazy',
+                  decoding: 'async',
+                }}
+                cdnCut="auto"
+                cdnCutOption={{ width: style.width, height: style.height }}
+              />
+            ) : (
+              slots[`slot_${item._id}`]?.render()
+            )}
+          </SwiperItem>
+        )
+      })}
     </Swiper>
   )
 }
