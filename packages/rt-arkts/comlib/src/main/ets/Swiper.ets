@@ -152,8 +152,8 @@ export default struct MyBricksSwiper {
           .color(this.data.showIndicator ? this.indicatorColorDefault : Color.Transparent)
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
-      .onChange((index) => {
-        this.outputs?.onChange?.(index)
+      .onAnimationStart((index, targetIndex) => {
+        this.outputs?.onChange?.(targetIndex)
       })
       .attributeModifier(
         new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
