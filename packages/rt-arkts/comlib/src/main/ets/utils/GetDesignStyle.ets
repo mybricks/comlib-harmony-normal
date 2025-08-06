@@ -219,6 +219,10 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
         instance.backgroundImage(match?.[2])
       }
     }
+    
+    if (!isNil(this.css?.blur)) {
+      instance.blur(parseFloat(this.css?.blur as string))
+    }
   }
 }
 
