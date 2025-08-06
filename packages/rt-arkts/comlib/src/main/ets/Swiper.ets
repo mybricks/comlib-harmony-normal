@@ -11,6 +11,7 @@ export interface DataType {
   contentType?: ContentType,
   circular?: boolean,
   indicatorColor?: string
+  itemOffsets?: Array<number | string>
 }
 
 interface _Env {
@@ -44,6 +45,7 @@ export class Data implements DataType {
   @Trace contentType?: ContentType
   @Trace circular?: boolean
   @Trace indicatorColor?: string
+  @Trace itemOffsets?: Array<number | string>
 
 
   constructor(config: DataType) {
@@ -54,15 +56,18 @@ export class Data implements DataType {
     this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
     this.indicatorColor = config.indicatorColor
+    this.itemOffsets = config.itemOffsets
   }
 }
 
 interface Inputs {
   setItems: (fn: (array: AnyType) => void) => void
+  activeIndex: (fn: (index: AnyType) => void) => void
 }
 
 interface Outputs {
   onClick: (value: DataSourceItem) => void
+  onChange: (index: number) => void
 }
 
 export interface SlotsParams {
@@ -90,11 +95,18 @@ export default struct MyBricksSwiper {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Local swiperWidth: number = 0
+
+  private swiperController: SwiperController = new SwiperController()
 
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
       this.data.items = array
+    })
+
+    this.inputs?.activeIndex((index: AnyType) => {
+      this.swiperController.changeIndex(index, true)
     })
 
     //获取指示器选中颜色
@@ -108,7 +120,7 @@ export default struct MyBricksSwiper {
 
   build() {
     Column() {
-      Swiper() {
+      Swiper(this.swiperController) {
         ForEach(this.data.items, (item: DataSourceItem, index) => {
           if (this.data.contentType !== 'custom') {
             Image(item.thumbnail)
@@ -130,11 +142,19 @@ export default struct MyBricksSwiper {
       .autoPlay(this.data.autoplay)
       .duration(this.data.duration)
       .loop(this.data.circular)
+      .prevMargin(this.data.itemOffsets?.[0] ?? 0)
+      .nextMargin(this.data.itemOffsets?.[1] ?? 0)
+      .onAreaChange((oldValue: Area, newValue: Area) => {
+        this.swiperWidth = newValue.width as number
+      })
       .indicator(
         Indicator.dot()
           .color(this.data.showIndicator ? this.indicatorColorDefault : Color.Transparent)
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
+      .onChange((index) => {
+        this.outputs?.onChange?.(index)
+      })
       .attributeModifier(
         new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
       )

@@ -30,10 +30,16 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
     }
   }, [env.edit, data?.edit?.current])
 
-  useEffect(() => {
+  useMemo(() => {
     inputs['setItems']((val) => {
       data.items = val
     })
+
+    inputs?.['activeIndex']?.((index) => {
+      if (!isNaN(parseFloat(index))) {
+        setCurrent(current)
+      }
+    }) 
   }, [])
 
   const onClick = useCallback(({ item, index }) => {

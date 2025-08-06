@@ -32,6 +32,13 @@
           }
         }
       }
+    },
+    {
+      "id": "activeIndex",
+      "title": "设置激活项",
+      "schema": {
+        "type": "number"
+      }
     }
   ],
   "outputs": [
@@ -40,6 +47,13 @@
       "title": "当单击时",
       "schema": {
         "type": "object"
+      }
+    },
+    {
+      "id": "onChange",
+      "title": "当切换时",
+      "schema": {
+        "type": "number"
       }
     }
   ],

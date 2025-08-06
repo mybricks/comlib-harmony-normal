@@ -74,6 +74,8 @@ export default {
                   }
                 })
                 data._count = data.items.length
+                data.autoplay = false
+                data.circular = false
               }
             },
           }
@@ -174,6 +176,9 @@ export default {
         },
         {
           title: "播放设置",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.contentType !== 'custom';
+          },
           items: [
             {
               title: "自动播放",
@@ -192,6 +197,9 @@ export default {
               type: "text",
               options: {
                 type: "number",
+              },
+              ifVisible({ data }: EditorResult<Data>) {
+                return data.autoplay;
               },
               value: {
                 get({ data }) {
@@ -230,6 +238,28 @@ export default {
           ],
         },
         {
+          title: '偏移设置',
+          items: [
+            {
+              title: "预留偏移",
+              type: "inputnumber",
+              catelog: "默认",
+              options: [
+                { title: "上一项", min: 0, width: 80 },
+                { title: "下一项", min: 0, width: 80 },
+              ],
+              value: {
+                get({ data }) {
+                  return data.itemOffsets;
+                },
+                set({ data }, value: number[]) {
+                  data.itemOffsets = value;
+                },
+              },
+            },
+          ]
+        },
+        {
           title: "展示指示器",
           type: "switch",
           value: {
@@ -249,6 +279,13 @@ export default {
               type: "_event",
               options: {
                 outputId: "onClick",
+              },
+            },
+            {
+              title: "当切换时",
+              type: "_event",
+              options: {
+                outputId: "onChange",
               },
             },
           ],
