@@ -12,6 +12,7 @@ export interface DataType {
   circular?: boolean,
   indicatorColor?: string
   itemOffsets?: Array<number | string>
+  blurInactive?: boolean // 新增：未聚焦项模糊配置
 }
 
 interface _Env {
@@ -25,7 +26,6 @@ interface Env {
 interface _EnvCurrentScenes {
   close: () => void
 }
-
 
 interface EnvCurrentScenes {
   close: () => void
@@ -46,7 +46,7 @@ export class Data implements DataType {
   @Trace circular?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
-
+  @Trace blurInactive?: boolean // 新增：未聚焦项模糊配置
 
   constructor(config: DataType) {
     this.items = config.items
@@ -57,6 +57,7 @@ export class Data implements DataType {
     this.circular = config.circular  //是否支持循环播放
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
+    this.blurInactive = config.blurInactive ?? false // 新增：默认关闭模糊效果
   }
 }
 
@@ -99,6 +100,8 @@ export default struct MyBricksSwiper {
 
   private swiperController: SwiperController = new SwiperController()
 
+  @Local currentIndex: number = 0
+  private readonly blurDuration: number = 150
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
@@ -131,10 +134,27 @@ export default struct MyBricksSwiper {
                 this.outputs?.onClick(item)
               })
           } else {
-            this.slots({
-              id: `slot_${item._id}`,
-              key: item._id,
-            })
+            Stack({ alignContent: Alignment.TopStart }) {
+              this.slots({
+                id: `slot_${item._id}`,
+                key: item._id,
+              })
+              // 根据配置决定是否添加模糊效果
+              if (this.data.blurInactive && this.currentIndex !== index) {
+                Column()
+                  .width('100%')
+                  .height('100%')
+                  .backgroundColor('#FFFFFF')
+                  .opacity(0.5)
+                  .blur(8)
+                  .animation({
+                    duration: this.blurDuration,
+                    curve: Curve.EaseInOut,
+                    iterations: 1,
+                    playMode: PlayMode.Normal
+                  })
+              }
+            }
           }
         })
       }
@@ -153,6 +173,7 @@ export default struct MyBricksSwiper {
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
       .onAnimationStart((index, targetIndex) => {
+        this.currentIndex = targetIndex
         this.outputs?.onChange?.(targetIndex)
       })
       .attributeModifier(
