@@ -73,7 +73,7 @@ export default struct MyBricksImage {
 
   @Local _opacity: number = 1
   private preloadImage: ImageBitmap = new ImageBitmap('')
-  private animationDuration: number = 300
+  private animationDuration: number = 150
   private currentSrc: string = ''
   private isInitialized: boolean = false // 修改：使用isInitialized替代isFirstLoad
 
@@ -83,7 +83,7 @@ export default struct MyBricksImage {
     this.isInitialized = true
 
     this.inputs?.setSrc((src) => {
-      if (src !== this.currentSrc) {
+
         if (!this.data.enableTransition) {
           // 禁用动画时直接设置图片源
           this.data.src = src
@@ -92,7 +92,7 @@ export default struct MyBricksImage {
           // 启用动画时执行渐变动画
           this.startTransition(src)
         }
-      }
+
     })
   }
 

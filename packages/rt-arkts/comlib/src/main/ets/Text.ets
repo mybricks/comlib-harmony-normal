@@ -79,7 +79,7 @@ export default struct MyBricksText {
   @Param env?: Env = undefined
 
   @Local _opacity: number = 1
-  private animationDuration: number = 300
+  private animationDuration: number = 150
   private currentText: string = ''
 
   aboutToAppear(): void {
@@ -87,7 +87,7 @@ export default struct MyBricksText {
 
     this.inputs?.value((text) => {
       const newText = String(text)
-      if (newText !== this.currentText) {
+
         if (!this.data.enableTransition) {
           // 禁用动画时直接更新文本
           this.data.text = newText
@@ -96,7 +96,7 @@ export default struct MyBricksText {
           // 启用动画时执行渐变动画
           this.startTransition(newText)
         }
-      }
+
     })
   }
 
