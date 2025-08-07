@@ -68,6 +68,18 @@ export default {
           },
         },
       },
+      {
+        title:"文字切换动画",
+        type:"switch",
+        value: {
+          get({ data }) {
+            return data.enableTransition
+          },
+          set({data}, val) {
+            data.enableTransition = val
+          }
+        }
+      }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "常规";

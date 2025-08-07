@@ -56,11 +56,23 @@ export default {
                     style: style,
                   };
                 },
-                set({}, value) {
+                set({ }, value) {
                   data.mode = value;
                 },
               },
             },
+            {
+              title: "图片切换动画",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.enableTransition
+                },
+                set({ data }, val) {
+                  data.enableTransition = val
+                }
+              }
+            }
           ],
         },
         {

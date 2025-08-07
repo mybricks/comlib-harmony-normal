@@ -1,6 +1,5 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
-
 import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
 
 export interface DataType {
@@ -8,6 +7,7 @@ export interface DataType {
   ellipsis?: boolean
   maxLines?: number
   direction?: "horizonal" | "vertical"
+  enableTransition?: boolean // 添加动画效果开关
 }
 
 interface _Env {
@@ -22,7 +22,6 @@ interface _EnvCurrentScenes {
   close: () => void
 }
 
-
 interface EnvCurrentScenes {
   close: () => void
 }
@@ -32,13 +31,15 @@ export class Data implements DataType {
   @Trace text: string
   @Trace ellipsis: boolean
   @Trace maxLines: number
-  @Trace direction : "horizonal" | "vertical"
+  @Trace direction: "horizonal" | "vertical"
+  @Trace enableTransition: boolean
 
   constructor(config: DataType) {
     this.text = config.text
     this.ellipsis = config?.ellipsis || false
     this.maxLines = config?.maxLines || 1
     this.direction = config?.direction || "horizonal"
+    this.enableTransition = config?.enableTransition ?? false // 默认关闭切换渐变动画
   }
 }
 
@@ -77,9 +78,45 @@ export default struct MyBricksText {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Local _opacity: number = 1
+  private animationDuration: number = 300
+  private currentText: string = ''
+
   aboutToAppear(): void {
+    this.currentText = this.data.text
+
     this.inputs?.value((text) => {
-      this.data.text = String(text);
+      const newText = String(text)
+      if (newText !== this.currentText) {
+        if (!this.data.enableTransition) {
+          // 禁用动画时直接更新文本
+          this.data.text = newText
+          this.currentText = newText
+        } else {
+          // 启用动画时执行渐变动画
+          this.startTransition(newText)
+        }
+      }
+    })
+  }
+
+  private startTransition(newText: string) {
+    // 执行渐变动画
+    animateTo({
+      duration: this.animationDuration,
+      curve: Curve.EaseInOut,
+      onFinish: () => {
+        this.data.text = newText
+        this.currentText = newText
+        animateTo({
+          duration: this.animationDuration,
+          curve: Curve.EaseInOut,
+        }, () => {
+          this._opacity = 1
+        })
+      }
+    }, () => {
+      this._opacity = 0
     })
   }
 
@@ -89,11 +126,11 @@ export default struct MyBricksText {
         Text(this.data.text)
           .lineBreakStrategy(LineBreakStrategy.GREEDY)
           .wordBreak(WordBreak.BREAK_WORD)
-          .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None }) // 超出显示省略号
-          .maxLines(this.data.ellipsis ? this.data.maxLines : undefined)  // 设置最大行数为1
-          .halfLeading(true) // 添加了这个文本就可以垂直居中
-            // .width('100%') //这里不能是100%，会导致文本的宽度配置没有生效
+          .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None })
+          .maxLines(this.data.ellipsis ? this.data.maxLines : undefined)
+          .halfLeading(true)
           .height('auto')
+          .opacity(this.data.enableTransition ? this._opacity : 1)
           .attributeModifier(
             new ApplyFontStyleModifier(this.styles['.mybricks-text'])
               .fontSize(14)
@@ -112,6 +149,7 @@ export default struct MyBricksText {
                     .fontSize(14)
                     .fontColor('#333333')
                 )
+                .opacity(this.data.enableTransition ? this._opacity : 1)
             }
           })
         }.height('auto')
