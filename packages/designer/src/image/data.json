@@ -1,6 +1,5 @@
 {
   "src": "",
   "svgPolyfill": "",
-  "mode": "aspectFill",
-  "enableTransition":false
+  "mode": "aspectFill"
 }

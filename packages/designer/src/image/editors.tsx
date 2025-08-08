@@ -61,18 +61,6 @@ export default {
                 },
               },
             },
-            {
-              title: "图片切换动画",
-              type: "switch",
-              value: {
-                get({ data }) {
-                  return data.enableTransition
-                },
-                set({ data }, val) {
-                  data.enableTransition = val
-                }
-              }
-            }
           ],
         },
         {

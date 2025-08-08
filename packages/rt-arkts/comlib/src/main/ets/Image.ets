@@ -15,7 +15,6 @@ export interface DataType {
   src?: string
   svgPolyfill?: string
   mode?: 'aspectFit' | 'cover' | string
-  enableTransition?: boolean
 }
 
 interface _Env {
@@ -39,13 +38,11 @@ export class Data implements DataType {
   @Trace src?: string
   @Trace svgPolyfill?: string
   @Trace mode?: 'aspectFit' | 'cover' | string
-  @Trace enableTransition?: boolean
 
   constructor(config: DataType) {
     this.src = config.src
     this.svgPolyfill = config.svgPolyfill
     this.mode = config.mode
-    this.enableTransition = config.enableTransition ?? false
   }
 }
 
@@ -71,53 +68,10 @@ export default struct MyBricksImage {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
-  @Local _opacity: number = 1
-  private preloadImage: ImageBitmap = new ImageBitmap('')
-  private animationDuration: number = 150
-  private currentSrc: string = ''
-  private isInitialized: boolean = false // 修改：使用isInitialized替代isFirstLoad
-
   aboutToAppear(): void {
-    this.currentSrc = this.data.src || ''
-    // 在组件初始化时就设置 isInitialized 为 true
-    this.isInitialized = true
 
     this.inputs?.setSrc((src) => {
-
-        if (!this.data.enableTransition) {
-          // 禁用动画时直接设置图片源
           this.data.src = src
-          this.currentSrc = src
-        } else {
-          // 启用动画时执行渐变动画
-          this.startTransition(src)
-        }
-
-    })
-  }
-
-  private startTransition(newSrc: string) {
-    if (!this.data.enableTransition) {
-      this.data.src = newSrc
-      this.currentSrc = newSrc
-      return
-    }
-
-    animateTo({
-      duration: this.animationDuration,
-      curve: Curve.EaseInOut,
-      onFinish: () => {
-        this.data.src = newSrc
-        this.currentSrc = newSrc
-        animateTo({
-          duration: this.animationDuration,
-          curve: Curve.EaseInOut,
-        }, () => {
-          this._opacity = 1
-        })
-      }
-    }, () => {
-      this._opacity = 0
     })
   }
 
@@ -172,17 +126,7 @@ export default struct MyBricksImage {
         )
         .width('100%')
         .height('100%')
-        .opacity(this.data.enableTransition ? this._opacity : 1)
         .onFinish(() => {
-          if (this.isInitialized && this._opacity === 0 && this.data.enableTransition) {
-            // 组件已初始化且启用动画时执行淡入动画
-            animateTo({
-              duration: this.animationDuration,
-              curve: Curve.EaseInOut
-            }, () => {
-              this._opacity = 1
-            })
-          }
           this.outputs?.onLoad?.(this.data.src || '')
         })
         .onError(() => {

@@ -295,18 +295,6 @@ export default {
           },
         },
         {
-          title:"非当前项模糊",
-          type: "switch",
-          value: {
-            get({data}) {
-              return data.blurInactive ?? false
-            },
-            set({ data },value) {
-              data.blurInactive = value
-            }
-          }
-        },
-        {
           title: "事件",
           items: [
             {
