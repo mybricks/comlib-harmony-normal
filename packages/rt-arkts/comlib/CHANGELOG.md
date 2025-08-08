@@ -1,3 +1,6 @@
+# [1.0.5](https://github.com/mybricks/comlib-harmony-normal/compare/e04e289..9fb7f9a) (2025-07-29)
+- 文字、图片、轮播图组件优化
+
 # [1.0.4](https://github.com/mybricks/comlib-harmony-normal/compare/d0ccfef..d073b04) (2025-07-29)
 - 组件注入env、_env
 - 瀑布流组件搭建态性能优化
