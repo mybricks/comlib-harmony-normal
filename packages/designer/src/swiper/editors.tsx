@@ -1,5 +1,14 @@
 import { autoCdnCut } from "./../utils/image";
 
+const Schemas = {
+  ImageDataSource: {
+    type: 'array'
+  },
+  CustomDataSource: {
+    type: 'array'
+  }
+}
+
 export default {
   "@init": ({ style, data }) => {
     style.width = "100%";
@@ -173,6 +182,20 @@ export default {
               data.items = value;
             },
           },
+        },
+        {
+          title: '使用动态传入',
+          type: 'Switch',
+          description: '开启后，需要动态传入数据',
+          value: {
+            get({ data }: EditorResult<Data>) {
+              return data.useDynamic;
+            },
+            set({ data, input }: EditorResult<Data>, value: boolean) {
+              data.useDynamic = value;
+              input.get('setItems').setSchema(data.contentType === 'custom' ? Schemas.CustomDataSource : Schemas.ImageDataSource);
+            }
+          }
         },
         {
           title: "播放设置",

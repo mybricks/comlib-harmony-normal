@@ -51,6 +51,13 @@
     },
     {
       "id": "onChange",
+      "title": "滑动中准备切换时",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "onChangeConfirm",
       "title": "当切换时",
       "schema": {
         "type": "number"

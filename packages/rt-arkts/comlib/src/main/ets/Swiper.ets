@@ -12,7 +12,6 @@ export interface DataType {
   circular?: boolean,
   indicatorColor?: string
   itemOffsets?: Array<number | string>
-  blurInactive?: boolean // 新增：未聚焦项模糊配置
 }
 
 interface _Env {
@@ -26,6 +25,7 @@ interface Env {
 interface _EnvCurrentScenes {
   close: () => void
 }
+
 
 interface EnvCurrentScenes {
   close: () => void
@@ -46,7 +46,7 @@ export class Data implements DataType {
   @Trace circular?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
-  @Trace blurInactive?: boolean // 新增：未聚焦项模糊配置
+
 
   constructor(config: DataType) {
     this.items = config.items
@@ -57,7 +57,6 @@ export class Data implements DataType {
     this.circular = config.circular  //是否支持循环播放
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
-    this.blurInactive = config.blurInactive ?? false // 新增：默认关闭模糊效果
   }
 }
 
@@ -68,7 +67,10 @@ interface Inputs {
 
 interface Outputs {
   onClick: (value: DataSourceItem) => void
+  /** 滑动时切换 */
   onChange: (index: number) => void
+  /** 滑动松手时切换 */
+  onChangeConfirm: (index: number) => void
 }
 
 export interface SlotsParams {
@@ -97,11 +99,10 @@ export default struct MyBricksSwiper {
   @Param env?: Env = undefined
 
   @Local swiperWidth: number = 0
+  /** 滑动中的Index，滑动中实时计算当前的高亮Index，onAnimationStart那里是松手后触发的，逻辑不一样 */
+  @Local swiperIndex: number = 0;
 
   private swiperController: SwiperController = new SwiperController()
-
-  @Local currentIndex: number = 0
-  private readonly blurDuration: number = 150
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
@@ -121,6 +122,11 @@ export default struct MyBricksSwiper {
     this.indicatorColorDefault = indicatorColorDefault?.backgroundColor
   }
 
+  private onActive (index: number) {
+    this.swiperIndex = index
+    this.outputs?.onChange?.(index)
+  }
+
   build() {
     Column() {
       Swiper(this.swiperController) {
@@ -134,27 +140,10 @@ export default struct MyBricksSwiper {
                 this.outputs?.onClick(item)
               })
           } else {
-            Stack({ alignContent: Alignment.TopStart }) {
-              this.slots({
-                id: `slot_${item._id}`,
-                key: item._id,
-              })
-              // 根据配置决定是否添加模糊效果
-              if (this.data.blurInactive && this.currentIndex !== index) {
-                Column()
-                  .width('100%')
-                  .height('100%')
-                  .backgroundColor('#FFFFFF')
-                  .opacity(0.5)
-                  .blur(8)
-                  .animation({
-                    duration: this.blurDuration,
-                    curve: Curve.EaseInOut,
-                    iterations: 1,
-                    playMode: PlayMode.Normal
-                  })
-              }
-            }
+            this.slots({
+              id: `slot_${item._id}`,
+              key: item._id,
+            })
           }
         })
       }
@@ -173,8 +162,25 @@ export default struct MyBricksSwiper {
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
       .onAnimationStart((index, targetIndex) => {
-        this.currentIndex = targetIndex
-        this.outputs?.onChange?.(targetIndex)
+        this.outputs?.onChangeConfirm?.(targetIndex)
+      })
+      .customContentTransition({
+        timeout: 1000,
+        transition: (proxy: SwiperContentTransitionProxy) => {
+          const hasNext = proxy.index < this.data.items.length - 1;
+          const hasPrev = proxy.index > 0;
+
+          // 只提取高亮的index的信息
+          if (proxy.index === proxy.selectedIndex) {
+            if (hasNext && proxy.position <= -0.5) {
+              this.onActive(proxy.index + 1)
+            } else if (hasPrev && proxy.position >= 0.5) {
+              this.onActive(proxy.index - 1)
+            } else {
+              this.onActive(proxy.index)
+            }
+          }
+        }
       })
       .attributeModifier(
         new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
