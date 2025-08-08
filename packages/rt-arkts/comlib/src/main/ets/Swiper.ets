@@ -12,6 +12,7 @@ export interface DataType {
   circular?: boolean,
   indicatorColor?: string
   itemOffsets?: Array<number | string>
+  blurInactive?: boolean
 }
 
 interface _Env {
@@ -46,6 +47,7 @@ export class Data implements DataType {
   @Trace circular?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
+  @Trace blurInactive?: boolean = false
 
 
   constructor(config: DataType) {
@@ -57,6 +59,7 @@ export class Data implements DataType {
     this.circular = config.circular  //是否支持循环播放
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
+    this.blurInactive = config.blurInactive
   }
 }
 
@@ -149,10 +152,12 @@ export default struct MyBricksSwiper {
                 this.outputs?.onClick(item)
               })
           } else {
-            this.slots({
-              id: `slot_${item._id}`,
-              key: item._id,
-            })
+            Column() {
+              this.slots({
+                id: `slot_${item._id}`,
+                key: item._id,
+              })
+            }.blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 8 : 0) : 0)
           }
         })
       }
@@ -185,9 +190,6 @@ export default struct MyBricksSwiper {
 
           // 只提取高亮的index的信息
           if (proxy.index === proxy.selectedIndex) {
-            if (this.isAnimating) {
-              return
-            }
             if (hasNext && proxy.position <= -0.5) {
               this.onActive(proxy.index + 1)
             } else if (hasPrev && proxy.position >= 0.5) {
