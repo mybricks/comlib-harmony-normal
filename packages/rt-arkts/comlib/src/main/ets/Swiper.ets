@@ -104,13 +104,20 @@ export default struct MyBricksSwiper {
 
   private swiperController: SwiperController = new SwiperController()
 
+  private isAnimating: boolean = false
+
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
       this.data.items = array
     })
 
     this.inputs?.activeIndex((index: AnyType) => {
-      this.swiperController.changeIndex(index, true)
+      if(this.swiperIndex !== index){
+        this.swiperController.changeIndex(index, true)
+      }else{
+        this.swiperController.changeIndex(index, false)
+      }
+
     })
 
     //获取指示器选中颜色
@@ -123,8 +130,10 @@ export default struct MyBricksSwiper {
   }
 
   private onActive (index: number) {
-    this.swiperIndex = index
-    this.outputs?.onChange?.(index)
+    if (this.swiperIndex !== index) {
+      this.swiperIndex = index
+      this.outputs?.onChange?.(index)
+    }
   }
 
   build() {
@@ -162,7 +171,11 @@ export default struct MyBricksSwiper {
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
       .onAnimationStart((index, targetIndex) => {
+        this.isAnimating = true
         this.outputs?.onChangeConfirm?.(targetIndex)
+      })
+      .onAnimationEnd(() => {
+        this.isAnimating = false
       })
       .customContentTransition({
         timeout: 1000,
@@ -172,6 +185,9 @@ export default struct MyBricksSwiper {
 
           // 只提取高亮的index的信息
           if (proxy.index === proxy.selectedIndex) {
+            if (this.isAnimating) {
+              return
+            }
             if (hasNext && proxy.position <= -0.5) {
               this.onActive(proxy.index + 1)
             } else if (hasPrev && proxy.position >= 0.5) {
