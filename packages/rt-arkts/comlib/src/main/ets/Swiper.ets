@@ -83,6 +83,11 @@ export interface SlotsParams {
 
 @Builder function emptySlot(params: SlotsParams) {}
 
+interface InputTo {
+  isInputing: boolean,
+  toIndex: number
+}
+
 @ComponentV2
 export default struct MyBricksSwiper {
   @Param data: Data = new Data({});
@@ -107,7 +112,12 @@ export default struct MyBricksSwiper {
 
   private swiperController: SwiperController = new SwiperController()
 
-  private isAnimating: boolean = false
+  private isSwiping: boolean = false
+
+  private inputTo: InputTo = {
+    isInputing: false,
+    toIndex: 0
+  }
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
@@ -115,12 +125,15 @@ export default struct MyBricksSwiper {
     })
 
     this.inputs?.activeIndex((index: AnyType) => {
-      if(this.swiperIndex !== index){
-        this.swiperController.changeIndex(index, true)
-      }else{
-        this.swiperController.changeIndex(index, false)
+      if (this.isSwiping) {
+        return
       }
 
+      this.inputTo = {
+        isInputing: true,
+        toIndex: index
+      }
+      this.swiperController.changeIndex(index, true)
     })
 
     //获取指示器选中颜色
@@ -176,11 +189,20 @@ export default struct MyBricksSwiper {
           .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
       )
       .onAnimationStart((index, targetIndex) => {
-        this.isAnimating = true
         this.outputs?.onChangeConfirm?.(targetIndex)
       })
       .onAnimationEnd(() => {
-        this.isAnimating = false
+      })
+      .onGestureSwipe((_, extraInfo) => {
+        this.isSwiping = true
+      })
+      .onChange((index) => {
+        if (this.inputTo.isInputing && index === this.inputTo.toIndex) {
+          this.inputTo.isInputing = false
+        }
+        if (this.isSwiping) {
+          this.isSwiping = false
+        }
       })
       .customContentTransition({
         timeout: 1000,
@@ -188,14 +210,16 @@ export default struct MyBricksSwiper {
           const hasNext = proxy.index < this.data.items.length - 1;
           const hasPrev = proxy.index > 0;
 
-          // 只提取高亮的index的信息
-          if (proxy.index === proxy.selectedIndex) {
-            if (hasNext && proxy.position <= -0.5) {
-              this.onActive(proxy.index + 1)
-            } else if (hasPrev && proxy.position >= 0.5) {
-              this.onActive(proxy.index - 1)
-            } else {
-              this.onActive(proxy.index)
+          if (!this.inputTo.isInputing) { // 如果是输入触发的动画，不要再触发事件，防止循环
+            // 只提取高亮的index的信息
+            if (proxy.index === proxy.selectedIndex) {
+              if (hasNext && proxy.position <= -0.5) {
+                this.onActive(proxy.index + 1)
+              } else if (hasPrev && proxy.position >= 0.5) {
+                this.onActive(proxy.index - 1)
+              } else {
+                this.onActive(proxy.index)
+              }
             }
           }
         }
