@@ -1,4 +1,7 @@
-# [1.0.5](https://github.com/mybricks/comlib-harmony-normal/compare/e04e289..9fb7f9a) (2025-07-29)
+# [1.0.6](https://github.com/mybricks/comlib-harmony-normal/compare/9cbe31e..2b822f8) (2025-08-08)
+- 轮播组件动画样式优化
+
+# [1.0.5](https://github.com/mybricks/comlib-harmony-normal/compare/e04e289..9fb7f9a) (2025-08-08)
 - 文字、图片、轮播图组件优化
 
 # [1.0.4](https://github.com/mybricks/comlib-harmony-normal/compare/d0ccfef..d073b04) (2025-07-29)
