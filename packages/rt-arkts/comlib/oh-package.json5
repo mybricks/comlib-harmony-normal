@@ -1,6 +1,6 @@
 {
   "name": "@mybricks/comlib-harmony-normal",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "MyBricks.ai团队提供的通用组件库，包含通用ui和计算组件",
   "main": "Index.ets",
   "author": "MyBricks.ai",
