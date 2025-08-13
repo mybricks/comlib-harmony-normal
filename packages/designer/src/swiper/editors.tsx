@@ -21,7 +21,7 @@ export default {
     style: [
       {
         title: "轮播",
-        options: ["border"],
+        options: ["border", "overflow"],
         target: ".mybricks-swiper-wrapper",
       },
       {
