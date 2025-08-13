@@ -119,6 +119,18 @@ export default struct MyBricksSwiper {
     toIndex: 0
   }
 
+  @Computed
+  get shouldScroll (): boolean {
+    const styles = this.styles?.['.mybricks-swiper-wrapper'];
+    return styles?.overflowY === 'scroll' || styles?.overflowY === 'auto' || styles?.overflowX === 'scroll' || styles?.overflowX === 'auto'
+  }
+
+  @Computed
+  get shouldClip (): boolean {
+    const styles = this.styles?.['.mybricks-swiper-wrapper'];
+    return styles?.overflowY === 'hidden' || styles?.overflowX === 'hidden'
+  }
+
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
       this.data.items = array
@@ -129,11 +141,16 @@ export default struct MyBricksSwiper {
         return
       }
 
+      if (this.swiperIndex === index) {
+        return
+      }
+
       this.inputTo = {
         isInputing: true,
         toIndex: index
       }
       this.swiperController.changeIndex(index, true)
+      this.swiperIndex = index
     })
 
     //获取指示器选中颜色
@@ -165,12 +182,25 @@ export default struct MyBricksSwiper {
                 this.outputs?.onClick(item)
               })
           } else {
-            Column() {
-              this.slots({
-                id: `slot_${item._id}`,
-                key: item._id,
-              })
-            }.blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 8 : 0) : 0)
+            if (this.shouldScroll) {
+              Scroll() {
+                this.slots({
+                  id: `slot_${item._id}`,
+                  key: item._id,
+                })
+              }
+              .blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 10 : 0) : 0)
+              .opacity(this.data?.blurInactive ? (this.swiperIndex !== index ? 0.4 : 1) : 1)
+            } else {
+              Column() {
+                this.slots({
+                  id: `slot_${item._id}`,
+                  key: item._id,
+                })
+              }
+              .blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 10 : 0) : 0)
+              .opacity(this.data?.blurInactive ? (this.swiperIndex !== index ? 0.4 : 1) : 1)
+            }
           }
         })
       }
@@ -193,15 +223,20 @@ export default struct MyBricksSwiper {
       })
       .onAnimationEnd(() => {
       })
+      .onTouch((evt) => {
+        if (evt.type === TouchType.Down) {
+
+        }
+        if (evt.type === TouchType.Up) {
+          this.isSwiping = false
+        }
+      })
       .onGestureSwipe((_, extraInfo) => {
         this.isSwiping = true
       })
       .onChange((index) => {
         if (this.inputTo.isInputing && index === this.inputTo.toIndex) {
           this.inputTo.isInputing = false
-        }
-        if (this.isSwiping) {
-          this.isSwiping = false
         }
       })
       .customContentTransition({

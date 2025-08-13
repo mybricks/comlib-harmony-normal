@@ -71,17 +71,37 @@ export default struct MyBricksContainerBasic {
 
   }
 
+  @Computed
+  get shouldScroll (): boolean {
+    const styles = this.styles?.['> .mybricks-container'];
+    return styles?.overflowY === 'scroll' || styles?.overflowY === 'auto' || styles?.overflowX === 'scroll' || styles?.overflowX === 'auto'
+  }
+
+  @Computed
+  get shouldClip (): boolean {
+    const styles = this.styles?.['> .mybricks-container'];
+    return styles?.overflowY === 'hidden' || styles?.overflowX === 'hidden'
+  }
+
   build() {
     Column() {
-      this.slots({
-        id: 'content'
-      })
+      if (this.shouldScroll) {
+        Scroll() {
+          this.slots({
+            id: 'content'
+          })
+        }
+      } else {
+        this.slots({
+          id: 'content'
+        })
+      }
     }
     .alignItems(HorizontalAlign.Start)
     .align(Alignment.Start)
     .height('100%')
     .width('100%')
-    .clip(this.data.overflowVisible ? false : true)
+    .clip(this.shouldClip)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
