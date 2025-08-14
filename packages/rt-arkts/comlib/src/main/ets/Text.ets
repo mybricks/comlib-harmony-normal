@@ -66,6 +66,19 @@ function textAlignParse(cssTextAlign: AnyType): AnyType {
   }
 }
 
+function TextDecorationTypeParse(textDecoration: AnyType): AnyType {
+  switch (textDecoration) {
+    case 'underline':
+      return TextDecorationType.Underline;
+    case 'overline':
+      return TextDecorationType.Overline;
+    case 'line-through':
+      return TextDecorationType.LineThrough;
+    default:
+      return TextDecorationType.None
+  }
+}
+
 @ComponentV2
 export default struct MyBricksText {
   @Param data: Data = new Data({
@@ -97,6 +110,9 @@ export default struct MyBricksText {
           .maxLines(this.data.ellipsis ? this.data.maxLines : undefined)
           .halfLeading(true)
           .height('auto')
+          .decoration({
+            type: TextDecorationTypeParse(this.styles?.['.mybricks-text']?.textDecoration)
+          })
           .attributeModifier(
             new ApplyFontStyleModifier(this.styles['.mybricks-text'])
               .fontSize(14)
