@@ -207,10 +207,12 @@ export default struct MyBricksFormCheckbox{
               });
             })
 
-            Text(item.label)
-              .margin({ left: 8 })
+            if(item.label){
+              Text(item.label)
+                .margin({ left: 8 })
+            }
           }
-          .width('auto')
+          .width('100%')
           .margin({ right: this.data.gap, bottom: this.data.direction === 'vertical' ? 17 : 0 })
 
         })
