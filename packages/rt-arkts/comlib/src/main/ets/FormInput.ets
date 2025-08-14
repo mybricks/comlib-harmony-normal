@@ -192,7 +192,7 @@ export default struct MyBricksFormInput {
           this.styles,
           ['.mybricks-h5Input .taroify-native-input'],
           'backgroundColor',
-          '#ffffff'
+          Color.Transparent
         ))
         //.borderRadius(parseInt(this.styles['.mybricks-h5Input .taroify-native-input,.mybricks-input']?.borderRadius as string)  ?? 10)
         .borderRadius(
