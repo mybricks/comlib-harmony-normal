@@ -1,3 +1,7 @@
+# [1.0.9](https://github.com/mybricks/comlib-harmony-normal/compare/f189fee..99c73bb) (2025-08-14)
+- 修复swiper的时机判断
+- 修复列表的高度问题
+
 # [1.0.8](https://github.com/mybricks/comlib-harmony-normal/compare/46622a7..8d773e8) (2025-08-13)
 - 容器组件支持滚动
 - 轮播组件bug修复
