@@ -34,6 +34,12 @@ export class Data implements DataType {
   }
 }
 
+interface Inputs {
+}
+
+interface Outputs {
+}
+
 
 @ComponentV2
 export default struct MyBricksSupport {
@@ -45,6 +51,9 @@ export default struct MyBricksSupport {
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
+
+  @Param inputs?: Inputs = undefined
+  @Param outputs?: Outputs = undefined
 
   aboutToAppear(): void {
 
