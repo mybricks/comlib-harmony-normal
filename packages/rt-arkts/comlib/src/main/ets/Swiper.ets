@@ -224,15 +224,12 @@ export default struct MyBricksSwiper {
       .onAnimationEnd(() => {
       })
       .onTouch((evt) => {
-        if (evt.type === TouchType.Down) {
-
+        if (evt.type === TouchType.Move) {
+          this.isSwiping = true
         }
         if (evt.type === TouchType.Up) {
           this.isSwiping = false
         }
-      })
-      .onGestureSwipe((_, extraInfo) => {
-        this.isSwiping = true
       })
       .onChange((index) => {
         if (this.inputTo.isInputing && index === this.inputTo.toIndex) {

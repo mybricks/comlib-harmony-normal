@@ -177,11 +177,11 @@ export default struct MyBricksContainerList {
 
   build() {
     Column() {
-      if (this.data.direction === 'row' && this.data.wrap) {
+      if (this.data.direction === 'row') {
         // 横向且需要换行的情况使用Flex
         Flex({
           direction: FlexDirection.Row,
-          wrap: FlexWrap.Wrap,
+          wrap: this.data.wrap ? FlexWrap.Wrap : FlexWrap.NoWrap,
           justifyContent: FlexAlign.Start,
           alignItems: ItemAlign.Start
         }) {
@@ -233,7 +233,7 @@ export default struct MyBricksContainerList {
           })
         }
         .scrollBar(this.data.scrollBar ? BarState.Auto : BarState.Off)
-        .listDirection(this.data.direction === 'row' ? Axis.Horizontal : Axis.Vertical)
+        .listDirection(Axis.Vertical)
         .height(this.data.direction === 'column' ?
           (this.totalHeight || 'fit-content') : 'fit-content')
         .onScrollStart(() => {
