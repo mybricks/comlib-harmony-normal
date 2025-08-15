@@ -53,6 +53,7 @@ export default struct MyBricksWebview {
   @Param env?: Env = undefined
 
   controller: webview.WebviewController = new webview.WebviewController();
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
 

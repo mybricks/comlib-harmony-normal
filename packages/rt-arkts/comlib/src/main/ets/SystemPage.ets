@@ -70,6 +70,8 @@ export default struct MyBricksSystemPage {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
 
   }
