@@ -59,6 +59,8 @@ export default struct MyBricksImage {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     this.inputs?.setSrc((src) => {
       this.data.src = src;
@@ -80,5 +82,6 @@ export default struct MyBricksImage {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

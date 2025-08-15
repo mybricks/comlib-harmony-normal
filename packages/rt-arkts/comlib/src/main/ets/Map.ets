@@ -66,6 +66,8 @@ export default struct MyBricksMap {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     // 地图初始化参数，设置地图中心点坐标及层级
     this.mapOptions = {
@@ -105,5 +107,6 @@ export default struct MyBricksMap {
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

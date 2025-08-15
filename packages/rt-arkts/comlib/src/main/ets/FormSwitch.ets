@@ -81,6 +81,8 @@ export default struct MyBricksFormSwitch {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = !!val;
@@ -120,5 +122,6 @@ export default struct MyBricksFormSwitch {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

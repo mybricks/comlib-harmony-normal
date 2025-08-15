@@ -76,6 +76,8 @@ export default struct MyBricksIcon {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
   }
 
@@ -106,5 +108,6 @@ export default struct MyBricksIcon {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

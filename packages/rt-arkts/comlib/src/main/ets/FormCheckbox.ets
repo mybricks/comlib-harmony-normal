@@ -95,6 +95,8 @@ export default struct MyBricksFormCheckbox{
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   @Computed
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
@@ -222,6 +224,7 @@ export default struct MyBricksFormCheckbox{
       .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'])
       )
+      .attributeModifier(this.modifier)
     }
   }
 

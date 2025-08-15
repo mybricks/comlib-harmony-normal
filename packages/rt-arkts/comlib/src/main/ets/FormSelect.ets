@@ -97,6 +97,8 @@ export default struct MyBricksFormSelect {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     //连线设置下拉框值
     this.inputs?.setValue((val, outputRels: AnyType) => {
@@ -189,5 +191,6 @@ export default struct MyBricksFormSelect {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

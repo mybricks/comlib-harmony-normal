@@ -55,6 +55,8 @@ export default struct MyBricksSupport {
   @Param inputs?: Inputs = undefined
   @Param outputs?: Outputs = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
 
   }
@@ -90,6 +92,7 @@ export default struct MyBricksSupport {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 
 }

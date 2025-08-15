@@ -1,4 +1,4 @@
-import { CSSProperties } from './utils/GetDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
 interface ItemType {
@@ -69,6 +69,8 @@ export default struct MyBricksCondition {
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
+
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear() {
     this.inputId = this.data.defaultActiveId
@@ -145,6 +147,10 @@ export default struct MyBricksCondition {
     .width('100%')
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(this.modifier)
   }
 }
 

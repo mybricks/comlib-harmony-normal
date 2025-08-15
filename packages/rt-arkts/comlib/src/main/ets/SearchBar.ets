@@ -62,6 +62,8 @@ export class Data implements DataType {
   @Trace clearable?: boolean
   @Trace showSearchIcon?: boolean
 
+
+
   constructor(config?: DataType) {
     this.placeholderText = config?.placeholderText
     this.label = config?.label
@@ -105,6 +107,8 @@ export default struct MyBricksSearchBar {
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
+
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
 
@@ -228,7 +232,7 @@ export default struct MyBricksSearchBar {
 
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
-    )
+    ).attributeModifier(this.modifier)
   }
 }
 

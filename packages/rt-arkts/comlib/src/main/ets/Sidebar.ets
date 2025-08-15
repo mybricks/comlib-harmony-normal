@@ -108,6 +108,8 @@ export default struct MyBricksSideBar {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear() {
      // this.data.tabs = [{_id:"1",tabName:"全部"},{_id:"2",tabName:"1号线"},{_id:"3",tabName:"2号线"}]
     // 初始化当前tab
@@ -234,7 +236,11 @@ export default struct MyBricksSideBar {
       .barWidth(90)
       .barBackgroundColor('#F8F8F8')
     }
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
     .width('100%')
     .height('100%')
+    .attributeModifier(this.modifier)
   }
 }

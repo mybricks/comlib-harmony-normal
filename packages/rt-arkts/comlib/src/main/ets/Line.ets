@@ -54,6 +54,8 @@ export default struct MyBricksLine {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
 
   }
@@ -73,5 +75,6 @@ export default struct MyBricksLine {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-line'],'backgroundImage')))
+    .attributeModifier(this.modifier)
   }
 }

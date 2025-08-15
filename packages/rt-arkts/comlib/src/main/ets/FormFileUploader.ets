@@ -109,6 +109,8 @@ export default struct MyBricksFormFileUploader {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
 
     this.inputs?.setValue((val:AnyType, outputRels: AnyType)=>{
@@ -240,5 +242,6 @@ export default struct MyBricksFormFileUploader {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

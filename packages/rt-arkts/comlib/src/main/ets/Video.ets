@@ -82,6 +82,8 @@ export default struct MyBricksVideo {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   private getImageFit(e:VideoFitType): ImageFit {
     switch(e) {
       case 'contain':
@@ -131,5 +133,6 @@ export default struct MyBricksVideo {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

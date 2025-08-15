@@ -110,6 +110,8 @@ export default struct MyBricksSwiper {
   /** 滑动中的Index，滑动中实时计算当前的高亮Index，onAnimationStart那里是松手后触发的，逻辑不一样 */
   @Local swiperIndex: number = 0;
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   private swiperController: SwiperController = new SwiperController()
 
   private isSwiping: boolean = false
@@ -265,5 +267,6 @@ export default struct MyBricksSwiper {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

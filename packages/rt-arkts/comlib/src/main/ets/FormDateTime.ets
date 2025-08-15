@@ -112,6 +112,8 @@ export default struct MyBricksFormDateTime {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   dialogController: CustomDialogController | null = null
 
   aboutToAppear(): void {
@@ -249,6 +251,7 @@ export default struct MyBricksFormDateTime {
       .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'])
       )
+      .attributeModifier(this.modifier)
     }
   }
 

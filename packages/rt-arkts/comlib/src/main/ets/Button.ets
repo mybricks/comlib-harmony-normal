@@ -95,6 +95,7 @@ export default struct MyBricksButton {
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
 
@@ -135,5 +136,6 @@ export default struct MyBricksButton {
     )
     //渐变色需要通过链式调用单独配置
     .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button'],'backgroundImage')))
+    .attributeModifier(this.modifier)
   }
 }

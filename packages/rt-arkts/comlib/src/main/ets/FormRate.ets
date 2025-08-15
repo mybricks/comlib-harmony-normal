@@ -67,6 +67,8 @@ export default struct MyBricksRate {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     // 处理输入事件
     this.inputs?.setValue((val: AnyType, outputRels: AnyType) => {
@@ -117,5 +119,6 @@ export default struct MyBricksRate {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

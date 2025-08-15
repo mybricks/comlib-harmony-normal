@@ -106,6 +106,8 @@ export default struct MyBricksContainerWaterfall {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     this.inputs?.addDataSource((ds) => {
       this.dataSource = this.dataSource.concat(ds)
@@ -137,5 +139,6 @@ export default struct MyBricksContainerWaterfall {
       .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'])
       )
+      .attributeModifier(this.modifier)
   }
 }

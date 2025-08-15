@@ -83,6 +83,8 @@ export default struct MyBricksFormStepper {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = val;
@@ -194,5 +196,6 @@ export default struct MyBricksFormStepper {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

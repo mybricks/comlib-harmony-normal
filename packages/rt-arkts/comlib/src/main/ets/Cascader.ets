@@ -78,6 +78,8 @@ export default struct MyBricksCascader {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear() {
     this.inputs?.addDataSource?.((ds, outputRels: AnyType) => {
       if (Array.isArray(ds)) {
@@ -213,7 +215,12 @@ export default struct MyBricksCascader {
       .onChange(index => {
         this.activeIndex = index
       })
+
     }
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(this.modifier)
     .width('100%')
     .height('100%')
   }

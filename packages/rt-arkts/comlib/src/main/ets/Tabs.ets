@@ -161,6 +161,8 @@ export default struct MyBricksTabs {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
 
   private scroller: Scroller = new Scroller()
 
@@ -396,5 +398,6 @@ export default struct MyBricksTabs {
     .width('100%')
     .height('100%')
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
+    .attributeModifier(this.modifier)
   }
 }

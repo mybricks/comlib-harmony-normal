@@ -67,6 +67,8 @@ export default struct MyBricksContainerBasic {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
 
   }
@@ -114,5 +116,6 @@ export default struct MyBricksContainerBasic {
         this.outputs?.onClick?.()
       })
     )
+    .attributeModifier(this.modifier)
   }
 }

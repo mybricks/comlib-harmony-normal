@@ -375,6 +375,8 @@ export default struct MyBricksFormContainer {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     // this.formLayout = this.data.itemLayout
     this.formLayout = 'vertical'
@@ -523,6 +525,10 @@ export default struct MyBricksFormContainer {
       })
       this.submitButton()
     }.attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-field']))
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(this.modifier)
   }
 }
 

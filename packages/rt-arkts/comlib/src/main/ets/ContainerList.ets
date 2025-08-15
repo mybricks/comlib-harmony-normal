@@ -97,6 +97,8 @@ export default struct MyBricksContainerList {
   @Local private maxRetries: number = 10           // 最大重试次数
   @Local private currentRetry: number = 0          // 当前重试次数
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   aboutToAppear(): void {
     // 设置数据源添加监听
     this.inputs?.addDataSource((ds) => {
@@ -251,6 +253,7 @@ export default struct MyBricksContainerList {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 
   // 组件销毁时的清理

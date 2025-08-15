@@ -100,6 +100,8 @@ export default struct SmsInput {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   // 动画控制器
   private animateTo() {
     animateTo({
@@ -279,5 +281,6 @@ export default struct SmsInput {
     }
 
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
+    .attributeModifier(this.modifier)
   }
 }

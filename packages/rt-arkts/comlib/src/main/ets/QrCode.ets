@@ -55,6 +55,7 @@ export default struct MyBricksQrcode {
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
     this.inputs?.Text((text) => {
@@ -75,5 +76,6 @@ export default struct MyBricksQrcode {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }

@@ -76,6 +76,8 @@ export default struct MyBricksPopup {
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (name: SlotsParamsContent) => void = emptySlot;
 
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
   @Computed
   get contentAlign(): Alignment {
     switch (this.data.position) {
@@ -201,6 +203,7 @@ export default struct MyBricksPopup {
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(this.modifier)
   }
 }
 
