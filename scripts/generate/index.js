@@ -58,7 +58,7 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
     const componentName = asImportName.replace("Basic", "");
     const { hasSlots, hasInputs, hasOutputs } = config;
     declaredComponentCode += `@Builder
-    function ${componentName}Builder (params: MyBricksComponentBuilderParams) {
+    export function ${componentName} (params: MyBricksComponentBuilderParams) {
       ${asImportName}({
         uid: params.uid,
         data: new ${importData}(params.data as MyBricks.Any),
@@ -69,42 +69,9 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
         ${hasSlots ? "slotsIO: params.slotsIO," : ""}
         parentSlot: params.parentSlot,
         env: context.env,
-        _env: context._env
+        _env: context._env,
+        modifier: createModifier(params, CommonModifier)
       })
-    }
-    
-    @ComponentV2
-    export struct ${componentName} {
-      @Param @Require uid: string;
-      ${verbose ? "@Param @Require title: string;" : ""}
-      @Param controller: MyBricks.Controller = Controller();
-      @Param @Require data: MyBricks.Data
-      @Param events: MyBricks.Events = {}
-      @Param styles: Styles = {};
-      @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-      ${hasSlots ? "@BuilderParam slots : (params: MyBricks.SlotParams) => void = Slot;" : ""}
-      ${hasSlots ? "@Local slotsIO: MyBricks.Any = createSlotsIO();" : ""}
-      @Param parentSlot?: MyBricks.SlotParams = undefined
-
-      myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-      build() {
-        Column() {
-          if (this.parentSlot?.itemWrap) {
-            this.parentSlot.itemWrap({
-              id: this.uid,
-              inputs: this.controller._inputEvents
-            }).wrap.builder(wrapBuilder(${componentName}Builder), this, this.parentSlot.itemWrap({
-              id: this.uid,
-              inputs: this.controller._inputEvents
-            }).params)
-          } else {
-            ${componentName}Builder(this)
-          }
-        }
-        .attributeModifier(this.myBricksColumnModifier)
-        .visibility(this.columnVisibilityController.visibility)
-      }
     }\n`
   } else {
     let componentName = asImportName.replace("basic", "");
@@ -124,6 +91,8 @@ fs.writeFileSync(path.join(__dirname, "../../packages/rt-arkts/comlib/Index.ets"
   createStyles,
   createSlotsIO,
   createJSHandle,
+  createModifier,
+  CommonModifier,
   createInputsHandle,
   createEventsHandle,
   MyBricksColumnModifier,

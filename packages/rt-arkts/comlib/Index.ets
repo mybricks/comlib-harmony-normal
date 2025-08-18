@@ -7,6 +7,8 @@ import {
   createStyles,
   createSlotsIO,
   createJSHandle,
+  createModifier,
+  CommonModifier,
   createInputsHandle,
   createEventsHandle,
   MyBricksColumnModifier,
@@ -182,7 +184,7 @@ export const myBricksHarmony_openPetalMap =
   }
 
 @Builder
-function MyBricksHarmonySystemPageBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySystemPage(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySystemPage({
     uid: params.uid,
     data: new mybricks_harmony_systemPage_Data(params.data as MyBricks.Any),
@@ -193,45 +195,13 @@ function MyBricksHarmonySystemPageBuilder(params: MyBricksComponentBuilderParams
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySystemPage {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySystemPageBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySystemPageBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySystemWebviewBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySystemWebview(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySystemWebview({
     uid: params.uid,
     data: new mybricks_harmony_systemWebview_Data(params.data as MyBricks.Any),
@@ -242,43 +212,13 @@ function MyBricksHarmonySystemWebviewBuilder(params: MyBricksComponentBuilderPar
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySystemWebview {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySystemWebviewBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySystemWebviewBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyPopupBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyPopup(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyPopup({
     uid: params.uid,
     data: new mybricks_harmony_popup_Data(params.data as MyBricks.Any),
@@ -289,45 +229,13 @@ function MyBricksHarmonyPopupBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyPopup {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyPopupBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyPopupBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyContainerRowBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyContainerRow(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerRow({
     uid: params.uid,
     data: new mybricks_harmony_containerRow_Data(params.data as MyBricks.Any),
@@ -338,45 +246,13 @@ function MyBricksHarmonyContainerRowBuilder(params: MyBricksComponentBuilderPara
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyContainerRow {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyContainerRowBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyContainerRowBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyImageBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyImage(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyImage({
     uid: params.uid,
     data: new mybricks_harmony_image_Data(params.data as MyBricks.Any),
@@ -387,43 +263,13 @@ function MyBricksHarmonyImageBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyImage {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyImageBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyImageBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyVideoBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyVideo(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyVideo({
     uid: params.uid,
     data: new mybricks_harmony_video_Data(params.data as MyBricks.Any),
@@ -434,43 +280,13 @@ function MyBricksHarmonyVideoBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyVideo {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyVideoBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyVideoBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyButtonBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyButton(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyButton({
     uid: params.uid,
     data: new mybricks_harmony_button_Data(params.data as MyBricks.Any),
@@ -481,45 +297,13 @@ function MyBricksHarmonyButtonBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyButton {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyButtonBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyButtonBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyTextBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyText(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyText({
     uid: params.uid,
     data: new mybricks_harmony_text_Data(params.data as MyBricks.Any),
@@ -530,43 +314,13 @@ function MyBricksHarmonyTextBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyText {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyTextBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyTextBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyIconBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyIcon(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyIcon({
     uid: params.uid,
     data: new mybricks_harmony_icon_Data(params.data as MyBricks.Any),
@@ -577,43 +331,13 @@ function MyBricksHarmonyIconBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyIcon {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyIconBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyIconBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyRichTextBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyRichText(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyRichText({
     uid: params.uid,
     data: new mybricks_harmony_richText_Data(params.data as MyBricks.Any),
@@ -624,43 +348,13 @@ function MyBricksHarmonyRichTextBuilder(params: MyBricksComponentBuilderParams) 
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyRichText {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyRichTextBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyRichTextBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySwiperBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySwiper(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySwiper({
     uid: params.uid,
     data: new mybricks_harmony_swiper_Data(params.data as MyBricks.Any),
@@ -671,45 +365,13 @@ function MyBricksHarmonySwiperBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySwiper {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySwiperBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySwiperBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyContainerBasicBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyContainerBasic(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerBasic({
     uid: params.uid,
     data: new mybricks_harmony_containerBasic_Data(params.data as MyBricks.Any),
@@ -720,45 +382,13 @@ function MyBricksHarmonyContainerBasicBuilder(params: MyBricksComponentBuilderPa
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyContainerBasic {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyContainerBasicBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyContainerBasicBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyTabsBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyTabs(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyTabs({
     uid: params.uid,
     data: new mybricks_harmony_tabs_Data(params.data as MyBricks.Any),
@@ -769,45 +399,13 @@ function MyBricksHarmonyTabsBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyTabs {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyTabsBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyTabsBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyContainerListBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyContainerList(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerList({
     uid: params.uid,
     data: new mybricks_harmony_containerList_Data(params.data as MyBricks.Any),
@@ -818,45 +416,13 @@ function MyBricksHarmonyContainerListBuilder(params: MyBricksComponentBuilderPar
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyContainerList {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyContainerListBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyContainerListBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyContainerWaterfallBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyContainerWaterfall(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerWaterfall({
     uid: params.uid,
     data: new mybricks_harmony_containerWaterfall_Data(params.data as MyBricks.Any),
@@ -867,45 +433,13 @@ function MyBricksHarmonyContainerWaterfallBuilder(params: MyBricksComponentBuild
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyContainerWaterfall {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyContainerWaterfallBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyContainerWaterfallBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyContainerConditionBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyContainerCondition(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerCondition({
     uid: params.uid,
     data: new mybricks_harmony_containerCondition_Data(params.data as MyBricks.Any),
@@ -916,45 +450,13 @@ function MyBricksHarmonyContainerConditionBuilder(params: MyBricksComponentBuild
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyContainerCondition {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyContainerConditionBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyContainerConditionBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySidebarBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySidebar(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySidebar({
     uid: params.uid,
     data: new mybricks_harmony_sidebar_Data(params.data as MyBricks.Any),
@@ -965,45 +467,13 @@ function MyBricksHarmonySidebarBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySidebar {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySidebarBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySidebarBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormContainerBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormContainer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormContainer({
     uid: params.uid,
     data: new mybricks_harmony_formContainer_Data(params.data as MyBricks.Any),
@@ -1014,45 +484,13 @@ function MyBricksHarmonyFormContainerBuilder(params: MyBricksComponentBuilderPar
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormContainer {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormContainerBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormContainerBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormInputBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormInput(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormInput({
     uid: params.uid,
     data: new mybricks_harmony_formInput_Data(params.data as MyBricks.Any),
@@ -1063,43 +501,13 @@ function MyBricksHarmonyFormInputBuilder(params: MyBricksComponentBuilderParams)
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormInput {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormInputBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormInputBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormStepperBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormStepper(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormStepper({
     uid: params.uid,
     data: new mybricks_harmony_formStepper_Data(params.data as MyBricks.Any),
@@ -1110,43 +518,13 @@ function MyBricksHarmonyFormStepperBuilder(params: MyBricksComponentBuilderParam
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormStepper {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormStepperBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormStepperBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormTextareaBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormTextarea(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormTextarea({
     uid: params.uid,
     data: new mybricks_harmony_formTextarea_Data(params.data as MyBricks.Any),
@@ -1157,43 +535,13 @@ function MyBricksHarmonyFormTextareaBuilder(params: MyBricksComponentBuilderPara
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormTextarea {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormTextareaBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormTextareaBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormPasswordBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormPassword(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormPassword({
     uid: params.uid,
     data: new mybricks_harmony_formPassword_Data(params.data as MyBricks.Any),
@@ -1204,43 +552,13 @@ function MyBricksHarmonyFormPasswordBuilder(params: MyBricksComponentBuilderPara
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormPassword {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormPasswordBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormPasswordBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormSwitchBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormSwitch(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormSwitch({
     uid: params.uid,
     data: new mybricks_harmony_formSwitch_Data(params.data as MyBricks.Any),
@@ -1251,43 +569,13 @@ function MyBricksHarmonyFormSwitchBuilder(params: MyBricksComponentBuilderParams
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormSwitch {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormSwitchBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormSwitchBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormDatetimeBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormDatetime(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormDatetime({
     uid: params.uid,
     data: new mybricks_harmony_formDatetime_Data(params.data as MyBricks.Any),
@@ -1298,45 +586,13 @@ function MyBricksHarmonyFormDatetimeBuilder(params: MyBricksComponentBuilderPara
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormDatetime {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormDatetimeBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormDatetimeBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormRateBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormRate(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormRate({
     uid: params.uid,
     data: new mybricks_harmony_formRate_Data(params.data as MyBricks.Any),
@@ -1347,43 +603,13 @@ function MyBricksHarmonyFormRateBuilder(params: MyBricksComponentBuilderParams) 
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormRate {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormRateBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormRateBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormSelectBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormSelect(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormSelect({
     uid: params.uid,
     data: new mybricks_harmony_formSelect_Data(params.data as MyBricks.Any),
@@ -1394,45 +620,13 @@ function MyBricksHarmonyFormSelectBuilder(params: MyBricksComponentBuilderParams
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormSelect {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormSelectBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormSelectBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormRadioBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormRadio(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormRadio({
     uid: params.uid,
     data: new mybricks_harmony_formRadio_Data(params.data as MyBricks.Any),
@@ -1443,43 +637,13 @@ function MyBricksHarmonyFormRadioBuilder(params: MyBricksComponentBuilderParams)
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormRadio {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormRadioBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormRadioBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormCheckboxBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormCheckbox(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormCheckbox({
     uid: params.uid,
     data: new mybricks_harmony_formCheckbox_Data(params.data as MyBricks.Any),
@@ -1490,43 +654,13 @@ function MyBricksHarmonyFormCheckboxBuilder(params: MyBricksComponentBuilderPara
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormCheckbox {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormCheckboxBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormCheckboxBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySmsInputBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySmsInput(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySmsInput({
     uid: params.uid,
     data: new mybricks_harmony_smsInput_Data(params.data as MyBricks.Any),
@@ -1537,43 +671,13 @@ function MyBricksHarmonySmsInputBuilder(params: MyBricksComponentBuilderParams) 
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySmsInput {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySmsInputBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySmsInputBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySearchBarBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySearchBar(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySearchBar({
     uid: params.uid,
     data: new mybricks_harmony_searchBar_Data(params.data as MyBricks.Any),
@@ -1584,43 +688,13 @@ function MyBricksHarmonySearchBarBuilder(params: MyBricksComponentBuilderParams)
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySearchBar {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySearchBarBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySearchBarBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormFileUploaderBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormFileUploader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormFileUploader({
     uid: params.uid,
     data: new mybricks_harmony_formFileUploader_Data(params.data as MyBricks.Any),
@@ -1631,45 +705,13 @@ function MyBricksHarmonyFormFileUploaderBuilder(params: MyBricksComponentBuilder
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormFileUploader {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormFileUploaderBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormFileUploaderBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormImageUploaderBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormImageUploader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormImageUploader({
     uid: params.uid,
     data: new mybricks_harmony_formImageUploader_Data(params.data as MyBricks.Any),
@@ -1680,45 +722,13 @@ function MyBricksHarmonyFormImageUploaderBuilder(params: MyBricksComponentBuilde
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormImageUploader {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormImageUploaderBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormImageUploaderBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyFormItemContainerBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyFormItemContainer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormItemContainer({
     uid: params.uid,
     data: new mybricks_harmony_formItemContainer_Data(params.data as MyBricks.Any),
@@ -1729,45 +739,13 @@ function MyBricksHarmonyFormItemContainerBuilder(params: MyBricksComponentBuilde
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyFormItemContainer {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyFormItemContainerBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyFormItemContainerBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyCellBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyCell(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyCell({
     uid: params.uid,
     data: new mybricks_harmony_cell_Data(params.data as MyBricks.Any),
@@ -1778,45 +756,13 @@ function MyBricksHarmonyCellBuilder(params: MyBricksComponentBuilderParams) {
     slotsIO: params.slotsIO,
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyCell {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @BuilderParam slots: (params: MyBricks.SlotParams) => void = Slot;
-  @Local slotsIO: MyBricks.Any = createSlotsIO();
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyCellBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyCellBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyQrcodeBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyQrcode(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyQrcode({
     uid: params.uid,
     data: new mybricks_harmony_qrcode_Data(params.data as MyBricks.Any),
@@ -1827,43 +773,13 @@ function MyBricksHarmonyQrcodeBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyQrcode {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyQrcodeBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyQrcodeBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyCascaderBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyCascader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyCascader({
     uid: params.uid,
     data: new mybricks_harmony_cascader_Data(params.data as MyBricks.Any),
@@ -1874,43 +790,13 @@ function MyBricksHarmonyCascaderBuilder(params: MyBricksComponentBuilderParams) 
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyCascader {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyCascaderBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyCascaderBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyPetalMapBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyPetalMap(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyPetalMap({
     uid: params.uid,
     data: new mybricks_harmony_petalMap_Data(params.data as MyBricks.Any),
@@ -1921,43 +807,13 @@ function MyBricksHarmonyPetalMapBuilder(params: MyBricksComponentBuilderParams) 
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyPetalMap {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyPetalMapBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyPetalMapBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonySupportBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonySupport(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySupport({
     uid: params.uid,
     data: new mybricks_harmony_support_Data(params.data as MyBricks.Any),
@@ -1968,43 +824,13 @@ function MyBricksHarmonySupportBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonySupport {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonySupportBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonySupportBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyLineBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyLine(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyLine({
     uid: params.uid,
     data: new mybricks_harmony_line_Data(params.data as MyBricks.Any),
@@ -2015,43 +841,13 @@ function MyBricksHarmonyLineBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
 }
 
-@ComponentV2
-export struct MyBricksHarmonyLine {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyLineBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyLineBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
-}
-
 @Builder
-function MyBricksHarmonyTimerBuilder(params: MyBricksComponentBuilderParams) {
+export function MyBricksHarmonyTimer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyTimer({
     uid: params.uid,
     data: new mybricks_harmony_timer_Data(params.data as MyBricks.Any),
@@ -2062,37 +858,7 @@ function MyBricksHarmonyTimerBuilder(params: MyBricksComponentBuilderParams) {
 
     parentSlot: params.parentSlot,
     env: context.env,
-    _env: context._env
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
   })
-}
-
-@ComponentV2
-export struct MyBricksHarmonyTimer {
-  @Param @Require uid: string;
-  @Param @Require title: string;
-  @Param controller: MyBricks.Controller = Controller();
-  @Param @Require data: MyBricks.Data
-  @Param events: MyBricks.Events = {}
-  @Param styles: Styles = {};
-  @Local columnVisibilityController: ColumnVisibilityController = new ColumnVisibilityController()
-  @Param parentSlot?: MyBricks.SlotParams = undefined
-  myBricksColumnModifier = new MyBricksColumnModifier(this.styles.root)
-
-  build() {
-    Column() {
-      if (this.parentSlot?.itemWrap) {
-        this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).wrap.builder(wrapBuilder(MyBricksHarmonyTimerBuilder), this, this.parentSlot.itemWrap({
-          id: this.uid,
-          inputs: this.controller._inputEvents
-        }).params)
-      } else {
-        MyBricksHarmonyTimerBuilder(this)
-      }
-    }
-    .attributeModifier(this.myBricksColumnModifier)
-    .visibility(this.columnVisibilityController.visibility)
-  }
 }

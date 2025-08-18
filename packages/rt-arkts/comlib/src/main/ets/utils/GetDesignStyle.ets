@@ -7,18 +7,56 @@ function isNil(value: string | number | null | undefined | ResourceColor | Resou
 }
 
 export class ApplyRootStyleModifier implements AttributeModifier<ComponentAttribute> {
-  private css: CSSProperties
+  style: CSSProperties;
 
-  constructor(configCss: CSSProperties) {
-    this.css = configCss
+  constructor(style: CSSProperties) {
+    this.style = style;
   }
 
   applyNormalAttribute(instance: ComponentAttribute): void {
-    if (!isNil(this.css?.width)) {
-      instance.width(this.css?.width)
+    const style = this.style;
+    // width
+    instance.width(style.width);
+    // height
+    instance.height(style.height);
+    // zIndex
+    instance.zIndex(style.zIndex as number);
+    // marginTop
+    // marginBottom
+    // marginLeft
+    // marginRight
+    instance.margin({
+      top: style.marginTop,
+      right: style.marginRight,
+      bottom: style.marginBottom,
+      left: style.marginLeft
+    })
+    // paddingTop
+    // paddingRight
+    // paddingBottom
+    // paddingLeft
+    instance.padding({
+      top: style.paddingTop,
+      right: style.paddingRight,
+      bottom: style.paddingBottom,
+      left: style.paddingLeft
+    })
+    // flex
+    if (typeof style.flex === "number") {
+      instance.flexGrow(style.flex as number)
+      instance.flexShrink(1)
+      instance.flexBasis("0%")
+    } else {
+      instance.flexShrink(0)
     }
-    if (!isNil(this.css?.height)) {
-      instance.height(this.css?.height)
+    // position
+    if (["absolute", "fixed"].includes(style.position as string)) {
+      instance.position({
+        top: style.top as number,
+        left: style.left as number,
+        right: style.right as number,
+        bottom: style.bottom as number,
+      })
     }
   }
 }
