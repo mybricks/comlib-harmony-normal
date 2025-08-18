@@ -1,3 +1,6 @@
+# [1.0.10](https://github.com/mybricks/comlib-harmony-normal/compare/ba07bde..d6eb926) (2025-08-18)
+- 重构组件导出方式以消除多余的层级结构，优化性能
+
 # [1.0.9](https://github.com/mybricks/comlib-harmony-normal/compare/f189fee..99c73bb) (2025-08-14)
 - 修复swiper的时机判断
 - 修复列表的高度问题
