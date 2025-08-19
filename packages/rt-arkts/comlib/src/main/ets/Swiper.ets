@@ -262,8 +262,6 @@ export default struct MyBricksSwiper {
         new ApplyStyleModifier(this.styles['.mybricks-swiper-wrapper'])
       )
     }
-    .width('100%')
-    .height('100%')
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

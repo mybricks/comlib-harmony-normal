@@ -395,8 +395,6 @@ export default struct MyBricksTabs {
       }
 
     }
-    .width('100%')
-    .height('100%')
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
     .attributeModifier(this.modifier)
   }
