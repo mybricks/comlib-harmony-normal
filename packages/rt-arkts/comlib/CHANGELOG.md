@@ -1,3 +1,6 @@
+# [1.0.11](https://github.com/mybricks/comlib-harmony-normal/compare/6acc435..c459be5) (2025-08-19)
+- 容器、轮播、标签页组件外层宽高调整
+
 # [1.0.10](https://github.com/mybricks/comlib-harmony-normal/compare/ba07bde..d6eb926) (2025-08-18)
 - 重构组件导出方式以消除多余的层级结构，优化性能
 
