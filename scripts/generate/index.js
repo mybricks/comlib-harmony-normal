@@ -61,9 +61,9 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
     export function ${componentName} (params: MyBricksComponentBuilderParams) {
       ${asImportName}({
         uid: params.uid,
-        data: new ${importData}(params.data as MyBricks.Any),
-        ${hasInputs ? "inputs: createInputsHandle(params)," : ""}
-        ${hasOutputs ? "outputs: createEventsHandle(params)," : ""}
+        data: createData(params, ${importData}),
+        inputs: createInputsHandle(params),
+        outputs: createEventsHandle(params),
         styles: createStyles(params),
         ${hasSlots ? "slots: params.slots," : ""}
         ${hasSlots ? "slotsIO: params.slotsIO," : ""}
@@ -87,6 +87,7 @@ fs.writeFileSync(path.join(__dirname, "../../packages/rt-arkts/comlib/Index.ets"
   context,
   Slot,
   Styles,
+  createData,
   Controller,
   createStyles,
   createSlotsIO,

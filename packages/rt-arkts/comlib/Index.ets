@@ -3,6 +3,7 @@ import {
   context,
   Slot,
   Styles,
+  createData,
   Controller,
   createStyles,
   createSlotsIO,
@@ -187,7 +188,7 @@ export const myBricksHarmony_openPetalMap =
 export function MyBricksHarmonySystemPage(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySystemPage({
     uid: params.uid,
-    data: new mybricks_harmony_systemPage_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_systemPage_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -204,7 +205,7 @@ export function MyBricksHarmonySystemPage(params: MyBricksComponentBuilderParams
 export function MyBricksHarmonySystemWebview(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySystemWebview({
     uid: params.uid,
-    data: new mybricks_harmony_systemWebview_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_systemWebview_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -221,8 +222,8 @@ export function MyBricksHarmonySystemWebview(params: MyBricksComponentBuilderPar
 export function MyBricksHarmonyPopup(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyPopup({
     uid: params.uid,
-    data: new mybricks_harmony_popup_Data(params.data as MyBricks.Any),
-
+    data: createData(params, mybricks_harmony_popup_Data),
+    inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
     slots: params.slots,
@@ -238,9 +239,9 @@ export function MyBricksHarmonyPopup(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyContainerRow(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerRow({
     uid: params.uid,
-    data: new mybricks_harmony_containerRow_Data(params.data as MyBricks.Any),
-
-
+    data: createData(params, mybricks_harmony_containerRow_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
     styles: createStyles(params),
     slots: params.slots,
     slotsIO: params.slotsIO,
@@ -255,7 +256,7 @@ export function MyBricksHarmonyContainerRow(params: MyBricksComponentBuilderPara
 export function MyBricksHarmonyImage(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyImage({
     uid: params.uid,
-    data: new mybricks_harmony_image_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_image_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -272,7 +273,7 @@ export function MyBricksHarmonyImage(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyVideo(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyVideo({
     uid: params.uid,
-    data: new mybricks_harmony_video_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_video_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -289,7 +290,7 @@ export function MyBricksHarmonyVideo(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyButton(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyButton({
     uid: params.uid,
-    data: new mybricks_harmony_button_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_button_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -306,7 +307,7 @@ export function MyBricksHarmonyButton(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyText(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyText({
     uid: params.uid,
-    data: new mybricks_harmony_text_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_text_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -323,7 +324,7 @@ export function MyBricksHarmonyText(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyIcon(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyIcon({
     uid: params.uid,
-    data: new mybricks_harmony_icon_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_icon_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -340,9 +341,9 @@ export function MyBricksHarmonyIcon(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyRichText(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyRichText({
     uid: params.uid,
-    data: new mybricks_harmony_richText_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_richText_Data),
     inputs: createInputsHandle(params),
-
+    outputs: createEventsHandle(params),
     styles: createStyles(params),
 
 
@@ -357,7 +358,7 @@ export function MyBricksHarmonyRichText(params: MyBricksComponentBuilderParams) 
 export function MyBricksHarmonySwiper(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySwiper({
     uid: params.uid,
-    data: new mybricks_harmony_swiper_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_swiper_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -374,8 +375,8 @@ export function MyBricksHarmonySwiper(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyContainerBasic(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerBasic({
     uid: params.uid,
-    data: new mybricks_harmony_containerBasic_Data(params.data as MyBricks.Any),
-
+    data: createData(params, mybricks_harmony_containerBasic_Data),
+    inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
     slots: params.slots,
@@ -391,7 +392,7 @@ export function MyBricksHarmonyContainerBasic(params: MyBricksComponentBuilderPa
 export function MyBricksHarmonyTabs(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyTabs({
     uid: params.uid,
-    data: new mybricks_harmony_tabs_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_tabs_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -408,7 +409,7 @@ export function MyBricksHarmonyTabs(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyContainerList(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerList({
     uid: params.uid,
-    data: new mybricks_harmony_containerList_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_containerList_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -425,7 +426,7 @@ export function MyBricksHarmonyContainerList(params: MyBricksComponentBuilderPar
 export function MyBricksHarmonyContainerWaterfall(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerWaterfall({
     uid: params.uid,
-    data: new mybricks_harmony_containerWaterfall_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_containerWaterfall_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -442,7 +443,7 @@ export function MyBricksHarmonyContainerWaterfall(params: MyBricksComponentBuild
 export function MyBricksHarmonyContainerCondition(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyContainerCondition({
     uid: params.uid,
-    data: new mybricks_harmony_containerCondition_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_containerCondition_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -459,7 +460,7 @@ export function MyBricksHarmonyContainerCondition(params: MyBricksComponentBuild
 export function MyBricksHarmonySidebar(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySidebar({
     uid: params.uid,
-    data: new mybricks_harmony_sidebar_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_sidebar_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -476,7 +477,7 @@ export function MyBricksHarmonySidebar(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyFormContainer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormContainer({
     uid: params.uid,
-    data: new mybricks_harmony_formContainer_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formContainer_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -493,7 +494,7 @@ export function MyBricksHarmonyFormContainer(params: MyBricksComponentBuilderPar
 export function MyBricksHarmonyFormInput(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormInput({
     uid: params.uid,
-    data: new mybricks_harmony_formInput_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formInput_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -510,7 +511,7 @@ export function MyBricksHarmonyFormInput(params: MyBricksComponentBuilderParams)
 export function MyBricksHarmonyFormStepper(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormStepper({
     uid: params.uid,
-    data: new mybricks_harmony_formStepper_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formStepper_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -527,7 +528,7 @@ export function MyBricksHarmonyFormStepper(params: MyBricksComponentBuilderParam
 export function MyBricksHarmonyFormTextarea(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormTextarea({
     uid: params.uid,
-    data: new mybricks_harmony_formTextarea_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formTextarea_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -544,7 +545,7 @@ export function MyBricksHarmonyFormTextarea(params: MyBricksComponentBuilderPara
 export function MyBricksHarmonyFormPassword(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormPassword({
     uid: params.uid,
-    data: new mybricks_harmony_formPassword_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formPassword_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -561,7 +562,7 @@ export function MyBricksHarmonyFormPassword(params: MyBricksComponentBuilderPara
 export function MyBricksHarmonyFormSwitch(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormSwitch({
     uid: params.uid,
-    data: new mybricks_harmony_formSwitch_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formSwitch_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -578,7 +579,7 @@ export function MyBricksHarmonyFormSwitch(params: MyBricksComponentBuilderParams
 export function MyBricksHarmonyFormDatetime(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormDatetime({
     uid: params.uid,
-    data: new mybricks_harmony_formDatetime_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formDatetime_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -595,7 +596,7 @@ export function MyBricksHarmonyFormDatetime(params: MyBricksComponentBuilderPara
 export function MyBricksHarmonyFormRate(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormRate({
     uid: params.uid,
-    data: new mybricks_harmony_formRate_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formRate_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -612,7 +613,7 @@ export function MyBricksHarmonyFormRate(params: MyBricksComponentBuilderParams) 
 export function MyBricksHarmonyFormSelect(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormSelect({
     uid: params.uid,
-    data: new mybricks_harmony_formSelect_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formSelect_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -629,7 +630,7 @@ export function MyBricksHarmonyFormSelect(params: MyBricksComponentBuilderParams
 export function MyBricksHarmonyFormRadio(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormRadio({
     uid: params.uid,
-    data: new mybricks_harmony_formRadio_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formRadio_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -646,7 +647,7 @@ export function MyBricksHarmonyFormRadio(params: MyBricksComponentBuilderParams)
 export function MyBricksHarmonyFormCheckbox(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormCheckbox({
     uid: params.uid,
-    data: new mybricks_harmony_formCheckbox_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formCheckbox_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -663,7 +664,7 @@ export function MyBricksHarmonyFormCheckbox(params: MyBricksComponentBuilderPara
 export function MyBricksHarmonySmsInput(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySmsInput({
     uid: params.uid,
-    data: new mybricks_harmony_smsInput_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_smsInput_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -680,7 +681,7 @@ export function MyBricksHarmonySmsInput(params: MyBricksComponentBuilderParams) 
 export function MyBricksHarmonySearchBar(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySearchBar({
     uid: params.uid,
-    data: new mybricks_harmony_searchBar_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_searchBar_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -697,7 +698,7 @@ export function MyBricksHarmonySearchBar(params: MyBricksComponentBuilderParams)
 export function MyBricksHarmonyFormFileUploader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormFileUploader({
     uid: params.uid,
-    data: new mybricks_harmony_formFileUploader_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formFileUploader_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -714,7 +715,7 @@ export function MyBricksHarmonyFormFileUploader(params: MyBricksComponentBuilder
 export function MyBricksHarmonyFormImageUploader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormImageUploader({
     uid: params.uid,
-    data: new mybricks_harmony_formImageUploader_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formImageUploader_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -731,7 +732,7 @@ export function MyBricksHarmonyFormImageUploader(params: MyBricksComponentBuilde
 export function MyBricksHarmonyFormItemContainer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormItemContainer({
     uid: params.uid,
-    data: new mybricks_harmony_formItemContainer_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_formItemContainer_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -748,7 +749,7 @@ export function MyBricksHarmonyFormItemContainer(params: MyBricksComponentBuilde
 export function MyBricksHarmonyCell(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyCell({
     uid: params.uid,
-    data: new mybricks_harmony_cell_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_cell_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -765,7 +766,7 @@ export function MyBricksHarmonyCell(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyQrcode(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyQrcode({
     uid: params.uid,
-    data: new mybricks_harmony_qrcode_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_qrcode_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -782,7 +783,7 @@ export function MyBricksHarmonyQrcode(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyCascader(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyCascader({
     uid: params.uid,
-    data: new mybricks_harmony_cascader_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_cascader_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -799,7 +800,7 @@ export function MyBricksHarmonyCascader(params: MyBricksComponentBuilderParams) 
 export function MyBricksHarmonyPetalMap(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyPetalMap({
     uid: params.uid,
-    data: new mybricks_harmony_petalMap_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_petalMap_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -816,9 +817,9 @@ export function MyBricksHarmonyPetalMap(params: MyBricksComponentBuilderParams) 
 export function MyBricksHarmonySupport(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonySupport({
     uid: params.uid,
-    data: new mybricks_harmony_support_Data(params.data as MyBricks.Any),
-
-
+    data: createData(params, mybricks_harmony_support_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
     styles: createStyles(params),
 
 
@@ -833,7 +834,7 @@ export function MyBricksHarmonySupport(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyLine(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyLine({
     uid: params.uid,
-    data: new mybricks_harmony_line_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_line_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
@@ -850,7 +851,7 @@ export function MyBricksHarmonyLine(params: MyBricksComponentBuilderParams) {
 export function MyBricksHarmonyTimer(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyTimer({
     uid: params.uid,
-    data: new mybricks_harmony_timer_Data(params.data as MyBricks.Any),
+    data: createData(params, mybricks_harmony_timer_Data),
     inputs: createInputsHandle(params),
     outputs: createEventsHandle(params),
     styles: createStyles(params),
