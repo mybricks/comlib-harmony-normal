@@ -1,3 +1,6 @@
+# [1.0.13](https://github.com/mybricks/comlib-harmony-normal/compare/6acc435..c459be5) (2025-08-19)
+- 更新依赖库@mybricks/render-utils版本
+
 # [1.0.11](https://github.com/mybricks/comlib-harmony-normal/compare/6acc435..c459be5) (2025-08-19)
 - 容器、轮播、标签页组件外层宽高调整
 
