@@ -82,6 +82,11 @@ export default struct MyBricksContainerBasic {
   @Computed
   get shouldClip (): boolean {
     const styles = this.styles?.['> .mybricks-container'];
+    //没有配置overflowY overflowX默认为超出部分隐藏
+    if(!styles?.overflowY || !styles?.overflowX){
+      console.log("styles",styles)
+      return true
+    }
     return styles?.overflowY === 'hidden' || styles?.overflowX === 'hidden'
   }
 
