@@ -274,13 +274,19 @@ export default struct MyBricksContainerList {
           }
           .cachedCount(30)
           .maintainVisibleContentPosition(true)
-          .onScrollIndex((start:number)=>{
-            //滚动到第N项时触发输出
-            if(start < 2 && this.enableTriggerReachStart){
+          .onReachStart(()=>{
+            if(this.enableTriggerReachStart){
               this.outputs?.onReachStart()
               this.enableTriggerReachStart = false
             }
           })
+          // .onScrollIndex((start:number)=>{
+          //   //滚动到第N项时触发输出
+          //   if(start < 2 && this.enableTriggerReachStart){
+          //     this.outputs?.onReachStart()
+          //     this.enableTriggerReachStart = false
+          //   }
+          // })
           .height(this.listHeight)
           .scrollBar(BarState.Auto)
           .align(Alignment.Start)
