@@ -298,7 +298,9 @@ export default struct MyBricksContainerList {
                   }
                 })
               }
-            }
+            }.margin({
+              bottom:this.data.spacing
+            })
           })
         }
 
