@@ -175,18 +175,18 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
 
   const _dataSource = useMemo(() => {
 
-    if(env.edit || env?.runtime?.debug?.prototype){
+    if (env.edit || env?.runtime?.debug?.prototype) {
       //编辑态时需要mockdata
       let res = new Array(3 * data.layout.column).fill(null).map((_, index) => {
         return { [rowKey]: index, index: index };
       });
       return res
-    }else{
+    } else {
       return dataSource;
     }
 
   }, [
-    dataSource, 
+    dataSource,
     data.layout.column,
     env.edit,
     env?.runtime?.debug?.prototype
@@ -194,14 +194,14 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
 
   const _2DdataSource = useMemo(() => {
 
-    if(env.edit || env?.runtime?.debug?.prototype){
+    if (env.edit || env?.runtime?.debug?.prototype) {
       let list = new Array(3 * data.layout.column)
         .fill(null)
         .map((_, index) => {
           return { [rowKey]: index, index: index };
         });
       return to2D(list, data.layout.column);
-    }else{
+    } else {
       return to2D(dataSource, data.layout.column);
     }
 
@@ -216,7 +216,7 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
       return result;
     }
   }, [
-    dataSource, 
+    dataSource,
     data.layout.column,
     env.edit,
     env?.runtime?.debug?.prototype
@@ -250,7 +250,7 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
               itemData: item,
               index: index,
             },
-            cache:{
+            cache: {
               for: 0,
               index: index,
             },
@@ -273,7 +273,11 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
   }, [env.runtime, data.layout.type, data._edit_status_]);
 
   const $waterfall = _2DdataSource.map((col, _index) => {
-    let $col = col.map(({ [rowKey]: key, index: index, item: item }, _idx) => {
+    const isLastCol = _index === _2DdataSource.length - 1;
+
+    let $col = col.map(({ [rowKey]: key, index, item }, _idx) => {
+      const isLastItem = _idx === col.length - 1;
+
       return (
         <View
           className={cx({
@@ -281,7 +285,7 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
             ["disabled-area"]: env.edit && (_index !== 0 || _idx > 0),
           })}
           style={{
-            paddingBottom: `${data.layout.gutter[0]}px`,
+            marginBottom: isLastItem ? 0 : `${data.layout.gutter[0]}px`,
           }}
           key={key}
         >
@@ -290,7 +294,7 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
               itemData: item,
               index: index,
             },
-            cache:{
+            cache: {
               for: 0,
               index: index,
             },
@@ -309,9 +313,9 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
           [css["waterfall-col"]]: true,
         })}
         style={{
-          paddingRight: `${data.layout.gutter[1]}px`,
-          maxWidth: `${100 / data.layout.column}%`,
-          flexBasis: `${100 / data.layout.column}%`,
+          marginRight: isLastCol ? 0 : `${data.layout.gutter[1]}px`,
+          flexBasis: `calc(${100 / data.layout.column}% - ${(data.layout.column - 1) * data.layout.gutter[1] / data.layout.column}px)`,
+          maxWidth: `calc(${100 / data.layout.column}% - ${(data.layout.column - 1) * data.layout.gutter[1] / data.layout.column}px)`,
         }}
         key={_index}
       >
@@ -472,8 +476,6 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
     <View
       className={css.waterfall}
       style={{
-        marginRight: `-${data.layout.gutter[1]}px`,
-        marginBottom: `-${data.layout.gutter[0]}px`,
         minHeight: data.layout.minHeight
           ? `${+data.layout.minHeight + data.layout.gutter[0]}px`
           : "unset",
