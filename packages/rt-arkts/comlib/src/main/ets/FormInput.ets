@@ -93,6 +93,7 @@ interface Inputs {
 interface Outputs {
   onChange: (value: string) => void
   onBlur: (value: string) => void
+  onFocus: (value: string) => void
   onConfirm: (value: string) => void
   setValueComplete: (value: string) => void
   returnValue: (value: string) => void
@@ -177,6 +178,13 @@ export default struct MyBricksFormInput {
             id: this.uid,
             value,
           });
+        })
+        .onEditChange((status: boolean) => {
+          if(status){
+            this.outputs?.onFocus(this.data.value)
+          }else{
+            this.outputs?.onBlur(this.data.value)
+          }
         })
         .padding(getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'padding', undefined) === undefined ? {
           left:getStyleValueByPattern(this.styles, ['.mybricks-h5Input .taroify-native-input,.mybricks-input'], 'paddingLeft', 0),

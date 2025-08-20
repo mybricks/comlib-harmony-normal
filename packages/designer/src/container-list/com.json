@@ -15,6 +15,9 @@
       "id": "refreshDataSource",
       "title": "覆盖数据",
       "desc": "列表已有的数据也会被覆盖",
+      "rels": [
+        "refreshDataSourceDone"
+      ],
       "schema": {
         "title": "列表数据",
         "type": "array",
@@ -28,6 +31,9 @@
       "id": "addDataSource",
       "title": "添加数据",
       "desc": "在列表数据的末尾插入添加的数据",
+      "rels": [
+        "addDataSourceDone"
+      ],
       "schema": {
         "title": "列表数据",
         "type": "array",
@@ -36,9 +42,69 @@
           "type": "any"
         }
       }
+    },
+    {
+      "id": "prependDataSource",
+      "title": "顶部追加数据",
+      "desc": "在列表数据的开头插入新数据",
+      "rels": [
+        "prependDataSourceDone"
+      ],
+      "schema": {
+        "title": "列表数据",
+        "type": "array",
+        "items": {
+          "title": "列项数据",
+          "type": "any"
+        }
+      }
+    },
+    {
+      "id": "scrollToEnd",
+      "title": "滚动到底部",
+      "desc": "滚动到列表底部最后一项",
+      "schema": {
+        "type": "object",
+        "description": "滚动到底部的动效配置",
+        "properties": {
+          "velocity": {
+            "title": "velocity",
+            "description": "滚动速度",
+            "type": "number"
+          }
+        }
+      }
     }
   ],
   "outputs": [
+    {
+      "id": "refreshDataSourceDone",
+      "title": "覆盖数据完成",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "id": "addDataSourceDone",
+      "title": "添加数据完成",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "id": "prependDataSourceDone",
+      "title": "顶部追加数据完成",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "id": "onReachStart",
+      "title": "当滚动到顶部",
+      "schema": {
+        "type": "string"
+      }
+    }
   ],
   "slots": [
     {

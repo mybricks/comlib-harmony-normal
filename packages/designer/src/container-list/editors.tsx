@@ -1,13 +1,13 @@
 import { Direction } from "./constant";
 
 export default {
-  "@init": ({ style, data }) => {
+  "@init": ({ style, data, output }) => {
     style.width = 375;
     style.height = "auto";
   },
   ":slot": {},
   "@resize": {
-    options: ["width"],
+    options: ["width", "height"],
   },
   "@inputConnected"({ data, input, output, slots }, fromPin, toPin) {
     if (toPin.id === "dataSource") {
@@ -81,7 +81,18 @@ export default {
           },
         },
       },
-      {},
+      {
+        title: "事件",
+        items: [
+          {
+            title: "当滚动到顶部",
+            type: "_event",
+            options: {
+              outputId: "onReachStart",
+            },
+          },
+        ],
+      },
     ];
     cate1.title = "样式";
     cate1.items = [];
@@ -99,6 +110,21 @@ export default {
           },
         },
       },
+      // {
+      //   title: "升级",
+      //   type: "button",
+      //   value: {
+      //     set({ output }) {
+      //       output.add({
+      //         id: "onReachStart",
+      //         title: "当滚动到顶部",
+      //         "schema": {
+      //           "type": "string"
+      //         }
+      //       });
+      //     }
+      //   }
+      // }
     ];
   },
 };

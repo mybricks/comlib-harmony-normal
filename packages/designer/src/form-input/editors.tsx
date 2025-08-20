@@ -140,6 +140,13 @@ export default {
               },
             },
             {
+              title:"当得到焦点",
+              type:"_event",
+              options: {
+                outputId: "onFocus"
+              }
+            },
+            {
               title: "当失去焦点",
               type: "_event",
               options: {
@@ -156,6 +163,24 @@ export default {
           ],
         },
       ];
+      // cate1.title = "高级";
+      // cate1.items =[
+      // {
+      //   title: "升级",
+      //   type: "button",
+      //   value: {
+      //     set({ output }) {
+      //       output.add({
+      //         id: "onFocus",
+      //         title: "当得到焦点",
+      //         "schema": {
+      //           "type": "string"
+      //         }
+      //       });
+      //     }
+      //   }
+      // }
+      // ]
     },
   },
 };

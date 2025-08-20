@@ -78,6 +78,14 @@
       }
     },
     {
+      "id": "onFocus",
+      "title": "当得到焦点",
+      "schema": {
+        "type": "string"
+      }
+
+    },
+    {
       "id": "onConfirm",
       "title": "当点击确定",
       "schema": {

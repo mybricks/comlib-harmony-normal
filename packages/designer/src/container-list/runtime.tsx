@@ -71,7 +71,7 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
       statusRef.current = ListStatus.EMPTY;
     });
 
-    inputs["addDataSource"]((val) => {
+    inputs["addDataSource"]((val, outputRels) => {
       if (Array.isArray(val)) {
         const ds = val.map((item, index) => ({
           item,
@@ -82,11 +82,30 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
         setTimeout(() => {
           setStatus(ListStatus.IDLE);
           statusRef.current = ListStatus.IDLE;
+          outputRels?.["addDataSourceDone"]?.(val)
         }, 0);
       }
     });
 
-    inputs["refreshDataSource"]((val) => {
+    inputs["prependDataSource"]?.((val, outputRels) => {
+      if (Array.isArray(val)) {
+        const ds = val.map((item, index) => ({
+          item,
+          [rowKey]: data.rowKey === "" ? uuid() : item[data.rowKey] || uuid(),
+          index: index,
+        }));
+
+        setDataSource((currentData) => [...ds, ...currentData]);
+
+        setTimeout(() => {
+          setStatus(ListStatus.IDLE);
+          statusRef.current = ListStatus.IDLE;
+          outputRels?.["prependDataSourceDone"]?.(val)
+        }, 0);
+      }
+    });
+
+    inputs["refreshDataSource"]((val, outputRels) => {
       if (Array.isArray(val)) {
         const ds = val.map((item, index) => ({
           item,
@@ -97,6 +116,7 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
         setDataSource([]);
         setTimeout(() => {
           setDataSource(ds);
+          outputRels?.["refreshDataSourceDone"]?.(val)
         }, 0);
         if (data.autoEmptyCondition && val.length === 0) {
           setStatus(ListStatus.EMPTY);
@@ -175,7 +195,7 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
               index: index,
             },
             key: key,
-            cache:{
+            cache: {
               for: 0,
               index: _idx,
             },

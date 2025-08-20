@@ -49,12 +49,79 @@ export class Data implements DataType {
   }
 }
 
-interface Inputs {
-  addDataSource: (fn: (ds: Array<DataSourceItem>) => void) => void
-  refreshDataSource: (fn: (ds: Array<DataSourceItem>) => void) => void
+class CustomDataSource implements IDataSource {
+  private data: DataSourceItem[] = [];
+  private listeners: DataChangeListener[] = [];
+
+  constructor(initialData: DataSourceItem[]) {
+    this.data = initialData;
+  }
+
+  totalCount(): number {
+    return this.data.length;
+  }
+
+  getData(index: number): DataSourceItem {
+    return this.data[index];
+  }
+
+  registerDataChangeListener(listener: DataChangeListener): void {
+    if (!this.listeners.includes(listener)) {
+      this.listeners.push(listener);
+    }
+  }
+
+  unregisterDataChangeListener(listener: DataChangeListener): void {
+    const index = this.listeners.indexOf(listener);
+    if (index >= 0) {
+      this.listeners.splice(index, 1);
+    }
+  }
+
+  // 插入数据方法
+  insertItems(startIndex: number, items: DataSourceItem[]): void {
+    this.data.splice(startIndex, 0, ...items);
+    this.listeners.forEach(listener => listener.onDataAdd(startIndex));
+  }
+
+  appendItems(items: DataSourceItem[]): void {
+    const startIndex = this.data.length;
+    this.data.push(...items);
+    this.listeners.forEach(listener => listener.onDataAdd(startIndex));
+  }
+
+  replaceAll(items: DataSourceItem[]): void {
+    while (this.data.length > 0) {
+      // 从后往前删除避免索引变化干扰
+      this.data.pop();
+      this.listeners.forEach(listener =>
+      listener.onDataDelete(this.data.length) // 触发删除事件
+      );
+    }
+
+    this.data.push(...items);
+    this.listeners.forEach(listener =>
+    listener.onDataAdd(0) // 从0位置开始触发添加事件
+    );
+  }
+
+  // 删除数据方法
+  deleteItems(startIndex: number, count: number): void {
+    this.data.splice(startIndex, count);
+    this.listeners.forEach(listener => listener.onDataDelete(startIndex));
+  }
 }
 
-interface Outputs {}
+interface Inputs {
+  addDataSource: (fn: (ds: Array<DataSourceItem>,outputRels?: void) => void) => void
+  refreshDataSource: (fn: (ds: Array<DataSourceItem>,outputRels?: void) => void) => void
+  prependDataSource: (fn: (ds: Array<DataSourceItem>,outputRels?: void) => void) => void
+  scrollToEnd:(fn: (val: AnyType,outputRels?: void) => void) => void
+}
+
+interface Outputs {
+  onReachStart: () => void
+}
 
 interface ItemParamsInputValues {
   index: number,
@@ -82,99 +149,78 @@ export default struct MyBricksContainerList {
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
-  @Local dataSource: Array<DataSourceItem> = []
+  private dataSource: CustomDataSource = new CustomDataSource([]);
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
-  // 状态变量
-  @Local private estimatedItemHeight: number = 50  // 预估每项高度
-  @Local private isInitializing: boolean = true    // 初始化标记
-  @Local private totalHeight: number = 0           // 总高度
-  @Local private itemHeights: Map<number, number> = new Map()  // 存储每个项的高度
-  @Local private maxRetries: number = 10           // 最大重试次数
-  @Local private currentRetry: number = 0          // 当前重试次数
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
+
+  private scroller: ListScroller = new ListScroller();
+  private enableTriggerReachStart: boolean = true;
+
+
   aboutToAppear(): void {
     // 设置数据源添加监听
-    this.inputs?.addDataSource((ds) => {
-      this.dataSource = this.dataSource.concat(ds)
-      this.initializeHeight()
+    this.inputs?.addDataSource((ds,outputRels:AnyType) => {
+      this.dataSource.appendItems(ds); // 调用标准化方法
+      //数据添加是异步的，这里暂时先给一个延时保证输出时是已经添加完成的
+      setTimeout(()=>{
+        outputRels?.["addDataSourceDone"]?.(ds);
+      },50)
+
     })
 
     // 设置数据源刷新监听
-    this.inputs?.refreshDataSource((ds) => {
-      this.dataSource = ds
-      this.initializeHeight()
+    this.inputs?.refreshDataSource((ds,outputRels:AnyType) => {
+      this.dataSource.replaceAll(ds); // 调用全量替换方法
+      outputRels?.["refreshDataSourceDone"]?.(ds);
     })
 
-    // 初始化高度
-    this.initializeHeight()
+    // 设置数据源顶部追加监听
+    this.inputs?.prependDataSource((ds, outputRels: AnyType) => {
+      this.dataSource.insertItems(0, ds); // 通过数据源类方法
+      setTimeout(()=>{
+        this.enableTriggerReachStart = true
+        outputRels?.["prependDataSourceDone"]?.(ds);
+      },50)
+    })
+
+    //列表滚动到底部
+    this.inputs?.scrollToEnd((val:ScrollEdgeOptions)=>{
+      this.scroller.scrollEdge(Edge.Bottom,val)
+    })
+
+
   }
 
-  // 初始化高度计算
-  private initializeHeight() {
-    if (this.data.direction === 'column') {
-      // 重置状态
-      this.isInitializing = true
-      this.currentRetry = 0
-      this.itemHeights.clear()
-
-      // 设置预估总高度
-      this.totalHeight = this.estimatedItemHeight * this.dataSource.length +
-        (this.dataSource.length - 1) * (this.data.spacing || 0)
-
-      // 延迟一帧后开始检查实际高度
-      this.scheduleHeightCheck()
+  @Computed
+  get shouldScroll (): boolean | undefined {
+    const styles = this.styles?.['root'];
+    if(styles?.height == '100%'){
+      return true
     }
+    if(typeof styles?.height == 'number'){
+      return true
+    }
+    if(styles?.height == 'fit-content'){
+      return false
+    }
+    return undefined
   }
 
-  // 安排高度检查
-  private scheduleHeightCheck() {
-    setTimeout(() => {
-      if (this.currentRetry < this.maxRetries) {
-        this.updateTotalHeight()
-        this.currentRetry++
-      } else {
-        this.isInitializing = false
-      }
-    }, 16)
-  }
-
-  // 更新总高度
-  private updateTotalHeight() {
-    let total = 0
-    let hasAllHeights = true
-
-    // 计算所有项的高度
-    for (let i = 0; i < this.dataSource.length; i++) {
-      const height = this.itemHeights.get(i)
-      if (height === undefined) {
-        hasAllHeights = false
-        total += this.estimatedItemHeight
-      } else {
-        total += height
-      }
+  @Computed
+  get listHeight (): number | undefined {
+    const styles = this.styles?.['root']
+    if(typeof styles?.height == 'number'){
+      return styles?.height
     }
+    return undefined
 
-    // 添加间距
-    if (this.dataSource.length > 1) {
-      total += (this.dataSource.length - 1) * (this.data.spacing || 0)
-    }
-
-    // 更新总高度
-    this.totalHeight = total
-
-    // 如果还没有获取到所有高度且在初始化阶段，继续检查
-    if (!hasAllHeights && this.isInitializing) {
-      this.scheduleHeightCheck()
-    } else {
-      this.isInitializing = false
-    }
   }
 
   build() {
@@ -187,7 +233,7 @@ export default struct MyBricksContainerList {
           justifyContent: FlexAlign.Start,
           alignItems: ItemAlign.Start
         }) {
-          ForEach(this.dataSource, (item: DataSourceItem, index) => {
+          LazyForEach(this.dataSource, (item: DataSourceItem, index) => {
             Column() {
               this.slots({
                 id: 'item',
@@ -205,12 +251,43 @@ export default struct MyBricksContainerList {
         .width('100%')
         .height('fit-content')
       } else {
-        // 使用List组件
-        List({
-          space: this.data.spacing,
-          initialIndex: 0,
-        }) {
-          ForEach(this.dataSource, (item: DataSourceItem, index) => {
+        if(this.shouldScroll){
+          // 纵向列表，需要滚动，此时使用List组件
+          List({
+            space: this.data.spacing,
+            initialIndex: 0,
+            scroller: this.scroller
+          }) {
+            LazyForEach(this.dataSource, (item: DataSourceItem, index) => {
+              ListItem() {
+                Column() {
+                  this.slots({
+                    id: 'item',
+                    inputValues: {
+                      itemData: item,
+                      index
+                    }
+                  })
+                }
+              }
+            },(item:AnyType) => item.id)
+          }
+          .cachedCount(30)
+          .maintainVisibleContentPosition(true)
+          .onScrollIndex((start:number)=>{
+            //滚动到第N项时触发输出
+            if(start < 2 && this.enableTriggerReachStart){
+              this.outputs?.onReachStart()
+              this.enableTriggerReachStart = false
+            }
+          })
+          .height(this.listHeight)
+          .scrollBar(BarState.Auto)
+          .align(Alignment.Start)
+          .listDirection(Axis.Vertical)
+        }else{
+          //不需要滚动，内容使用flex平铺展示
+          LazyForEach(this.dataSource, (item: DataSourceItem, index) => {
             ListItem() {
               Column() {
                 this.slots({
@@ -221,29 +298,10 @@ export default struct MyBricksContainerList {
                   }
                 })
               }
-              .height(this.isInitializing ? this.estimatedItemHeight : undefined)
             }
-            .onAreaChange((oldArea: Area, newArea: Area) => {
-              if (this.data.direction === 'column') {
-                const oldHeight = this.itemHeights.get(index) || 0
-                if (oldHeight !== newArea.height) {
-                  this.itemHeights.set(index, newArea.height as number)
-                  this.updateTotalHeight()
-                }
-              }
-            })
           })
         }
-        .scrollBar(this.data.scrollBar ? BarState.Auto : BarState.Off)
-        .listDirection(Axis.Vertical)
-        .height(this.data.direction === 'column' ?
-          (this.totalHeight || 'fit-content') : 'fit-content')
-        .onScrollStart(() => {
-          // 确保滚动时已经退出初始化状态
-          if (this.isInitializing) {
-            this.isInitializing = false
-          }
-        })
+
       }
     }
     .alignItems(HorizontalAlign.Start)
@@ -254,12 +312,5 @@ export default struct MyBricksContainerList {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(this.modifier)
-  }
-
-  // 组件销毁时的清理
-  aboutToDisappear() {
-    this.itemHeights.clear()
-    this.isInitializing = true
-    this.currentRetry = 0
   }
 }
