@@ -222,7 +222,7 @@ export default struct MyBricksFormCheckbox{
       .width('100%')
       .enabled(!this.data.disabled)
       .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'])
+        new ApplyRootStyleModifier(this.styles['root'] || {})
       )
       .attributeModifier(this.modifier)
     }

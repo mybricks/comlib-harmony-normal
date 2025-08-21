@@ -139,7 +139,7 @@ export default struct MyBricksFormInput {
         }
       })
     }.attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyRootStyleModifier(this.styles['root'] || {})
     )
     .attributeModifier(this.modifier)
   }

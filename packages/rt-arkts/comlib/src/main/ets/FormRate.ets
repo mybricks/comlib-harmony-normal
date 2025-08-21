@@ -117,7 +117,7 @@ export default struct MyBricksRate {
     .width('100%')
     .alignItems(HorizontalAlign.Start)
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyRootStyleModifier(this.styles['root'] || {})
     )
     .attributeModifier(this.modifier)
   }

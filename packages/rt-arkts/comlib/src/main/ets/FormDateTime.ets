@@ -249,7 +249,7 @@ export default struct MyBricksFormDateTime {
         this.dialogController?.open()
       })
       .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'])
+        new ApplyRootStyleModifier(this.styles['root'] || {})
       )
       .attributeModifier(this.modifier)
     }

@@ -188,7 +188,7 @@ export default struct MyBricksFormPassword {
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyRootStyleModifier(this.styles['root'] || {})
     )
     .attributeModifier(this.modifier)
   }

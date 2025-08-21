@@ -120,7 +120,7 @@ export default struct MyBricksFormSwitch {
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyRootStyleModifier(this.styles['root'] || {})
     )
     .attributeModifier(this.modifier)
   }

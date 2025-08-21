@@ -189,7 +189,7 @@ export default struct MyBricksFormSelect {
       new ApplyStyleModifier(this.styles['.mybricks-select'])
     )
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyRootStyleModifier(this.styles['root'] || {})
     )
     .attributeModifier(this.modifier)
   }
