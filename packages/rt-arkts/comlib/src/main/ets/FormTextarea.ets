@@ -184,9 +184,7 @@ export default struct MyBricksFormTextarea {
           .backgroundColor(Color.Transparent)
       )
 
-    }.attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
+    }
     .attributeModifier(this.modifier)
   }
 }

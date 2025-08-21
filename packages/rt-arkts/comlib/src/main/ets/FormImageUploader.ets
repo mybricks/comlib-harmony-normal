@@ -250,9 +250,6 @@ export default struct MyBricksFormImageUploader {
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-square'])
     )
-    .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
     .attributeModifier(this.modifier)
   }
 }

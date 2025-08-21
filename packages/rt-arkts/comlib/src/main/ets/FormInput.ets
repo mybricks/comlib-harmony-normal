@@ -221,10 +221,6 @@ export default struct MyBricksFormInput {
         ))
         .width('100%')
     }
-
-    .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
     .attributeModifier(this.modifier)
   }
 }
