@@ -1,3 +1,7 @@
+# [1.0.13](https://github.com/mybricks/comlib-harmony-normal/compare/9f27abf..2558369) (2025-08-19)
+- 修复容器没有正确设置换行问题
+- 表单项组件样式兼容
+
 # [1.0.12](https://github.com/mybricks/comlib-harmony-normal/compare/6acc435..c459be5) (2025-08-19)
 - 更新依赖库@mybricks/render-utils版本
 
