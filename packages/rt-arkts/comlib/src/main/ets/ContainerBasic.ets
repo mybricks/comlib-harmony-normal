@@ -95,12 +95,14 @@ export default struct MyBricksContainerBasic {
       if (this.shouldScroll) {
         Scroll() {
           this.slots({
-            id: 'content'
+            id: 'content',
+            style: this.data.layout
           })
         }
       } else {
         this.slots({
-          id: 'content'
+          id: 'content',
+          style: this.data.layout
         })
       }
     }

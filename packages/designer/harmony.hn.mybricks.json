@@ -1,0 +1,100 @@
+{
+  "componentType": "HM",
+  "comAry": [
+    "./src/_muilt-input-js/com.json",
+    "./src/_connector/com.json",
+    "./src/_show-toast/com.json",
+    "./src/_back-to/com.json",
+    "./src/_aes-encode/com.json",
+    "./src/_format/com.json",
+    "./src/_timer-delay/com.json",
+    "./src/_call-phone/com.json",
+    "./src/_vibrate/com.json",
+    "./src/_scan-qrcode/com.json",
+    "./src/_choose-media/com.json",
+    "./src/_choose-file/com.json",
+    "./src/_get-location/com.json",
+    "./src/_text-to-speech/com.json",
+    "./src/_open-petal-map/com.json",
+    {
+      "title": "系统",
+      "visible": false,
+      "comAry": [
+        "./src/system-page/com.json",
+        "./src/system-webview/com.json",
+        "./src/popup/com.json",
+        "./src/container-row/com.json"
+      ]
+    },
+    {
+      "title": "基础",
+      "comAry": [
+        "./src/image/com.json",
+        "./src/video/com.json",
+        "./src/button/com.json",
+        "./src/text/com.json",
+        "./src/icon/com.json",
+        "./src/rich-text/com.json",
+        "./src/swiper/com.json"
+      ]
+    },
+    {
+      "title": "容器",
+      "comAry": [
+        "./src/container-basic/com.json",
+        "./src/tabs/com.json",
+        "./src/container-list/com.json",
+        "./src/container-waterfall/com.json",
+        "./src/container-condition/com.json",
+        "./src/sidebar/com.json"
+      ]
+    },
+    {
+      "title": "数据录入",
+      "comAry": [
+        "./src/form-container/com.json",
+        "./src/form-input/com.json",
+        "./src/form-stepper/com.json",
+        "./src/form-textarea/com.json",
+        "./src/form-password/com.json",
+        "./src/form-switch/com.json",
+        "./src/form-datetime/com.json",
+        "./src/form-rate/com.json",
+        "./src/form-select/com.json",
+        "./src/form-radio/com.json",
+        "./src/form-checkbox/com.json",
+        "./src/sms-code/com.json",
+        "./src/search-bar/com.json",
+        "./src/form-file-uploader/com.json",
+        "./src/form-image-uploader/com.json",
+        "./src/form-item-container/com.json"
+      ]
+    },
+    {
+      "title": "数据展示",
+      "comAry": [
+        "./src/cell/com.json",
+        "./src/qrcode/com.json",
+        "./src/cascader/com.json"
+      ]
+    },
+    {
+      "title": "华为",
+      "comAry": [
+        "./src/petal-map/com.json"
+      ]
+    },
+    {
+      "title": "其它",
+      "comAry": [
+        "./src/support/com.json",
+        "./src/line/com.json",
+        "./src/timer/com.json"
+      ]
+    }
+  ],
+  "namespace": "mybricks.normal-harmony.taro",
+  "tags": "react",
+  "domain": "http://work.manateeai.com/",
+  "userName": "mybricks01"
+}
