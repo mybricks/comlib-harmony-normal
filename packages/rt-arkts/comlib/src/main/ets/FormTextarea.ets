@@ -122,7 +122,6 @@ export default struct MyBricksFormTextarea {
   }
 
   build() {
-    Column() {
       Column() {
         TextArea({
           text: this.data.value,
@@ -179,12 +178,17 @@ export default struct MyBricksFormTextarea {
       }
       .alignItems(HorizontalAlign.End)
       .height('100%')
+      .width('100%')
       .attributeModifier(
         new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
           .backgroundColor(Color.Transparent)
       )
+      .attributeModifier(
+        new ApplyRootStyleModifier(this.styles['root'] || {})
+      )
+      .attributeModifier(this.modifier)
 
-    }
-    .attributeModifier(this.modifier)
+
+
   }
 }
