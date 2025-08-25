@@ -89,6 +89,12 @@ export {
 } from './_TextToSpeech'
 
 export {
+  default as mybricks_harmony__aliyunOssUpload,
+  DataType as mybricks_harmony__aliyunOssUpload_DataType,
+  Data as mybricks_harmony__aliyunOssUpload_Data
+} from './_AliyunOssUpload'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data

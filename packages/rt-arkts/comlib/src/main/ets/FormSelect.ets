@@ -131,7 +131,6 @@ export default struct MyBricksFormSelect {
         .renderingStrategy(SymbolRenderingStrategy.SINGLE)
         .fontColor(['#000000', Color.White])
     }
-    .backgroundColor(Color.White)
     .width("100%")
     .constraintSize({ minHeight: 24 })
     .onClick(()=>{
