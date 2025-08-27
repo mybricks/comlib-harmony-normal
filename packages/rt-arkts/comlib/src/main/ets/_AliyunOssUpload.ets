@@ -1,10 +1,8 @@
-import { promptAction } from '@kit.ArkUI';
-import { call, observer } from '@kit.TelephonyKit'
-import { BusinessError } from '@kit.BasicServicesKit';
+import { window } from '@kit.ArkUI';
 import Client, { EObjectAcl, ESignVersion, FilePath, RequestError } from '@aliyun/oss';
-
+import { photoAccessHelper } from '@kit.MediaLibraryKit';
+import { dataSharePredicates } from '@kit.ArkData';
 import { AnyType } from './types'
-
 export type DataType = AnyType
 
 @ObservedV2
@@ -28,61 +26,105 @@ interface IOContext {
   outputs: Outputs
 }
 
+// 实现MediaDataHandler来处理图片数据
+class MediaDataHandler implements photoAccessHelper.MediaAssetDataHandler<ArrayBuffer> {
+  private client: Client;
+  private bucket: string;
+  private key: string;
+  private outputs: Outputs;
+
+  constructor(client: Client, bucket: string, key: string, outputs: Outputs) {
+    this.client = client;
+    this.bucket = bucket;
+    this.key = key;
+    this.outputs = outputs;
+  }
+
+  onDataPrepared = async (data: ArrayBuffer) => {
+    if (data === undefined) {
+      console.error('Error occurred when preparing data');
+      this.outputs.onFail('Data preparation failed');
+      return;
+    }
+
+    try {
+      const res = await this.client.putObject({
+        bucket: this.bucket,
+        key: this.key,
+        data: data,
+        objectAcl: EObjectAcl.PUBLIC_READ,
+      });
+      const resUrl:AnyType = res?.origRes?.request?.url
+      //输出上传后的图片地址URL
+      this.outputs.onSuccess(resUrl.href);
+    } catch (err) {
+      console.log('oss error: ', err);
+      this.outputs.onFail(err);
+    }
+  }
+}
+
 export default (context: IOContext) => {
   const data: Data = context.data
   const inputs: Inputs = context.inputs
   const outputs: Outputs = context.outputs
 
   inputs.upload?.((val: AnyType) => {
-    // // 创建OSS客户端实例
-    const client = new Client({
-      accessKeyId: val.AccessKeyId || "",
-      accessKeySecret: val.AccessKeySecret || "",
-      securityToken: val.SecurityToken || "",
-      region: val?.Region || "oss-cn-hangzhou",
-      signVersion:ESignVersion.V4
-    });
-    //
-    // // 指定要上传的对象（文件）名称，请替换为您实际要上传的对象名称
-    const key = 'yourObjectName';
-    const bucket:AnyType = val?.Bucket || "ai-social-img"
-    //
-    //
-    const putObjectWithObjectAcl = async () => {
+    window.getLastWindow(getContext()).then(async (windowClass) => {
+      const uiContext = windowClass.getUIContext().getHostContext();
+      let phAccessHelper = photoAccessHelper.getPhotoAccessHelper(uiContext);
+
+      // 创建OSS客户端实例
+      const client = new Client({
+        accessKeyId: val.AccessKeyId || "",
+        accessKeySecret: val.AccessKeySecret || "",
+        securityToken: val.SecurityToken || "",
+        region: val?.Region || "oss-cn-hangzhou",
+        signVersion: ESignVersion.V4
+      });
+
+      const bucket: string = val?.Bucket || "ai-social-img";
+      const key:AnyType = val?.objectKey || `upload_${Date.now()}.jpg`;
+
       try {
-        //调用putObject方法上传数据，并设置对象的访问权限为PRIVATE
-        const res = await client.putObject({
-          bucket, // Bucket名称
-          key,    // 对象（文件）名称
-          data: new FilePath(val?.filePath), // 要上传的数据，这里是一个简单的字符串
-          objectAcl: EObjectAcl.PUBLIC_READ, // 设置对象的访问权限为PRIVATE
-        });
+        // 设置查询条件
+        let predicates = new dataSharePredicates.DataSharePredicates();
+        predicates.equalTo(photoAccessHelper.PhotoKeys.URI, val.filePath);
 
-        // 打印上传结果
-        console.log(JSON.stringify(res));
-        outputs?.onSuccess(res)
-      } catch (err) {
-        //捕获请求过程中的异常信息
-        if (err instanceof RequestError) {
-          // 如果是已知类型的错误，则打印错误代码、错误消息、请求ID、状态码、EC码等信息
-          console.log('code: ', err.code); // 错误代码
-          console.log('message: ', err.message); // 错误消息
-          console.log('requestId: ', err.requestId); // 请求ID
-          console.log('status: ', err.status); // HTTP状态码
-          console.log('ec: ', err.ec); // 错误码
-        } else {
-          // 打印其他未知类型的错误
-          console.log('unknown error: ', err);
+        let fetchOptions: photoAccessHelper.FetchOptions = {
+          fetchColumns: [photoAccessHelper.PhotoKeys.TITLE],
+          predicates: predicates
+        };
+
+        // 获取图片资源
+        let fetchResult = await phAccessHelper.getAssets(fetchOptions);
+        let photoAsset = await fetchResult.getFirstObject();
+
+        if (!photoAsset) {
+          outputs.onFail('Photo asset not found');
+          return;
         }
+        // 请求图片数据
+        let requestOptions: photoAccessHelper.RequestOptions = {
+          deliveryMode: photoAccessHelper.DeliveryMode.HIGH_QUALITY_MODE,
+        };
+        // 创建处理器并请求图片数据
+        const handler = new MediaDataHandler(client, bucket, key, outputs);
+        await photoAccessHelper.MediaAssetManager.requestImageData(
+          uiContext,
+          photoAsset,
+          requestOptions,
+          handler
+        );
 
-        outputs?.onFail(err)
+        fetchResult.close();
+      } catch (err) {
+        console.error('Process failed with error: ', err);
+        outputs.onFail(err);
       }
-    };
-
-    putObjectWithObjectAcl();
-
-
-
-  })
-
+    }).catch((err:AnyType) => {
+      console.error('Failed to get window context: ', err);
+      outputs.onFail(err);
+    });
+  });
 }
