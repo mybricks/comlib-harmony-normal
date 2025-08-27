@@ -12,9 +12,8 @@ import { AnyType } from './types'
 export interface DataType {
   label?: string,
   name?: string,
-  value?: Array<LocalImgList>,
+  value?: Array<string>,
   maxCount?: number,
-
 }
 
 interface _Env {
@@ -38,14 +37,14 @@ interface EnvCurrentScenes {
 export class Data implements DataType {
   @Trace label?: string
   @Trace name?: string | undefined
-  @Trace value?: LocalImgList[] | undefined
-  @Trace maxCount?: number | 1
+  @Trace value?: Array<string>
+  @Trace maxCount: number = 1
 
   constructor(config: DataType) {
     this.label = config.label
     this.name = config.name
     this.value = config.value
-    this.maxCount = config.maxCount
+    this.maxCount = config.maxCount || 1
   }
 }
 
@@ -75,19 +74,22 @@ function emptySlot(params: SlotsParamsItem) {
 }
 
 interface ItemParamsInputValues {
-  index: number,
-  itemData: DataSourceItem
+  index?: number,
+  itemData?: DataSourceItem,
+  fileData: AnyType;
 }
 
 
 export interface SlotsParamsItem {
   id: string,
-  inputValues: ItemParamsInputValues
+  inputValues: ItemParamsInputValues,
+  outputs:AnyType
 }
 
-interface LocalImgList {
-  index: number,
-  uri: string
+
+
+interface ImgList {
+  uploadedUrl: string
 }
 
 
@@ -102,8 +104,6 @@ export default struct MyBricksFormImageUploader {
 
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParamsItem) => void = emptySlot;
-
-  @Local LocalImgList: Array<LocalImgList> = []
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
@@ -140,27 +140,42 @@ export default struct MyBricksFormImageUploader {
     try {
       let PhotoSelectOptions = new photoAccessHelper.PhotoSelectOptions();
       PhotoSelectOptions.MIMEType = photoAccessHelper.PhotoViewMIMETypes.IMAGE_TYPE;
-      PhotoSelectOptions.maxSelectNumber = 5;
+      PhotoSelectOptions.maxSelectNumber = this.data.maxCount;
       let photoPicker = new photoAccessHelper.PhotoViewPicker();
+
       photoPicker.select(PhotoSelectOptions).then((PhotoSelectResult: photoAccessHelper.PhotoSelectResult) => {
         //遍历上传的图片本地路径
         PhotoSelectResult.photoUris.map((uri, index) => {
-          this._slotInput(uri, index)
-          this.LocalImgList.push({ uri, index })
+          this.slotsIO["customUpload"].inputs["fileData"]({filePath:uri,index:index})
+
+          this.slots({
+            id: "customUpload",
+            inputValues:{
+              fileData:this.slotsIO.customUpload.inputs.fileData
+            },
+            outputs: {
+              setFileInfo: this.slotsIO.customUpload.output.setFileInfo((value:string) => {
+                if (!this.data.value) {
+                  this.data.value = [];
+                }
+                this.data.value?.push(value)
+
+                this.outputs?.onChange(this.data.value)
+
+                this.parentSlot?._inputs?.["onChange"]?.({
+                  id: this.uid,
+                  value:this.data.value,
+                });
+              })
+            }
+          })
         })
-
-        //这里因为还没有实现slot output所以先输出本地文件路径，并回显到value上
-        this.outputs?.onChange(this.LocalImgList)
-        this.data.value = this.LocalImgList
-
-        this.parentSlot?._inputs?.["onChange"]?.({
-          id: this.uid,
-          value:this.data.value,
-        });
-
       }).catch((err: BusinessError) => {
         console.error(`PhotoViewPicker.select failed with err: ${err.code}, ${err.message}`);
       });
+
+
+
     } catch (error) {
       let err: BusinessError = error as BusinessError;
       console.error(`PhotoViewPicker failed with err: ${err.code}, ${err.message}`);
@@ -168,27 +183,17 @@ export default struct MyBricksFormImageUploader {
   }
 
   deleteImage(index: number) {
-    this.LocalImgList = this.LocalImgList.filter((_, i) => i !== index);
-    this.data.value = this.LocalImgList
+    this.data.value= this.data.value?.filter((_, i) => i !== index);
+
   }
 
-  _slotInput(uri: string, index: number) {
-    console.log(uri, index)
-    this.slots({
-      id: "customUpload",
-      inputValues: {
-        index,
-        itemData: uri
-      }
-    })
-  }
 
   build() {
     Flex({ wrap: FlexWrap.Wrap }) {
-      ForEach(this.data.value, (item: LocalImgList, index) => {
+      ForEach(this.data.value, (item: ImgList, index) => {
         Column() {
           Stack({ alignContent: Alignment.TopEnd }) {
-            Image(item.uri)
+            Image(item.uploadedUrl)
               .width('100%')
               .height('100%')
               .objectFit(ImageFit.Cover)

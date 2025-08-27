@@ -55,7 +55,13 @@
       "id": "onSuccess",
       "title": "上传成功",
       "schema": {
-        "type": "follow"
+        "type": "object",
+        "properties": {
+          "uploadedUrl": {
+            "title": "上传到oss的url路径",
+            "type": "string"
+          }
+        }
       }
     },
     {
