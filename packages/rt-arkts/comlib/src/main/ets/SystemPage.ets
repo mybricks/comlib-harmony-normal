@@ -30,6 +30,9 @@ export class Data implements DataType {
   backgroundImage?: string
   backgroundColor?: string
   bottomSpace?: number
+  backgroundPosition?: string
+  backgroundSize?: string
+  backgroundRepeat?: string
 
   constructor(config: DataType) {
     this.navigationBarStyle = config?.navigationBarStyle
@@ -37,6 +40,10 @@ export class Data implements DataType {
     this.backgroundColor = config?.backgroundColor ?? config.background
     this.backgroundImage = config?.backgroundImage
     this.bottomSpace = config?.bottomSpace
+    this.backgroundPosition = config?.backgroundPosition
+    this.backgroundSize = config?.backgroundSize
+    this.backgroundRepeat = config?.backgroundRepeat
+
   }
 }
 
@@ -65,11 +72,12 @@ export default struct MyBricksSystemPage {
   @Local backgroundStyle: AnyType = parseBackgroundStyle({
     backgroundColor: this.data.backgroundColor,
     backgroundImage: this.data.backgroundImage,
+    backgroundPosition: this.data.backgroundPosition,
+    backgroundSize: this.data.backgroundSize,
+    backgroundRepeat: this.data.backgroundRepeat
   })
-
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
-
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
@@ -102,7 +110,7 @@ export default struct MyBricksSystemPage {
       .applyScrollBackground(this.data.navigationStyle === 'custom' || this.data.navigationStyle === 'default' ?
       this.backgroundStyle : {})
       .padding({
-        bottom:this.data.bottomSpace || 30
+        bottom: this.data.bottomSpace || 30
       })
     }
     .height('100%')
@@ -132,8 +140,10 @@ export default struct MyBricksSystemPage {
 @Extend(Column)
 function applyColumnBackground(backgroundStyle: AnyType) {
   .backgroundColor(backgroundStyle?.backgroundColor ?? Color.Transparent)
-  .backgroundImage(backgroundStyle?.backgroundImage ?? undefined)
+  .backgroundImage(backgroundStyle?.backgroundImage ?? undefined, backgroundStyle?.backgroundRepeat)
   .linearGradient(backgroundStyle?.linearGradient ?? {})
+  .backgroundImageSize(backgroundStyle?.backgroundSize ?? ImageSize.Auto)
+  .backgroundImagePosition(backgroundStyle?.backgroundPosition ?? Alignment.TopStart)
 }
 
 @Extend(Refresh)
@@ -151,33 +161,81 @@ function applyScrollBackground(backgroundStyle: AnyType) {
 }
 
 function parseBackgroundStyle(styleObject: AnyType): AnyType {
-  // 提取背景色
   const backgroundColor: string = styleObject?.backgroundColor;
-
-  // 提取渐变字符串
   const backgroundImage: string = styleObject?.backgroundImage;
+  const backgroundPosition: string = styleObject?.backgroundPosition
+  const backgroundSize: string = styleObject?.backgroundSize
+  const backgroundRepeat: string = styleObject?.backgroundRepeat
 
-  // 判断是否为图片URL
-  if (backgroundImage?.startsWith?.('url(')) {
-    // 提取URL
-    const urlMatch = backgroundImage.match(/url\((.*?)\)/);
-    const imageUrl = urlMatch ? urlMatch[1] : '';
-
-    return {
-      backgroundColor: backgroundColor,
-      backgroundImage: imageUrl
-    };
+  const parseBackgroundSize = (backgroundSize: string) => {
+    if (backgroundSize == "cover") {
+      return ImageSize.Cover
+    }
+    if (backgroundSize == "contain") {
+      return ImageSize.Contain
+    }
+    if (backgroundSize == "auto") {
+      return ImageSize.Auto
+    }
+    if (backgroundSize == "100% 100%") {
+      return ImageSize.FILL
+    }
+    return ImageSize.Auto
   }
 
-  // 如果是渐变，则处理渐变
-  if (backgroundImage?.startsWith?.('linear-gradient')) {
+  const parseBackgroundPosition = (backgroundPosition: string) => {
+    if (backgroundPosition == "top") {
+      return Alignment.Top
+    }
+    if (backgroundPosition == "center") {
+      return Alignment.Center
+    }
+    if (backgroundPosition == "bottom") {
+      return Alignment.Bottom
+    }
+    if (backgroundPosition == "top left") {
+      return Alignment.TopStart
+    }
+    if (backgroundPosition == "bottom left") {
+      return Alignment.BottomStart
+    }
+    if (backgroundPosition == "top right") {
+      return Alignment.TopEnd
+    }
+    if (backgroundPosition == "bottom right") {
+      return Alignment.BottomEnd
+    }
+    return Alignment.TopStart
+  }
 
+  const parseBackgroundRepeat = (backgroundRepeat: string) => {
+    if (backgroundRepeat == "no-repeat") {
+      return ImageRepeat.NoRepeat
+    }
+    if (backgroundRepeat == "repeat") {
+      return ImageRepeat.XY
+    }
+    return ImageRepeat.NoRepeat
+  }
+
+  if (backgroundImage?.startsWith?.('url(')) {
+    const urlMatch = backgroundImage.match(/url\((.*?)\)/);
+    const imageUrl = urlMatch ? urlMatch[1] : '';
+    return {
+      backgroundColor: backgroundColor,
+      backgroundImage: imageUrl,
+      backgroundPosition: parseBackgroundPosition(backgroundPosition),
+      backgroundSize: parseBackgroundSize(backgroundSize),
+      backgroundRepeat: parseBackgroundRepeat(backgroundRepeat)
+    };
+  }
+  // 如果是渐变
+  if (backgroundImage?.startsWith?.('linear-gradient')) {
     return {
       backgroundColor: backgroundColor,
       linearGradient: parseLinearGradient(backgroundImage)
     }
   }
-
   // 如果既不是图片也不是渐变，返回默认背景色
   return {
     backgroundColor: backgroundColor
