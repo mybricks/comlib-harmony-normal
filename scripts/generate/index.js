@@ -58,7 +58,7 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
     const componentName = asImportName.replace("Basic", "");
     const { hasSlots, hasInputs, hasOutputs } = config;
     declaredComponentCode += `@Builder
-    export function ${componentName} (params: MyBricksComponentBuilderParams) {
+    function ${componentName}Builder (params: MyBricksComponentBuilderParams) {
       ${asImportName}({
         uid: params.uid,
         data: createData(params, ${importData}),
@@ -66,13 +66,29 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
         outputs: createEventsHandle(params),
         styles: createStyles(params),
         ${hasSlots ? "slots: params.slots," : ""}
-        ${hasSlots ? "slotsIO: params.slotsIO," : ""}
+        ${hasSlots ? "slotsIO: createSlotsIO(params)," : ""}
         parentSlot: params.parentSlot,
         env: context.env,
         _env: context._env,
         modifier: createModifier(params, CommonModifier)
       })
-    }\n`
+    }
+
+    @Builder
+    export function ${componentName} (params: MyBricksComponentBuilderParams) {
+      if (params.parentSlot?.itemWrap) {
+        params.parentSlot.itemWrap({
+          id: params.uid,
+          inputs: params.controller?._inputEvents
+        }).wrap.builder(wrapBuilder(${componentName}Builder), params, params.parentSlot.itemWrap({
+          id: params.uid,
+          inputs: params.controller?._inputEvents
+        }).params)
+      } else {
+        ${componentName}Builder(params)
+      }
+    }
+    \n`
   } else {
     let componentName = asImportName.replace("basic", "");
     componentName = componentName[0].toLowerCase() + componentName.slice(1);
@@ -85,10 +101,7 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
 fs.writeFileSync(path.join(__dirname, "../../packages/rt-arkts/comlib/Index.ets"), `import {
   MyBricks,
   context,
-  Slot,
-  Styles,
   createData,
-  Controller,
   createStyles,
   createSlotsIO,
   createJSHandle,
@@ -96,9 +109,7 @@ fs.writeFileSync(path.join(__dirname, "../../packages/rt-arkts/comlib/Index.ets"
   CommonModifier,
   createInputsHandle,
   createEventsHandle,
-  MyBricksColumnModifier,
-  ColumnVisibilityController,
-  MyBricksComponentBuilderParams,
-} from "@mybricks/render-utils";
+  MyBricksComponentBuilderParams
+} from '@mybricks/render-utils';
 
-import {${importComponentCode}} from "./src/main/ets/Index"\n\n${declaredComponentCode}`, 'utf-8');
+import {${importComponentCode}} from './src/main/ets/Index'\n\n${declaredComponentCode}`, 'utf-8');
