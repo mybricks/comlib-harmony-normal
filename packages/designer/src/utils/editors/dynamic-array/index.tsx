@@ -80,22 +80,25 @@ export class DynamicArrayData {
             },
             set(context, value) {
               const { data } = context;
-              let action = computedAction({
+              let actions = computedActions({
                 before: data[keyName],
                 after: value,
               });
 
-              switch (action?.name) {
-                case "remove":
-                  effects.onRemove?.(context, action);
-                  break;
-                case "add":
-                  effects.onAdd?.(context, action);
-                  break;
-                case "update":
-                  effects.onUpdate?.(context, action);
-                  break;
-              }
+              actions.forEach(action => {
+                switch (action?.name) {
+                  case "remove":
+                    effects.onRemove?.(context, action);
+                    break;
+                  case "add":
+                    effects.onAdd?.(context, action);
+                    break;
+                  case "update":
+                    effects.onUpdate?.(context, action);
+                    break;
+                }
+              });
+
               data[keyName] = value;
             },
           },
@@ -119,6 +122,65 @@ export class DynamicArrayData {
     };
   };
 }
+
+function computedActions(params) {
+  let before = params.before || [];
+  let after = params.after || [];
+  let actions: any = [];
+  
+  // 创建 id 到 item 的映射对象
+  let beforeMap = {};
+  let afterMap = {};
+  
+  // 构建 before 映射
+  before.forEach(function(item) {
+    beforeMap[item._id] = item;
+  });
+  
+  // 构建 after 映射
+  after.forEach(function(item) {
+    afterMap[item._id] = item;
+  });
+  
+  // 处理删除的项
+  for (let id in beforeMap) {
+    if (beforeMap.hasOwnProperty(id)) {
+      if (!afterMap[id]) {
+        actions.push({
+          name: "remove",
+          value: beforeMap[id]
+        });
+      }
+    }
+  }
+  
+  // 处理新增的项
+  for (let id in afterMap) {
+    if (afterMap.hasOwnProperty(id)) {
+      if (!beforeMap[id]) {
+        actions.push({
+          name: "add",
+          value: afterMap[id]
+        });
+      }
+    }
+  }
+  
+  // 处理更新的项
+  for (let id in afterMap) {
+    if (afterMap.hasOwnProperty(id)) {
+      if (beforeMap[id] && JSON.stringify(beforeMap[id]) !== JSON.stringify(afterMap[id])) {
+        actions.push({
+          name: "update",
+          value: afterMap[id]
+        });
+      }
+    }
+  }
+  
+  return actions;
+}
+
 
 function computedAction({ before = [], after = [] }) {
   let beforeIds = before.map((item) => item._id);
