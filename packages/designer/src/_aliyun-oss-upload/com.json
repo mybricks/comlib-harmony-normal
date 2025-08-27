@@ -21,27 +21,27 @@
             "title": "文件路径",
             "type": "string"
           },
-          "accessKeyId": {
+          "AccessKeyId": {
             "title": "AccessKeyId",
             "type": "string",
             "description": "STS临时访问凭证的Access Key ID"
           },
-          "accessKeySecret": {
+          "AccessKeySecret": {
             "title": "AccessKeySecret",
             "type": "string",
             "description": "STS临时访问凭证的Access Key Secret"
           },
-          "securityToken": {
+          "SecurityToken": {
             "title": "SecurityToken",
             "type": "string",
             "description": "STS临时访问凭证的Security Token"
           },
-          "region": {
+          "Region": {
             "title": "Region",
             "type": "string",
             "description": "填写Bucket所在地域。以华东1（杭州）为例，Region填写为oss-cn-hangzhou"
           },
-          "bucket": {
+          "Bucket": {
             "title": "Bucket",
             "type": "string",
             "description": "指定要操作的Bucket名称，请替换为您实际使用的Bucket名称"
