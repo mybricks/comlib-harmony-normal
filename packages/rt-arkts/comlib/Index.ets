@@ -32,6 +32,7 @@ import {
   mybricks_harmony__getLocation as basicMyBricksHarmony_getLocation,
   mybricks_harmony__textToSpeech as basicMyBricksHarmony_textToSpeech,
   mybricks_harmony__openPetalMap as basicMyBricksHarmony_openPetalMap,
+  mybricks_harmony__aliyunOssUpload as basicMyBricksHarmony_aliyunOssUpload,
   mybricks_harmony_systemPage as BasicMyBricksHarmonySystemPage,
   mybricks_harmony_systemPage_Data,
   mybricks_harmony_systemWebview as BasicMyBricksHarmonySystemWebview,
@@ -182,6 +183,11 @@ export const myBricksHarmony_textToSpeech =
 export const myBricksHarmony_openPetalMap =
   (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
     return createJSHandle(basicMyBricksHarmony_openPetalMap, { props, env: context.env });
+  }
+
+export const myBricksHarmony_aliyunOssUpload =
+  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+    return createJSHandle(basicMyBricksHarmony_aliyunOssUpload, { props, env: context.env });
   }
 
 @Builder

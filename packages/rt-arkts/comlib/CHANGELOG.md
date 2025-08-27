@@ -1,3 +1,6 @@
+# [1.0.14](https://github.com/mybricks/comlib-harmony-normal/compare/f4fb9be..69e06b6) (2025-08-26)
+- 添加计算组件「阿里云OSS上传」
+
 # [1.0.13](https://github.com/mybricks/comlib-harmony-normal/compare/9f27abf..2558369) (2025-08-19)
 - 修复容器没有正确设置换行问题
 - 表单项组件样式兼容

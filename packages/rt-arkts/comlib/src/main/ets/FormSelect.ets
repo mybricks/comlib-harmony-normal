@@ -7,6 +7,14 @@ export interface DataType {
   placeholder?: string;
   value?: string;
   options?: Option[];
+  arrow?: "right" | "down" | "none"
+}
+
+interface PaddingStyle {
+  left: number | string;
+  right: number | string;
+  top: number | string;
+  bottom: number | string;
 }
 
 interface _Env {
@@ -40,6 +48,7 @@ export class Data implements DataType {
   @Trace placeholder?: string
   @Trace value?: string
   @Trace options?: Option[]
+  @Trace arrow?: 'right' | 'down' | 'none' | undefined
 
   constructor(config: DataType) {
     this.label = config?.label
@@ -47,12 +56,15 @@ export class Data implements DataType {
     this.placeholder = config?.placeholder
     this.value = config?.value
     this.options = config?.options
+    this.arrow = config?.arrow
   }
 
   @Computed
   get optionLabels(): string[] {
     return this.options?.map(option => option.label) || []
   }
+
+
 }
 
 interface Inputs {
@@ -121,17 +133,29 @@ export default struct MyBricksFormSelect {
     })
   }
 
+  @Computed
+  get paddingStyle(): PaddingStyle {
+    return {
+      left: Number(this.styles['.mybricks-select']?.paddingLeft) || 0,
+      right: Number(this.styles['.mybricks-select']?.paddingRight) || 0,
+      top: Number(this.styles['.mybricks-select']?.paddingTop) || 0,
+      bottom: Number(this.styles['.mybricks-select']?.paddingBottom) || 0
+    }
+  }
+
   build() {
     Flex({direction:FlexDirection.Row,alignItems:ItemAlign.Center,justifyContent:FlexAlign.SpaceBetween}) {
       Text(this.data.value || this.data.placeholder)
         .fontColor(this.data.value ? '#182431' : '#B9B9B9')
         .fontSize(14)
-      SymbolGlyph($r('sys.symbol.chevron_right'))
-        .fontSize(16)
-        .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-        .fontColor(['#000000', Color.White])
+      if(this.data.arrow != 'none'){
+        SymbolGlyph(this.data.arrow === 'right' ? $r('sys.symbol.chevron_right') : $r('sys.symbol.chevron_down'))
+          .fontSize(16)
+          .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+          .fontColor(['#000000', Color.White])
+      }
+
     }
-    .backgroundColor(Color.White)
     .width("100%")
     .constraintSize({ minHeight: 24 })
     .onClick(()=>{
@@ -188,9 +212,11 @@ export default struct MyBricksFormSelect {
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-select'])
     )
+
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'] || {})
     )
+    .padding(this.paddingStyle)
     .attributeModifier(this.modifier)
   }
 }

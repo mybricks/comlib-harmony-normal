@@ -168,9 +168,11 @@ export default struct MyBricksFormTextarea {
           .flexGrow(1) // 占用剩余空间
           .flexShrink(1) // 允许收缩（防止溢出）
           .width('100%')
-          .padding(0)
-          .borderRadius(0)
           .backgroundColor(Color.Transparent)
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
+              .backgroundColor(Color.Transparent)
+          )
         // .showCounter(true)  //原生计数器不能配置字体颜色
 
 
@@ -180,15 +182,9 @@ export default struct MyBricksFormTextarea {
       .height('100%')
       .width('100%')
       .attributeModifier(
-        new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
-          .backgroundColor(Color.Transparent)
-      )
-      .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'] || {})
       )
       .attributeModifier(this.modifier)
-
-
 
   }
 }

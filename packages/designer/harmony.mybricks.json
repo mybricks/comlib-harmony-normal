@@ -16,6 +16,7 @@
     "./src/_get-location/com.json",
     "./src/_text-to-speech/com.json",
     "./src/_open-petal-map/com.json",
+    "./src/_aliyun-oss-upload/com.json",
     {
       "title": "系统",
       "visible": false,
