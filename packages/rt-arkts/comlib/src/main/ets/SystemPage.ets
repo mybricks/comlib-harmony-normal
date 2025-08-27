@@ -42,7 +42,10 @@ export class Data implements DataType {
 
 interface Inputs {}
 
-interface Outputs {}
+interface Outputs {
+  pageDidShow: () => void
+  pageDidHide: () => void
+}
 
 @Builder
 function emptySlot(params: AnyType) {
@@ -73,7 +76,6 @@ export default struct MyBricksSystemPage {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
-
   }
 
   @Builder
@@ -107,6 +109,13 @@ export default struct MyBricksSystemPage {
     }
     .height('100%')
     .width('100%')
+    .onVisibleAreaChange([0.0, 1.0], (isVisible: boolean) => {
+      if (isVisible) {
+        this.outputs?.pageDidShow?.()
+      } else {
+        this.outputs?.pageDidHide?.()
+      }
+    })
   }
 
   build() {

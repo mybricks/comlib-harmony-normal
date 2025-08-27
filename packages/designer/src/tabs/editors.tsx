@@ -417,7 +417,11 @@ export default {
               return tab?.layout || defaultLayout;
             },
             set({ data, slots }, value) {
-              const tab = getFocusTab(props)
+              const { focusArea } = props;
+              if (!focusArea) return {};
+              const { index } = focusArea;
+
+              const tab = data.tabs[index];
 
               tab.layout = value;
               setSlotLayout(slots.get(tab?._id), value);
