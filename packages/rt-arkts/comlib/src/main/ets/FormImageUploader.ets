@@ -147,29 +147,8 @@ export default struct MyBricksFormImageUploader {
         //遍历上传的图片本地路径
         PhotoSelectResult.photoUris.map((uri, index) => {
           this.slotsIO["customUpload"].inputs["fileData"]({filePath:uri,index:index})
-
-          this.slots({
-            id: "customUpload",
-            inputValues:{
-              fileData:this.slotsIO.customUpload.inputs.fileData
-            },
-            outputs: {
-              setFileInfo: this.slotsIO.customUpload.output.setFileInfo((value:string) => {
-                if (!this.data.value) {
-                  this.data.value = [];
-                }
-                this.data.value?.push(value)
-
-                this.outputs?.onChange(this.data.value)
-
-                this.parentSlot?._inputs?.["onChange"]?.({
-                  id: this.uid,
-                  value:this.data.value,
-                });
-              })
-            }
-          })
         })
+        
       }).catch((err: BusinessError) => {
         console.error(`PhotoViewPicker.select failed with err: ${err.code}, ${err.message}`);
       });
@@ -190,10 +169,10 @@ export default struct MyBricksFormImageUploader {
 
   build() {
     Flex({ wrap: FlexWrap.Wrap }) {
-      ForEach(this.data.value, (item: ImgList, index) => {
+      ForEach(this.data.value, (item:string, index) => {
         Column() {
           Stack({ alignContent: Alignment.TopEnd }) {
-            Image(item.uploadedUrl)
+            Image(item)
               .width('100%')
               .height('100%')
               .objectFit(ImageFit.Cover)
@@ -249,7 +228,25 @@ export default struct MyBricksFormImageUploader {
           this.imageSelect()
         })
       }
-
+      this.slots({
+        id: "customUpload",
+        inputValues:{
+          fileData:this.slotsIO.customUpload.inputs.fileData
+        },
+        outputs: {
+          setFileInfo: this.slotsIO.customUpload.outputs.setFileInfo((value:string) => {
+            if (!this.data.value) {
+              this.data.value = [];
+            }
+            this.data.value?.push(value)
+            this.outputs?.onChange(this.data.value)
+            this.parentSlot?._inputs?.["onChange"]?.({
+              id: this.uid,
+              value:this.data.value,
+            });
+          })
+        }
+      })
     }
     .width("100%")
     .attributeModifier(
