@@ -179,9 +179,10 @@ export default struct MyBricksContainerList {
   aboutToAppear(): void {
     // 设置数据源添加监听
     this.inputs?.addDataSource((ds,outputRels:AnyType) => {
-      this.dataSource.appendItems(ds); // 调用标准化方法
-      outputRels?.["addDataSourceDone"]?.(ds);
-
+      this.dataSource.appendItems(ds);
+      setTimeout(()=>{
+        outputRels?.["addDataSourceDone"]?.(ds);
+      },20)
 
     })
 
