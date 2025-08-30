@@ -67,14 +67,18 @@ export default struct MyBricksSupport {
       Row() {
         // 条件渲染版权信息
         if (this.data.copyright) {
-          Text(`版权所有：${this.data.copyright}`).fontSize(12).fontColor("#999999")
+          Text(`版权所有：${this.data.copyright}`).fontSize(12).fontColor("#ffb8b8b8")
         }
       }
       .width('100%')
+      .margin({
+        bottom:6
+      })
       .alignItems(VerticalAlign.Center)
       .justifyContent(FlexAlign.Center)
       Row() {
         Image(this.data.logo)
+          .opacity(0.6)
           .width(16)
           .height(16)
           .margin({
@@ -82,7 +86,7 @@ export default struct MyBricksSupport {
           })
         Text('Powerd by MyBricks.ai')
           .fontSize(12)
-          .fontColor("#999999")
+          .fontColor("#FFB8B8B8")
       }
       .width('100%')
       .alignItems(VerticalAlign.Center)
