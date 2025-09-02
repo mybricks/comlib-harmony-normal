@@ -28,6 +28,8 @@ import {
   mybricks_harmony__textToSpeech as basicMyBricksHarmony_textToSpeech,
   mybricks_harmony__openPetalMap as basicMyBricksHarmony_openPetalMap,
   mybricks_harmony__aliyunOssUpload as basicMyBricksHarmony_aliyunOssUpload,
+  mybricks_harmony__getPreferences as basicMyBricksHarmony_getPreferences,
+  mybricks_harmony__setPreferences as basicMyBricksHarmony_setPreferences,
   mybricks_harmony_systemPage as BasicMyBricksHarmonySystemPage,
   mybricks_harmony_systemPage_Data,
   mybricks_harmony_systemWebview as BasicMyBricksHarmonySystemWebview,
@@ -183,6 +185,16 @@ export const myBricksHarmony_openPetalMap =
 export const myBricksHarmony_aliyunOssUpload =
   (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
     return createJSHandle(basicMyBricksHarmony_aliyunOssUpload, { props, env: context.env });
+  }
+
+export const myBricksHarmony_getPreferences =
+  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+    return createJSHandle(basicMyBricksHarmony_getPreferences, { props, env: context.env });
+  }
+
+export const myBricksHarmony_setPreferences =
+  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+    return createJSHandle(basicMyBricksHarmony_setPreferences, { props, env: context.env });
   }
 
 @Builder

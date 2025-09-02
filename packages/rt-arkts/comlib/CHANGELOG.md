@@ -1,3 +1,8 @@
+# [1.0.16](https://github.com/mybricks/comlib-harmony-normal/compare/94fd708..e4f6a03) (2025-09-02)
+- 新增组件_setPreferences、_getPreferences
+- 优化support视觉
+- 优化循环列表、图片上传组件
+
 # [1.0.15](https://github.com/mybricks/comlib-harmony-normal/compare/63c3c46..78e5f4e) (2025-08-27)
 - 更新依赖库@mybricks/render-utils版本
 - 优化slotsIO
