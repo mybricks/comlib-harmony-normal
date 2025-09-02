@@ -162,10 +162,10 @@ export default {
               }
             },
             onAdd(_id) {
-              slots.add({
-                id: `slot_${_id}`,
-                title: `轮播项${data._count += 1}`,
-              });
+              // slots.add({
+              //   id: `slot_${_id}`,
+              //   title: `轮播项${data._count += 1}`,
+              // });
 
               return {};
             },
@@ -179,6 +179,29 @@ export default {
               return data.items;
             },
             set({ data }, value) {
+              let actions = computedActions({
+                before: data.items,
+                after: value,
+              });
+
+              actions.forEach(action => {
+                switch (action?.name) {
+                  case "remove":
+                    if (slots.get(`slot_${action?.value._id}`)) {
+                      slots.remove(`slot_${action?.value._id}`)
+                    }
+                    break;
+                  case "add":
+                    slots.add({
+                      id: `slot_${action?.value._id}`,
+                      title: `轮播项${data._count += 1}`,
+                    });
+                    break;
+                  case "update":
+                    break;
+                }
+              });
+
               data.items = value;
             },
           },
@@ -317,3 +340,62 @@ export default {
     },
   },
 };
+
+
+function computedActions(params) {
+  let before = params.before || [];
+  let after = params.after || [];
+  let actions: any = [];
+  
+  // 创建 id 到 item 的映射对象
+  let beforeMap = {};
+  let afterMap = {};
+  
+  // 构建 before 映射
+  before.forEach(function(item) {
+    beforeMap[item._id] = item;
+  });
+  
+  // 构建 after 映射
+  after.forEach(function(item) {
+    afterMap[item._id] = item;
+  });
+  
+  // 处理删除的项
+  for (let id in beforeMap) {
+    if (beforeMap.hasOwnProperty(id)) {
+      if (!afterMap[id]) {
+        actions.push({
+          name: "remove",
+          value: beforeMap[id]
+        });
+      }
+    }
+  }
+  
+  // 处理新增的项
+  for (let id in afterMap) {
+    if (afterMap.hasOwnProperty(id)) {
+      if (!beforeMap[id]) {
+        actions.push({
+          name: "add",
+          value: afterMap[id]
+        });
+      }
+    }
+  }
+  
+  // 处理更新的项
+  for (let id in afterMap) {
+    if (afterMap.hasOwnProperty(id)) {
+      if (beforeMap[id] && JSON.stringify(beforeMap[id]) !== JSON.stringify(afterMap[id])) {
+        actions.push({
+          name: "update",
+          value: afterMap[id]
+        });
+      }
+    }
+  }
+  
+  return actions;
+}

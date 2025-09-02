@@ -4,21 +4,9 @@ export default {
   },
   prompts: {
     summary: '文本',
-    usage: `
-data声明
-text: string = "文本内容"
-ellipsis: boolean = false
-maxLines: number = "0"
-direction: string = "horizonal" | "vertical"
-
+    usage: `文本组件
 slots插槽
 无
-
-styleAry声明
-文本容器: .mybricks-text
-- 默认样式
-  - fontSize: 14px
-  - lineHeight: 16px
 
 layout声明
 width: 可配置

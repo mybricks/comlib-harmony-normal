@@ -7,30 +7,18 @@ export default {
     usage: `checkbox组件，方形的勾选列表，勾选项由左侧勾选方框 + 右侧内容文本组成
 何时使用：用作多选勾选和单项勾选场景
 
-data声明
-label: string = "多选"
-name: string = "多选"
-direction: ['horizontal', 'vertical'] = 'vertical'
-value: Array = []
-options: Array<{
-  label: string,
-  value: string,
-  icon: string 
-}>
-
-schema声明
-form-item
+schema=mybricks.taro.formContainer/formItem
 
 styleAry声明
-标题-激活样式: .title-active 
-标题-非激活样式: .title-inactive
-图标-激活样式: .icon-acitive
+标题-激活样式
+标题-非激活样式
+图标-激活样式
  - 可配置项：background、color、border、borderRadius
  - 默认样式：
     - background:#1989FA
     - border: 1px solid #1989FA
     - color: #fff
-图标-非激活样式: .icon-inactive
+图标-非激活样式
   - 可配置项：background、color、border、borderRadius
   - 默认样式：
     - background: transparent

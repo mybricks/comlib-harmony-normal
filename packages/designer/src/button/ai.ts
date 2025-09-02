@@ -4,14 +4,12 @@ export default {
   },
   prompts: {
     summary: '按钮，必须推荐此组件',
-    usage: `data声明
-text: string = "按钮"
-
+    usage: `按钮，必须推荐此组件
 slots插槽
 无
 
 styleAry声明
-按钮: .mybricks-button
+按钮
 - 默认样式: 
   - borderRadius: 60
   - backgroundColor: #fa6400

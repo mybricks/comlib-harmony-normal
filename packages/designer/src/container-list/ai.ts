@@ -8,11 +8,6 @@ export default {
     usage: `循环列表组件，用于动态数据列表的实现。
 何时使用：对需求思考一下，当考虑需要用动态列表的时候，使用此组件，否则使用多个重复的组件来搭建静态列表。
 
-data声明
-direction: ['row', 'column'] = 'column'
-spacing: number = 0 # 间距，当竖向排列时，为垂直间距；当横向排列时，为水平间距
-rowKey: string = "id" 
-
 slots插槽
 item # 列表项插槽
 
