@@ -22,6 +22,7 @@ interface EnvCurrentScenes {
   close: () => void
 }
 
+
 export interface DataType {
   direction?: 'row' | 'column',
   spacing?: number
@@ -30,7 +31,11 @@ export interface DataType {
   wrap?: boolean
 }
 
+
+
 type DataSourceItem = Record<string, string | number | boolean | Object> | string | number | boolean
+
+
 
 @ObservedV2
 export class Data implements DataType {
@@ -48,6 +53,8 @@ export class Data implements DataType {
     this.wrap = config?.wrap ?? false
   }
 }
+
+
 
 class CustomDataSource implements IDataSource {
   private data: DataSourceItem[] = [];
@@ -80,8 +87,12 @@ class CustomDataSource implements IDataSource {
 
   // 插入数据方法
   insertItems(startIndex: number, items: DataSourceItem[]): void {
-    this.data.splice(startIndex, 0, ...items);
-    this.listeners.forEach(listener => listener.onDataAdd(startIndex));
+    items.forEach((item, i) => {
+      const insertPos = startIndex + i;
+      this.data.splice(insertPos, 0, item);
+      // 为每个项单独触发事件
+      this.listeners.forEach(listener => listener.onDataAdd(insertPos));
+    });
   }
 
   appendItems(items: DataSourceItem[]): void {
@@ -164,30 +175,28 @@ export default struct MyBricksContainerList {
   private enableTriggerReachStart: boolean = true;
 
 
+
   aboutToAppear(): void {
     // 设置数据源添加监听
     this.inputs?.addDataSource((ds,outputRels:AnyType) => {
-      this.dataSource.appendItems(ds); // 调用标准化方法
-      //数据添加是异步的，这里暂时先给一个延时保证输出时是已经添加完成的
+      this.dataSource.appendItems(ds);
       setTimeout(()=>{
         outputRels?.["addDataSourceDone"]?.(ds);
-      },50)
+      },20)
 
+    })
+
+    // 设置数据源顶部追加监听
+    this.inputs?.prependDataSource((ds, outputRels: AnyType) => {
+      this.dataSource.insertItems(0, ds); // 通过数据源类方法
+      this.enableTriggerReachStart = true
+      outputRels?.["prependDataSourceDone"]?.(ds);
     })
 
     // 设置数据源刷新监听
     this.inputs?.refreshDataSource((ds,outputRels:AnyType) => {
       this.dataSource.replaceAll(ds); // 调用全量替换方法
       outputRels?.["refreshDataSourceDone"]?.(ds);
-    })
-
-    // 设置数据源顶部追加监听
-    this.inputs?.prependDataSource((ds, outputRels: AnyType) => {
-      this.dataSource.insertItems(0, ds); // 通过数据源类方法
-      setTimeout(()=>{
-        this.enableTriggerReachStart = true
-        outputRels?.["prependDataSourceDone"]?.(ds);
-      },50)
     })
 
     //列表滚动到底部
@@ -197,6 +206,7 @@ export default struct MyBricksContainerList {
 
 
   }
+
 
   @Computed
   get shouldScroll (): boolean | undefined {
@@ -272,21 +282,20 @@ export default struct MyBricksContainerList {
               }
             },(item:AnyType) => item.id)
           }
-          .cachedCount(30)
+          .cachedCount(100)
           .maintainVisibleContentPosition(true)
-          .onReachStart(()=>{
-            if(this.enableTriggerReachStart){
-              this.outputs?.onReachStart()
-              this.enableTriggerReachStart = false
-            }
-          })
-          // .onScrollIndex((start:number)=>{
-          //   //滚动到第N项时触发输出
-          //   if(start < 2 && this.enableTriggerReachStart){
+          // .onReachStart(()=>{
+          //   if(this.enableTriggerReachStart){
           //     this.outputs?.onReachStart()
           //     this.enableTriggerReachStart = false
           //   }
           // })
+          .onScrollIndex((start: number) => {
+            if (start < 2 && this.enableTriggerReachStart) {
+              this.outputs?.onReachStart()
+              this.enableTriggerReachStart = false
+            }
+          })
           .height(this.listHeight)
           .scrollBar(BarState.Auto)
           .align(Alignment.Start)

@@ -170,6 +170,7 @@ export default struct MyBricksFormPassword {
           this.styles,
           ['.mybricks-h5Input .taroify-native-input'],
           'backgroundColor',
+          Color.Transparent
         ))
         .height(getStyleValueByPattern(
           this.styles,
