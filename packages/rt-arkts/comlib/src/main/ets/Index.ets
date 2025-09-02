@@ -95,6 +95,18 @@ export {
 } from './_AliyunOssUpload'
 
 export {
+  default as mybricks_harmony__setPreferences,
+  DataType as mybricks_harmony__setPreferences_DataType,
+  Data as mybricks_harmony__setPreferences_Data
+} from './_SetPreferences'
+
+export {
+  default as mybricks_harmony__getPreferences,
+  DataType as mybricks_harmony__getPreferences_DataType,
+  Data as mybricks_harmony__getPreferences_Data
+} from './_GetPreferences'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data
