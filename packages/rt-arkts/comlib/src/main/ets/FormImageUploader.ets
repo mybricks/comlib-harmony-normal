@@ -113,7 +113,13 @@ export default struct MyBricksFormImageUploader {
   aboutToAppear(): void {
 
     this.inputs?.setValue((val:AnyType, outputRels: AnyType)=>{
-      this.data.value = val
+      let newValue: string[] = [];
+      if (typeof val === 'string' && val.trim() !== '') {
+        newValue = [val];
+      }else{
+        newValue = val
+      }
+      this.data.value = newValue;
       outputRels?.["setValueComplete"]?.(val);
     })
 
@@ -202,7 +208,7 @@ export default struct MyBricksFormImageUploader {
         .width(80)
         .height(80)
         .margin({ right: 10, bottom: 10 })
-      })
+      },(item: string) => item)
       if ((this.data?.value?.length ?? 0) < (this.data?.maxCount ?? 1)) {
         Column() {
           Text("+")
@@ -228,6 +234,7 @@ export default struct MyBricksFormImageUploader {
           this.imageSelect()
         })
       }
+
       this.slots({
         id: "customUpload",
         inputValues:{
