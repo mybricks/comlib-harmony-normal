@@ -169,15 +169,16 @@ export default struct MyBricksFormTextarea {
           .flexShrink(1) // 允许收缩（防止溢出）
           .width('100%')
           .backgroundColor(Color.Transparent)
-          .attributeModifier(
-            new ApplyStyleModifier(this.styles['.taroify-textarea__wrapper'])
-              .backgroundColor(Color.Transparent)
-          )
+
         // .showCounter(true)  //原生计数器不能配置字体颜色
 
 
         Text(`${this.data.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
       }
+      .attributeModifier(
+        new ApplyStyleModifier(this.styles?.['.taroify-textarea__wrapper'] || {})
+          .backgroundColor(Color.Transparent)
+      )
       .alignItems(HorizontalAlign.End)
       .height('100%')
       .width('100%')
