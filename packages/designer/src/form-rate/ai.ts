@@ -6,17 +6,11 @@ export default {
   prompts: {
     summary: '星星样式的评分组件，可以左右拖动评分',
     usage: `星星样式的评分组件，可以左右拖动评分
-data声明
-label: string = "评分"
-name: string = "评分"
-count: number = 5
-allowHalf: boolean = false
 
-schema声明
-form-item
+schema=mybricks.taro.formContainer/formItem
 
 styleAry声明
-星星样式: .taroify-icon
+星星样式:
  - 可配置项：color、font
  - 默认样式：
     - color: #000000

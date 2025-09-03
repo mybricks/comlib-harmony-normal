@@ -5,32 +5,9 @@ export default {
   },
   prompts: {
     summary: '多行输入textarea',
-    usage: `data声明
-label: string = "多行输入"
-name: string = "多行输入"
-value: string = "" # 输入框值
-placeholder: string = "请输入内容" # 占位提示文本
-limit: number = 100 # 字数限制，当=0时，代表不限制，也不会出现有下角的字数统计信息
+    usage: `多行输入textarea
 
-schema声明
-form-item
-
-styleAry声明
-输入框: .textarea
-  - 默认样式:
-    - border: none
-    - padding: 0px
-  - 可编辑样式: 
-    - border、padding、background
-内容文本: .text
-  - 默认样式:
-    - color: #323233
-    - fontSize: 14px
-  - 可编辑样式: color、fontSize
-提示文本: .placeholder
-  - 默认样式: 
-    - color: #c0c0c0
-  - 可编辑样式: color、fontSize
+schema=mybricks.taro.formContainer/formItem
 
 layout声明
 width: 可配置

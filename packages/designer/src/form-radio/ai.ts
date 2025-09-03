@@ -8,30 +8,18 @@ export default {
     usage: `radio组件，圆形的的单选列表，单选项由左侧勾选圆形 + 右侧内容文本组成
 何时使用：用作多个选项列表中只能选取其中一个的场景
 
-data声明
-label: string = "单选项"
-name: string = "单选项"
-direction: ['horizontal', 'vertical'] = 'vertical'
-gap: number = 12 # 选项之间的间距
-value: Array = []
-options: Array<{
-  label: string,
-  value: string
-}>
-
-schema声明
-form-item
+schema=mybricks.taro.formContainer/formItem
 
 styleAry声明
-标题-激活样式: .title-active 
-标题-非激活样式: .title-inactive
-图标-激活样式: .icon-acitive
+标题-激活样式:
+标题-非激活样式:
+图标-激活样式:
  - 可配置项：background、color、border、borderRadius
  - 默认样式：
     - background:#1989FA
     - border: 1px solid #1989FA
     - color: #fff
-图标-非激活样式: .icon-inactive
+图标-非激活样式:
   - 可配置项：background、color、border、borderRadius
   - 默认样式：
     - background: transparent

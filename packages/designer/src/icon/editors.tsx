@@ -45,7 +45,11 @@ export default {
               return [data.fontSize];
             },
             set({ data }, value: string) {
-              data.fontSize = value?.[0];
+              if (Array.isArray(value)) {
+                data.fontSize = value?.[0];
+              } else {
+                data.fontSize = value;
+              }
             },
           },
         },

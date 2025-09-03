@@ -64,7 +64,11 @@ export default {
             return [data.maxLines];
           },
           set({ data }, val) {
-            data.maxLines = val[0];
+            if (Array.isArray(val)) {
+              data.maxLines = val[0];
+            } else {
+              data.maxLines = val;
+            }
           },
         },
       },
