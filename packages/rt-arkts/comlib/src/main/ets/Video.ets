@@ -36,21 +36,21 @@ export type VideoFitType = 'contain' | 'fill' | 'cover' | string;
 @ObservedV2
 export class Data implements DataType {
   @Trace src?: string
-  @Trace controls?: boolean | undefined
-  @Trace poster?: string | undefined
-  @Trace autoplay?: boolean | undefined
-  @Trace loop?: boolean | undefined
-  @Trace muted?: boolean | undefined
-  @Trace objectFit?: 'contain' | 'fill' | 'cover' | string | undefined
+  @Trace controls?: boolean
+  @Trace poster?: string
+  @Trace autoplay?: boolean
+  @Trace loop?: boolean
+  @Trace muted?: boolean
+  @Trace objectFit?: 'contain' | 'fill' | 'cover' | string
 
   constructor(config: DataType) {
     this.src = config.src
-    this.controls = config.controls
-    this.poster = config.poster
-    this.autoplay = config.autoplay
-    this.loop = config.loop
-    this.muted = config.muted
-    this.objectFit = config.objectFit
+    this.controls = config?.controls
+    this.poster = config?.poster
+    this.autoplay = config?.autoplay
+    this.loop = config?.loop
+    this.muted = config?.muted
+    this.objectFit = config?.objectFit
   }
 }
 
@@ -109,11 +109,11 @@ export default struct MyBricksVideo {
         src: this.data.src,
         previewUri: this.data.poster,
       })
-        .controls(this.data.controls || true) // 设置是否显示默认控制条
-        .autoPlay(this.data.autoplay || true)
-        .loop(this.data.loop || true)
-        .muted(this.data.muted || false)
-        .objectFit(this.getImageFit(this.data.objectFit || 'contain'))
+        .controls(this.data.controls)
+        .autoPlay(this.data.autoplay)
+        .loop(this.data.loop)
+        .muted(this.data.muted)
+        .objectFit(this.getImageFit(this.data.objectFit || ""))
         .onStart(()=>{
           this.outputs?.onPlay(this.data.src)
         })
