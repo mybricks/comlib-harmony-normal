@@ -9,6 +9,15 @@ export default {
 slots插槽
 动态插槽：插槽id=标签项的_id
 
+styleAry相关
+选中条
+- 默认样式: 
+  - backgroundColor: #EE0A24
+  - width: 40px
+  - height: 3px
+  - borderRadius: 3px
+- 可编辑样式: backgroundColor、size、border相关
+
 注意事项:
   - 对于标签项的宽度，默认是fill拉伸铺满，也就是所有tab均分平铺，如果配置fit则是从左到右适应内容平铺；
   - 你是高级产品经理，有非常全面的思考，能精准识别出页面上哪些功能是带有切换逻辑的，最高优先使用tab组件，以实现正常的切换逻辑：

@@ -17,7 +17,11 @@ export default {
             return [data.gutter];
           },
           set({ data }, value) {
-            data.gutter = value[0];
+            if (Array.isArray(value)) {
+              data.gutter = value[0];
+            } else {
+              data.gutter = value
+            }
           },
         },
       },
@@ -45,7 +49,11 @@ export default {
               return [data.length];
             },
             set({ data }, value) {
-              data.length = value[0];
+              if (Array.isArray(value)) {
+                data.length = value[0];
+              } else {
+                data.length = value
+              }
             },
           },
         },
@@ -94,7 +102,11 @@ export default {
               return [data.countdown];
             },
             set({ data }, value) {
-              data.countdown = value[0];
+              if (Array.isArray(value)) {
+                data.countdown = value[0];
+              } else {
+                data.countdown = value
+              }
             },
           },
         },

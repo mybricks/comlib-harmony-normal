@@ -37,10 +37,11 @@ export default {
   slots插槽
   content: 表单的内容
   - 作用域插槽：插槽中仅允许放置schema=mybricks.taro.formContainer/formItem的组件，内置标签和其他组件都不可使用。
+    - 表单子组件也就是表单项的layout一般跟随父组件走，也就是width=100%，height=fit-content。
 
   styleAry声明
-  表单项:
-    - 默认情况下，表单项是透明背景，表单项之间无间距，通过一条无法消除的线分割，表单项内有上下10，左右16的内间距，默认外边距都是0
+  表单项
+    - 默认情况下，表单项是透明背景，表单项之间无间距，通过一条无法消除的线分割（所以如果需要分割线无需配置分割线样式），表单项内有上下10，左右16的内间距，默认外边距都是0
     - 如果表单内容比较挤，需要加点paddingBottom
   表单项标题
     - 表单项布局为垂直时，paddingBottom需要预留一些空间，否则影响美观度。比如："paddingBottom:5"
@@ -50,7 +51,10 @@ export default {
   整个表单的背景
   - 可以设置背景色，默认是白色（有些场景需要背景是透明色，比如当表单项是圆角矩形时，且表单项之间有间距）
   - 可以设置圆角，默认是0
-  \`\`\``
+
+  可继承的配置项说明：如果选中了直接的表单项，可以通过添加:parent/前缀来配置表单容器中 :child(mybricks.taro.formContainer/formItem) 下的所有配置项
+    比如 { "path": ":parent/表单项/标题", "value": "标题" } 就可以配置表单项，当且仅当配置 :child(mybricks.taro.formContainer/formItem) 下的所有配置项 需要添加:parent/前缀。
+`
   },
   modifyTptJson: (component) => {
     if (!component?.data) {

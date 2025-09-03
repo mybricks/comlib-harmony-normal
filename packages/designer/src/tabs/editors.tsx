@@ -77,7 +77,11 @@ export default {
                 return [data.tabItemGap];
               },
               set({ data }, value) {
-                data.tabItemGap = value[0];
+                if (Array.isArray(value)) {
+                  data.tabItemGap = value[0];
+                } else {
+                  data.tabItemGap = value
+                }
               },
             },
           },

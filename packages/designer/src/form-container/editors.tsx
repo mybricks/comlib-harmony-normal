@@ -206,6 +206,11 @@ export default {
   ":root": {
     style: [
       {
+        title: "表单整体",
+        options: ["border"],
+        target: ".mybricks-form .taroify-cell-group"
+      },
+      {
         title: "表单项",
         options: ["font", "border", "padding", "margin", "background"],
         target: ".mybricks-field",

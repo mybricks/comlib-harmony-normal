@@ -311,7 +311,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
   }, [data.useLoading, loading, data.skipValidation]);
 
   return (
-    <Form className={cx(css.form, { [css.h5]: isH5 })} ref={formRef}>
+    <Form className={cx(css.form, 'mybricks-form', { [css.h5]: isH5 })} ref={formRef}>
       <Cell.Group bordered={false}>{content}</Cell.Group>
       {data.useSubmitButton ? (
         <View className={cx(css.foot, "mybricks-submit")}>

@@ -37,6 +37,9 @@ layout规则
 - height，高度计算受 direction 和 options 综合影响：
   - 当direction=vertical时，height=fit-content，选项会垂直排列，单个选项的高度默认为40px，选项之间有gap的间距；
   - 当direction=horizontal时，height=fit-content，选项会水平排列，高度取决于单个选项的高度；
+
+注意：
+  - 选项排列方向(direction)默认为垂直。
 `
   },
   modifyTptJson: (component) => {
