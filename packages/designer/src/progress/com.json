@@ -1,0 +1,31 @@
+{
+  "title": "进度条",
+  "namespace": "mybricks.harmony.progress",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "icon": "./icon.svg",
+  "version": "1.0.0",
+  "description": "横向进度条",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "inputs": [
+    {
+      "id": "setPercent",
+      "title": "修改百分比",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onEnded",
+      "title": "当进度条结束时",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ]
+}

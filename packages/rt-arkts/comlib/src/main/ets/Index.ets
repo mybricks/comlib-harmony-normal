@@ -359,3 +359,9 @@ export {
   DataType as mybricks_harmony_containerRow_DataType,
   Data as mybricks_harmony_containerRow_Data,
 } from './ContainerRow'
+
+export {
+  default as mybricks_harmony_progress,
+  DataType as mybricks_harmony_progress_DataType,
+  Data as mybricks_harmony_progress_Data,
+} from './Progress'

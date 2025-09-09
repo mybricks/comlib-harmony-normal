@@ -102,6 +102,8 @@ import {
   mybricks_harmony_qrcode_Data,
   mybricks_harmony_cascader as BasicMyBricksHarmonyCascader,
   mybricks_harmony_cascader_Data,
+  mybricks_harmony_progress as BasicMyBricksHarmonyProgress,
+  mybricks_harmony_progress_Data,
   mybricks_harmony_petalMap as BasicMyBricksHarmonyPetalMap,
   mybricks_harmony_petalMap_Data,
   mybricks_harmony_support as BasicMyBricksHarmonySupport,
@@ -1346,6 +1348,38 @@ export function MyBricksHarmonyCascader(params: MyBricksComponentBuilderParams) 
     }).params)
   } else {
     MyBricksHarmonyCascaderBuilder(params)
+  }
+}
+
+@Builder
+function MyBricksHarmonyProgressBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyProgress({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_progress_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+
+
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyProgress(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyProgressBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyProgressBuilder(params)
   }
 }
 

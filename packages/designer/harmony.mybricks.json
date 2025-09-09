@@ -78,7 +78,8 @@
       "comAry": [
         "./src/cell/com.json",
         "./src/qrcode/com.json",
-        "./src/cascader/com.json"
+        "./src/cascader/com.json",
+        "./src/progress/com.json"
       ]
     },
     {
