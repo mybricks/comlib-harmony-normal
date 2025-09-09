@@ -21,3 +21,10 @@ packages/
     ├── comlib/  # 所有组件的鸿蒙运行时代码
     └── entry/   # 鸿蒙项目的入口文件
 ```
+
+## 🚀 组件开发
+组件开发基于vscode插件
+- 使用 vscode 打开「packages/designer」目录
+- 执行 ```yarn install``` 安装依赖
+- 在 vscode 插件市场搜索并安装 [MyBricks](https://marketplace.visualstudio.com/items?itemName=Mybricks.Mybricks) 插件
+- 参照插件说明，启动调试
