@@ -110,12 +110,12 @@ export default struct MyBricksContainerBasic {
     .align(Alignment.Start)
     .clip(this.shouldClip)
     .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(
       new ApplyStyleModifier(this.styles['> .mybricks-container'])
     )
     .linearGradient(parseLinearGradient(String(this.styles['> .mybricks-container']?.backgroundImage)))
-    .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
     .parallelGesture(
       TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
         this.outputs?.onClick?.()
