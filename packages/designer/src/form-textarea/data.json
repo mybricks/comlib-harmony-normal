@@ -4,5 +4,6 @@
   "autoHeight": false,
   "value": "",
   "placeholder": "请输入内容",
-  "limit": 100
+  "limit": 100,
+  "showCount": false
 }

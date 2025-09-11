@@ -61,6 +61,22 @@ export default {
           },
         },
         {
+          title: "展示字数统计",
+          description: "开启后，右下角会展示字数统计",
+          type: "switch",
+          ifVisible({ data }: EditorResult<Data>) {
+            return data.limit > 0;
+          },
+          value: {
+            get({ data }: any) {
+              return data.showCount;
+            },
+            set({ data }: any, value: [number, number]) {
+              data.showCount = value;
+            },
+          },
+        },
+        {
           title: "自动高度",
           description: "开启后，输入框的高度会随着输入内容的增多自动增高",
           type: "switch",

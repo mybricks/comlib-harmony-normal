@@ -20,6 +20,7 @@ export interface DataType {
   hidden: boolean,
   autoHeight: boolean,
   limit: number
+  showCount?: boolean
 }
 
 interface _Env {
@@ -52,6 +53,7 @@ export class Data implements DataType {
   @Trace hidden: boolean
   @Trace autoHeight: boolean
   @Trace limit: number
+  @Trace showCount?: boolean = false
 
   constructor(config?: DataType) {
     this.hideLabel = config?.hideLabel ?? false
@@ -65,6 +67,7 @@ export class Data implements DataType {
     this.hidden = config?.hidden ?? false
     this.autoHeight = config?.autoHeight ?? false
     this.limit = config?.limit ?? 100
+    this.showCount = config?.showCount ?? false
   }
 }
 
@@ -101,91 +104,104 @@ export default struct MyBricksFormTextarea {
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
+  @Local value: string = this.data.value ?? ''
+  @Local placeholder: string = this.data.placeholder ?? ''
+
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
-      this.data.value = val;
+      this.value = val;
       outputRels?.["setValueComplete"]?.(val);
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
-      outputRels?.["returnValue"]?.(this.data.value);
+      outputRels?.["returnValue"]?.(this.value);
     })
 
     this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.data.value = '';
+      this.value = '';
       outputRels?.["resetValueComplete"]?.('');
     })
 
     this.inputs?.setPlaceholder((val) => {
-      this.data.placeholder = val;
+      this.placeholder = val;
     })
   }
 
+  @Computed
+  get shouldLimit () {
+    return this.data.limit !== 0 && this.data.limit !== undefined
+  }
+
   build() {
-      Column() {
-        TextArea({
-          text: this.data.value,
-          placeholder: this.data.placeholder
-        })
-          .fontColor(getStyleValueByPattern(this.styles, [
-            ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-          ],
-            'color',
-            '#000000'
-          ))
-          .fontSize(getStyleValueByPattern(this.styles, [
-            ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+    Column() {
+      TextArea({
+        text: this.value,
+        placeholder: this.placeholder
+      })
+        .fontColor(getStyleValueByPattern(this.styles, [
+          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+        ],
+          'color',
+          '#323233'
+        ))
+        .fontSize(getStyleValueByPattern(this.styles, [
+          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
+        ],
+          'fontSize',
+          12
+        ))
+        .placeholderColor(getStyleValueByPattern(this.styles, [
+          ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+        ],
+          'color',
+          '#C8C9CC'
+        ))
+        .placeholderFont({
+          size: getStyleValueByPattern(this.styles, [
+            ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
           ],
             'fontSize',
+            12
+          )
+        })
+        .fontSize(14)
+        .maxLength(this.shouldLimit ? 999999 : this.data.limit)
+        .enabled(!this.data.disabled)
+        .onChange((value: string) => {
+          this.value = value;
+          this.outputs?.onChange?.(value);
 
-          ))
-          .placeholderColor(getStyleValueByPattern(this.styles, [
-            ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
-          ],
-            'color',
-            '#999999'
-          ))
-          .placeholderFont({
-            size: getStyleValueByPattern(this.styles, [
-              ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
-            ],
-              'fontSize',
-
-            )
-          })
-          .fontSize(14)
-          .maxLength(this.data.limit)
-          .enabled(!this.data.disabled)
-          .onChange((value: string) => {
-            this.data.value = value;
-            this.outputs?.onChange?.(value);
-
-            this.parentSlot?._inputs?.["onChange"]?.({
-              id: this.uid,
-              value: this.data.value,
-            });
-          })
-          .flexGrow(1) // 占用剩余空间
-          .flexShrink(1) // 允许收缩（防止溢出）
-          .width('100%')
-          .backgroundColor(Color.Transparent)
-
-        // .showCounter(true)  //原生计数器不能配置字体颜色
-
-
-        Text(`${this.data.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
+          this.parentSlot?._inputs?.["onChange"]?.({
+            id: this.uid,
+            value: this.value,
+          });
+        })
+        .flexGrow(1) // 占用剩余空间
+        .flexShrink(1) // 允许收缩（防止溢出）
+        .width('100%')
+        .backgroundColor(Color.Transparent)
+        .borderRadius(0)
+        .padding({
+          left: 0,
+          right: 0,
+          bottom: 0,
+          top: 0
+        })
+      if (this.data.showCount) {
+        Text(`${this.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
       }
-      .attributeModifier(
-        new ApplyStyleModifier(this.styles?.['.taroify-textarea__wrapper'] || {})
-          .backgroundColor(Color.Transparent)
-      )
-      .alignItems(HorizontalAlign.End)
-      .height('100%')
-      .width('100%')
-      .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'] || {})
-      )
-      .attributeModifier(this.modifier)
+    }
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles?.['.taroify-textarea__wrapper'] || {})
+        .backgroundColor(Color.Transparent)
+    )
+    .alignItems(HorizontalAlign.End)
+    .height('100%')
+    .width('100%')
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'] || {})
+    )
+    .attributeModifier(this.modifier)
 
   }
 }

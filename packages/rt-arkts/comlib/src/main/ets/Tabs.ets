@@ -157,6 +157,7 @@ export default struct MyBricksTabs {
 
   @Local contentWidth: AnyType = 0
   @Local screenWidth: AnyType = 0
+  @Local itemMaxHeight: number = 0
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
@@ -172,13 +173,13 @@ export default struct MyBricksTabs {
       const tab = this.data.tabs[index]
       this.setCurrentTabId(tab._id)
     })
-    
+
     // 初始化当前tab
     if (this.data.tabs.length > 0) {
       const tab = this.data.tabs[0]
       this.setCurrentTabId(tab._id)
     }
-    
+
     this.inputs?.dataSource?.((ds: InputTabData[], outputRels: AnyType) => {
       if (Array.isArray(ds)) {
         this.data.tabs = ds.map(item => ({
@@ -290,7 +291,9 @@ export default struct MyBricksTabs {
     Column() {
       // 自定义tab顶部标签页
       Scroll(this.scroller) {
-        Row() {
+        Row({
+          space: this.data.tabWidthType === "fit" ? this.data.tabItemGap : 0
+        }) {
           ForEach(this.data.tabs, (tab: Tab, index: number) => {
             Column() {
               Stack({ alignContent: Alignment.Bottom }) {  // 使用Stack布局来实现绝对定位效果
@@ -307,24 +310,24 @@ export default struct MyBricksTabs {
                       ]?.color || (this.currentTabId === tab._id ? "#323233" : "#646566")
                     )
                     .fontSize(
-                    getStyleValueByPattern(this.styles,[
-                      this.currentTabId === tab._id
-                        ? `.taroify-tabs__tab--active${getFilterSelector()}`
-                        : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-                    ],"fontSize",14)
-                  )
+                      getStyleValueByPattern(this.styles,[
+                        this.currentTabId === tab._id
+                          ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                          : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
+                      ],"fontSize",14)
+                    )
                 }
 
                 Column()
-                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) || 45)
-                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) || 3)
+                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) ?? 45)
+                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) ?? 3)
                   .backgroundColor(
                     this.currentTabId === tab._id
                       ? (this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
                       : Color.Transparent
                   )
-                  // .position({ x: '50%', y: 0 }) // 设置绝对定位
-                  // .translate({ x: '-50%', y: 0 }) // 居中对齐
+                // .position({ x: '50%', y: 0 }) // 设置绝对定位
+                // .translate({ x: '-50%', y: 0 }) // 居中对齐
               }
               // .width('100%')
               .height('100%')
@@ -347,7 +350,7 @@ export default struct MyBricksTabs {
                   : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
               ],
               'height',
-              35
+              44
             ))
             // .flexGrow(1)  // 让Text填充剩余空间
             .layoutWeight(this.data.tabWidthType === 'fill' ? 1 : '')
@@ -370,7 +373,9 @@ export default struct MyBricksTabs {
               ]?.paddingRight || 12,
             })
             .width('auto')
-
+            .onAreaChange((oldArea: Area, newArea: Area)=>{
+              this.itemMaxHeight = Math.max(this.itemMaxHeight, parseInt(newArea.height as string))
+            })
           })
         }
         .onAreaChange((oldArea: Area, newArea: Area)=>{

@@ -162,7 +162,7 @@ export default struct MyBricksFormInput {
         placeholder: this.data.placeholder
       })
         .type(getType(this.data.type))
-        .placeholderColor(this.placeHolderStyle?.color ?? '#999999')
+        .placeholderColor(this.placeHolderStyle?.color ?? '#C8C9CC')
         .placeholderFont({
           size: this.placeHolderStyle?.fontSize || 14
         })
