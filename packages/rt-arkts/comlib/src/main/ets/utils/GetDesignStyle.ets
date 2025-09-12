@@ -292,7 +292,7 @@ export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute |
     this.css = configCss ?? {}
   }
 
-  applyNormalAttribute(instance: TextAttribute | TextInputAttribute): void {
+  applyNormalAttribute(instance: TextAttribute | TextInputAttribute | TextAreaAttribute): void {
     const color = this.css?.color ?? this.initFontColor
     if (color) {
       instance.fontColor(color)
