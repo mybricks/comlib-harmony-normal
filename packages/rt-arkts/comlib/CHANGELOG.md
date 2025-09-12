@@ -1,3 +1,7 @@
+# [1.0.17](https://github.com/mybricks/comlib-harmony-normal/compare/c5cdd3d..00bb3fe) (2025-09-11)
+- 新增进度条组件
+- 优化FormInput、FormTextarea、Tabs组件
+
 # [1.0.16](https://github.com/mybricks/comlib-harmony-normal/compare/94fd708..e4f6a03) (2025-09-02)
 - 新增组件_setPreferences、_getPreferences
 - 优化support视觉
