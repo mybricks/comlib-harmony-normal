@@ -193,7 +193,7 @@ export default function ({ data, inputs, outputs, title, slots, env }) {
         +index < data.tabs.length
       ) {
         let currentTabId = data.tabs[index]?._id;
-        if (currentTabId) {
+        if (currentTabId !== undefined) {
           _setCurrentTabId(currentTabId);
         }
       }
