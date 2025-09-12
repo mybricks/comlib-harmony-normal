@@ -176,8 +176,7 @@ export default struct MyBricksTabs {
 
     // 初始化当前tab
     if (this.data.tabs.length > 0) {
-      const tab = this.data.tabs[0]
-      this.setCurrentTabId(tab._id)
+      this.currentTabId = this.data.tabs[0]?._id
     }
 
     this.inputs?.dataSource?.((ds: InputTabData[], outputRels: AnyType) => {
@@ -186,7 +185,7 @@ export default struct MyBricksTabs {
           _id: item.id,
           tabName: item.tabName
         }) as Tab)
-        this.currentTabId = this.data.tabs[0]._id
+        this.currentTabId = this.data.tabs?.[0]?._id
       }
     })
 
