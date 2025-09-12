@@ -1,4 +1,9 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import {
+  ApplyRootStyleModifier,
+  ApplyStyleModifier,
+  ApplyFontStyleModifier,
+  CSSProperties
+} from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
 import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
@@ -20,9 +25,7 @@ export class Data implements DataType {
 }
 
 
-interface Inputs {
-
-}
+interface Inputs {}
 
 interface Outputs {
   onClick: (value?: AnyType) => void
@@ -50,23 +53,22 @@ export interface SlotsParams {
   style?: CSSProperties
 }
 
-@Builder function emptySlot(params: SlotsParams) {}
+@Builder
+function emptySlot(params: SlotsParams) {
+}
 
 @ComponentV2
-export default struct MyBricksContainerBasic {
+export default struct MyBricksPopOver {
   @Param data: Data = new Data({});
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
   @Param outputs?: Outputs = undefined;
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
-
   @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
-
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
-
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
@@ -74,67 +76,72 @@ export default struct MyBricksContainerBasic {
   }
 
   @Computed
-  get shouldScroll (): boolean {
+  get shouldScroll(): boolean {
     const styles = this.styles?.['> .mybricks-container'];
-    return styles?.overflowY === 'scroll' || styles?.overflowY === 'auto' || styles?.overflowX === 'scroll' || styles?.overflowX === 'auto'
+    return styles?.overflowY === 'scroll' || styles?.overflowY === 'auto' || styles?.overflowX === 'scroll' ||
+      styles?.overflowX === 'auto'
   }
 
   @Computed
-  get shouldClip (): boolean {
+  get shouldClip(): boolean {
     const styles = this.styles?.['> .mybricks-container'];
     //没有配置overflowY overflowX默认为超出部分隐藏
-    if(!styles?.overflowY || !styles?.overflowX){
-      console.log("styles",styles)
+    if (!styles?.overflowY || !styles?.overflowX) {
+      console.log("styles", styles)
       return true
     }
     return styles?.overflowY === 'hidden' || styles?.overflowX === 'hidden'
   }
 
-  @Builder MenuBuilder() {
+  @Builder
+  MenuBuilder() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
-      Column() {
-        Text("3e223")
-      }
       this.slots({
         id: 'carrier',
         style: this.data.layout
       })
-    }.width(100).height(100).backgroundColor(Color.Blue).attributeModifier(
-      new ApplyStyleModifier(this.styles['> .carrier'])
+    }.width(100).height(100).attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-carrier'])
     )
   }
 
   build() {
-    Column() {
-      if (this.shouldScroll) {
-        Scroll() {
+    Stack() {
+      Column() {
+        if (this.shouldScroll) {
+          Scroll() {
+            this.slots({
+              id: 'content',
+              style: this.data.layout
+            })
+          }
+        } else {
           this.slots({
             id: 'content',
             style: this.data.layout
           })
         }
-      } else {
-        this.slots({
-          id: 'content',
-          style: this.data.layout
-        })
       }
+      .width("100%")
+      .height("100%")
+
+      //透明覆盖层（用于触发菜单），因为如果直接加在slots层级是不生效的
+      Row()
+        .width("100%")
+        .height("100%")
+        .backgroundColor(Color.Transparent)
+        .bindMenu(this.MenuBuilder)
     }
-    .alignItems(HorizontalAlign.Start)
     .align(Alignment.Start)
     .clip(this.shouldClip)
-    .bindMenu(this.MenuBuilder)
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['> .mybricks-container'])
+      new ApplyStyleModifier(this.styles['.mybricks-popover'])
     )
-    .linearGradient(parseLinearGradient(String(this.styles['> .mybricks-container']?.backgroundImage)))
-    .parallelGesture(
-      TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
-        this.outputs?.onClick?.()
-      })
+    .linearGradient(parseLinearGradient(String(this.styles['.mybricks-popover']?.backgroundImage)))
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(this.modifier)
-
 
   }
 }
