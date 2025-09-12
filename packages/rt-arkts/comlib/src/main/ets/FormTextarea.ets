@@ -138,33 +138,25 @@ export default struct MyBricksFormTextarea {
         text: this.value,
         placeholder: this.placeholder
       })
-        .fontColor(getStyleValueByPattern(this.styles, [
-          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-        ],
-          'color',
-          '#323233'
-        ))
-        .fontSize(getStyleValueByPattern(this.styles, [
-          ".taroify-textarea__wrapper .mybricks-textarea,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
-        ],
-          'fontSize',
-          12
-        ))
         .placeholderColor(getStyleValueByPattern(this.styles, [
-          ".taroify-textarea__wrapper .taroify-textarea__placeholder,.taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+          ".taroify-textarea__wrapper .taroify-textarea__placeholder",
         ],
           'color',
           '#C8C9CC'
         ))
         .placeholderFont({
           size: getStyleValueByPattern(this.styles, [
-            ".taroify-textarea__wrapper .taroify-textarea__placeholder, .taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
+            ".taroify-textarea__wrapper .taroify-textarea__placeholder",
           ],
             'fontSize',
-            12
+            14
           )
         })
-        .fontSize(14)
+        .attributeModifier(
+          new ApplyFontStyleModifier(this.styles?.['.taroify-textarea__wrapper .mybricks-textarea'] || {})
+            .fontSize(14)
+            .fontColor('#323233')
+        )
         .maxLength(this.shouldLimit ? 999999 : this.data.limit)
         .enabled(!this.data.disabled)
         .onChange((value: string) => {
