@@ -17,25 +17,25 @@ export default {
       {
         title: "容器样式",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: "> .mybricks-popover"
+        target: ".mybricks-popover"
       },
       {
         title: "弹出层",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: "> .mybricks-carrier"
+        target: ".mybricks-carrier"
       },
       {
 
         title: '标题',
         options: ['font', 'padding', 'border'],
         global: true,
-        target: "> .mybricks-carrier > .mybricks-carrier-title"
+        target: ".mybricks-carrier-title"
       },
       {
         title: '内容',
         options: ['font', 'padding'],
         global: true,
-        target: "> .mybricks-carrier > .mybricks-carrier-content"
+        target: ".mybricks-carrier-content"
       }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
