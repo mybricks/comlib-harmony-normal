@@ -1,0 +1,51 @@
+{
+  "title": "气泡",
+  "namespace": "mybricks.harmony.popover",
+  "version": "1.0.0",
+  "description": "气泡",
+  "author": "MyBricks",
+  "author_name": "MyBricks",
+  "icon": "./icon.png",
+  "data": "./data.json",
+  "runtime": "./runtime.tsx",
+  "editors": "./editors.tsx",
+  "inputs": [
+    {
+      "id": "_title",
+      "title": "动态标题",
+      "schema": {
+        "type": "string"
+      },
+      "rels": [
+        "_titleComplete"
+      ]
+    },
+    {
+      "id": "content",
+      "title": "动态内容",
+      "schema": {
+        "type": "string"
+      },
+      "rels": [
+        "contentComplete"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onClick",
+      "title": "点击"
+    }
+  ],
+  "slots": [
+    {
+      "id": "content",
+      "title": "触发气泡容器",
+      "layout": "smart"
+    },
+    {
+      "id": "carrier",
+      "title": "气泡区域"
+    }
+  ]
+}
