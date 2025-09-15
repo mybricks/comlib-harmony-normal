@@ -200,6 +200,7 @@ export default struct MyBricksFormInput {
         )
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-input'])
+            .backgroundColor(Color.Transparent)
         )
     }
     .attributeModifier(
