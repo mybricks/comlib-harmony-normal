@@ -100,7 +100,7 @@ export default struct MyBricksPopOver {
         id: 'carrier',
         style: this.data.layout
       })
-    }.width(100).height(100).attributeModifier(
+    }.attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-carrier'])
     )
   }
@@ -130,7 +130,10 @@ export default struct MyBricksPopOver {
         .width("100%")
         .height("100%")
         .backgroundColor(Color.Transparent)
-        .bindMenu(this.MenuBuilder)
+        .bindMenu(this.MenuBuilder,{
+          backgroundColor: Color.Transparent,
+          backgroundBlurStyle: BlurStyle.NONE
+        })
     }
     .align(Alignment.Start)
     .clip(this.shouldClip)
