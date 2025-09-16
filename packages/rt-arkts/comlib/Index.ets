@@ -64,6 +64,8 @@ import {
   mybricks_harmony_containerCondition_Data,
   mybricks_harmony_sidebar as BasicMyBricksHarmonySidebar,
   mybricks_harmony_sidebar_Data,
+  mybricks_harmony_popover as BasicMyBricksHarmonyPopover,
+  mybricks_harmony_popover_Data,
   mybricks_harmony_formContainer as BasicMyBricksHarmonyFormContainer,
   mybricks_harmony_formContainer_Data,
   mybricks_harmony_formInput as BasicMyBricksHarmonyFormInput,
@@ -96,6 +98,8 @@ import {
   mybricks_harmony_formImageUploader_Data,
   mybricks_harmony_formItemContainer as BasicMyBricksHarmonyFormItemContainer,
   mybricks_harmony_formItemContainer_Data,
+  mybricks_harmony_marquee as BasicMyBricksHarmonyMarquee,
+  mybricks_harmony_marquee_Data,
   mybricks_harmony_cell as BasicMyBricksHarmonyCell,
   mybricks_harmony_cell_Data,
   mybricks_harmony_qrcode as BasicMyBricksHarmonyQrcode,
@@ -744,6 +748,38 @@ export function MyBricksHarmonySidebar(params: MyBricksComponentBuilderParams) {
 }
 
 @Builder
+function MyBricksHarmonyPopoverBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyPopover({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_popover_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+    slots: params.slots,
+    slotsIO: createSlotsIO(params),
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyPopover(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyPopoverBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyPopoverBuilder(params)
+  }
+}
+
+@Builder
 function MyBricksHarmonyFormContainerBuilder(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyFormContainer({
     uid: params.uid,
@@ -1252,6 +1288,38 @@ export function MyBricksHarmonyFormItemContainer(params: MyBricksComponentBuilde
     }).params)
   } else {
     MyBricksHarmonyFormItemContainerBuilder(params)
+  }
+}
+
+@Builder
+function MyBricksHarmonyMarqueeBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyMarquee({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_marquee_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+    slots: params.slots,
+    slotsIO: createSlotsIO(params),
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyMarquee(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyMarqueeBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyMarqueeBuilder(params)
   }
 }
 

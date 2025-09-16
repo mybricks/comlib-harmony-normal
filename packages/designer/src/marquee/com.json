@@ -1,0 +1,64 @@
+{
+  "title": "跑马灯",
+  "namespace": "mybricks.harmony.marquee",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.6",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "icon": "./icon.svg",
+  "inputs": [
+    {
+      "id": "setItems",
+      "title": "设置内容数据",
+      "rels": [
+        "setItemsDone"
+      ],
+      "schema": {
+        "title": "内容数据",
+        "type": "array",
+        "items": {
+          "title": "内容项数据",
+          "type": "any"
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "setItemsDone",
+      "title": "设置数据完成",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "slots": [
+    {
+      "id": "item",
+      "capacity": 1,
+      "title": "内容项",
+      "type": "scope",
+      "inputs": [
+        {
+          "id": "itemData",
+          "title": "当前项",
+          "desc": "当前项展示内容",
+          "schema": {
+            "type": "any"
+          }
+        },
+        {
+          "id": "index",
+          "title": "当前项序号",
+          "desc": "当前项展示的序号",
+          "schema": {
+            "type": "number"
+          }
+        }
+      ]
+    }
+  ]
+}

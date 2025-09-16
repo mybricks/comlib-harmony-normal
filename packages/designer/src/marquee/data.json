@@ -1,0 +1,8 @@
+{
+  "direction": "row",
+  "rowKey": "_id",
+  "spacing": 0,
+  "autoplay": true,
+  "duration": 6000,
+  "circular": true
+}

@@ -1,57 +1,61 @@
 import { router } from '@kit.ArkUI';
 
+// import {
+//   mybricks_harmony_button,
+//   mybricks_harmony_button_Data,
+//   mybricks_harmony_systemPage,
+//   mybricks_harmony_systemPage_Data,
+//   mybricks_harmony_formInput,
+//   mybricks_harmony_formInput_Data,
+//   mybricks_harmony_qrcode,
+//   mybricks_harmony_qrcode_Data,
+//   mybricks_harmony_formSwitch,
+//   mybricks_harmony_formSwitch_Data,
+//   mybricks_harmony_tabs,
+//   mybricks_harmony_tabs_Data,
+//   mybricks_harmony_sidebar,
+//   mybricks_harmony_sidebar_Data,
+//   mybricks_harmony_video,
+//   mybricks_harmony_video_Data,
+//   mybricks_harmony_swiper,
+//   mybricks_harmony_swiper_Data,
+//   mybricks_harmony_support,
+//   mybricks_harmony_support_Data,
+//   mybricks_harmony_searchBar,
+//   mybricks_harmony_searchBar_Data,
+//   // mybricks_form_container,
+//   // mybricks_form_container_Data,
+//   // mybricks_form_container_DataType,
+//   // mybricks_form_container_SlotsParams,
+//   mybricks_form_item,
+//   mybricks_harmony_cell,
+//   mybricks_harmony_cell_Data,
+//   mybricks_harmony_formSelect,
+//   mybricks_harmony_formSelect_Data,
+//   mybricks_harmony_formStepper,
+//   mybricks_harmony_formStepper_Data,
+//   mybricks_harmony_map,
+//   mybricks_harmony_map_Data,
+//   mybricks_harmony_formCheckbox,
+//   mybricks_harmony_formRate,
+//   mybricks_harmony_formRate_Data,
+//   mybricks_harmony_formCheckbox_Data,
+//   mybricks_harmony_line,
+//   mybricks_harmony_line_Data,
+//   mybricks_harmony_formImageUploader,
+//   mybricks_harmony_formImageUploader_Data,
+//   mybricks_harmony_formFileUploader,
+//   mybricks_harmony_formFileUploader_Data,
+//   mybricks_harmony_containerWaterfall,
+//   mybricks_harmony__scanQrcode,
+//   mybricks_harmony_cascader,
+//   mybricks_harmony_cascader_Data,
+//   mybricks_harmony_cascader_DataType
+// } from '@ohos/mybricks-comlib-harmony-normal'
 import {
-  mybricks_harmony_button,
-  mybricks_harmony_button_Data,
-  mybricks_harmony_systemPage,
-  mybricks_harmony_systemPage_Data,
-  mybricks_harmony_formInput,
-  mybricks_harmony_formInput_Data,
-  mybricks_harmony_qrcode,
-  mybricks_harmony_qrcode_Data,
-  mybricks_harmony_formSwitch,
-  mybricks_harmony_formSwitch_Data,
-  mybricks_harmony_tabs,
-  mybricks_harmony_tabs_Data,
-  mybricks_harmony_sidebar,
-  mybricks_harmony_sidebar_Data,
-  mybricks_harmony_video,
-  mybricks_harmony_video_Data,
-  mybricks_harmony_swiper,
-  mybricks_harmony_swiper_Data,
-  mybricks_harmony_support,
-  mybricks_harmony_support_Data,
-  mybricks_harmony_searchBar,
-  mybricks_harmony_searchBar_Data,
-  // mybricks_form_container,
-  // mybricks_form_container_Data,
-  // mybricks_form_container_DataType,
-  // mybricks_form_container_SlotsParams,
-  mybricks_form_item,
-  mybricks_harmony_cell,
-  mybricks_harmony_cell_Data,
-  mybricks_harmony_formSelect,
-  mybricks_harmony_formSelect_Data,
-  mybricks_harmony_formStepper,
-  mybricks_harmony_formStepper_Data,
-  mybricks_harmony_map,
-  mybricks_harmony_map_Data,
-  mybricks_harmony_formCheckbox,
-  mybricks_harmony_formRate,
-  mybricks_harmony_formRate_Data,
-  mybricks_harmony_formCheckbox_Data,
-  mybricks_harmony_line,
-  mybricks_harmony_line_Data,
-  mybricks_harmony_formImageUploader,
-  mybricks_harmony_formImageUploader_Data,
-  mybricks_harmony_formFileUploader,
-  mybricks_harmony_formFileUploader_Data,
-  mybricks_harmony_containerWaterfall,
-  mybricks_harmony__scanQrcode,
-  mybricks_harmony_cascader,
-  mybricks_harmony_cascader_Data,
-  mybricks_harmony_cascader_DataType
-} from '@ohos/mybricks-comlib-harmony-normal'
+  MyBricksHarmonyMarquee,
+} from '@mybricks/comlib-harmony-normal'
+import { Controller } from '@mybricks/render-utils'
 import { cascaderMockData } from './mock'
 
 
@@ -60,6 +64,8 @@ import { cascaderMockData } from './mock'
 struct Index {
   @State message: string = 'Hello World';
   @State fontNum: number = 12;
+
+  private controller = Controller()
 
   @Builder
   textSlots() {
@@ -258,10 +264,10 @@ struct Index {
       //   styles: {"root":{"width":"100%","height":"fit-content"}}
       // })
 
-      mybricks_harmony_formStepper({
-        data: new mybricks_harmony_formStepper_Data(),
-        styles: {"root":{"width":"100%","height":"fit-content"}}
-      })
+      // mybricks_harmony_formStepper({
+      //   data: new mybricks_harmony_formStepper_Data(),
+      //   styles: {"root":{"width":"100%","height":"fit-content"}}
+      // })
 
       // mybricks_harmony_tabs({
       //   data: new mybricks_harmony_tabs_Data({
@@ -338,14 +344,36 @@ struct Index {
     }
   }
 
+  aboutToAppear(): void {
+    this.controller.inputs()
+  }
+
   build() {
     Column() {
-      mybricks_harmony_systemPage({
-        slots: this.slots.bind(this),
-        data: new mybricks_harmony_systemPage_Data({
-          background: '#ffffff'
-          // 'enablePullDownRefresh': '',
-        })
+      // mybricks_harmony_systemPage({
+      //   slots: this.slots.bind(this),
+      //   data: new mybricks_harmony_systemPage_Data({
+      //     background: '#ffffff'
+      //     // 'enablePullDownRefresh': '',
+      //   })
+      // })
+
+      Text('hello'){
+
+      }
+
+      MyBricksHarmonyMarquee({
+        uid: '123',
+        data: {
+          "spacing": 10,
+          "autoplay": true
+        },
+        styles: {
+          'root': {
+            'width': '100%'
+          }
+        },
+        controller: this.controller
       })
     }
     .height('100%')
