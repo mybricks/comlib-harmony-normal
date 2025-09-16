@@ -1,3 +1,6 @@
+# [1.0.18](https://github.com/mybricks/comlib-harmony-normal/compare/c015cad..f74e43e) (2025-09-12)
+- 新增popover组件
+
 # [1.0.17](https://github.com/mybricks/comlib-harmony-normal/compare/c5cdd3d..00bb3fe) (2025-09-11)
 - 新增进度条组件
 - 优化FormInput、FormTextarea、Tabs组件
