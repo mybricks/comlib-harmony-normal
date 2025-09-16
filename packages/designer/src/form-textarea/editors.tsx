@@ -109,6 +109,13 @@ export default {
           },
         },
         {
+          title: "当聚焦输入",
+          type: "_event",
+          options: {
+            outputId: "onFocus",
+          },
+        },
+        {
           title: "当失去焦点",
           type: "_event",
           options: {

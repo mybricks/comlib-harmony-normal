@@ -71,6 +71,13 @@
       }
     },
     {
+      "id": "onFocus",
+      "title": "当聚焦输入",
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
       "id": "onBlur",
       "title": "当失去焦点",
       "schema": {

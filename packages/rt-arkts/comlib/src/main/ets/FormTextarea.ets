@@ -83,6 +83,7 @@ interface Inputs {
 interface Outputs {
   onChange: (value: string) => void
   onBlur: (value: string) => void
+  onFocus: (value: string) => void
   onConfirm: (value: string) => void
   setValueComplete: (value: string) => void
   returnValue: (value: string) => void
@@ -178,6 +179,12 @@ export default struct MyBricksFormTextarea {
           right: 0,
           bottom: 0,
           top: 0
+        })
+        .onBlur(() => {
+          this.outputs?.onBlur?.(this.data.value)
+        })
+        .onFocus(() => {
+          this.outputs?.onFocus?.(this.data.value)
         })
       if (this.data.showCount) {
         Text(`${this.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
