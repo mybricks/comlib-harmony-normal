@@ -1,3 +1,9 @@
+# [1.0.19](https://github.com/mybricks/comlib-harmony-normal/compare/fccc1b2..b0e5a23) (2025-09-16)
+- 优化跑马灯、气泡等组件
+- 单场输入组件背景色默认值修改为透明
+- 支持组件动态设置样式
+- 支持透明度配置
+
 # [1.0.18](https://github.com/mybricks/comlib-harmony-normal/compare/c015cad..f74e43e) (2025-09-12)
 - 新增popover组件
 
