@@ -130,6 +130,7 @@ export default struct MyBricksPopOver {
         .width("100%")
         .height("100%")
         .backgroundColor(Color.Transparent)
+        .hitTestBehavior(HitTestMode.None)
         .bindMenu(this.MenuBuilder,{
           backgroundColor: Color.Transparent,
           backgroundBlurStyle: BlurStyle.NONE
