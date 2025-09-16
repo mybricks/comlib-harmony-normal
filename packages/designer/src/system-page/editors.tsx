@@ -229,6 +229,15 @@ export default {
       cate1.title = "事件";
       cate1.items = [
         {
+          title: "当页面滚动时",
+          description:
+            "页面级滚动事件",
+          type: "_event",
+          options: {
+            outputId: "onScroll",
+          },
+        },
+        {
           title: "当页面重新显示时",
           description:
             "请注意，当页面第一次显示时，不会触发该事件。仅当页面被打开后，重新显示/切入前台时触发。",
@@ -297,6 +306,25 @@ export default {
         //   },
         // },
       ];
+
+      // cate2.title = "高级";
+      // cate2.items = [
+      //   {
+      //     title: '升级',
+      //     type: 'button',
+      //     value: {
+      //       set({ output }) {
+      //         output.add({
+      //           id: 'onScroll',
+      //           title: '当页面滚动时',
+      //           schema: {
+      //             type: 'object'
+      //           }
+      //         })
+      //       }
+      //     }
+      //   }
+      // ]
     },
   },
   ".mybricks-backIcon": {

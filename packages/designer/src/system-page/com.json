@@ -17,6 +17,13 @@
   ],
   "outputs": [
     {
+      "id": "onScroll",
+      "title": "当页面滚动时",
+      "schema": {
+        "type": "object"
+      }
+    },
+    {
       "id": "pageDidShow",
       "title": "当页面重新显示时",
       "schema": {
