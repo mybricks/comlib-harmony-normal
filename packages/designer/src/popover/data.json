@@ -2,10 +2,6 @@
   "layout": {
     "position": "smart"
   },
-  "title": "标题",
-  "content": "这是一个气泡，请添加一个组件",
   "placement": "bottom",
-  "useTitleSlot": false,
-  "useContentSlot":false,
   "trigger": "click"
 }

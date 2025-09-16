@@ -172,7 +172,7 @@ export default struct MyBricksMarquee {
             }
           })
         }
-        .onAreaChange((old, newValue) => {
+        .onSizeChange((old, newValue) => {
           this.totalWidth = newValue.width as number
 
           if (this.data.autoplay) {
@@ -192,7 +192,7 @@ export default struct MyBricksMarquee {
           }
         }
       })
-      .onAreaChange((old, newValue) => {
+      .onSizeChange((old, newValue) => {
         this.scrollWidth = newValue.width as number
       })
       .onScrollFrameBegin((offset: number) => {

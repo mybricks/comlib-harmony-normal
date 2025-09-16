@@ -54,78 +54,78 @@ export default {
             },
           },
         },
-        {
-          title: '标题自定义',
-          type: 'switch',
-          description: '支持自定义标题组件渲染，请拖入组件作为标题',
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return !!data.useTitleSlot;
-            },
-            set({ data, slot }: EditorResult<Data>, val: boolean) {
-              if (val) {
-                slot.add('title', '标题');
-              } else {
-                slot.remove('title');
-              }
-              data.useTitleSlot = val;
-            }
-          }
-        },
-        {
-          title: '标题',
-          type: 'Text',
-          options: {
-            locale: true
-          },
-          ifVisible({ data }: EditorResult<Data>) {
-            return !data.useTitleSlot;
-          },
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.title;
-            },
-            set({ data }: EditorResult<Data>, val: string) {
-              data.title = val;
-            }
-          }
-        },
-        {
-          title: '内容自定义',
-          type: 'switch',
-          description: '支持自定义内容组件渲染，请拖入组件作为内容',
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return !!data.useContentSlot;
-            },
-            set({ data, slot }: EditorResult<Data>, val: boolean) {
-              if (val) {
-                slot.add('content', '内容');
-              } else {
-                slot.remove('content');
-              }
-              data.useContentSlot = val;
-            }
-          }
-        },
-        {
-          title: '内容',
-          type: 'Text',
-          options: {
-            locale: true
-          },
-          ifVisible({ data }: EditorResult<Data>) {
-            return !data.useContentSlot;
-          },
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.content;
-            },
-            set({ data }: EditorResult<Data>, val: string) {
-              data.content = val;
-            }
-          }
-        },
+        // {
+        //   title: '标题自定义',
+        //   type: 'switch',
+        //   description: '支持自定义标题组件渲染，请拖入组件作为标题',
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return !!data.useTitleSlot;
+        //     },
+        //     set({ data, slot }: EditorResult<Data>, val: boolean) {
+        //       if (val) {
+        //         slot.add('title', '标题');
+        //       } else {
+        //         slot.remove('title');
+        //       }
+        //       data.useTitleSlot = val;
+        //     }
+        //   }
+        // },
+        // {
+        //   title: '标题',
+        //   type: 'Text',
+        //   options: {
+        //     locale: true
+        //   },
+        //   ifVisible({ data }: EditorResult<Data>) {
+        //     return !data.useTitleSlot;
+        //   },
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return data.title;
+        //     },
+        //     set({ data }: EditorResult<Data>, val: string) {
+        //       data.title = val;
+        //     }
+        //   }
+        // },
+        // {
+        //   title: '内容自定义',
+        //   type: 'switch',
+        //   description: '支持自定义内容组件渲染，请拖入组件作为内容',
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return !!data.useContentSlot;
+        //     },
+        //     set({ data, slot }: EditorResult<Data>, val: boolean) {
+        //       if (val) {
+        //         slot.add('content', '内容');
+        //       } else {
+        //         slot.remove('content');
+        //       }
+        //       data.useContentSlot = val;
+        //     }
+        //   }
+        // },
+        // {
+        //   title: '内容',
+        //   type: 'Text',
+        //   options: {
+        //     locale: true
+        //   },
+        //   ifVisible({ data }: EditorResult<Data>) {
+        //     return !data.useContentSlot;
+        //   },
+        //   value: {
+        //     get({ data }: EditorResult<Data>) {
+        //       return data.content;
+        //     },
+        //     set({ data }: EditorResult<Data>, val: string) {
+        //       data.content = val;
+        //     }
+        //   }
+        // },
         {
           title: '触发方式',
           type: 'Select',
@@ -149,7 +149,7 @@ export default {
           }
         },
         {
-          title: '方向',
+          title: '展示方向',
           type: 'select',
           options: [
             {

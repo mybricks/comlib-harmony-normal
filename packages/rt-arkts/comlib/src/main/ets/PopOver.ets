@@ -6,21 +6,19 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
-import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+import { parseLinearGradient } from './utils/StyleMatching'
+import { PopoverDialog } from '@kit.ArkUI';
 
 export interface DataType {
   layout?: CSSProperties
-  overflowVisible?: boolean
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace layout?: CSSProperties
-  @Trace overflowVisible?: boolean
 
   constructor(config: DataType) {
     this.layout = config?.layout ?? {}
-    this.overflowVisible = config?.overflowVisible ?? false
   }
 }
 
@@ -57,6 +55,75 @@ export interface SlotsParams {
 function emptySlot(params: SlotsParams) {
 }
 
+class DialogComponentController {
+  private component: MyDialog = null as AnyType
+
+  constructor() {
+  }
+
+  bindComponentController = (component: MyDialog) => {
+    this.component = component
+  }
+
+  show = () => {
+    this.component.isShow = true
+  }
+
+  hide = () => {
+    this.component.isShow = false
+  }
+}
+
+@Component
+struct MyDialog {
+  controller?: DialogComponentController
+
+  @State isShow: boolean = false
+
+  @Builder
+  children() {}
+  @BuilderParam renderChild: () => void = this.children;
+
+  @Builder
+  content() {}
+  @BuilderParam renderContent: () => void = this.content;
+
+
+  @Builder dialogBuilder() {
+    this.renderContent()
+  }
+
+  aboutToAppear(): void {
+    this.controller?.bindComponentController(this)
+  }
+
+  build() {
+    PopoverDialog({
+      visible: this.isShow,
+      popover: {
+        builder: () => {
+          this.dialogBuilder();
+        },
+        radius: 0,
+        shadow: {
+          radius: 0,
+          offsetX: 0,
+          offsetY: 0,
+          color: Color.Transparent
+        },
+        targetSpace: 0,
+        arrowHeight: 0,
+        arrowWidth: 0,
+        enableArrow: false,
+        showInSubWindow: false
+      },
+      targetBuilder: () => {
+        this.renderChild()
+      },
+    })
+  }
+}
+
 @ComponentV2
 export default struct MyBricksPopOver {
   @Param data: Data = new Data({});
@@ -71,73 +138,49 @@ export default struct MyBricksPopOver {
   @Param env?: Env = undefined
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
+  @Local isShow: boolean = false
+
+  popover: DialogComponentController = new DialogComponentController()
+
   aboutToAppear(): void {
 
   }
 
-  @Computed
-  get shouldScroll(): boolean {
-    const styles = this.styles?.['> .mybricks-container'];
-    return styles?.overflowY === 'scroll' || styles?.overflowY === 'auto' || styles?.overflowX === 'scroll' ||
-      styles?.overflowX === 'auto'
-  }
-
-  @Computed
-  get shouldClip(): boolean {
-    const styles = this.styles?.['> .mybricks-container'];
-    //没有配置overflowY overflowX默认为超出部分隐藏
-    if (!styles?.overflowY || !styles?.overflowX) {
-      console.log("styles", styles)
-      return true
-    }
-    return styles?.overflowY === 'hidden' || styles?.overflowX === 'hidden'
-  }
-
   @Builder
-  MenuBuilder() {
-    Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+  PopoverContentBuilder() {
+    Column() {
       this.slots({
         id: 'carrier',
-        style: this.data.layout
       })
-    }.attributeModifier(
+    }
+    .height('fit-content')
+    .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-carrier'])
     )
   }
 
-  build() {
-    Stack() {
-      Column() {
-        if (this.shouldScroll) {
-          Scroll() {
-            this.slots({
-              id: 'content',
-              style: this.data.layout
-            })
-          }
-        } else {
-          this.slots({
-            id: 'content',
-            style: this.data.layout
-          })
-        }
-      }
-      .width("100%")
-      .height("100%")
-
-      //透明覆盖层（用于触发菜单），因为如果直接加在slots层级是不生效的
-      Row()
-        .width("100%")
-        .height("100%")
-        .backgroundColor(Color.Transparent)
-        .hitTestBehavior(HitTestMode.None)
-        .bindMenu(this.MenuBuilder,{
-          backgroundColor: Color.Transparent,
-          backgroundBlurStyle: BlurStyle.NONE
-        })
+  @Builder
+  TargetBuilder() {
+    Column() {
+      this.slots({
+        id: 'content',
+        style: this.data.layout
+      })
     }
-    .align(Alignment.Start)
-    .clip(this.shouldClip)
+    .onClick(() => {
+      this.popover.show()
+    })
+    .hitTestBehavior(HitTestMode.Block)
+  }
+
+  build() {
+    Column() {
+      MyDialog({
+        controller: this.popover,
+        renderContent: this.PopoverContentBuilder.bind(this),
+        renderChild: this.TargetBuilder.bind(this)
+      })
+    }
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-popover'])
     )
@@ -146,6 +189,8 @@ export default struct MyBricksPopOver {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(this.modifier)
-
   }
+
 }
+
+

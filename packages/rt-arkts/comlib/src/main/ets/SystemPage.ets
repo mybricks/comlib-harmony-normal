@@ -49,9 +49,17 @@ export class Data implements DataType {
 
 interface Inputs {}
 
+
+interface ScrollParams {
+  xOffset: number,
+  yOffset: number,
+  scrollTop: number,
+  scrollLeft: number
+}
 interface Outputs {
   pageDidShow: () => void
   pageDidHide: () => void
+  onScroll: (p: ScrollParams) => void
 }
 
 @Builder
@@ -83,6 +91,8 @@ export default struct MyBricksSystemPage {
   @Param env?: Env = undefined
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
+  private scroller: Scroller = new Scroller();
+
   aboutToAppear(): void {
   }
 
@@ -96,7 +106,7 @@ export default struct MyBricksSystemPage {
           })
         }.backgroundColor(this.data.navigationBarStyle?.backgroundColor)
       }
-      Scroll() {
+      Scroll(this.scroller) {
         Column() {
           this.slots({
             id: 'content'
@@ -113,6 +123,12 @@ export default struct MyBricksSystemPage {
       this.backgroundStyle : {})
       .padding({
         bottom: this.data.bottomSpace || 30
+      })
+      .onWillScroll((xOffset, yOffset) => {
+        if (this.outputs?.onScroll) {
+          const cur = this.scroller.currentOffset()
+          this.outputs?.onScroll({ xOffset, yOffset, scrollTop: cur.yOffset, scrollLeft: cur.xOffset })
+        }
       })
     }
     .height('100%')

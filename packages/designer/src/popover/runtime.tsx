@@ -4,11 +4,7 @@ import css from './index.less';
 import cx from "classnames";
 
 export default function ({ env, data, slots, inputs, id, style }) {
-  const { title, content, placement, trigger, useTitleSlot, useContentSlot } = data;
-  const { edit, runtime } = env;
-  const debug = !!(runtime && runtime.debug);
   const [showCarrier, setShowCarrier] = useState(false);
-
 
   return (
     <View className={css.outer}>
@@ -26,7 +22,6 @@ export default function ({ env, data, slots, inputs, id, style }) {
       {showCarrier && <View className={cx(css.carrier, "mybricks-carrier")}>
         {slots["carrier"].render({
           style: {
-            ...data.layout,
             with:"100%",
             height:"100%"
           },
