@@ -1,3 +1,4 @@
+import { MyBricksModifier } from "@mybricks/render-utils"
 export type CSSProperties = Record<string, string | number>
 
 type ComponentAttribute = CommonAttribute
@@ -6,15 +7,8 @@ function isNil(value: string | number | null | undefined | ResourceColor | Resou
   return value === null || value === undefined;
 }
 
-export class ApplyRootStyleModifier implements AttributeModifier<ComponentAttribute> {
-  style: CSSProperties;
-
-  constructor(style: CSSProperties) {
-    this.style = style;
-  }
-
-  applyNormalAttribute(instance: ComponentAttribute): void {
-    const style = this.style;
+export class ApplyRootStyleModifier extends MyBricksModifier<ComponentAttribute> {
+  updateNormalAttribute(instance: ComponentAttribute, style: CSSProperties): void {
     // width
     instance.width(style.width);
     // height
@@ -61,9 +55,7 @@ export class ApplyRootStyleModifier implements AttributeModifier<ComponentAttrib
   }
 }
 
-export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute> {
-  private css: CSSProperties
-
+export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
   private initBackgroundColor?: ResourceColor
   backgroundColor(color: ResourceColor) {
     this.initBackgroundColor = color
@@ -133,41 +125,37 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
   //   return this
   // }
 
-  constructor(configCss: CSSProperties) {
-    this.css = configCss ?? {}
-  }
-
-  applyNormalAttribute(instance: ComponentAttribute): void {
-    const width = !isNil(this.css?.width) ? this.css?.width : this.initWidth;
+  updateNormalAttribute(instance: ComponentAttribute, style: CSSProperties): void {
+    const width = !isNil(style?.width) ? style?.width : this.initWidth;
     if (!isNil(width)) {
       instance.width(width)
     }
-    const height = !isNil(this.css?.height) ? this.css?.height : this.initHeight;
+    const height = !isNil(style?.height) ? style?.height : this.initHeight;
     if (!isNil(height)) {
       instance.width(height)
     }
 
-    const backgroundColor = this.css?.backgroundColor ?? this.initBackgroundColor;
+    const backgroundColor = style?.backgroundColor ?? this.initBackgroundColor;
     if (!isNil(backgroundColor)) {
       instance.backgroundColor(backgroundColor)
     }
 
-    if (!isNil(this.css?.borderRadius)) {
-      instance.borderRadius(parseFloat(String(this.css.borderRadius)))
+    if (!isNil(style?.borderRadius)) {
+      instance.borderRadius(parseFloat(String(style.borderRadius)))
     } else if (!isNil(this.initBorderRadius)) {
       instance.borderRadius(parseFloat(String(this.initBorderRadius)))
     }
 
-    if (!isNil(this.css.border) && typeof this.css.border === 'string') {
-      const settingBorder = parseBorder(this.css.border)
+    if (!isNil(style?.border) && typeof style?.border === 'string') {
+      const settingBorder = parseBorder(style.border)
       instance.borderWidth(settingBorder.width)
       instance.borderStyle(settingBorder.style)
       instance.borderColor(settingBorder.color)
     } else {
-      const borderTop = parseBorder(this.css.borderTop as string)
-      const borderLeft = parseBorder(this.css.borderLeft as string)
-      const borderRight = parseBorder(this.css.borderRight as string)
-      const borderBottom = parseBorder(this.css.borderBottom as string)
+      const borderTop = parseBorder(style?.borderTop as string)
+      const borderLeft = parseBorder(style?.borderLeft as string)
+      const borderRight = parseBorder(style?.borderRight as string)
+      const borderBottom = parseBorder(style?.borderBottom as string)
       instance.borderWidth({
         top: borderTop.width,
         left: borderLeft.width,
@@ -193,7 +181,7 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
     let paddingRight = this.initPadding?.right ?? 0
     let paddingBottom = this.initPadding?.bottom ?? 0
 
-    const configPaddings = this.css?.padding ? String(this.css?.padding).split?.(' ') : [];
+    const configPaddings = style?.padding ? String(style?.padding).split?.(' ') : [];
     if (configPaddings.length === 4) {
       paddingTop = parseFloat(configPaddings[0])
       paddingRight = parseFloat(configPaddings[1])
@@ -224,14 +212,14 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       })
     } else {
       instance.padding({
-        left: this.css.paddingLeft,
-        right: this.css.paddingRight,
-        top: this.css.paddingTop,
-        bottom: this.css.paddingBottom
+        left: style?.paddingLeft,
+        right: style?.paddingRight,
+        top: style?.paddingTop,
+        bottom: style?.paddingBottom
       })
     }
 
-    const backgroundSize = this.css?.backgroundSize ?? this.initBackgroundSize;
+    const backgroundSize = style?.backgroundSize ?? this.initBackgroundSize;
     if (!isNil(backgroundSize)) {
       switch (backgroundSize) {
         case 'contain': {
@@ -249,7 +237,7 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       }
     }
 
-    const backgroundImage: string = this.css?.backgroundImage as string ?? this.initBackgroundImage as string;
+    const backgroundImage: string = style?.backgroundImage as string ?? this.initBackgroundImage as string;
     if (!isNil(backgroundImage)) {
       const regex = /url\((["']?)([^)"']+)\1\)/;
       const match = backgroundImage.match(regex);
@@ -258,8 +246,8 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
       }
     }
 
-    if (!isNil(this.css?.filter)) {
-      const result: FilterResult = getFilterMethodAndParams(this.css.filter as string);
+    if (!isNil(style?.filter)) {
+      const result: FilterResult = getFilterMethodAndParams(style.filter as string);
       if (result.method === 'blur' && result.param) {
         instance.blur(parseFloat(result.param as string))
       }
@@ -267,9 +255,7 @@ export class ApplyStyleModifier implements AttributeModifier<ComponentAttribute>
   }
 }
 
-export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute | TextInputAttribute> {
-  private css: CSSProperties
-
+export class ApplyFontStyleModifier extends  MyBricksModifier<TextAttribute | TextInputAttribute | TextAreaAttribute> {
   private initFontColor?: ResourceColor
   fontColor(color: ResourceColor) {
     this.initFontColor = color
@@ -288,30 +274,26 @@ export class ApplyFontStyleModifier implements AttributeModifier<TextAttribute |
     return this
   }
 
-  constructor(configCss: CSSProperties) {
-    this.css = configCss ?? {}
-  }
-
-  applyNormalAttribute(instance: TextAttribute | TextInputAttribute | TextAreaAttribute): void {
-    const color = this.css?.color ?? this.initFontColor
+  updateNormalAttribute(instance: TextAttribute | TextInputAttribute | TextAreaAttribute, style: CSSProperties): void {
+    const color = style?.color ?? this.initFontColor
     if (color) {
       instance.fontColor(color)
     }
-    const fontSize = this.css?.fontSize ? parseFloat(this.css?.fontSize as string) : this.initFontSize
+    const fontSize = style?.fontSize ? parseFloat(style?.fontSize as string) : this.initFontSize
     if (fontSize) {
       instance.fontSize(fontSize + 'fp')
     }
 
-    const fontWeight = this.css?.fontWeight ?? this.initFontWeight
+    const fontWeight = style?.fontWeight ?? this.initFontWeight
     if (fontWeight) {
       instance.fontWeight(fontWeight)
     }
 
-    if (this.css?.lineHeight && typeof this.css?.lineHeight === 'string') {
-      if (this.css.lineHeight.indexOf('px') > -1) {
-        instance.lineHeight(parseFloat(String(this.css?.lineHeight)))
+    if (style?.lineHeight && typeof style?.lineHeight === 'string') {
+      if (style.lineHeight.indexOf('px') > -1) {
+        instance.lineHeight(parseFloat(String(style?.lineHeight)))
       } else {
-        instance.lineHeight(parseFloat(String(this.css?.fontSize ?? 14)) * parseFloat(this.css?.lineHeight))
+        instance.lineHeight(parseFloat(String(style?.fontSize ?? 14)) * parseFloat(style?.lineHeight))
       }
     }
   }
