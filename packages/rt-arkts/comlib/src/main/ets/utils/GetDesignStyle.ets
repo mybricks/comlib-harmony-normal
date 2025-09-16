@@ -135,6 +135,10 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       instance.width(height)
     }
 
+    if (!isNil(style?.opacity)) {
+      instance.opacity(parseFloat(style?.opacity as string))
+    }
+
     const backgroundColor = style?.backgroundColor ?? this.initBackgroundColor;
     if (!isNil(backgroundColor)) {
       instance.backgroundColor(backgroundColor)
