@@ -111,11 +111,13 @@ struct MyDialog {
           offsetY: 0,
           color: Color.Transparent
         },
-        targetSpace: 0,
+        backgroundBlurStyle: BlurStyle.NONE,
+        targetSpace: 4,
         arrowHeight: 0,
         arrowWidth: 0,
         enableArrow: false,
-        showInSubWindow: false
+        showInSubWindow: false,
+        popupColor: Color.Transparent
       },
       targetBuilder: () => {
         this.renderChild()
@@ -167,10 +169,11 @@ export default struct MyBricksPopOver {
         style: this.data.layout
       })
     }
-    .onClick(() => {
-      this.popover.show()
-    })
-    .hitTestBehavior(HitTestMode.Block)
+    .parallelGesture(
+      TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
+        this.popover.show()
+      })
+    )
   }
 
   build() {
