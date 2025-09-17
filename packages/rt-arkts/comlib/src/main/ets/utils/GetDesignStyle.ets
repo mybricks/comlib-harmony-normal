@@ -245,11 +245,12 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
     if (!isNil(backgroundImage)) {
       if (typeof backgroundImage === 'object') {
         instance.backgroundImage(backgroundImage)
-      }
-      const regex = /url\((["']?)([^)"']+)\1\)/;
-      const match = backgroundImage.match(regex);
-      if (!isNil(match?.[2])) {
-        instance.backgroundImage(match?.[2])
+      } else {
+        const regex = /url\((["']?)([^)"']+)\1\)/;
+        const match = backgroundImage.match(regex);
+        if (!isNil(match?.[2])) {
+          instance.backgroundImage(match?.[2])
+        }
       }
     }
 
