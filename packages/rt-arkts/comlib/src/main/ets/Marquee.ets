@@ -125,7 +125,7 @@ export default struct MyBricksMarquee {
 
     // 计算每一帧需要移动的距离
     const totalDistance = this.totalWidth / 2; // 需要滚动的总距离
-    const frameRate = 60; // 假设60fps
+    const frameRate = 90; // 假设60fps
     const totalFrames = (duration / 1000) * frameRate; // 总帧数
     const distancePerFrame = totalDistance / totalFrames; // 每帧移动距离
 
@@ -173,11 +173,14 @@ export default struct MyBricksMarquee {
           })
         }
         .onSizeChange((old, newValue) => {
-          this.totalWidth = newValue.width as number
-
-          if (this.data.autoplay) {
-            this.stopAutoPlay();
-            this.startAutoRoll()
+          if (typeof newValue.width === 'number' && typeof old.width === 'number') {
+            if (Math.abs(newValue.width as number - old.width as number) > 5) {
+              this.totalWidth = newValue.width as number
+              if (this.data.autoplay) {
+                this.stopAutoPlay();
+                this.startAutoRoll()
+              }
+            }
           }
         })
       }
@@ -193,7 +196,11 @@ export default struct MyBricksMarquee {
         }
       })
       .onSizeChange((old, newValue) => {
-        this.scrollWidth = newValue.width as number
+        if (typeof newValue.width === 'number' && typeof old.width === 'number') {
+          if (Math.abs(newValue.width as number - old.width as number) > 5) {
+            this.scrollWidth = newValue.width as number
+          }
+        }
       })
       .onScrollFrameBegin((offset: number) => {
         let currOffset = this.scroller.currentOffset().xOffset;
