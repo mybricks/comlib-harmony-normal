@@ -11,14 +11,17 @@ import { PopoverDialog } from '@kit.ArkUI';
 
 export interface DataType {
   layout?: CSSProperties
+  closeOnClick?: boolean
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace layout?: CSSProperties
+  @Trace closeOnClick?: boolean
 
   constructor(config: DataType) {
     this.layout = config?.layout ?? {}
+    this.closeOnClick = config?.closeOnClick ?? false
   }
 }
 
@@ -64,11 +67,9 @@ class DialogComponentController {
   bindComponentController = (component: MyDialog) => {
     this.component = component
   }
-
   show = () => {
     this.component.isShow = true
   }
-
   hide = () => {
     this.component.isShow = false
   }
@@ -77,19 +78,22 @@ class DialogComponentController {
 @Component
 struct MyDialog {
   controller?: DialogComponentController
-
   @State isShow: boolean = false
 
   @Builder
-  children() {}
+  children() {
+  }
+
   @BuilderParam renderChild: () => void = this.children;
 
   @Builder
-  content() {}
+  content() {
+  }
+
   @BuilderParam renderContent: () => void = this.content;
 
-
-  @Builder dialogBuilder() {
+  @Builder
+  dialogBuilder() {
     this.renderContent()
   }
 
@@ -139,9 +143,7 @@ export default struct MyBricksPopOver {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
-
   @Local isShow: boolean = false
-
   popover: DialogComponentController = new DialogComponentController()
 
   aboutToAppear(): void {
@@ -155,6 +157,13 @@ export default struct MyBricksPopOver {
         id: 'carrier',
       })
     }
+    .parallelGesture(
+      TapGesture({ count: 1 }).onAction((event: GestureEvent) => {
+        if (this.data.closeOnClick) {
+          this.popover.hide()
+        }
+      })
+    )
     .height('fit-content')
     .attributeModifier(
       new ApplyStyleModifier(this.styles['.mybricks-carrier'])
@@ -193,7 +202,6 @@ export default struct MyBricksPopOver {
     )
     .attributeModifier(this.modifier)
   }
-
 }
 
 

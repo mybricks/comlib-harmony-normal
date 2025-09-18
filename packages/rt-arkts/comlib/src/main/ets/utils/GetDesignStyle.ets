@@ -139,6 +139,20 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       instance.opacity(parseFloat(style?.opacity as string))
     }
 
+    if(!isNil(style?.transform)) {
+      const transform = style?.transform
+      const extractRotationAngle = (transformString:string) => {
+        const match = transformString.match(/rotate\((\d+)deg\)/);
+        if (match && match[1]) {
+          return parseInt(match[1], 10);
+        }
+        return 0;
+      }
+      instance.rotate({
+        angle:extractRotationAngle(transform as string)
+      })
+    }
+
     const backgroundColor = style?.backgroundColor ?? this.initBackgroundColor;
     if (!isNil(backgroundColor)) {
       instance.backgroundColor(backgroundColor)

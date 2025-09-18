@@ -3,5 +3,6 @@
     "position": "smart"
   },
   "placement": "bottom",
-  "trigger": "click"
+  "trigger": "click",
+  "closeOnClick": false
 }

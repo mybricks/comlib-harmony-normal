@@ -177,8 +177,21 @@ export default {
               data.placement = val;
             }
           }
+        },
+        {
+          title:"点击气泡后关闭",
+          type:"switch",
+          value: {
+            get({ data }: EditorResult<Data>) {
+              return data.closeOnClick;
+            },
+            set({ data }: EditorResult<Data>, val: boolean) {
+              data.closeOnClick = val;
+            }
+          }
         }
       ];
+      
     },
   }
 };
