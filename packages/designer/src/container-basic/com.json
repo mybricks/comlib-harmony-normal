@@ -19,6 +19,13 @@
   ],
   "outputs": [
     {
+      "id": "onScroll",
+      "title": "当容器滚动时",
+      "schema": {
+        "type": "object"
+      }
+    },
+    {
       "id": "onClick",
       "title": "点击"
     }

@@ -41,6 +41,13 @@ export default {
             outputId: "onClick",
           },
         },
+        {
+          title:"当容器滚动时",
+          type: "_event",
+          options:{
+            outputId:"onScroll"
+          }
+        }
       ];
     },
   },

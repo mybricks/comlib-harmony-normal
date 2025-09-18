@@ -24,8 +24,16 @@ interface Inputs {
 
 }
 
+interface ScrollParams {
+  xOffset: number,
+  yOffset: number,
+  scrollTop: number,
+  scrollLeft: number
+}
+
 interface Outputs {
   onClick: (value?: AnyType) => void
+  onScroll: (p: ScrollParams) => void
 }
 
 interface _Env {
@@ -69,6 +77,8 @@ export default struct MyBricksContainerBasic {
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
+  private scroller: Scroller = new Scroller();
+
   aboutToAppear(): void {
 
   }
@@ -93,12 +103,18 @@ export default struct MyBricksContainerBasic {
   build() {
     Column() {
       if (this.shouldScroll) {
-        Scroll() {
+        Scroll(this.scroller) {
           this.slots({
             id: 'content',
             style: this.data.layout
           })
         }
+        .onWillScroll((xOffset, yOffset) => {
+          if (this.outputs?.onScroll) {
+            const cur = this.scroller.currentOffset()
+            this.outputs?.onScroll({ xOffset, yOffset, scrollTop: cur.yOffset, scrollLeft: cur.xOffset })
+          }
+        })
       } else {
         this.slots({
           id: 'content',
