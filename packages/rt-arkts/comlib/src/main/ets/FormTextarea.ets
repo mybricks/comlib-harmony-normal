@@ -181,10 +181,10 @@ export default struct MyBricksFormTextarea {
           top: 0
         })
         .onBlur(() => {
-          this.outputs?.onBlur?.(this.data.value)
+          this.outputs?.onBlur?.(this.value)
         })
         .onFocus(() => {
-          this.outputs?.onFocus?.(this.data.value)
+          this.outputs?.onFocus?.(this.value)
         })
       if (this.data.showCount) {
         Text(`${this.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
