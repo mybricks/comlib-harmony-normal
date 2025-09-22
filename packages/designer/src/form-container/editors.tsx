@@ -67,6 +67,12 @@ const submitEditorItems = [
         data.submitButtonText = value;
       },
     },
+    binding: {
+      with: `data.submitButtonText`,
+      schema: {
+        type: 'string'
+      }
+    }
   },
   {
     title: "表单提交时",
@@ -259,6 +265,12 @@ export default {
               data.itemLayout = val;
             },
           },
+          binding: {
+            with: `data.itemLayout`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
 
         ...submitEditorItems,

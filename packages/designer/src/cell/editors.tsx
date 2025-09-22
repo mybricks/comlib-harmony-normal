@@ -31,6 +31,12 @@ export default {
               data.useThumb = value;
             },
           },
+          binding: {
+            with: `data.useThumb`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           ifVisible({ data }) {
@@ -46,6 +52,12 @@ export default {
               data.thumb = value;
             },
           },
+          binding: {
+            with: `data.thumb`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "标题",
@@ -58,6 +70,12 @@ export default {
               data.title = val;
             },
           },
+          binding: {
+            with: `data.title`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "描述",
@@ -70,6 +88,12 @@ export default {
               data.brief = val;
             },
           },
+          binding: {
+            with: `data.brief`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "内容",
@@ -127,6 +151,12 @@ export default {
                   data.content = val;
                 },
               },
+              binding: {
+                with: `data.content`,
+                schema: {
+                  type: 'string'
+                }
+              }
             },
             {
               title: "显示右箭头",
@@ -139,6 +169,12 @@ export default {
                   return (data.useArrowIcon = value);
                 },
               },
+              binding: {
+                with: `data.useArrowIcon`,
+                schema: {
+                  type: 'boolean'
+                }
+              }
             },
             {
               ifVisible({ data }) {
@@ -154,6 +190,12 @@ export default {
                   data.arrowIconColor = value;
                 },
               },
+              binding: {
+                with: `data.arrowIconColor`,
+                schema: {
+                  type: 'boolean'
+                }
+              }
             },
           ],
         },
@@ -198,6 +240,12 @@ export default {
                   data.leftSwipeText = value;
                 },
               },
+              binding: {
+                with: `data.leftSwipeText`,
+                schema: {
+                  type: 'string'
+                }
+              }
             },
             {
               ifVisible({ data }) {
@@ -276,6 +324,12 @@ export default {
                   data.leftSwipeTextSecondary = value;
                 },
               },
+              binding: {
+                with: `data.leftSwipeTextSecondary`,
+                schema: {
+                  type: 'string'
+                }
+              }
             },
             {
               ifVisible({ data }) {

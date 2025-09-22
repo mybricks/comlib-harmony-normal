@@ -56,6 +56,12 @@ export default {
               }
             },
           },
+          binding: {
+            with: `data.length`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "显示中间分割线",
@@ -80,6 +86,12 @@ export default {
               data.isPassword = value;
             },
           },
+          binding: {
+            with: `data.isPassword`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "隐藏宫格下方操作按钮",
@@ -109,6 +121,12 @@ export default {
               }
             },
           },
+          binding: {
+            with: `data.countdown`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "倒数文案",
@@ -121,6 +139,12 @@ export default {
               data.countDownText = value;
             },
           },
+          binding: {
+            with: `data.countDownText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "重试文案",
@@ -133,6 +157,12 @@ export default {
               data.retryText = value;
             },
           },
+          binding: {
+            with: `data.retryText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "提示文案",
@@ -144,6 +174,12 @@ export default {
             set({ data }, value) {
               data.desc = value;
             },
+          },
+          binding: {
+            with: `data.desc`,
+            schema: {
+              type: 'string'
+            }
           }
         },
         {

@@ -30,6 +30,12 @@ export default {
             set({ data }, value) {
               data.clearable = value;
             },
+          },
+          binding: {
+            with: `data.clearable`,
+            schema: {
+              type: 'boolean'
+            }
           }
         },
         {
@@ -66,6 +72,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "时间类型",
@@ -102,6 +114,12 @@ export default {
             set({ data }, value) {
               data.outputType = value;
             },
+          },
+          binding: {
+            with: `data.outputType`,
+            schema: {
+              type: 'string'
+            }
           }
         },
         {
@@ -150,6 +168,12 @@ export default {
               data.disabled = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "当值变化",

@@ -45,6 +45,12 @@ export default {
                   data.clockType = value;
                 },
               },
+              binding: {
+                with: `data.clockType`,
+                schema: {
+                  type: 'string'
+                }
+              }
             },
             {
               title:"倒计时",

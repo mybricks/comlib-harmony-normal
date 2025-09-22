@@ -22,6 +22,12 @@ export default {
                 data.text = text;
               },
             },
+            binding: {
+              with: `data.text`,
+              schema: {
+                type: 'string'
+              }
+            }
           },
         ],
       },

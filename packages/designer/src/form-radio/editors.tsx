@@ -140,6 +140,12 @@ export default {
               data.options = value;
             },
           },
+          binding: {
+            with: `data.options`,
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: "选项默认渲染方式",
@@ -169,6 +175,12 @@ export default {
             set({ data }, value) {
               data.gap = value
             }
+          },
+          binding: {
+            with: `data.gap`,
+            schema: {
+              type: 'number'
+            }
           }
         },
         {
@@ -182,6 +194,12 @@ export default {
               data.disabled = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {},
         {

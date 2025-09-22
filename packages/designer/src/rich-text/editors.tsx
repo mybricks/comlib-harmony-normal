@@ -31,6 +31,12 @@ export default {
               data.content = encodeURIComponent(val);
             },
           },
+          binding:{
+            with: 'data.content',
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "仅使用动态渲染",

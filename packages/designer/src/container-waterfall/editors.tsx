@@ -196,6 +196,12 @@ export default {
                 }
               },
             },
+            binding: {
+              with: `data.layout.column`,
+              schema: {
+                type: 'number'
+              }
+            }
           },
           {
             title: "列表项间距",

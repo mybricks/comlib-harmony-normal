@@ -46,6 +46,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "最大输入长度",
@@ -59,6 +65,12 @@ export default {
               data.maxlength = value;
             },
           },
+          binding: {
+            with: `data.maxlength`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {},
         {

@@ -42,6 +42,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "内容类型",
@@ -90,6 +96,12 @@ export default {
               data.maxlength = value[0];
             },
           },
+          binding: {
+            with: `data.maxlength`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "显示字数",
@@ -103,6 +115,12 @@ export default {
               data.showCount = value;
             },
           },
+          binding: {
+            with: `data.showCount`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "禁用编辑",
@@ -115,6 +133,12 @@ export default {
               data.disabled = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "展示清除图标",
@@ -128,6 +152,12 @@ export default {
               data.clearable = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "事件",

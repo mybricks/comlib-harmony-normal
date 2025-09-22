@@ -83,6 +83,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "选项",
@@ -118,6 +124,12 @@ export default {
               data.options = value;
             },
           },
+          binding: {
+            with: `data.options`,
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: "选项默认渲染方式",

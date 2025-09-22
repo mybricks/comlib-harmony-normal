@@ -37,6 +37,12 @@ export default {
               data.maxCount = value;
             },
           },
+          binding: {
+            with: `data.maxCount`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title:"上传按钮文案",
@@ -47,6 +53,12 @@ export default {
             },
             set({data},value){
               data.buttonText = value;
+            }
+          },
+          binding: {
+            with: `data.buttonText`,
+            schema: {
+              type: 'string'
             }
           }
         },
@@ -61,6 +73,12 @@ export default {
               data.placeholderText = value;
             },
           },
+          binding: {
+            with: `data.placeholderText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "开启占位插槽",

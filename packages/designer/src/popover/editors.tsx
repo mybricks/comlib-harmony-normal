@@ -176,6 +176,12 @@ export default {
             set({ data }: EditorResult<Data>, val: Placement) {
               data.placement = val;
             }
+          },
+          binding: {
+            with: `data.placement`,
+            schema: {
+              type: 'string'
+            }
           }
         },
         {

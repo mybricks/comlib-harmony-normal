@@ -141,6 +141,12 @@ export default {
               data.items = value;
             },
           },
+          binding:{
+            with: 'data.items',
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: "轮播项",
@@ -205,6 +211,12 @@ export default {
               data.items = value;
             },
           },
+          binding: {
+            with: 'data.items',
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: '使用动态传入',

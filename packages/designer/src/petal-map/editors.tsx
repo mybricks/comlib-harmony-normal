@@ -32,6 +32,12 @@ export default {
                 set({ data }, val) {
                   data.showScale = val
                 }
+              },
+              binding: {
+                with: `data.showScale`,
+                schema: {
+                  type: 'boolean'
+                }
               }
             },
             {
@@ -43,6 +49,12 @@ export default {
                 },
                 set({ data }, val) {
                   data.showCompass = val
+                }
+              },
+              binding: {
+                with: `data.showCompass`,
+                schema: {
+                  type: 'boolean'
                 }
               }
             },
@@ -61,6 +73,12 @@ export default {
                 set({ data }, val) {
                   data.enableZoom = val
                 }
+              },
+              binding: {
+                with: `data.enableZoom`,
+                schema: {
+                  type: 'boolean'
+                }
               }
             },
             {
@@ -73,6 +91,12 @@ export default {
                 set({ data }, val) {
                   data.enableScroll = val
                 }
+              },
+              binding: {
+                with: `data.enableScroll`,
+                schema: {
+                  type: 'boolean'
+                }
               }
             },
             {
@@ -84,6 +108,12 @@ export default {
                 },
                 set({ data }, val) {
                   data.enableTraffic = val
+                }
+              },
+              binding: {
+                with: `data.enableTraffic`,
+                schema: {
+                  type: 'boolean'
                 }
               }
             },

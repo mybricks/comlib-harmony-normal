@@ -45,6 +45,12 @@ export default {
               data.label = value;
             },
           },
+          binding: {
+            with: `data.label`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "提示文字",
@@ -57,6 +63,12 @@ export default {
               data.placeholderText = value;
             },
           },
+          binding: {
+            with: `data.placeholderText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "展示搜索按钮",
@@ -69,6 +81,12 @@ export default {
               data.showSearchButton = value;
             },
           },
+          binding: {
+            with: `data.showSearchButton`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "搜索按钮文本",
@@ -84,6 +102,12 @@ export default {
               data.searchButtonText = value;
             },
           },
+          binding: {
+            with: `data.searchButtonText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "展示搜索图标",
@@ -117,6 +141,12 @@ export default {
               data.searchIcon = value;
             },
           },
+          binding: {
+            with: `data.searchIcon`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title:"图标颜色",
@@ -145,6 +175,12 @@ export default {
               data.searchIconFontSize = value?.[0];
             },
           },
+          binding: {
+            with: `data.searchIconFontSize`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "动作",
@@ -219,6 +255,12 @@ export default {
         set({ data }, value) {
           data.searchButtonText = value;
         }
+      },
+      binding: {
+        with: `data.searchButtonText`,
+        schema: {
+          type: 'string'
+        }
       }
     },
     style: [
@@ -242,6 +284,12 @@ export default {
               data.searchButtonText = value;
             },
           },
+          binding: {
+            with: `data.searchButtonText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
       ]
     }

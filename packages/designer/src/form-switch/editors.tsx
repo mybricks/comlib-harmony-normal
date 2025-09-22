@@ -51,6 +51,12 @@ export default {
               data.type = value;
             },
           },
+          binding: {
+            with: `data.type`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "当值变化",

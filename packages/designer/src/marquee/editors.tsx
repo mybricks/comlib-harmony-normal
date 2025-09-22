@@ -38,7 +38,7 @@ export default {
             set({ data }, value) {
               data.direction = value;
             },
-          },
+          }
         },
         {
           title: "间距",
@@ -73,6 +73,12 @@ export default {
                   data.autoplay = value;
                 },
               },
+              binding: {
+                with: `data.autoplay`,
+                schema: {
+                  type: 'boolean'
+                }
+              }
             },
             {
               title: "循环轮播",
@@ -86,6 +92,12 @@ export default {
                   data.circular = value;
                 },
               },
+              binding: {
+                with: `data.circular`,
+                schema: {
+                  type: 'boolean'
+                }
+              }
             },
             {
               title: "动画时长(ms)",
@@ -98,6 +110,12 @@ export default {
                   data.duration = value;
                 },
               },
+              binding: {
+                with: `data.duration`,
+                schema: {
+                  type: 'number'
+                }
+              }
             },
           ],
         },
@@ -130,6 +148,12 @@ export default {
               data.rowKey = value;
             },
           },
+          binding: {
+            with: `data.rowKey`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         // {
         //   title: "升级",

@@ -116,6 +116,12 @@ export default {
               data.options = value;
             },
           },
+          binding: {
+            with: `data.options`,
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: "选项默认渲染方式",
@@ -158,6 +164,12 @@ export default {
               data.disabled = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {},
         {

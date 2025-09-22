@@ -29,6 +29,12 @@ export default {
             [data.count] = value;
           },
         },
+        binding: {
+          with: `data.count`,
+          schema: {
+            type: 'number'
+          }
+        }
       },
       {
         title: "允许打半星",
@@ -41,6 +47,12 @@ export default {
             data.allowHalf = value;
           },
         },
+        binding: {
+          with: `data.allowHalf`,
+          schema: {
+            type: 'boolean'
+          }
+        }
       },
       {},
       {

@@ -40,6 +40,12 @@ export default {
                   }
                 },
               },
+              binding:{
+                with: 'data.src',
+                schema: {
+                  type: 'string'
+                }
+              }
             },
             {
               title: "展示方式",

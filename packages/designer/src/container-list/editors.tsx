@@ -53,6 +53,12 @@ export default {
             data.spacing = value;
           },
         },
+        binding: {
+          with: `data.spacing`,
+          schema: {
+            type: 'number'
+          }
+        }
       },
       {
         title: "开启换行",

@@ -50,6 +50,12 @@ export default {
             data.text = value;
           },
         },
+        binding:{
+          with: 'data.text',
+          schema: {
+            type: 'string'
+          }
+        }
       },
       {
         title: "事件",

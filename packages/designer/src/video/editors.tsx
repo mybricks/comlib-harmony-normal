@@ -22,6 +22,12 @@ export default {
                 data.src = src;
               },
             },
+            binding:{
+              with: 'data.src',
+              schema: {
+                type: 'string'
+              }
+            }
           },
           {
             title: "是否显示默认播放控件",
@@ -34,6 +40,12 @@ export default {
                 data.controls = controls;
               },
             },
+            binding:{
+              with: 'data.controls',
+              schema: {
+                type: 'boolean'
+              }
+            }
           },
           {
             ifVisible({ data }) {
@@ -49,6 +61,12 @@ export default {
                 data.poster = poster;
               },
             },
+            binding:{
+              with: 'data.poster',
+              schema: {
+                type: 'string'
+              }
+            }
           },
           {
             title: "是否自动播放",
@@ -61,6 +79,12 @@ export default {
                 data.autoplay = autoplay;
               },
             },
+            binding:{
+              with: 'data.autoplay',
+              schema: {
+                type: 'boolean'
+              }
+            }
           },
           {
             title: "是否循环播放",
@@ -73,6 +97,12 @@ export default {
                 data.loop = loop;
               },
             },
+            binding:{
+              with: 'data.loop',
+              schema: {
+                type: 'boolean'
+              }
+            }
           },
           {
             title: "是否静音播放",
@@ -85,6 +115,12 @@ export default {
                 data.muted = muted;
               },
             },
+            binding:{
+              with: 'data.muted',
+              schema: {
+                type: 'boolean'
+              }
+            }
           },
         ],
       },

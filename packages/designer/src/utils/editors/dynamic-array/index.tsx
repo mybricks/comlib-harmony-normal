@@ -69,6 +69,7 @@ export class DynamicArrayData {
           },
         },
         {
+          title: '数据',
           type: "array",
           ifVisible({ data }) {
             return !!!data[modeKeyName];
@@ -102,6 +103,12 @@ export class DynamicArrayData {
               data[keyName] = value;
             },
           },
+          binding: {
+            with: `data.${keyName}`,
+            schema: {
+              type: 'array'
+            }
+          }
         },
         // {
         //   title: "",

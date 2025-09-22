@@ -188,6 +188,12 @@ export default {
               data.tabs = value;
             },
           },
+          binding: {
+            with: `data.tabs`,
+            schema: {
+              type: 'array'
+            }
+          }
         },
         {
           title: "事件",

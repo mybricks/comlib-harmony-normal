@@ -52,6 +52,12 @@ export default {
               [data.step] = value;
             },
           },
+          binding: {
+            with: `data.step`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {},
         {

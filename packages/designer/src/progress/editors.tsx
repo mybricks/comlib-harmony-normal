@@ -36,6 +36,12 @@ export default {
             }
           },
         },
+        binding: {
+          with: `data.initValue`,
+          schema: {
+            type: 'number'
+          }
+        }
       },
       {
         title: "事件",

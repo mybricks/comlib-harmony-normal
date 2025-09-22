@@ -32,6 +32,12 @@ export default {
               data.maxCount = value;
             },
           },
+          binding: {
+            with: `data.maxCount`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "提示内容",
@@ -44,6 +50,12 @@ export default {
               data.placeholderText = value;
             },
           },
+          binding: {
+            with: `data.placeholderText`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "示例图",
@@ -59,6 +71,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "开启占位插槽",

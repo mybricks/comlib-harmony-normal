@@ -35,6 +35,12 @@ export default {
               data.icon = value;
             },
           },
+          binding:{
+            with: 'data.icon',
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "大小",
@@ -52,6 +58,12 @@ export default {
               }
             },
           },
+          binding:{
+            with: 'data.fontSize',
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "颜色",
@@ -63,7 +75,7 @@ export default {
             set({ data }, value: string) {
               data.fontColor[0] = value;
             },
-          },
+          }
         },
         {
           title: "线宽",
@@ -85,6 +97,12 @@ export default {
               data.fontWeight = value;
             },
           },
+          binding:{
+            with: 'data.fontWeight',
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "事件",

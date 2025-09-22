@@ -19,6 +19,12 @@ export default {
             set({data}, value: string) {
               data.copyright = value;
             },
+          },
+          binding: {
+            with: `data.copyright`,
+            schema: {
+              type: 'string'
+            }
           }
         }
       ]

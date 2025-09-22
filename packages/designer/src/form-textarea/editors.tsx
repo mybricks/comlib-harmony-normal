@@ -45,6 +45,12 @@ export default {
               data.placeholder = value;
             },
           },
+          binding: {
+            with: `data.placeholder`,
+            schema: {
+              type: 'string'
+            }
+          }
         },
         {
           title: "限制字数",
@@ -59,6 +65,12 @@ export default {
               [data.limit] = value;
             },
           },
+          binding: {
+            with: `data.limit`,
+            schema: {
+              type: 'number'
+            }
+          }
         },
         {
           title: "展示字数统计",
@@ -75,6 +87,12 @@ export default {
               data.showCount = value;
             },
           },
+          binding: {
+            with: `data.showCount`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "自动高度",
@@ -100,6 +118,12 @@ export default {
               data.disabled = value;
             },
           },
+          binding: {
+            with: `data.disabled`,
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
         {
           title: "当值变化",
