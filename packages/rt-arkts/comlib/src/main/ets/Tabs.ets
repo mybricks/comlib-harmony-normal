@@ -267,11 +267,11 @@ export default struct MyBricksTabs {
 
     this.currentTabId = currentTabId
 
-    this.outputs?.changeTab?.({
-      id: findItem._id,
-      title: findItem.tabName,
-      index,
-    });
+    // this.outputs?.changeTab?.({
+    //   id: findItem._id,
+    //   title: findItem.tabName,
+    //   index,
+    // });
   }
 
   parseStyleValue(value: string | number): number {
@@ -336,6 +336,12 @@ export default struct MyBricksTabs {
               this.currentTabIndex = index
               const tab = this.data.tabs[index]
               this.setCurrentTabId(tab._id)
+              const findItem = this.data.tabs[index];
+              this.outputs?.changeTab?.({
+                id: findItem._id,
+                title: findItem.tabName,
+                index,
+              });
 
               this.handleTabScroll(index)
             })
