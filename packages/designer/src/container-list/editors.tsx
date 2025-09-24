@@ -49,6 +49,17 @@ export default {
             data.dataSource = value
           },
         },
+        binding: {
+          with: `data.dataSource`,
+          schema: {
+            type: 'number'
+          },
+          set(p, { schema }) {
+            if (schema.type === 'array' && schema.items) {
+              slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
+            }
+          }
+        }
       },
       {
         title: "排列方向",
