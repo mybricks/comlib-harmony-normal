@@ -1,4 +1,6 @@
+import { jsonToSchema } from "./../utils/json-to-schema";
 import { Direction } from "./constant";
+
 
 export default {
   "@init": ({ style, data, output }) => {
@@ -19,9 +21,35 @@ export default {
       }
     }
   },
-  ":root"({ data, output, style }, cate0, cate1, cate2) {
+  ":root"({ data, output, slots, style }, cate0, cate1, cate2) {
     cate0.title = "常规";
     cate0.items = [
+      {
+        title: '数据源',
+        type: 'json',
+        options: {
+          minimap: {
+            enabled: false
+          },
+          height: 80,
+          autoSave: false,
+          encodeValue: false,
+          onBlur: () => {
+            slots.get('item')?.inputs.get('itemData')?.setSchema(data.dataSource?.[0] ? jsonToSchema(data.dataSource?.[0]) : { type: 'any' })
+          }
+        },
+        value: {
+          get({ data }: EditorResult<Data>) {
+            return data.dataSource ?? []
+          },
+          set({ data }: EditorResult<Data>, value: any) {
+            if (!Array.isArray(value)) {
+              return
+            }
+            data.dataSource = value
+          },
+        },
+      },
       {
         title: "排列方向",
         type: "select",

@@ -1,5 +1,6 @@
 {
   "direction": "column",
   "spacing": 0,
-  "rowKey": "id"
+  "rowKey": "id",
+  "dataSource": []
 }

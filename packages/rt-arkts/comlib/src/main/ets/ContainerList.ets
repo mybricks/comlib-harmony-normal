@@ -28,7 +28,8 @@ export interface DataType {
   spacing?: number
   rowKey?: string
   scrollBar?: boolean
-  wrap?: boolean
+  wrap?: boolean,
+  dataSource?: AnyType[]
 }
 
 
@@ -44,6 +45,7 @@ export class Data implements DataType {
   @Trace direction?: 'row' | 'column' = 'column'
   @Trace scrollBar?: boolean = false
   @Trace wrap?: boolean = false
+  @Trace dataSource?: AnyType[] = []
 
   constructor(config: DataType) {
     this.rowKey = config.rowKey ?? 'id'
@@ -51,6 +53,7 @@ export class Data implements DataType {
     this.direction = config?.direction ?? 'column'
     this.scrollBar = config?.scrollBar ?? false
     this.wrap = config?.wrap ?? false
+    this.dataSource = config?.dataSource ?? []
   }
 }
 
@@ -205,6 +208,11 @@ export default struct MyBricksContainerList {
     })
 
 
+  }
+
+  @Monitor('data.dataSource')
+  onDataSourceChange(monitor: IMonitor) {
+    this.dataSource.replaceAll([...(this.data.dataSource ?? [])])
   }
 
 
