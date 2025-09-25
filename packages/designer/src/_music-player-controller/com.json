@@ -1,6 +1,6 @@
 {
   "title": "音乐播放控制器",
-  "namespace": "mybricks.harmony.ai-music._player-controller",
+  "namespace": "mybricks.harmony._aiMusicPlayerController",
   "author": "mybricks-team",
   "author_name": "板砖团队",
   "version": "1.0.0",
