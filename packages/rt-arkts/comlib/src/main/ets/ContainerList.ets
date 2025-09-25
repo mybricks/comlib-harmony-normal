@@ -5,6 +5,7 @@ import {
   CSSProperties
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { isArray } from './utils/Helper'
 
 interface _Env {
   currentScenes: _EnvCurrentScenes
@@ -105,6 +106,7 @@ class CustomDataSource implements IDataSource {
   }
 
   replaceAll(items: DataSourceItem[]): void {
+    if(!isArray(items)) return
     while (this.data.length > 0) {
       // 从后往前删除避免索引变化干扰
       this.data.pop();
@@ -177,9 +179,10 @@ export default struct MyBricksContainerList {
   private scroller: ListScroller = new ListScroller();
   private enableTriggerReachStart: boolean = true;
 
-
-
   aboutToAppear(): void {
+
+    this.dataSource.replaceAll([...(this.data.dataSource ?? [])])
+
     // 设置数据源添加监听
     this.inputs?.addDataSource((ds,outputRels:AnyType) => {
       this.dataSource.appendItems(ds);

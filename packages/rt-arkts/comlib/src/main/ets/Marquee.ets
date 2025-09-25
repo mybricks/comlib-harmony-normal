@@ -29,7 +29,8 @@ export interface DataType {
   spacing?: number
   rowKey?: string
   autoplay?: boolean
-  duration?: number
+  duration?: number,
+  dataSource?: AnyType[]
 }
 
 @ObservedV2
@@ -39,6 +40,7 @@ export class Data implements DataType {
   @Trace direction?: 'row' | 'column' = 'column'
   @Trace autoplay?: boolean
   @Trace duration?: number
+  @Trace dataSource?: AnyType[] = []
 
   constructor(config: DataType) {
     this.rowKey = config.rowKey ?? 'id'
@@ -47,6 +49,7 @@ export class Data implements DataType {
 
     this.autoplay = config?.autoplay ?? false;
     this.duration = config?.duration ?? 12000;
+    this.dataSource = config?.dataSource ?? []
   }
 }
 
@@ -95,6 +98,8 @@ export default struct MyBricksMarquee {
   private scroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
+    this.dataSource = this.data.dataSource ?? []
+
     this.inputs?.setItems((ds: DataSourceItem[], outputRels: AnyType) => {
       this.dataSource = ds;
       setTimeout(() => {
@@ -110,6 +115,12 @@ export default struct MyBricksMarquee {
   @Monitor('dataSource')
   onDataChange(monitor: IMonitor) {
     this.renderData = [...this.dataSource, ...this.dataSource];
+  }
+
+
+  @Monitor('data.dataSource')
+  onDataSourceChange(monitor: IMonitor) {
+    this.dataSource = this.data.dataSource ?? []
   }
 
   private intervalNum: number = 0;

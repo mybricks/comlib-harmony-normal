@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState,useRef } from 'react'
 import { View, Image } from '@tarojs/components'
 import { isUndef } from './../utils/core'
 import { uuid } from '../utils'
@@ -20,8 +20,12 @@ interface DsItem {
 
 export default function ({ env, data, inputs, outputs, style, slots }) {
   const [dataSource, setDataSource] = useState<DsItem[]>(
-    env.edit || env?.runtime?.debug?.prototype ? mockData : []
+    env.edit || env?.runtime?.debug?.prototype ? mockData : (data.dataSource ?? [])
   )
+
+  useEffect(()=>{
+    console.log("dataSource",dataSource)
+  },[dataSource])
 
   useMemo(() => {
     inputs['setItems']((val, outputRels) => {
@@ -36,6 +40,25 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       }
     })
   }, [])
+
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true
+      return
+    }
+
+    if (env?.runtime) {
+      if (Array.isArray(data.dataSource)) {
+        const ds = data.dataSource.map((item, index) => ({
+          item,
+          [rowKey]: data.rowKey === "" ? uuid() : item[data.rowKey] || uuid(),
+          index: index,
+        }));
+          setDataSource(ds);
+      }
+    }
+  }, [data.dataSource, env?.runtime])
 
   if (env.runtime && !dataSource.length) {
     return null

@@ -137,9 +137,24 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
     }
     
     if (env?.runtime) {
-      setDataSource(Array.from(data.dataSource) ?? [])
+      if (Array.isArray(data.dataSource)) {
+        const ds = data.dataSource.map((item, index) => ({
+          item,
+          [rowKey]: data.rowKey === "" ? uuid() : item[data.rowKey] || uuid(),
+          index: index,
+        }));
+          setDataSource(ds);
+      }
     }
   }, [data.dataSource, env?.runtime])
+
+  useEffect(()=>{
+    console.log("data.dataSource22222",data.dataSource)
+  },[data.dataSource])
+
+  useEffect(()=>{
+    console.log("dataSource",dataSource)
+  },[dataSource])
 
   useEffect(() => {
     /* 获取值 */

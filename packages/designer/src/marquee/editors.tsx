@@ -1,4 +1,5 @@
 import { autoCdnCut } from "./../utils/image";
+import { jsonToSchema } from "./../utils/json-to-schema";
 
 const Schemas = {
   ImageDataSource: {
@@ -24,6 +25,43 @@ export default {
     items({ data, output, style, slots }, cate0, cate1, cate2) {
       cate0.title = "常规";
       cate0.items = [
+        {
+          title: '数据源',
+          type: 'json',
+          options: {
+            minimap: {
+              enabled: false
+            },
+            height: 80,
+            autoSave: false,
+            encodeValue: false,
+            onBlur: () => {
+              slots.get('item')?.inputs.get('itemData')?.setSchema(data.dataSource?.[0] ? jsonToSchema(data.dataSource?.[0]) : { type: 'any' })
+            }
+          },
+          value: {
+            get({ data }: EditorResult<Data>) {
+              return data.dataSource ?? []
+            },
+            set({ data }: EditorResult<Data>, value: any) {
+              if (!Array.isArray(value)) {
+                return
+              }
+              data.dataSource = value
+            },
+          },
+          binding: {
+            with: `data.dataSource`,
+            schema: {
+              type: 'number'
+            },
+            set(p, { schema }) {
+              if (schema.type === 'array' && schema.items) {
+                slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
+              }
+            }
+          }
+        },
         {
           title: "排列方向",
           type: "select",
@@ -180,21 +218,21 @@ function computedActions(params) {
   let before = params.before || [];
   let after = params.after || [];
   let actions: any = [];
-  
+
   // 创建 id 到 item 的映射对象
   let beforeMap = {};
   let afterMap = {};
-  
+
   // 构建 before 映射
-  before.forEach(function(item) {
+  before.forEach(function (item) {
     beforeMap[item._id] = item;
   });
-  
+
   // 构建 after 映射
-  after.forEach(function(item) {
+  after.forEach(function (item) {
     afterMap[item._id] = item;
   });
-  
+
   // 处理删除的项
   for (let id in beforeMap) {
     if (beforeMap.hasOwnProperty(id)) {
@@ -206,7 +244,7 @@ function computedActions(params) {
       }
     }
   }
-  
+
   // 处理新增的项
   for (let id in afterMap) {
     if (afterMap.hasOwnProperty(id)) {
@@ -218,7 +256,7 @@ function computedActions(params) {
       }
     }
   }
-  
+
   // 处理更新的项
   for (let id in afterMap) {
     if (afterMap.hasOwnProperty(id)) {
@@ -230,6 +268,6 @@ function computedActions(params) {
       }
     }
   }
-  
+
   return actions;
 }

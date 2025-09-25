@@ -4,7 +4,8 @@ import { AnyType } from './types'
 export interface DataType {
   spacing?: number
   rowKey?: string,
-  layout?: GridLayoutConfig
+  layout?: GridLayoutConfig,
+  dataSource?: AnyType[]
 }
 
 interface _Env {
@@ -39,11 +40,14 @@ export class Data implements DataType {
   @Trace rowKey?: string
   @Trace spacing?: number = 0
   @Trace layout?: GridLayoutConfig | undefined
+  @Trace dataSource?: AnyType[] = []
+
 
   constructor(config: DataType) {
     this.rowKey = config.rowKey ?? 'id'
     this.spacing = config.spacing ?? 0
     this.layout = config.layout ?? {type:"grid",column:2,gutter:[8,8],minHeight:400 }
+    this.dataSource = config?.dataSource ?? []
   }
 }
 
@@ -109,6 +113,9 @@ export default struct MyBricksContainerWaterfall {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear(): void {
+
+    this.dataSource = this.data.dataSource ?? []
+
     this.inputs?.addDataSource((ds) => {
       this.dataSource = this.dataSource.concat(ds)
     })
@@ -119,26 +126,32 @@ export default struct MyBricksContainerWaterfall {
 
   }
 
+  @Monitor('data.dataSource')
+  onDataSourceChange(monitor: IMonitor) {
+    this.dataSource = this.data.dataSource ?? []
+  }
+
+
   build() {
-      WaterFlow() {
-        ForEach(this.dataSource, (item: DataSourceItem, index) => {
-          FlowItem() {
-            this.slots({
-              id: 'item',
-              inputValues: { itemData: item, index }
-            })
-          }
-          .width('100%')
-        })
-      }
-      .columnsTemplate(generateColumnsTemplate(this.data?.layout?.column))
-      .columnsGap(this.data.layout?.gutter[1])
-      .rowsGap(this.data.layout?.gutter[0])
-      .align(Alignment.Start)
-      .width('100%')
-      .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'])
-      )
-      .attributeModifier(this.modifier)
+    WaterFlow() {
+      ForEach(this.dataSource, (item: DataSourceItem, index) => {
+        FlowItem() {
+          this.slots({
+            id: 'item',
+            inputValues: { itemData: item, index }
+          })
+        }
+        .width('100%')
+      })
+    }
+    .columnsTemplate(generateColumnsTemplate(this.data?.layout?.column))
+    .columnsGap(this.data.layout?.gutter[1])
+    .rowsGap(this.data.layout?.gutter[0])
+    .align(Alignment.Start)
+    .width('100%')
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(this.modifier)
   }
 }

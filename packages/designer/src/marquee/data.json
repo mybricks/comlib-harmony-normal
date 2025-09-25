@@ -4,5 +4,6 @@
   "spacing": 0,
   "autoplay": true,
   "duration": 6000,
-  "circular": true
+  "circular": true,
+  "dataSource": []
 }
