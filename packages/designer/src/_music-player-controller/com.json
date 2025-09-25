@@ -1,0 +1,32 @@
+{
+  "title": "音乐播放控制器",
+  "namespace": "mybricks.harmony.ai-music._player-controller",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "操控音乐播放器的各类功能",
+  "runtime": "./runtime.ts",
+  "editors": "./editors.tsx",
+  "data": "./data.json",
+  "icon": "./icon.svg",
+  "rtType": "js-autorun",
+  "inputs": [
+    {
+      "id": "call",
+      "rels": ["then"],
+      "title": "调用",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "then",
+      "title": "结果",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ]
+}
