@@ -30,6 +30,7 @@ import {
   mybricks_harmony__aliyunOssUpload as basicMyBricksHarmony_aliyunOssUpload,
   mybricks_harmony__getPreferences as basicMyBricksHarmony_getPreferences,
   mybricks_harmony__setPreferences as basicMyBricksHarmony_setPreferences,
+  mybricks_harmony__aiMusicPlayerController as basicMyBricksHarmony_aiMusicPlayerController,
   mybricks_harmony_systemPage as BasicMyBricksHarmonySystemPage,
   mybricks_harmony_systemPage_Data,
   mybricks_harmony_systemWebview as BasicMyBricksHarmonySystemWebview,
@@ -201,6 +202,11 @@ export const myBricksHarmony_getPreferences =
 export const myBricksHarmony_setPreferences =
   (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
     return createJSHandle(basicMyBricksHarmony_setPreferences, { props, env: context.env });
+  }
+
+export const myBricksHarmony_aiMusicPlayerController =
+  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+    return createJSHandle(basicMyBricksHarmony_aiMusicPlayerController, { props, env: context.env });
   }
 
 @Builder
