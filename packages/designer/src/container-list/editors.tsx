@@ -52,7 +52,7 @@ export default {
         binding: {
           with: `data.dataSource`,
           schema: {
-            type: 'number'
+            type: 'array'
           },
           set(p, { schema }) {
             if (schema.type === 'array' && schema.items) {

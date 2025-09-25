@@ -73,7 +73,7 @@ const useReachBottom = (callback, { env }) => {
 };
 
 const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
-  const [dataSource, setDataSource] = useState<DsItem[]>([]);
+  const [dataSource, setDataSource] = useState<DsItem[]>(data.dataSource ?? []);
 
   const [status, setStatus] = useState<ListStatus>(ListStatus.IDLE);
   const statusRef = useRef<ListStatus>(ListStatus.IDLE);
@@ -149,6 +149,18 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
       relOutputs["afterReset"]?.();
     });
   }, []);
+
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true
+      return
+    }
+
+    if (env?.runtime) {
+      setDataSource(Array.from(data.dataSource) ?? [])
+    }
+  }, [data.dataSource, env?.runtime])
 
   useEffect(() => {
     /* 获取值 */
@@ -488,11 +500,11 @@ const ContainerWaterfall = ({ env, data, inputs, outputs, slots }) => {
       {useWaterfall && $waterfall}
 
       {useLoading ||
-      useLoadingBar ||
-      useError ||
-      useErrorBar ||
-      useEmpty ||
-      useEmptyBar ? (
+        useLoadingBar ||
+        useError ||
+        useErrorBar ||
+        useEmpty ||
+        useEmptyBar ? (
         <View
           className={css.placeholder}
           style={{
