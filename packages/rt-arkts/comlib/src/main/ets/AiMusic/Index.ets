@@ -34,7 +34,7 @@ export class MediaPlayer {
   private isJustPrepare: boolean = false;
 
   private playlist: AnyType[] = []
-  private curruntWork: AnyType
+  public curruntWork: AnyType
 
   constructor() {
     this.init();

@@ -59,6 +59,7 @@ export default struct MyBricksAIMusicPlayer {
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
 
+  @Param slotsIO?: AnyType = undefined;
   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
@@ -69,6 +70,10 @@ export default struct MyBricksAIMusicPlayer {
     mediaPlayer.onChange((work: AnyType) => {
       this.name = work?.file?.title
     })
+
+    if(mediaPlayer.curruntWork) {
+      this.name = mediaPlayer.curruntWork?.file?.title
+    }
   }
 
   build() {
