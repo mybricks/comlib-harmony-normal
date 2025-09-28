@@ -113,6 +113,12 @@ export {
 } from './_AiMusicPlayerController'
 
 export {
+  default as mybricks_harmony__aiMusicPlayer,
+  DataType as mybricks_harmony__aiMusicPlayer_DataType,
+  Data as mybricks_harmony__aiMusicPlayer_Data
+} from './AiMusicPlayer'
+
+export {
   default as mybricks_harmony_systemPage,
   DataType as mybricks_harmony_systemPage_DataType,
   Data as mybricks_harmony_systemPage_Data

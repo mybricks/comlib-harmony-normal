@@ -1,0 +1,36 @@
+{
+  "title": "AI音乐播放器",
+  "namespace": "mybricks.harmony._aiMusicPlayer",
+  "author": "MyBricks",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "音乐播放器",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "icon": "./icon.svg",
+  "slots": [
+    {
+      "id": "toolbar",
+      "title": "插槽",
+      "layout": "smart"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onPlayListClick",
+      "title": "当点击播放列表",
+      "schema": {
+        "type": "any"
+      }
+    },
+    {
+      "id": "onEditClick",
+      "title": "当点击修改时",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ]
+}

@@ -117,6 +117,8 @@ import {
   mybricks_harmony_line_Data,
   mybricks_harmony_timer as BasicMyBricksHarmonyTimer,
   mybricks_harmony_timer_Data,
+  mybricks_harmony__aiMusicPlayer as BasicMyBricksHarmony_aiMusicPlayer,
+  mybricks_harmony__aiMusicPlayer_Data,
 } from './src/main/ets/Index'
 
 export const myBricksHarmony_connector =
@@ -1582,6 +1584,38 @@ export function MyBricksHarmonyTimer(params: MyBricksComponentBuilderParams) {
     }).params)
   } else {
     MyBricksHarmonyTimerBuilder(params)
+  }
+}
+
+@Builder
+function MyBricksHarmony_aiMusicPlayerBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmony_aiMusicPlayer({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony__aiMusicPlayer_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+    slots: params.slots,
+    slotsIO: createSlotsIO(params),
+    parentSlot: params.parentSlot,
+    env: context.env,
+    _env: context._env,
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmony_aiMusicPlayer(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmony_aiMusicPlayerBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmony_aiMusicPlayerBuilder(params)
   }
 }
     

@@ -34,6 +34,7 @@ export default (context: IOContext) => {
   const inputs: Inputs = context.inputs
   const outputs: Outputs = context.outputs
 
+
   if (data.immediate) {
     mediaPlayer.onStateChange((state: string) => {
       if (state === 'playing' && data.type === 'onPlay') {
@@ -43,6 +44,11 @@ export default (context: IOContext) => {
         outputs?.then()
       }
     })
+    if (data.type === 'onChange') {
+      mediaPlayer.onChange((work: AnyType) => {
+        outputs?.then(work)
+      })
+    }
   } else {
     inputs.call?.((val: AnyType) => {
       switch (true) {
@@ -57,14 +63,15 @@ export default (context: IOContext) => {
           return
         }
         case data.type === 'playSong': {
-          if (val?.file?.cloudFileUrl ?? val?.file?.localFileUrl) {
-            mediaPlayer.play(val?.file?.cloudFileUrl ?? val?.file?.localFileUrl)
+          if (val) {
+            mediaPlayer.play(val)
             outputs?.then()
           }
           return
         }
         case data.type === 'setPlayList': {
-
+          mediaPlayer.setPlaylist(val)
+          return
         }
         case data.type === 'editSong': {
 

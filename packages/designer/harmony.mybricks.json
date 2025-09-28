@@ -19,7 +19,7 @@
     "./src/_aliyun-oss-upload/com.json",
     "./src/_getPreferences/com.json",
     "./src/_setPreferences/com.json",
-    "./src/_music-player-controller/com.json",
+    "./src/_ai-music-player-controller/com.json",
     {
       "title": "系统",
       "visible": false,
@@ -96,7 +96,8 @@
       "comAry": [
         "./src/support/com.json",
         "./src/line/com.json",
-        "./src/timer/com.json"
+        "./src/timer/com.json",
+        "./src/ai-music-player/com.json"
       ]
     }
   ],

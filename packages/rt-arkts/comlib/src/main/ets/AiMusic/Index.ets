@@ -1,5 +1,6 @@
 import media from '@ohos.multimedia.media'
 import { BusinessError } from '@kit.BasicServicesKit'
+import { AnyType } from '../types';
 
 /**
  * 播放监听
@@ -32,6 +33,9 @@ export class MediaPlayer {
   private currentUrl: string = '';
   private isJustPrepare: boolean = false;
 
+  private playlist: AnyType[] = []
+  private curruntWork: AnyType
+
   constructor() {
     this.init();
   }
@@ -45,6 +49,7 @@ export class MediaPlayer {
       console.error(this.TAG + "Failed to create player:", err);
     });
   }
+
 
   private setupPlayerCallbacks() {
     if (!this.avPlayer) {
@@ -122,6 +127,12 @@ export class MediaPlayer {
     });
   }
 
+  public setPlaylist(list: AnyType[]) {
+    if (Array.isArray(list)) {
+      this.playlist = list
+    }
+  }
+
   public setPlayListener(listener: PlayListener) {
     this.listener = listener;
   }
@@ -135,7 +146,20 @@ export class MediaPlayer {
     this.funcs.add(func)
   }
 
-  public async play(url: string) {
+  changefuncs: Set<Function> = new Set()
+  onChange(func: Function) {
+    this.changefuncs.add(func)
+  }
+
+  public async play(work: AnyType) {
+    let url: string = ''
+    if (work?.file?.cloudFileUrl ?? work?.file?.localFileUrl) {
+      url = work?.file?.cloudFileUrl ?? work?.file?.localFileUrl
+      this.curruntWork = work
+      this.changefuncs.forEach(func => {
+        func?.(work)
+      })
+    }
     console.info(this.TAG + "开始播放, URL:", url);
     const startTime = Date.now();
     this.isJustPrepare = false;
