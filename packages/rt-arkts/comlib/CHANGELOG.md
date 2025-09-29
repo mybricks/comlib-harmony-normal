@@ -1,3 +1,8 @@
+# [1.0.20](https://github.com/mybricks/comlib-harmony-normal/compare/63a40fe..571436f) (2025-09-29)
+- 调整组件hoc
+- 容器组件「当滚动时」事件兼容
+- 组件支持变量绑定
+
 # [1.0.19](https://github.com/mybricks/comlib-harmony-normal/compare/fccc1b2..b0e5a23) (2025-09-16)
 - 优化跑马灯、气泡等组件
 - 单场输入组件背景色默认值修改为透明
