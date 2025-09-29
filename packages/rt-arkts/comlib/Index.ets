@@ -1,6 +1,7 @@
 import {
   MyBricks,
-  context,
+  createEnv,
+  _createEnv,
   createData,
   createStyles,
   createSlotsIO,
@@ -121,95 +122,95 @@ import {
   mybricks_harmony__aiMusicPlayer_Data,
 } from './src/main/ets/Index'
 
-export const myBricksHarmony_connector =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_connector, { props, env: context.env });
-  }
+export const myBricksHarmony_connector = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_connector, { props, appContext });
+}
 
-export const myBricksHarmony_showToast =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_showToast, { props, env: context.env });
-  }
+export const myBricksHarmony_showToast = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_showToast, { props, appContext });
+}
 
-export const myBricksHarmony_backTo =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_backTo, { props, env: context.env });
-  }
+export const myBricksHarmony_backTo = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_backTo, { props, appContext });
+}
 
-export const myBricksHarmony_aesEncode =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_aesEncode, { props, env: context.env });
-  }
+export const myBricksHarmony_aesEncode = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_aesEncode, { props, appContext });
+}
 
-export const myBricksHarmony_format =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_format, { props, env: context.env });
-  }
+export const myBricksHarmony_format = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_format, { props, appContext });
+}
 
-export const myBricksHarmony_timerDelay =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_timerDelay, { props, env: context.env });
-  }
+export const myBricksHarmony_timerDelay = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_timerDelay, { props, appContext });
+}
 
-export const myBricksHarmony_callPhone =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_callPhone, { props, env: context.env });
-  }
+export const myBricksHarmony_callPhone = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_callPhone, { props, appContext });
+}
 
-export const myBricksHarmony_vibrate =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_vibrate, { props, env: context.env });
-  }
+export const myBricksHarmony_vibrate = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_vibrate, { props, appContext });
+}
 
-export const myBricksHarmony_scanQrcode =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_scanQrcode, { props, env: context.env });
-  }
+export const myBricksHarmony_scanQrcode = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_scanQrcode, { props, appContext });
+}
 
-export const myBricksHarmony_chooseMedia =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_chooseMedia, { props, env: context.env });
-  }
+export const myBricksHarmony_chooseMedia = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_chooseMedia, { props, appContext });
+}
 
-export const myBricksHarmony_chooseFile =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_chooseFile, { props, env: context.env });
-  }
+export const myBricksHarmony_chooseFile = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_chooseFile, { props, appContext });
+}
 
-export const myBricksHarmony_getLocation =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_getLocation, { props, env: context.env });
-  }
+export const myBricksHarmony_getLocation = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_getLocation, { props, appContext });
+}
 
-export const myBricksHarmony_textToSpeech =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_textToSpeech, { props, env: context.env });
-  }
+export const myBricksHarmony_textToSpeech = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_textToSpeech, { props, appContext });
+}
 
-export const myBricksHarmony_openPetalMap =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_openPetalMap, { props, env: context.env });
-  }
+export const myBricksHarmony_openPetalMap = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_openPetalMap, { props, appContext });
+}
 
-export const myBricksHarmony_aliyunOssUpload =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_aliyunOssUpload, { props, env: context.env });
-  }
+export const myBricksHarmony_aliyunOssUpload = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_aliyunOssUpload, { props, appContext });
+}
 
-export const myBricksHarmony_getPreferences =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_getPreferences, { props, env: context.env });
-  }
+export const myBricksHarmony_getPreferences = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_getPreferences, { props, appContext });
+}
 
-export const myBricksHarmony_setPreferences =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_setPreferences, { props, env: context.env });
-  }
+export const myBricksHarmony_setPreferences = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_setPreferences, { props, appContext });
+}
 
-export const myBricksHarmony_aiMusicPlayerController =
-  (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-    return createJSHandle(basicMyBricksHarmony_aiMusicPlayerController, { props, env: context.env });
-  }
+export const myBricksHarmony_aiMusicPlayerController = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_aiMusicPlayerController, { props, appContext });
+}
 
 @Builder
 function MyBricksHarmonySystemPageBuilder(params: MyBricksComponentBuilderParams) {
@@ -222,8 +223,8 @@ function MyBricksHarmonySystemPageBuilder(params: MyBricksComponentBuilderParams
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -254,8 +255,8 @@ function MyBricksHarmonySystemWebviewBuilder(params: MyBricksComponentBuilderPar
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -286,8 +287,8 @@ function MyBricksHarmonyPopupBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -318,8 +319,8 @@ function MyBricksHarmonyContainerRowBuilder(params: MyBricksComponentBuilderPara
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -350,8 +351,8 @@ function MyBricksHarmonyImageBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -382,8 +383,8 @@ function MyBricksHarmonyVideoBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -414,8 +415,8 @@ function MyBricksHarmonyButtonBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -446,8 +447,8 @@ function MyBricksHarmonyTextBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -478,8 +479,8 @@ function MyBricksHarmonyIconBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -510,8 +511,8 @@ function MyBricksHarmonyRichTextBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -542,8 +543,8 @@ function MyBricksHarmonySwiperBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -574,8 +575,8 @@ function MyBricksHarmonyContainerBasicBuilder(params: MyBricksComponentBuilderPa
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -606,8 +607,8 @@ function MyBricksHarmonyTabsBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -638,8 +639,8 @@ function MyBricksHarmonyContainerListBuilder(params: MyBricksComponentBuilderPar
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -670,8 +671,8 @@ function MyBricksHarmonyContainerWaterfallBuilder(params: MyBricksComponentBuild
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -702,8 +703,8 @@ function MyBricksHarmonyContainerConditionBuilder(params: MyBricksComponentBuild
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -734,8 +735,8 @@ function MyBricksHarmonySidebarBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -766,8 +767,8 @@ function MyBricksHarmonyPopoverBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -798,8 +799,8 @@ function MyBricksHarmonyFormContainerBuilder(params: MyBricksComponentBuilderPar
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -830,8 +831,8 @@ function MyBricksHarmonyFormInputBuilder(params: MyBricksComponentBuilderParams)
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -862,8 +863,8 @@ function MyBricksHarmonyFormStepperBuilder(params: MyBricksComponentBuilderParam
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -894,8 +895,8 @@ function MyBricksHarmonyFormTextareaBuilder(params: MyBricksComponentBuilderPara
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -926,8 +927,8 @@ function MyBricksHarmonyFormPasswordBuilder(params: MyBricksComponentBuilderPara
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -958,8 +959,8 @@ function MyBricksHarmonyFormSwitchBuilder(params: MyBricksComponentBuilderParams
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -990,8 +991,8 @@ function MyBricksHarmonyFormDatetimeBuilder(params: MyBricksComponentBuilderPara
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1022,8 +1023,8 @@ function MyBricksHarmonyFormRateBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1054,8 +1055,8 @@ function MyBricksHarmonyFormSelectBuilder(params: MyBricksComponentBuilderParams
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1086,8 +1087,8 @@ function MyBricksHarmonyFormRadioBuilder(params: MyBricksComponentBuilderParams)
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1118,8 +1119,8 @@ function MyBricksHarmonyFormCheckboxBuilder(params: MyBricksComponentBuilderPara
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1150,8 +1151,8 @@ function MyBricksHarmonySmsInputBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1182,8 +1183,8 @@ function MyBricksHarmonySearchBarBuilder(params: MyBricksComponentBuilderParams)
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1214,8 +1215,8 @@ function MyBricksHarmonyFormFileUploaderBuilder(params: MyBricksComponentBuilder
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1246,8 +1247,8 @@ function MyBricksHarmonyFormImageUploaderBuilder(params: MyBricksComponentBuilde
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1278,8 +1279,8 @@ function MyBricksHarmonyFormItemContainerBuilder(params: MyBricksComponentBuilde
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1310,8 +1311,8 @@ function MyBricksHarmonyMarqueeBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1342,8 +1343,8 @@ function MyBricksHarmonyCellBuilder(params: MyBricksComponentBuilderParams) {
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1374,8 +1375,8 @@ function MyBricksHarmonyQrcodeBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1406,8 +1407,8 @@ function MyBricksHarmonyCascaderBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1438,8 +1439,8 @@ function MyBricksHarmonyProgressBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1470,8 +1471,8 @@ function MyBricksHarmonyPetalMapBuilder(params: MyBricksComponentBuilderParams) 
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1502,8 +1503,8 @@ function MyBricksHarmonySupportBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1534,8 +1535,8 @@ function MyBricksHarmonyLineBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1566,8 +1567,8 @@ function MyBricksHarmonyTimerBuilder(params: MyBricksComponentBuilderParams) {
 
 
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }
@@ -1598,8 +1599,8 @@ function MyBricksHarmony_aiMusicPlayerBuilder(params: MyBricksComponentBuilderPa
     slots: params.slots,
     slotsIO: createSlotsIO(params),
     parentSlot: params.parentSlot,
-    env: context.env,
-    _env: context._env,
+    env: createEnv(params),
+    _env: _createEnv(params),
     modifier: createModifier(params, CommonModifier)
   })
 }

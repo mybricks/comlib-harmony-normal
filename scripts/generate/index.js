@@ -68,8 +68,8 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
         ${hasSlots ? "slots: params.slots," : ""}
         ${hasSlots ? "slotsIO: createSlotsIO(params)," : ""}
         parentSlot: params.parentSlot,
-        env: context.env,
-        _env: context._env,
+        env: createEnv(params),
+        _env: _createEnv(params),
         modifier: createModifier(params, CommonModifier)
       })
     }
@@ -92,15 +92,16 @@ Object.entries(usedComponentsMap).forEach(([namespace, config]) => {
   } else {
     let componentName = asImportName.replace("basic", "");
     componentName = componentName[0].toLowerCase() + componentName.slice(1);
-    declaredComponentCode += `export const ${componentName} = (props: MyBricks.JSParams): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
-      return createJSHandle(${asImportName}, { props, env: context.env });
+    declaredComponentCode += `export const ${componentName} = (props: MyBricks.JSParams, appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+      return createJSHandle(${asImportName}, { props, appContext });
     }\n`
   }
 })
 
 fs.writeFileSync(path.join(__dirname, "../../packages/rt-arkts/comlib/Index.ets"), `import {
   MyBricks,
-  context,
+  createEnv,
+  _createEnv,
   createData,
   createStyles,
   createSlotsIO,
