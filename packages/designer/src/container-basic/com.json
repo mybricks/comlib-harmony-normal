@@ -22,7 +22,21 @@
       "id": "onScroll",
       "title": "当容器滚动时",
       "schema": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "xOffset": {
+            "type": "number"
+          },
+          "yOffset": {
+            "type": "number"
+          },
+          "scrollTop": {
+            "type": "number"
+          },
+          "scrollLeft": {
+            "type": "number"
+          }
+        }
       }
     },
     {

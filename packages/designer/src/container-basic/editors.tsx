@@ -25,7 +25,19 @@ export default {
         schema: {
           type: "object",
           properties: {
-          },
+            xOffset: {
+              type: "number"
+            },
+            yOffset: {
+              type: "number"
+            },
+            scrollTop: {
+              type: "number"
+            },
+            scrollLeft: {
+              type: "number"
+            }
+          }
         },
         editable: true,
         deletable: true,
@@ -54,10 +66,10 @@ export default {
           },
         },
         {
-          title:"当容器滚动时",
+          title: "当容器滚动时",
           type: "_event",
-          options:{
-            outputId:"onScroll"
+          options: {
+            outputId: "onScroll"
           }
         }
       ];
