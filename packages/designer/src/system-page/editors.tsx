@@ -4,7 +4,7 @@ import css from "./editors.less";
 import { defaultSelectedIconPath, defaultNormalIconPath } from "./const";
 import setSlotLayout from "../utils/set-slot-layout";
 
-const Input = window.antd.Input;
+const Input = window.antd?.Input;
 const message = window.antd?.message;
 
 function rgbaToHex(rgba) {
