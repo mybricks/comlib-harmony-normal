@@ -30,6 +30,15 @@ export enum PlayState {
   error
 }
 
+export interface Time {
+  currentTime: number
+  duration: number
+}
+
+export interface Lyric {
+  lyrics: LyricLine[]
+  currentLineIndex: number
+}
 
 class MediaPlayer {
   static TAG: string = "MediaPlayer: ";
@@ -55,6 +64,14 @@ class MediaPlayer {
   static rotationAngle: number = 0 // 当前旋转角度
   static needleRotation: number = 0 // 唱针旋转角度
   static eventListener: Map<string, Set<(value: ESObject) => void>> = new Map();
+  static time: Time = {
+    currentTime: 0,
+    duration: 0
+  }
+  static lyric: Lyric = {
+    lyrics: [],
+    currentLineIndex: 0
+  }
 
   constructor() {
     MediaPlayer.init();
@@ -95,6 +112,59 @@ class MediaPlayer {
       if (MediaPlayer.listener) {
         // MediaPlayer.listener.onPlayPosition(currentTime, MediaPlayer.avPlayer?.duration || 0);
         MediaPlayer.listener.get('onPlayPosition')?.({ currentTime, totalDuration: MediaPlayer.avPlayer?.duration || 0 })
+      }
+    });
+
+    MediaPlayer.avPlayer.on('durationUpdate', (time: number) => {
+      // 更新时长
+      MediaPlayer.time = {
+        duration: time / 1000,
+        currentTime: MediaPlayer.time.currentTime
+      }
+      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
+        listener(MediaPlayer.time)
+      })
+    });
+
+    MediaPlayer.avPlayer.on('timeUpdate', (time: number) => {
+      const currentTime = time / 1000
+      // 更新时间
+      MediaPlayer.time = {
+        duration: MediaPlayer.time.duration,
+        currentTime: currentTime
+      }
+      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
+        listener(MediaPlayer.time)
+      })
+
+      const lyrics = MediaPlayer.lyric.lyrics
+      for (let i = lyrics.length - 1; i >= 0; i--) {
+        if (currentTime >= lyrics[i].time) {
+          if (MediaPlayer.lyric.currentLineIndex !== i) {
+            MediaPlayer.lyric = {
+              currentLineIndex: i,
+              lyrics: MediaPlayer.lyric.lyrics
+            }
+
+            MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
+              listener(MediaPlayer.lyric)
+            })
+            MediaPlayer.lyricListScroller.scrollToIndex(i - 1, true)
+          }
+          break
+        }
+      }
+
+
+      for (let i = MediaPlayer.lyrics.length - 1; i >= 0; i--) {
+        if (MediaPlayer.currentTime >= MediaPlayer.lyrics[i].time) {
+          if (MediaPlayer.currentLyricIndex !== i) {
+            MediaPlayer.currentLyricIndex = i
+            // 滚动到当前歌词
+            MediaPlayer.lyricListScroller.scrollToIndex(i)
+          }
+          break
+        }
       }
     });
 
@@ -189,9 +259,17 @@ class MediaPlayer {
     MediaPlayer.isJustPrepare = false;
 
     try {
+      MediaPlayer.isPlaying = true
+      MediaPlayer.eventListener.get("isPlaying")?.forEach((listener) => {
+        listener(true)
+      })
       await MediaPlayer.init();
 
       if (!MediaPlayer.avPlayer) {
+        return
+      }
+
+      if (!MediaPlayer.isPlaying) {
         return
       }
 
@@ -263,6 +341,10 @@ class MediaPlayer {
 
   static async pause() {
     console.info(MediaPlayer.TAG + "pause");
+    MediaPlayer.isPlaying = false
+    MediaPlayer.eventListener.get("isPlaying")?.forEach((listener) => {
+      listener(false)
+    })
     if (MediaPlayer.avPlayer && MediaPlayer.playState === PlayState.playing) {
       try {
         await MediaPlayer.avPlayer.pause();
@@ -322,6 +404,20 @@ class MediaPlayer {
       MediaPlayer.eventListener.get("currentSong")?.forEach((listener) => {
         listener(MediaPlayer.currentSong)
       })
+      MediaPlayer.lyric = {
+        lyrics: [],
+        currentLineIndex: 0
+      }
+      MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
+        listener(MediaPlayer.lyric)
+      })
+      MediaPlayer.time = {
+        currentTime: 0,
+        duration: MediaPlayer.currentSong.file.duration
+      }
+      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
+        listener(MediaPlayer.time)
+      })
 
       MediaPlayer.lyrics = []; // 清空当前歌词
       MediaPlayer.currentLyricIndex = 0; // 重置歌词索引
@@ -346,13 +442,13 @@ class MediaPlayer {
         if (MediaPlayer.listener) {
           MediaPlayer.listener.get('onChange')?.(MediaPlayer.currentSong)
         }
-        MediaPlayer.isPlaying = true;
+        // MediaPlayer.isPlaying = true;
         MediaPlayer.startVinylRotation();
         console.info('切换歌曲完成，总耗时:', Date.now() - startTime, 'ms');
       }
     } catch (error) {
       console.error('Failed to switch song:', error);
-      MediaPlayer.isPlaying = false;
+      // MediaPlayer.isPlaying = false;
       MediaPlayer.stopVinylRotation();
     }
   }
@@ -439,6 +535,14 @@ class MediaPlayer {
         }
       }
       MediaPlayer.lyrics = parsedLyrics.sort((a, b) => a.time - b.time)
+
+      MediaPlayer.lyric = {
+        lyrics: parsedLyrics.sort((a, b) => a.time - b.time),
+        currentLineIndex: MediaPlayer.lyric.currentLineIndex
+      }
+      MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
+        listener(MediaPlayer.lyric)
+      })
 
     } catch (error) {
       console.error('Failed to parse lyrics:', error)
@@ -620,6 +724,10 @@ class MediaPlayer {
 
   static async stop() {
     console.info(MediaPlayer.TAG + "stop");
+    MediaPlayer.isPlaying = false
+    MediaPlayer.eventListener.get("isPlaying")?.forEach((listener) => {
+      listener(false)
+    })
     if (MediaPlayer.avPlayer) {
       try {
         await MediaPlayer.avPlayer.stop();

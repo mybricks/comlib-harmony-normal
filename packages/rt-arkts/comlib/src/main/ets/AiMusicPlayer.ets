@@ -6,7 +6,7 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 // import { mediaPlayer } from './AiMusic/Index'
-import MediaPlayer, { PlayState } from './AiMusic/model/AppMusicMediaPlayer'
+import MediaPlayer, { PlayState, Time, Lyric } from './AiMusic/model/AppMusicMediaPlayer'
 import { PlayMode, PositionItem } from './AiMusic/model/AppMusicPlayerModel'
 import { LyricLine, LyricData } from './AiMusic/model/AppMusicLyricModel'
 import promptAction from '@ohos.promptAction'
@@ -73,14 +73,14 @@ export default struct MyBricksAIMusicPlayer {
 
   @Local name: string = '歌曲名称'
 
-  private vinylRotationTimer: number = -1
-
   @Local playMode: PlayMode = PlayMode.SEQUENCE
   @Local value: number = 0
   @Local isPlaying: boolean = MediaPlayer.isPlaying
   @Local rotationAngle: number = MediaPlayer.rotationAngle
   @Local needleRotation: number = MediaPlayer.needleRotation
   @Local currentSong: AnyType = MediaPlayer.currentSong
+  @Local time: Time = MediaPlayer.time
+  @Local lyric: Lyric = MediaPlayer.lyric
 
   private context: common.UIAbilityContext = getContext() as common.UIAbilityContext
   private uiContext = this.getUIContext()
@@ -97,29 +97,34 @@ export default struct MyBricksAIMusicPlayer {
     this.currentSong = currentSong
   }
 
-  aboutToAppear(): void {
-    // mediaPlayer.onChange((work: AnyType) => {
-    //   this.name = work?.file?.title
-    // })
-    //
-    // if(mediaPlayer.curruntWork) {
-    //   this.name = mediaPlayer.curruntWork?.file?.title
-    // }
+  timeListener = (time: Time) => {
+    this.time = time
+  }
 
+  isPlayingListener = (isPlaying: boolean) => {
+    this.isPlaying = isPlaying
+  }
+
+  lyricListener = (lyric: Lyric) => {
+    this.lyric = lyric
+  }
+
+  aboutToAppear(): void {
     MediaPlayer.addEventListener("rotationAngle", this.rotationAngleListener)
     MediaPlayer.addEventListener("needleRotation", this.needleRotationListener)
     MediaPlayer.addEventListener("currentSong", this.currentSongListener)
+    MediaPlayer.addEventListener("time", this.timeListener)
+    MediaPlayer.addEventListener("isPlaying", this.isPlayingListener)
+    MediaPlayer.addEventListener("lyric", this.lyricListener)
   }
 
   aboutToDisappear() {
     MediaPlayer.removeEventListener("rotationAngle", this.rotationAngleListener)
     MediaPlayer.removeEventListener("needleRotation", this.needleRotationListener)
-    // 释放播放器资源
-    MediaPlayer.release()
-    // 清除定时器
-    if (this.vinylRotationTimer !== -1) {
-      clearInterval(this.vinylRotationTimer)
-    }
+    MediaPlayer.removeEventListener("currentSong", this.currentSongListener)
+    MediaPlayer.removeEventListener("time", this.timeListener)
+    MediaPlayer.removeEventListener("isPlaying", this.isPlayingListener)
+    MediaPlayer.removeEventListener("lyric", this.lyricListener)
   }
 
   // 切换播放模式
@@ -152,14 +157,10 @@ export default struct MyBricksAIMusicPlayer {
       if (this.isPlaying) {
         MediaPlayer.stopVinylRotation();
         await MediaPlayer.pause();
-        this.isPlaying = false
-        MediaPlayer.isPlaying = false
       } else {
         if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
           MediaPlayer.startVinylRotation();
           await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
-          this.isPlaying = true
-          MediaPlayer.isPlaying = true
         } else {
           console.error('No audio source available');
         }
@@ -299,7 +300,7 @@ export default struct MyBricksAIMusicPlayer {
       // 歌词显示
       Stack() {
         List({ initialIndex: 0, scroller: MediaPlayer.lyricListScroller }) {
-          ForEach(MediaPlayer.lyrics, (line: LyricLine, lineIndex: number) => {
+          ForEach(this.lyric.lyrics, (line: LyricLine, lineIndex: number) => {
             ListItem() {
               Column() {
                 // Word-by-word rendering
@@ -307,8 +308,9 @@ export default struct MyBricksAIMusicPlayer {
                   ForEach(line.text.split(''), (word: string, wordIndex: number) => {
                     Row() {
                       Text(word)
-                        .fontSize(16)
+                        .fontSize(lineIndex === this.lyric.currentLineIndex ? 16 : 14)
                         .blendMode(BlendMode.DST_IN, BlendApplyType.OFFSCREEN)
+                        .fontWeight(lineIndex === this.lyric.currentLineIndex ? 800 : FontWeight.Normal)
                     }
                     .margin({
                       right: word.match(/[a-zA-Z0-9]/) ? 4 : 0,
@@ -317,34 +319,36 @@ export default struct MyBricksAIMusicPlayer {
                     .blendMode(BlendMode.SRC_OVER, BlendApplyType.OFFSCREEN)
                     .linearGradient({
                       direction: GradientDirection.Right,
-                      colors: (() => {
-                        if (MediaPlayer.currentLineIndex !== lineIndex) {
-                          // 当前行未激活，全部白色
-                          return [['#FFFFFFFF', 0], ['#FFFFFFFF', 1.0]];
-                        }
-
-                        if (wordIndex < MediaPlayer.currentIndex) {
-                          // 已播放的字：全红
-                          return [[0xFF1949, 0.0], [0xFF1949, 1.0]];
-                        } else if (wordIndex === MediaPlayer.currentIndex) {
-                          // 正在播放的字：红色渐变（从 0 到 this.value）
-                          return [
-                            [0xFF1949, 0.0],
-                            [0xFF1949, this.value],
-                            ['#FFFFFFFF', this.value],
-                            ['#FFFFFFFF', 1.0]
-                          ];
-                        } else {
-                          // 未播放的字：全白
-                          return [['#FFFFFFFF', 0], ['#FFFFFFFF', 1.0]];
-                        }
-                      })()
+                      colors: [['#FFFFFFFF', 0], ['#FFFFFFFF', 1.0]]
+                      // colors: (() => {
+                      //   if (MediaPlayer.currentLineIndex !== lineIndex) {
+                      //     // 当前行未激活，全部白色
+                      //     return [['#FFFFFFFF', 0], ['#FFFFFFFF', 1.0]];
+                      //   }
+                      //
+                      //   if (wordIndex < MediaPlayer.currentIndex) {
+                      //     // 已播放的字：全红
+                      //     return [[0xFF1949, 0.0], [0xFF1949, 1.0]];
+                      //   } else if (wordIndex === MediaPlayer.currentIndex) {
+                      //     // 正在播放的字：红色渐变（从 0 到 this.value）
+                      //     return [
+                      //       [0xFF1949, 0.0],
+                      //       [0xFF1949, this.value],
+                      //       ['#FFFFFFFF', this.value],
+                      //       ['#FFFFFFFF', 1.0]
+                      //     ];
+                      //   } else {
+                      //     // 未播放的字：全白
+                      //     return [['#FFFFFFFF', 0], ['#FFFFFFFF', 1.0]];
+                      //   }
+                      // })(),
                     })
                     .onAppear(() => {
-                      MediaPlayer.lrcDuration = line.time;
-                      if (lineIndex === MediaPlayer.currentLineIndex && wordIndex === 0) {
-                        this.playLrc(line.time);
-                      }
+                      // MediaPlayer.lrcDuration = line.time;
+                      // if (lineIndex === MediaPlayer.currentLineIndex && wordIndex === 0) {
+                      //   this.playLrc(line.time);
+                      // }
+
                     })
                   })
                 }
@@ -353,7 +357,7 @@ export default struct MyBricksAIMusicPlayer {
               }
               .width('100%')
             }
-            .opacity(lineIndex === MediaPlayer.currentLineIndex ? 1 : 0.8)
+            .opacity(lineIndex === this.lyric.currentLineIndex ? 1 : 0.8)
           })
         }
       }
@@ -364,9 +368,11 @@ export default struct MyBricksAIMusicPlayer {
       // 进度条
       Column() {
         Slider({
-          value: MediaPlayer.sliderValue,
+          // value: MediaPlayer.sliderValue,
+          value: this.time.currentTime,
           min: 0,
-          max: MediaPlayer.duration,
+          // max: MediaPlayer.duration,
+          max: this.time.duration,
           step: 1,
           style: SliderStyle.OutSet
         })
@@ -376,23 +382,36 @@ export default struct MyBricksAIMusicPlayer {
           .showSteps(false)
           .showTips(false)
           .width('100%')
-          .onChange((value: number) => {
-            // 更新UI显示
-            MediaPlayer.currentTime = value
-            MediaPlayer.sliderValue = value
-            MediaPlayer.updateLyricIndex()
+          .onChange((value: number, mode) => {
+            if (mode === SliderChangeMode.Begin) {
+              // 开始拖动暂停
+              MediaPlayer.avPlayer?.pause()
+            }
 
-            // 执行seek操作
-            MediaPlayer.seek(value * 1000).catch((error: BusinessError) => {
-              console.error('Failed to seek:', error)
-            })
+            // 设置时间
+            MediaPlayer.avPlayer?.seek(value * 1000)
+
+            if (mode === SliderChangeMode.End) {
+              // 拖动结束，继续播放
+              MediaPlayer.avPlayer?.play()
+            }
+
+            // // 更新UI显示
+            // MediaPlayer.currentTime = value
+            // MediaPlayer.sliderValue = value
+            // MediaPlayer.updateLyricIndex()
+            //
+            // // 执行seek操作
+            // MediaPlayer.seek(value * 1000).catch((error: BusinessError) => {
+            //   console.error('Failed to seek:', error)
+            // })
           })
 
         Row() {
-          Text(this.formatTime(MediaPlayer.currentTime))
+          Text(this.formatTime(this.time.currentTime))
             .fontSize(12)
             .fontColor('#999999')
-          Text(this.formatTime(MediaPlayer.duration))
+          Text(this.formatTime(this.time.duration))
             .fontSize(12)
             .fontColor('#999999')
         }

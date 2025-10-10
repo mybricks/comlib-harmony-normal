@@ -102,7 +102,11 @@ export default (context: IOContext) => {
 
           // 设置初始时长（duration 已经是以秒为单位）
           if (MediaPlayer.currentSong.file.duration > 0) {
-            MediaPlayer.duration = MediaPlayer.currentSong.file.duration
+            MediaPlayer.time = {
+              currentTime: 0,
+              duration: MediaPlayer.currentSong.file.duration
+            }
+            // MediaPlayer.duration = MediaPlayer.currentSong.file.duration
           }
 
           // 解析歌词
