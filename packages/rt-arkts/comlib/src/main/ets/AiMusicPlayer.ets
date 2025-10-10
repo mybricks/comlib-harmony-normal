@@ -6,6 +6,10 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 import { mediaPlayer } from './AiMusic/Index'
+import MediaPlayer, { PlayState } from './AiMusic/model/AppMusicMediaPlayer'
+import { PlayMode, PositionItem } from './AiMusic/model/AppMusicPlayerModel'
+import promptAction from '@ohos.promptAction'
+import { Event } from './AiMusic/Event'
 
 export interface DataType {
 }
@@ -66,6 +70,10 @@ export default struct MyBricksAIMusicPlayer {
 
   @Local name: string = '歌曲名称'
 
+  private vinylRotationTimer: number = -1
+
+  @Local playMode: PlayMode = PlayMode.SEQUENCE
+
   aboutToAppear(): void {
     mediaPlayer.onChange((work: AnyType) => {
       this.name = work?.file?.title
@@ -74,6 +82,39 @@ export default struct MyBricksAIMusicPlayer {
     if(mediaPlayer.curruntWork) {
       this.name = mediaPlayer.curruntWork?.file?.title
     }
+  }
+
+  aboutToDisappear() {
+    // 释放播放器资源
+    MediaPlayer.release()
+    // 清除定时器
+    if (this.vinylRotationTimer !== -1) {
+      clearInterval(this.vinylRotationTimer)
+    }
+  }
+
+  // 切换播放模式
+  private togglePlayMode() {
+    MediaPlayer.listener?.get('stateChange')?.(this.playMode)
+    switch (this.playMode) {
+      case PlayMode.SEQUENCE:
+        this.playMode = PlayMode.SINGLE
+        promptAction.showToast({ message: '单曲循环' })
+        break
+      case PlayMode.SINGLE:
+        this.playMode = PlayMode.RANDOM
+        promptAction.showToast({ message: '随机播放' })
+        break
+      case PlayMode.RANDOM:
+        this.playMode = PlayMode.SEQUENCE
+        promptAction.showToast({ message: '顺序播放' })
+        break
+    }
+  }
+
+  // 显示播放列表
+  private showPlaylistDialog() {
+    Event.getInstance().emit('showPlaylist', '111')
   }
 
   build() {
