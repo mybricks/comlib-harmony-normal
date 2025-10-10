@@ -5,7 +5,7 @@ import {
   CSSProperties
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
-import { mediaPlayer } from './AiMusic/Index'
+// import { mediaPlayer } from './AiMusic/Index'
 import MediaPlayer, { PlayState } from './AiMusic/model/AppMusicMediaPlayer'
 import { PlayMode, PositionItem } from './AiMusic/model/AppMusicPlayerModel'
 import { LyricLine, LyricData } from './AiMusic/model/AppMusicLyricModel'
@@ -78,21 +78,36 @@ export default struct MyBricksAIMusicPlayer {
   @Local playMode: PlayMode = PlayMode.SEQUENCE
   @Local value: number = 0
   @Local isPlaying: boolean = MediaPlayer.isPlaying
+  @Local rotationAngle: number = MediaPlayer.rotationAngle
+  @Local needleRotation: number = MediaPlayer.needleRotation
 
   private context: common.UIAbilityContext = getContext() as common.UIAbilityContext
   private uiContext = this.getUIContext()
 
-  aboutToAppear(): void {
-    mediaPlayer.onChange((work: AnyType) => {
-      this.name = work?.file?.title
-    })
+  rotationAngleListener = (rotationAngle: number) => {
+    this.rotationAngle = rotationAngle
+  }
 
-    if(mediaPlayer.curruntWork) {
-      this.name = mediaPlayer.curruntWork?.file?.title
-    }
+  needleRotationListener = (needleRotation: number) => {
+    this.needleRotation = needleRotation
+  }
+
+  aboutToAppear(): void {
+    // mediaPlayer.onChange((work: AnyType) => {
+    //   this.name = work?.file?.title
+    // })
+    //
+    // if(mediaPlayer.curruntWork) {
+    //   this.name = mediaPlayer.curruntWork?.file?.title
+    // }
+
+    MediaPlayer.addEventListener("rotationAngle", this.rotationAngleListener)
+    MediaPlayer.addEventListener("needleRotation", this.needleRotationListener)
   }
 
   aboutToDisappear() {
+    MediaPlayer.removeEventListener("rotationAngle", this.rotationAngleListener)
+    MediaPlayer.removeEventListener("needleRotation", this.needleRotationListener)
     // 释放播放器资源
     MediaPlayer.release()
     // 清除定时器
@@ -195,7 +210,7 @@ export default struct MyBricksAIMusicPlayer {
           Image('https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_vinyl_record.png')
             .width('100%')
             .aspectRatio(1)
-            .rotate({ angle: MediaPlayer.rotationAngle })
+            .rotate({ angle: this.rotationAngle })
 
           // 封面
           Image(MediaPlayer.currentSong?.file?.coverImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
@@ -223,7 +238,7 @@ export default struct MyBricksAIMusicPlayer {
             .height(240)
             .margin({ top: -20 })
             .objectFit(ImageFit.Contain)
-            .rotate({ centerX: '66%', centerY: 0, angle: MediaPlayer.needleRotation })
+            .rotate({ centerX: '66%', centerY: 0, angle: this.needleRotation })
             .animation({
               duration: 500,
               curve: Curve.EaseInOut
@@ -384,10 +399,10 @@ export default struct MyBricksAIMusicPlayer {
       Row() {
         // 播放模式按钮
         Image(this.playMode === PlayMode.SEQUENCE ?
-        'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_play_list_cycle.png' :
+          'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_play_list_cycle.png' :
           this.playMode === PlayMode.SINGLE ?
-          'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_play_one_cycle.png' :
-          'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_shuffle.png')
+            'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_play_one_cycle.png' :
+            'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_shuffle.png')
           .width(24)
           .height(24)
           .margin({ right: 40 })

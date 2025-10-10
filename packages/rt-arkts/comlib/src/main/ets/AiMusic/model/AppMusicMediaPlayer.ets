@@ -54,6 +54,7 @@ class MediaPlayer {
   static isRotating: boolean = false // 控制黑胶是否在旋转
   static rotationAngle: number = 0 // 当前旋转角度
   static needleRotation: number = 0 // 唱针旋转角度
+  static eventListener: Map<string, Set<(value: ESObject) => void>> = new Map();
 
   constructor() {
     MediaPlayer.init();
@@ -466,6 +467,9 @@ class MediaPlayer {
       delay: 100 // 添加一点延迟，让动作更自然
     }, () => {
       MediaPlayer.needleRotation = 13
+      MediaPlayer.eventListener.get("needleRotation")?.forEach((listener) => {
+        listener(MediaPlayer.needleRotation)
+      })
     })
   }
 
@@ -478,6 +482,9 @@ class MediaPlayer {
       curve: Curve.EaseInOut
     }, () => {
       MediaPlayer.needleRotation = 0
+      MediaPlayer.eventListener.get("needleRotation")?.forEach((listener) => {
+        listener(MediaPlayer.needleRotation)
+      })
     })
   }
 
@@ -489,6 +496,9 @@ class MediaPlayer {
         curve: Curve.Linear
       }, () => {
         MediaPlayer.rotationAngle = MediaPlayer.rotationAngle + 1
+        MediaPlayer.eventListener.get("rotationAngle")?.forEach((listener) => {
+          listener(MediaPlayer.rotationAngle)
+        })
       })
       setTimeout(() => {
         if (MediaPlayer.isRotating) {
@@ -648,6 +658,22 @@ class MediaPlayer {
 
   public getPlayState(): PlayState {
     return MediaPlayer.playState;
+  }
+
+  static addEventListener(key: string, listener: (value: ESObject) => void) {
+    if (!MediaPlayer.eventListener.get(key)) {
+      MediaPlayer.eventListener.set(key, new Set())
+    }
+
+    const eventListener = MediaPlayer.eventListener.get(key)
+    eventListener!.add(listener)
+  }
+
+  static removeEventListener(key: string, listener: (value: ESObject) => void) {
+    const eventListener = MediaPlayer.eventListener.get(key)
+    if (eventListener) {
+      eventListener!.delete(listener)
+    }
   }
 }
 
