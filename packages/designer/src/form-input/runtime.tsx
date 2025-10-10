@@ -96,6 +96,43 @@ export default function (props) {
 
   const onChange = useCallback((e) => {
     let value = e.detail.value;
+    switch(data.type) {
+      // 【身份证号】只允许输入数字
+      case 'idcard':
+        value = value.replace(/[^\d]/g, '')
+        break;
+
+      // 【手机号】只允许输入数字、+、-、空格
+      case 'phone':
+        value = value.replace(/[^\d+-\s]/g, '')
+        // 不允许多个 +
+        if ((value.match(/\+/g) || []).length > 1) {
+          // 保留第一个 +
+          const first = value.indexOf('+')
+          value = '+' + value.slice(first + 1).replace(/\+/g, '')
+        }
+        // + 号只能在最前面
+        if (value.indexOf('+') > 0) {
+          value = value.replace(/\+/g, '') // 删除中间的 +
+        }
+        // 连字符 - 不能在最前或在空格或 + 之后
+        value = value.replace(/(^-|(?<=\+)-|(?<=\s)-)/g, '')
+        break;
+
+      // 【数字(支持小数)】只允许输入正确的数字，包括整数、小数、负数
+      case 'number_decimal':
+        value = value.replace(/[^\d.-]/g, '')
+        if (value.startsWith('-')) {
+          value = '-' + value.slice(1).replace(/\-/g, '');
+        } else {
+          value = value.replace(/\-/g, '');
+        }
+        const parts = value.split('.');
+        if (parts.length > 1) {
+          value = parts.shift() + '.' + parts.join('');
+        }
+        break;
+    }
     setValue(value);
     outputs?.["onChange"](value);
   }, []);
