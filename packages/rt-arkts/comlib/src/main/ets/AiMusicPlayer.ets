@@ -256,15 +256,18 @@ export default struct MyBricksAIMusicPlayer {
             .fontSize(24)
             .fontColor('#fff')
             .fontWeight(FontWeight.Bold)
-            .margin({ top: 20, bottom: 8 })
-          this.slots({
-            id: 'toolbar',
-            style: {
-              "width":100,
-            }
-          })
+          Column() {
+            this.slots({
+              id: 'toolbar',
+              style: {
+                "width":50,
+              }
+            })
+          }
+          .layoutWeight(1)
           // this.customBuilderParam()
         }
+        .margin({ top: 20, bottom: 8 })
       }
       .width('100%')
       .padding({ left: 15, right: 15 })
