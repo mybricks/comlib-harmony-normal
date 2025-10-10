@@ -38,8 +38,7 @@ export default (context: IOContext) => {
 
 
   if (data.immediate) {
-    MediaPlayer.setPlayListener('stateChange',(playState :AnyType) => {
-      console.log("stateChange",PlayState)
+    MediaPlayer.setPlayListener('stateChange', (playState: AnyType) => {
       if (playState === PlayState.playing && data.type === 'onPlay') {
         outputs?.then()
       } else if (playState === PlayState.paused && data.type === 'onPause') {
@@ -57,8 +56,8 @@ export default (context: IOContext) => {
     //   }
     // })
     if (data.type === 'onChange') {
-      MediaPlayer.setPlayListener('onChange',(PlayState :AnyType) => {
-          outputs?.then()
+      MediaPlayer.setPlayListener('onChange', (PlayState: AnyType) => {
+        outputs?.then()
       })
 
       // mediaPlayer.onChange((work: AnyType) => {
@@ -80,11 +79,8 @@ export default (context: IOContext) => {
           return
         }
         case data.type === 'pause': {
-
-          if (MediaPlayer.isPlaying) {
-            MediaPlayer.stopVinylRotation();
-            await MediaPlayer.pause();
-          }
+          MediaPlayer.stopVinylRotation();
+          await MediaPlayer.pause();
           outputs?.then()
           return
         }
@@ -100,7 +96,7 @@ export default (context: IOContext) => {
         case data.type === 'setPlayList': {
           // mediaPlayer.setPlaylist(val)
           MediaPlayer.playlist = val
-          console.log("MediaPlayer",MediaPlayer.playlist)
+          console.log("MediaPlayer", MediaPlayer.playlist)
           MediaPlayer.currentIndex = 0
           MediaPlayer.currentSong = MediaPlayer.playlist[MediaPlayer.currentIndex]
 

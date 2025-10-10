@@ -319,6 +319,10 @@ class MediaPlayer {
       console.info('切换到歌曲:', MediaPlayer.currentSong.file.title);
       console.info('歌曲URL:', MediaPlayer.currentSong.file.cloudFileUrl);
 
+      MediaPlayer.eventListener.get("currentSong")?.forEach((listener) => {
+        listener(MediaPlayer.currentSong)
+      })
+
       MediaPlayer.lyrics = []; // 清空当前歌词
       MediaPlayer.currentLyricIndex = 0; // 重置歌词索引
       MediaPlayer.currentTime = 0; // 重置当前时间
@@ -340,7 +344,7 @@ class MediaPlayer {
         await MediaPlayer.stop();
         await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
         if (MediaPlayer.listener) {
-          MediaPlayer.listener.get('onChange')?.(index)
+          MediaPlayer.listener.get('onChange')?.(MediaPlayer.currentSong)
         }
         MediaPlayer.isPlaying = true;
         MediaPlayer.startVinylRotation();

@@ -80,6 +80,7 @@ export default struct MyBricksAIMusicPlayer {
   @Local isPlaying: boolean = MediaPlayer.isPlaying
   @Local rotationAngle: number = MediaPlayer.rotationAngle
   @Local needleRotation: number = MediaPlayer.needleRotation
+  @Local currentSong: AnyType = MediaPlayer.currentSong
 
   private context: common.UIAbilityContext = getContext() as common.UIAbilityContext
   private uiContext = this.getUIContext()
@@ -90,6 +91,10 @@ export default struct MyBricksAIMusicPlayer {
 
   needleRotationListener = (needleRotation: number) => {
     this.needleRotation = needleRotation
+  }
+
+  currentSongListener = (currentSong: AnyType) => {
+    this.currentSong = currentSong
   }
 
   aboutToAppear(): void {
@@ -103,6 +108,7 @@ export default struct MyBricksAIMusicPlayer {
 
     MediaPlayer.addEventListener("rotationAngle", this.rotationAngleListener)
     MediaPlayer.addEventListener("needleRotation", this.needleRotationListener)
+    MediaPlayer.addEventListener("currentSong", this.currentSongListener)
   }
 
   aboutToDisappear() {
@@ -147,11 +153,13 @@ export default struct MyBricksAIMusicPlayer {
         MediaPlayer.stopVinylRotation();
         await MediaPlayer.pause();
         this.isPlaying = false
+        MediaPlayer.isPlaying = false
       } else {
         if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
           MediaPlayer.startVinylRotation();
           await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
           this.isPlaying = true
+          MediaPlayer.isPlaying = true
         } else {
           console.error('No audio source available');
         }
@@ -267,7 +275,7 @@ export default struct MyBricksAIMusicPlayer {
       // 歌曲信息
       Column() {
         Row() {
-          Text(MediaPlayer.currentSong?.file?.title || '未知歌曲')
+          Text(this.currentSong?.file?.title || '未知歌曲')
             .fontSize(24)
             .fontColor('#fff')
             .fontWeight(FontWeight.Bold)
