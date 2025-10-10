@@ -73,10 +73,11 @@ export default (context: IOContext) => {
           if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
             MediaPlayer.startVinylRotation();
             await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
+            outputs?.then()
           } else {
             console.error('No audio source available');
           }
-          outputs?.then()
+
           return
         }
         case data.type === 'pause': {

@@ -257,8 +257,13 @@ export default struct MyBricksAIMusicPlayer {
             .fontColor('#fff')
             .fontWeight(FontWeight.Bold)
             .margin({ top: 20, bottom: 8 })
-
-          this.customBuilderParam()
+          this.slots({
+            id: 'toolbar',
+            style: {
+              "width":100,
+            }
+          })
+          // this.customBuilderParam()
         }
       }
       .width('100%')
