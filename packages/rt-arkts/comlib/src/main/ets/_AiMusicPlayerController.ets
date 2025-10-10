@@ -31,7 +31,7 @@ interface IOContext {
   outputs: Outputs
 }
 
-export default async (context: IOContext) => {
+export default (context: IOContext) => {
   const data: Data = context.data
   const inputs: Inputs = context.inputs
   const outputs: Outputs = context.outputs
@@ -39,6 +39,7 @@ export default async (context: IOContext) => {
 
   if (data.immediate) {
     MediaPlayer.setPlayListener('stateChange',(PlayState :AnyType) => {
+      console.log("stateChange",PlayState)
       if (PlayState === 'playing' && data.type === 'onPlay') {
         outputs?.then()
       }
@@ -99,6 +100,7 @@ export default async (context: IOContext) => {
         case data.type === 'setPlayList': {
           // mediaPlayer.setPlaylist(val)
           MediaPlayer.playlist = val
+          console.log("MediaPlayer",MediaPlayer.playlist)
           MediaPlayer.currentIndex = 0
           MediaPlayer.currentSong = MediaPlayer.playlist[MediaPlayer.currentIndex]
 
