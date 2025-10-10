@@ -56,8 +56,8 @@ export default (context: IOContext) => {
     //   }
     // })
     if (data.type === 'onChange') {
-      MediaPlayer.setPlayListener('onChange', (PlayState: AnyType) => {
-        outputs?.then()
+      MediaPlayer.setPlayListener('onChange', (work: AnyType) => {
+        outputs?.then(work)
       })
 
       // mediaPlayer.onChange((work: AnyType) => {
