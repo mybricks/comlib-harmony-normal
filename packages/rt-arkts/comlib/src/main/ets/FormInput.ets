@@ -176,6 +176,7 @@ export default struct MyBricksFormInput {
         .maxLength(this.data.maxlength)
         .enabled(!this.data.disabled)
         .contentType(getContentType(this.data.type))
+        .inputFilter(getInputFilter(this.data.type))
         .cancelButton({ style: CancelButtonStyle.INPUT, icon: { size: this.data.clearable ? 14 : 0 } })
         .textAlign(convertInputAlignToTextAlign(this.data.inputAlign))
         .onChange((value: string) => {
@@ -218,6 +219,9 @@ function getType(type: string) {
     case 'phone': {
       return InputType.PhoneNumber
     }
+    case 'number_decimal': {
+      return InputType.NUMBER_DECIMAL
+    }
     default: {
       return InputType.Normal
     }
@@ -234,6 +238,17 @@ function getContentType (type: string) {
     }
     default: {
       return ContentType.NICKNAME
+    }
+  }
+}
+
+function getInputFilter (type: string) {
+  switch (type) {
+    case 'number_decimal': {
+      return '^[-]?\\d*\\.?\\d*$'
+    }
+    default: {
+      return null
     }
   }
 }

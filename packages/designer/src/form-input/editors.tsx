@@ -56,6 +56,7 @@ export default {
             { value: "text", label: "文本" },
             { value: "idcard", label: "身份证号" },
             { value: "phone", label: "手机号" },
+            { value: "number_decimal", label: "数字(支持小数)" },
           ],
           value: {
             get({ data }) {
