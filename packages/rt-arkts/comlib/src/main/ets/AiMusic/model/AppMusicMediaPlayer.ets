@@ -59,8 +59,23 @@ class MediaPlayer {
     MediaPlayer.init();
   }
 
-  static init() {
+  static async init() {
     console.info(MediaPlayer.TAG + "init()");
+    return new Promise<void>((resolve) => {
+      if (!MediaPlayer.avPlayer) {
+        console.info(MediaPlayer.TAG + "播放器未初始化，正在初始化...");
+        media.createAVPlayer().then((player) => {
+          MediaPlayer.avPlayer = player;
+          MediaPlayer.setupPlayerCallbacks();
+        }).catch((err:BusinessError) => {
+          console.error(MediaPlayer.TAG + "Failed to create player:", err);
+        }).finally(() => {
+          resolve()
+        });
+      } else {
+        resolve()
+      }
+    })
     media.createAVPlayer().then((player) => {
       MediaPlayer.avPlayer = player;
       MediaPlayer.setupPlayerCallbacks();
@@ -125,7 +140,6 @@ class MediaPlayer {
       }
 
       if (MediaPlayer.listener) {
-        // MediaPlayer.listener.stateChange(MediaPlayer.playState);
         MediaPlayer.listener.get('stateChange')?.(MediaPlayer.playState)
       }
     });
@@ -138,7 +152,6 @@ class MediaPlayer {
         MediaPlayer.avPlayer.reset();
       }
       if (MediaPlayer.listener) {
-        // MediaPlayer.listener.stateChange(MediaPlayer.playState);
         MediaPlayer.listener.get('stateChange')?.(MediaPlayer.playState)
       }
     });
@@ -175,10 +188,10 @@ class MediaPlayer {
     MediaPlayer.isJustPrepare = false;
 
     try {
+      await MediaPlayer.init();
+
       if (!MediaPlayer.avPlayer) {
-        console.info(MediaPlayer.TAG + "播放器未初始化，正在初始化...");
-        MediaPlayer.init();
-        return;
+        return
       }
 
       // 如果是同一个URL且处于暂停状态
@@ -242,7 +255,6 @@ class MediaPlayer {
       console.error(MediaPlayer.TAG + "Failed to play:", error);
       MediaPlayer.playState = PlayState.error;
       if (MediaPlayer.listener) {
-        // MediaPlayer.listener.stateChange(MediaPlayer.playState);
         MediaPlayer.listener.get('stateChange')?.(MediaPlayer.playState)
       }
     }
@@ -326,6 +338,9 @@ class MediaPlayer {
         // 先重置播放器
         await MediaPlayer.stop();
         await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
+        if (MediaPlayer.listener) {
+          MediaPlayer.listener.get('onChange')?.(index)
+        }
         MediaPlayer.isPlaying = true;
         MediaPlayer.startVinylRotation();
         console.info('切换歌曲完成，总耗时:', Date.now() - startTime, 'ms');

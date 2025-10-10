@@ -38,12 +38,11 @@ export default (context: IOContext) => {
 
 
   if (data.immediate) {
-    MediaPlayer.setPlayListener('stateChange',(PlayState :AnyType) => {
+    MediaPlayer.setPlayListener('stateChange',(playState :AnyType) => {
       console.log("stateChange",PlayState)
-      if (PlayState === 'playing' && data.type === 'onPlay') {
+      if (playState === PlayState.playing && data.type === 'onPlay') {
         outputs?.then()
-      }
-      if (PlayState === 'paused' && data.type === 'onPause') {
+      } else if (playState === PlayState.paused && data.type === 'onPause') {
         outputs?.then()
       }
     })
