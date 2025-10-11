@@ -245,7 +245,7 @@ export default struct MyBricksAIMusicPlayer {
             .rotate({ angle: this.rotationAngle })
 
           // 封面
-          Image(this.targetAudio?.file?.coverImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
+          Image(this.targetAudio?.file?.thumbnailImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
             .width('50%')
             .aspectRatio(1)
             .borderRadius(200)
@@ -514,7 +514,10 @@ export default struct MyBricksAIMusicPlayer {
 
     }
     .padding(20)
-    .backgroundColor('#090D17')
+    .backgroundImage(this.targetAudio?.file?.thumbnailImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
+    .backgroundImageSize(ImageSize.Cover)
+    .backgroundBlurStyle(BlurStyle.Thin)
+    .backgroundEffect({ radius: 100, brightness: 0.7, saturation: 0.7 })
     .justifyContent(FlexAlign.Center)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
