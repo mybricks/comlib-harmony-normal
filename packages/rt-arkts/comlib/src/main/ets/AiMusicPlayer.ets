@@ -282,7 +282,7 @@ export default struct MyBricksAIMusicPlayer {
 
     }
     .width('80%')
-    .margin({ top: 20 })
+    .margin({ top: 101 })
     .height(300)
   }
 
@@ -517,7 +517,7 @@ export default struct MyBricksAIMusicPlayer {
     .backgroundImage(this.targetAudio?.file?.thumbnailImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
     .backgroundImageSize(ImageSize.Cover)
     .backgroundBlurStyle(BlurStyle.Thin)
-    .backgroundEffect({ radius: 100, brightness: 0.7, saturation: 0.7 })
+    .backgroundEffect({ radius: 120, brightness: 0.9, saturation: 0.5 })
     .justifyContent(FlexAlign.Center)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
