@@ -6,7 +6,7 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 // import { mediaPlayer } from './AiMusic/Index'
-import MediaPlayer, { PlayState, Time, Lyric } from './AiMusic/model/AppMusicMediaPlayer'
+import MediaPlayer, { PlayState, Time, Lyric, WorksItemWithLabelsModel } from './AiMusic/model/AppMusicMediaPlayer'
 import { PlayMode, PositionItem } from './AiMusic/model/AppMusicPlayerModel'
 import { LyricLine, LyricData } from './AiMusic/model/AppMusicLyricModel'
 import promptAction from '@ohos.promptAction'
@@ -73,14 +73,15 @@ export default struct MyBricksAIMusicPlayer {
 
   @Local name: string = '歌曲名称'
 
-  @Local playMode: PlayMode = PlayMode.SEQUENCE
+  @Local playMode: PlayMode = MediaPlayer.playMode
   @Local value: number = 0
   @Local isPlaying: boolean = MediaPlayer.isPlaying
   @Local rotationAngle: number = MediaPlayer.rotationAngle
   @Local needleRotation: number = MediaPlayer.needleRotation
-  @Local currentSong: AnyType = MediaPlayer.currentSong
   @Local time: Time = MediaPlayer.time
   @Local lyric: Lyric = MediaPlayer.lyric
+  @Local targetAudio: WorksItemWithLabelsModel | null = MediaPlayer.targetAudio
+
 
   private context: common.UIAbilityContext = getContext() as common.UIAbilityContext
   private uiContext = this.getUIContext()
@@ -93,8 +94,8 @@ export default struct MyBricksAIMusicPlayer {
     this.needleRotation = needleRotation
   }
 
-  currentSongListener = (currentSong: AnyType) => {
-    this.currentSong = currentSong
+  targetAudioListener = (targetAudio: WorksItemWithLabelsModel) => {
+    this.targetAudio = targetAudio
   }
 
   timeListener = (time: Time) => {
@@ -109,22 +110,39 @@ export default struct MyBricksAIMusicPlayer {
     this.lyric = lyric
   }
 
+  playModeListener = (playMode: PlayMode) => {
+    this.playMode = playMode
+    switch (playMode) {
+      case PlayMode.SEQUENCE:
+        promptAction.showToast({ message: '顺序播放' })
+        break
+      case PlayMode.SINGLE:
+        promptAction.showToast({ message: '单曲循环' })
+        break
+      case PlayMode.RANDOM:
+        promptAction.showToast({ message: '随机播放' })
+        break
+    }
+  }
+
   aboutToAppear(): void {
     MediaPlayer.addEventListener("rotationAngle", this.rotationAngleListener)
     MediaPlayer.addEventListener("needleRotation", this.needleRotationListener)
-    MediaPlayer.addEventListener("currentSong", this.currentSongListener)
+    MediaPlayer.addEventListener("targetAudio", this.targetAudioListener)
     MediaPlayer.addEventListener("time", this.timeListener)
     MediaPlayer.addEventListener("isPlaying", this.isPlayingListener)
     MediaPlayer.addEventListener("lyric", this.lyricListener)
+    MediaPlayer.addEventListener("playMode", this.playModeListener)
   }
 
   aboutToDisappear() {
     MediaPlayer.removeEventListener("rotationAngle", this.rotationAngleListener)
     MediaPlayer.removeEventListener("needleRotation", this.needleRotationListener)
-    MediaPlayer.removeEventListener("currentSong", this.currentSongListener)
+    MediaPlayer.removeEventListener("targetAudio", this.targetAudioListener)
     MediaPlayer.removeEventListener("time", this.timeListener)
     MediaPlayer.removeEventListener("isPlaying", this.isPlayingListener)
     MediaPlayer.removeEventListener("lyric", this.lyricListener)
+    MediaPlayer.removeEventListener("playMode", this.playModeListener)
   }
 
   // 切换播放模式
@@ -153,21 +171,26 @@ export default struct MyBricksAIMusicPlayer {
 
   // 播放/暂停
   private async togglePlay() {
-    try {
-      if (this.isPlaying) {
-        MediaPlayer.stopVinylRotation();
-        await MediaPlayer.pause();
-      } else {
-        if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
-          MediaPlayer.startVinylRotation();
-          await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
-        } else {
-          console.error('No audio source available');
-        }
-      }
-    } catch (error) {
-      console.error('Failed to toggle play state:', error);
+    if (this.isPlaying) {
+      MediaPlayer.pause();
+    } else {
+      MediaPlayer.play();
     }
+    // try {
+    //   if (this.isPlaying) {
+    //     MediaPlayer.stopVinylRotation();
+    //     await MediaPlayer.pause();
+    //   } else {
+    //     if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
+    //       MediaPlayer.startVinylRotation();
+    //       await MediaPlayer.play();
+    //     } else {
+    //       console.error('No audio source available');
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.error('Failed to toggle play state:', error);
+    // }
   }
 
   // 歌词滚动效果
@@ -222,7 +245,7 @@ export default struct MyBricksAIMusicPlayer {
             .rotate({ angle: this.rotationAngle })
 
           // 封面
-          Image(MediaPlayer.currentSong?.file?.coverImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
+          Image(this.targetAudio?.file?.coverImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
             .width('50%')
             .aspectRatio(1)
             .borderRadius(200)
@@ -276,7 +299,7 @@ export default struct MyBricksAIMusicPlayer {
       // 歌曲信息
       Column() {
         Row() {
-          Text(this.currentSong?.file?.title || '未知歌曲')
+          Text(this.targetAudio?.file?.title || '未知歌曲')
             .fontSize(24)
             .fontColor('#fff')
             .fontWeight(FontWeight.Bold)
@@ -385,15 +408,18 @@ export default struct MyBricksAIMusicPlayer {
           .onChange((value: number, mode) => {
             if (mode === SliderChangeMode.Begin) {
               // 开始拖动暂停
-              MediaPlayer.avPlayer?.pause()
+              // MediaPlayer.avPlayer?.pause()
+              MediaPlayer.pause()
             }
 
             // 设置时间
-            MediaPlayer.avPlayer?.seek(value * 1000)
+            // MediaPlayer.avPlayer?.seek(value * 1000)
+            MediaPlayer.seek(value * 1000)
 
             if (mode === SliderChangeMode.End) {
               // 拖动结束，继续播放
-              MediaPlayer.avPlayer?.play()
+              // MediaPlayer.avPlayer?.play()
+              MediaPlayer.play()
             }
 
             // // 更新UI显示
@@ -433,7 +459,8 @@ export default struct MyBricksAIMusicPlayer {
           .width(24)
           .height(24)
           .margin({ right: 40 })
-          .onClick(() => this.togglePlayMode())
+          .onClick(() => MediaPlayer.togglePlayMode())
+          // .onClick(() => this.togglePlayMode())
 
         // 上一首按钮
         Image('https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_ic_previous.png')

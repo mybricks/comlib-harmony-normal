@@ -38,13 +38,23 @@ export default (context: IOContext) => {
 
 
   if (data.immediate) {
-    MediaPlayer.setPlayListener('stateChange', (playState: AnyType) => {
-      if (playState === PlayState.playing && data.type === 'onPlay') {
+
+    MediaPlayer.addEventListener("stateChange", (state: string) => {
+      if (state === "playing" && data.type === 'onPlay') {
         outputs?.then()
-      } else if (playState === PlayState.paused && data.type === 'onPause') {
+      } else if (state === "paused" && data.type === 'onPause') {
         outputs?.then()
       }
     })
+
+
+    // MediaPlayer.setPlayListener('stateChange', (playState: AnyType) => {
+    //   if (playState === PlayState.playing && data.type === 'onPlay') {
+    //     outputs?.then()
+    //   } else if (playState === PlayState.paused && data.type === 'onPause') {
+    //     outputs?.then()
+    //   }
+    // })
 
 
     // mediaPlayer.stateChange((state: string) => {
@@ -56,9 +66,14 @@ export default (context: IOContext) => {
     //   }
     // })
     if (data.type === 'onChange') {
-      MediaPlayer.setPlayListener('onChange', (work: AnyType) => {
-        outputs?.then(work)
+      MediaPlayer.addEventListener("onChange", (audio: AnyType) => {
+        outputs?.then(audio)
       })
+
+
+      // MediaPlayer.setPlayListener('onChange', (PlayState: AnyType) => {
+      //   outputs?.then()
+      // })
 
       // mediaPlayer.onChange((work: AnyType) => {
       //   outputs?.then(work)
@@ -68,26 +83,43 @@ export default (context: IOContext) => {
     inputs.call?.(async (val: AnyType) => {
       switch (true) {
         case data.type === 'play': {
-          if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
-            MediaPlayer.startVinylRotation();
-            await MediaPlayer.play(MediaPlayer.currentSong.file.cloudFileUrl);
+          if (MediaPlayer.targetAudio?.file?.cloudFileUrl) {
+            // MediaPlayer.startVinylRotation();
+            await MediaPlayer.play();
             outputs?.then()
           } else {
             console.error('No audio source available');
           }
+          // if (MediaPlayer.currentSong?.file?.cloudFileUrl) {
+          //   // MediaPlayer.startVinylRotation();
+          //   await MediaPlayer.play();
+          //   outputs?.then()
+          // } else {
+          //   console.error('No audio source available');
+          // }
 
           return
         }
         case data.type === 'pause': {
-          MediaPlayer.stopVinylRotation();
+          // MediaPlayer.stopVinylRotation();
           await MediaPlayer.pause();
           outputs?.then()
           return
         }
         case data.type === 'playSong': {
           if (val) {
-            MediaPlayer.startVinylRotation();
-            await MediaPlayer.play(val.file.cloudFileUrl);
+
+            // const index = MediaPlayer.audioList?.findIndex((audio) => {
+            //   return audio.file.id === val.id
+            // })
+            //
+            // MediaPlayer.setAudioListIndex(index === -1 ? 0 : index)
+            // MediaPlayer.setTargetAudio(val)
+
+            MediaPlayer.play(val)
+
+            // MediaPlayer.startVinylRotation();
+            // await MediaPlayer.play();
             // mediaPlayer.play(val)
             outputs?.then()
           }
@@ -95,22 +127,22 @@ export default (context: IOContext) => {
         }
         case data.type === 'setPlayList': {
           // mediaPlayer.setPlaylist(val)
-          MediaPlayer.playlist = val
-          console.log("MediaPlayer", MediaPlayer.playlist)
-          MediaPlayer.currentIndex = 0
-          MediaPlayer.currentSong = MediaPlayer.playlist[MediaPlayer.currentIndex]
 
-          // 设置初始时长（duration 已经是以秒为单位）
-          if (MediaPlayer.currentSong.file.duration > 0) {
-            MediaPlayer.time = {
-              currentTime: 0,
-              duration: MediaPlayer.currentSong.file.duration
-            }
-            // MediaPlayer.duration = MediaPlayer.currentSong.file.duration
-          }
+          MediaPlayer.setAudioList(val)
+          MediaPlayer.setAudioListIndex(0)
+          MediaPlayer.setTargetAudio(val[0])
 
-          // 解析歌词
-          MediaPlayer.parseLyrics()
+          // // 设置初始时长（duration 已经是以秒为单位）
+          // if (MediaPlayer.currentSong.file.duration > 0) {
+          //   MediaPlayer.time = {
+          //     currentTime: 0,
+          //     duration: MediaPlayer.currentSong.file.duration
+          //   }
+          //   // MediaPlayer.duration = MediaPlayer.currentSong.file.duration
+          // }
+          //
+          // // 解析歌词
+          // MediaPlayer.parseLyrics()
           return
         }
         case data.type === 'editSong': {
