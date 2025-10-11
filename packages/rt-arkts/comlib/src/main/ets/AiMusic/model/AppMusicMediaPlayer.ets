@@ -254,7 +254,11 @@ class MediaPlayer {
           break;
         case 'completed':
           // 播放完成状态。媒体文件播放到末尾时自动进入此状态，此时可调用 play() 重新播放，或调用 stop() 停止。
-          console.log("播放结束，下一首")
+          if (MediaPlayer.playMode === PlayMode.SINGLE) {
+            MediaPlayer.autoPlaySingleNext()
+          } else {
+            MediaPlayer.playNext()
+          }
           break;
         case 'stopped':
           // 停止状态。调用 stop() 后进入此状态，播放器停止播放并释放部分资源，但仍保留初始化信息，可重新调用 prepare() 再次准备播放。
@@ -324,7 +328,7 @@ class MediaPlayer {
     }
 
     if (
-      // 相同url说明是同一首歌
+    // 相同url说明是同一首歌
       targetAudio.file.cloudFileUrl === MediaPlayer.targetAudio.file.cloudFileUrl &&
         // 播放器非播放状态
         MediaPlayer.avPlayer.state !== "playing"
@@ -719,8 +723,13 @@ class MediaPlayer {
   //   await MediaPlayer.switchToSong(MediaPlayer.getNextIndex('next'))
   // }
 
+  static async autoPlaySingleNext() {
+    await MediaPlayer.seek(0)
+    MediaPlayer.play()
+  }
+
   // 自动播放下一首（根据播放模式）
-  static async autoPlayNext() {
+  static async autoPlayNext2() {
     if (MediaPlayer.playlist.length === 0) return
 
     switch (MediaPlayer.playMode) {
@@ -1041,24 +1050,39 @@ class MediaPlayer {
     })
     const lyrics = MediaPlayer.lyric.lyrics
     const currentTime = time / 1000
-    for (let i = lyrics.length - 1; i >= 0; i--) {
-      if (currentTime >= lyrics[i].time) {
-        if (MediaPlayer.lyric.currentLineIndex !== i) {
-          // 歌词滚动效果
-          MediaPlayer.lyric = {
-            currentLineIndex: i,
-            lyrics: MediaPlayer.lyric.lyrics
-          }
 
-          MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
-            listener(MediaPlayer.lyric)
-          })
-          MediaPlayer.lyricListScroller.scrollToIndex(i - 1, true)
+    if (currentTime) {
+      const currentLineIndex = MediaPlayer.lyric.currentLineIndex
+      for (let i = lyrics.length - 1; i >= 0; i--) {
+        if (currentTime >= lyrics[i].time) {
+          if (currentLineIndex !== i) {
+            // 歌词滚动效果
+            MediaPlayer.lyric = {
+              currentLineIndex: i,
+              lyrics: MediaPlayer.lyric.lyrics
+            }
+
+            MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
+              listener(MediaPlayer.lyric)
+            })
+            MediaPlayer.lyricListScroller.scrollToIndex(i - 1, true)
+          }
+          break
         }
-        break
       }
+    } else {
+      MediaPlayer.lyric = {
+        currentLineIndex: 0,
+        lyrics: MediaPlayer.lyric.lyrics
+      }
+
+      MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
+        listener(MediaPlayer.lyric)
+      })
+      MediaPlayer.lyricListScroller.scrollToIndex(0)
     }
-    MediaPlayer.avPlayer?.seek(time, media.SeekMode.SEEK_NEXT_SYNC);
+
+    await MediaPlayer.avPlayer?.seek(time, media.SeekMode.SEEK_NEXT_SYNC);
   }
 
   static async stop() {

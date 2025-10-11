@@ -317,7 +317,7 @@ export default struct MyBricksAIMusicPlayer {
         .margin({ top: 20, bottom: 8 })
       }
       .width('100%')
-      .padding({ left: 15, right: 15 })
+      .padding({ left: 20, right: 20 })
       .alignItems(HorizontalAlign.Start)
 
       // 歌词显示
@@ -327,7 +327,7 @@ export default struct MyBricksAIMusicPlayer {
             ListItem() {
               Column() {
                 // Word-by-word rendering
-                Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Center }) {
+                Flex({ wrap: FlexWrap.Wrap, justifyContent: FlexAlign.Start }) {
                   ForEach(line.text.split(''), (word: string, wordIndex: number) => {
                     Row() {
                       Text(word)
@@ -375,8 +375,13 @@ export default struct MyBricksAIMusicPlayer {
                     })
                   })
                 }
-                .width('90%')
-                .padding(10)
+                .width('100%')
+                .padding({
+                  top: 10,
+                  right: 20,
+                  bottom: 10,
+                  left: 20
+                })
               }
               .width('100%')
             }
@@ -432,6 +437,10 @@ export default struct MyBricksAIMusicPlayer {
             //   console.error('Failed to seek:', error)
             // })
           })
+          .padding({
+            left: 11,
+            right: 11
+          })
 
         Row() {
           Text(this.formatTime(this.time.currentTime))
@@ -443,9 +452,17 @@ export default struct MyBricksAIMusicPlayer {
         }
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
+        .padding({
+          left: 20,
+          right: 20
+        })
       }
-      .width('90%')
+      .width('100%')
       .margin({ top: 10 })
+      // .padding({
+      //   left: 11,
+      //   right: 11
+      // })
 
 
       // 控制按钮
