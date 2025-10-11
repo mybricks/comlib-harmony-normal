@@ -139,44 +139,22 @@ class MediaPlayer {
 
     // 时长更新
     MediaPlayer.avPlayer.on('durationUpdate', (time: number) => {
-      MediaPlayer.time = {
+      MediaPlayer.setTime({
         duration: time / 1000,
         currentTime: MediaPlayer.time.currentTime
-      }
-      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-        listener(MediaPlayer.time)
       })
     });
 
     // 时间更新
     MediaPlayer.avPlayer.on('timeUpdate', (time: number) => {
       const currentTime = time / 1000
-      MediaPlayer.time = {
+
+      MediaPlayer.setTime({
         duration: MediaPlayer.time.duration,
         currentTime: currentTime
-      }
-      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-        listener(MediaPlayer.time)
       })
 
-      const lyrics = MediaPlayer.lyric.lyrics
-      for (let i = lyrics.length - 1; i >= 0; i--) {
-        if (currentTime >= lyrics[i].time) {
-          if (MediaPlayer.lyric.currentLineIndex !== i) {
-            // 歌词滚动效果
-            MediaPlayer.lyric = {
-              currentLineIndex: i,
-              lyrics: MediaPlayer.lyric.lyrics
-            }
-
-            MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
-              listener(MediaPlayer.lyric)
-            })
-            MediaPlayer.lyricListScroller.scrollToIndex(i - 1, true)
-          }
-          break
-        }
-      }
+      MediaPlayer.updateLyric()
     });
 
     // 状态变化
@@ -255,7 +233,7 @@ class MediaPlayer {
         case 'completed':
           // 播放完成状态。媒体文件播放到末尾时自动进入此状态，此时可调用 play() 重新播放，或调用 stop() 停止。
           if (MediaPlayer.playMode === PlayMode.SINGLE) {
-            MediaPlayer.autoPlaySingleNext()
+            MediaPlayer.avPlayer?.play()
           } else {
             MediaPlayer.playNext()
           }
@@ -284,12 +262,9 @@ class MediaPlayer {
 
 
     MediaPlayer.avPlayer.on('seekDone', (time: number) => {
-      MediaPlayer.time = {
+      MediaPlayer.setTime({
         duration: MediaPlayer.time.duration,
         currentTime: time / 1000
-      }
-      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-        listener(MediaPlayer.time)
       })
     });
 
@@ -333,13 +308,9 @@ class MediaPlayer {
         // 播放器非播放状态
         MediaPlayer.avPlayer.state !== "playing"
     ) {
-      // 重置时间
-      MediaPlayer.time = {
+      MediaPlayer.setTime({
         currentTime: 0,
         duration: MediaPlayer.targetAudio.file.duration
-      }
-      MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-        listener(MediaPlayer.time)
       })
       // 加载歌曲
       MediaPlayer.avPlayer.url = MediaPlayer.targetAudio.file.cloudFileUrl
@@ -369,6 +340,13 @@ class MediaPlayer {
   // 设置当前歌曲索引
   static setAudioListIndex(audioListIndex: number) {
     MediaPlayer.audioListIndex = audioListIndex
+  }
+
+  static setTime(time: Time) {
+    MediaPlayer.time = time
+    MediaPlayer.eventListener.get("time")?.forEach((listener) => {
+      listener(MediaPlayer.time)
+    })
   }
 
   private static  funcsMap : Map<string, Array<(data: AnyType) => void>> = new Map();
@@ -723,11 +701,6 @@ class MediaPlayer {
   //   await MediaPlayer.switchToSong(MediaPlayer.getNextIndex('next'))
   // }
 
-  static async autoPlaySingleNext() {
-    await MediaPlayer.seek(0)
-    MediaPlayer.play()
-  }
-
   // 自动播放下一首（根据播放模式）
   static async autoPlayNext2() {
     if (MediaPlayer.playlist.length === 0) return
@@ -817,18 +790,18 @@ class MediaPlayer {
   }
 
   // 更新当前歌词索引
-  static updateLyricIndex() {
-    for (let i = MediaPlayer.lyrics.length - 1; i >= 0; i--) {
-      if (MediaPlayer.currentTime >= MediaPlayer.lyrics[i].time) {
-        if (MediaPlayer.currentLyricIndex !== i) {
-          MediaPlayer.currentLyricIndex = i
-          // 滚动到当前歌词
-          MediaPlayer.lyricListScroller.scrollToIndex(i)
-        }
-        break
-      }
-    }
-  }
+  // static updateLyricIndex() {
+  //   for (let i = MediaPlayer.lyrics.length - 1; i >= 0; i--) {
+  //     if (MediaPlayer.currentTime >= MediaPlayer.lyrics[i].time) {
+  //       if (MediaPlayer.currentLyricIndex !== i) {
+  //         MediaPlayer.currentLyricIndex = i
+  //         // 滚动到当前歌词
+  //         MediaPlayer.lyricListScroller.scrollToIndex(i)
+  //       }
+  //       break
+  //     }
+  //   }
+  // }
 
   // 开始唱片动画
   static startVinylRotation() {
@@ -1033,24 +1006,9 @@ class MediaPlayer {
     }
   }
 
-  // 进度MediaPlayer.time = {
-  //         duration: time / 1000,
-  //         currentTime: MediaPlayer.time.currentTime
-  //       }
-  //       MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-  //         listener(MediaPlayer.time)
-  //       })
-  static async seek(time: number) {
-    MediaPlayer.time = {
-      duration: MediaPlayer.time.duration,
-      currentTime: time / 1000
-    }
-    MediaPlayer.eventListener.get("time")?.forEach((listener) => {
-      listener(MediaPlayer.time)
-    })
+  static updateLyric() {
     const lyrics = MediaPlayer.lyric.lyrics
-    const currentTime = time / 1000
-
+    const currentTime = MediaPlayer.time.currentTime
     if (currentTime) {
       const currentLineIndex = MediaPlayer.lyric.currentLineIndex
       for (let i = lyrics.length - 1; i >= 0; i--) {
@@ -1081,6 +1039,15 @@ class MediaPlayer {
       })
       MediaPlayer.lyricListScroller.scrollToIndex(0)
     }
+  }
+
+  static async seek(time: number) {
+    MediaPlayer.setTime({
+      duration: MediaPlayer.time.duration,
+      currentTime: time / 1000
+    })
+
+    MediaPlayer.updateLyric()
 
     await MediaPlayer.avPlayer?.seek(time, media.SeekMode.SEEK_NEXT_SYNC);
   }
