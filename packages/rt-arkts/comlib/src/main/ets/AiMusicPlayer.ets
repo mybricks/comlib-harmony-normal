@@ -40,6 +40,7 @@ export class Data implements DataType {
 }
 
 interface Inputs {
+  setTitle: (fn: (title: string) => void) => void
 
 }
 
@@ -133,6 +134,12 @@ export default struct MyBricksAIMusicPlayer {
     MediaPlayer.addEventListener("isPlaying", this.isPlayingListener)
     MediaPlayer.addEventListener("lyric", this.lyricListener)
     MediaPlayer.addEventListener("playMode", this.playModeListener)
+
+    this.inputs?.setTitle((title:string) => {
+      if(this.targetAudio){
+        this.targetAudio.file.title = title
+      }
+    })
   }
 
   aboutToDisappear() {

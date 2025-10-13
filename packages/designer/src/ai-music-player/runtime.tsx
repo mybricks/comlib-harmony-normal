@@ -26,6 +26,12 @@ export default function ({ env, data, slots, inputs, outputs }) {
     outputs["onPlayListClick"]?.();
   }, []);
 
+    useMemo(() => {
+      inputs?.["setTitle"]?.((src) => {
+
+      });
+    }, []);
+
   return (
       <View className={cx(css.player)} onClick={onEditClick}>
         <div className={cx(css.content)}>
