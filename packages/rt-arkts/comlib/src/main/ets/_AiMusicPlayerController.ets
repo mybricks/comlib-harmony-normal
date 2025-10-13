@@ -129,8 +129,8 @@ export default (context: IOContext) => {
           // mediaPlayer.setPlaylist(val)
 
           MediaPlayer.setAudioList(val)
-          MediaPlayer.setAudioListIndex(0)
-          MediaPlayer.setTargetAudio(val[0])
+          // MediaPlayer.setAudioListIndex(0)
+          // MediaPlayer.setTargetAudio(val[0])
 
           // // 设置初始时长（duration 已经是以秒为单位）
           // if (MediaPlayer.currentSong.file.duration > 0) {
@@ -143,6 +143,13 @@ export default (context: IOContext) => {
           //
           // // 解析歌词
           // MediaPlayer.parseLyrics()
+          return
+        }
+        case data.type === 'setTargetAudio': {
+          if(val){
+            MediaPlayer.setTargetAudio(val)
+            outputs?.then()
+          }
           return
         }
         case data.type === 'editSong': {

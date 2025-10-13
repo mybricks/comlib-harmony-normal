@@ -22,6 +22,7 @@ export default {
         { label: "播放", value: "play" },
         { label: "暂停", value: "pause" },
         { label: "播放指定歌曲", value: "playSong" },
+        { label: "设置当前歌曲", value: "setTargetAudio" },
         { label: "设置播放列表", value: "setPlayList" },
         { label: "修改歌曲信息", value: "editSong" }
       ],
