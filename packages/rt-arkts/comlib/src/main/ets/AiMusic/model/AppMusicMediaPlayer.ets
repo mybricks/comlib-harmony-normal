@@ -67,6 +67,9 @@ class MediaPlayer {
   // 等待播放
   static waitingToPlay: boolean = false;
 
+  // 滑块滑动
+  static isSliderDragging: boolean = false;
+
   static currentLineIndex: number = 0 // 每句歌词的索引
   static lrcDuration: number = 0 // 歌词持续时间
   static isPlaying: boolean = false
@@ -149,63 +152,66 @@ class MediaPlayer {
     MediaPlayer.avPlayer.on('timeUpdate', (time: number) => {
       const currentTime = time / 1000
 
-      MediaPlayer.setTime({
-        duration: MediaPlayer.time.duration,
-        currentTime: currentTime
-      })
+      if (Math.abs(currentTime - MediaPlayer.time.currentTime) <= 1 && !MediaPlayer.isSliderDragging) {
+        MediaPlayer.setTime({
+          duration: MediaPlayer.time.duration,
+          currentTime: currentTime
+        })
 
-      MediaPlayer.updateLyric()
+        MediaPlayer.updateLyric()
+      }
     });
 
     // 状态变化
-    MediaPlayer.avPlayer.on('stateChange', async (state: string) => {
-      console.info(MediaPlayer.TAG + "State changed to:", state);
-
-      if (!MediaPlayer.avPlayer) {
-        return;
-      }
-
-      switch (state) {
-        case 'idle':
-          MediaPlayer.playState = PlayState.idle;
-          break;
-        case 'initialized':
-          MediaPlayer.playState = PlayState.initialized;
-          // 自动准备播放
-          await MediaPlayer.avPlayer.prepare();
-          break;
-        case 'prepared':
-          MediaPlayer.playState = PlayState.prepared;
-          if (!MediaPlayer.isJustPrepare) {
-            await MediaPlayer.avPlayer.play();
-          }
-          break;
-        case 'playing':
-          MediaPlayer.playState = PlayState.playing;
-          break;
-        case 'paused':
-          MediaPlayer.playState = PlayState.paused;
-          break;
-        case 'completed':
-          MediaPlayer.playState = PlayState.completed;
-          break;
-        case 'stopped':
-          MediaPlayer.playState = PlayState.stopped;
-          break;
-        case 'released':
-          MediaPlayer.playState = PlayState.released;
-          break;
-        default:
-          break;
-      }
-
-      if (MediaPlayer.listener) {
-        MediaPlayer.listener.get('stateChange')?.(MediaPlayer.playState)
-      }
-    });
+    // MediaPlayer.avPlayer.on('stateChange', async (state: string) => {
+    //   console.info(MediaPlayer.TAG + "State changed to:", state);
+    //
+    //   if (!MediaPlayer.avPlayer) {
+    //     return;
+    //   }
+    //
+    //   switch (state) {
+    //     case 'idle':
+    //       MediaPlayer.playState = PlayState.idle;
+    //       break;
+    //     case 'initialized':
+    //       MediaPlayer.playState = PlayState.initialized;
+    //       // 自动准备播放
+    //       await MediaPlayer.avPlayer.prepare();
+    //       break;
+    //     case 'prepared':
+    //       MediaPlayer.playState = PlayState.prepared;
+    //       if (!MediaPlayer.isJustPrepare) {
+    //         await MediaPlayer.avPlayer.play();
+    //       }
+    //       break;
+    //     case 'playing':
+    //       MediaPlayer.playState = PlayState.playing;
+    //       break;
+    //     case 'paused':
+    //       MediaPlayer.playState = PlayState.paused;
+    //       break;
+    //     case 'completed':
+    //       MediaPlayer.playState = PlayState.completed;
+    //       break;
+    //     case 'stopped':
+    //       MediaPlayer.playState = PlayState.stopped;
+    //       break;
+    //     case 'released':
+    //       MediaPlayer.playState = PlayState.released;
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    //
+    //   if (MediaPlayer.listener) {
+    //     MediaPlayer.listener.get('stateChange')?.(MediaPlayer.playState)
+    //   }
+    // });
 
     // 状态更新
     MediaPlayer.avPlayer.on('stateChange', async (state, reason) => {
+      console.log(`AiMusic MediaPlayer.stateChange ${state}`)
       switch (state) {
         case 'idle':
           // 初始状态。当 avPlayer 实例刚创建或调用 reset() 后进入此状态，此时尚未进行任何初始化操作。
@@ -266,6 +272,10 @@ class MediaPlayer {
         duration: MediaPlayer.time.duration,
         currentTime: time / 1000
       })
+
+      MediaPlayer.updateLyric()
+
+      console.log(`AiMusic MediaPlayer.seekDone ${time}`)
     });
 
     // 错误处理
@@ -409,6 +419,7 @@ class MediaPlayer {
         MediaPlayer.waitingToPlay = true
       }
     } else {
+      console.log(`AiMusic MediaPlayer.play - ${MediaPlayer.avPlayer.state}`)
       MediaPlayer.avPlayer.play()
     }
   }
@@ -1009,35 +1020,54 @@ class MediaPlayer {
   static updateLyric() {
     const lyrics = MediaPlayer.lyric.lyrics
     const currentTime = MediaPlayer.time.currentTime
+    let nextLineIndex = -1
     if (currentTime) {
       const currentLineIndex = MediaPlayer.lyric.currentLineIndex
-      for (let i = lyrics.length - 1; i >= 0; i--) {
-        if (currentTime >= lyrics[i].time) {
-          if (currentLineIndex !== i) {
-            // 歌词滚动效果
-            MediaPlayer.lyric = {
-              currentLineIndex: i,
-              lyrics: MediaPlayer.lyric.lyrics
-            }
+      if (currentTime < lyrics[0].time) {
+        nextLineIndex = 0
+        MediaPlayer.lyric = {
+          currentLineIndex: nextLineIndex,
+          lyrics: MediaPlayer.lyric.lyrics
+        }
+      } else if (currentTime >= lyrics[lyrics.length - 1].time) {
+        nextLineIndex = lyrics.length - 1
+        MediaPlayer.lyric = {
+          currentLineIndex: nextLineIndex,
+          lyrics: MediaPlayer.lyric.lyrics
+        }
+      } else {
+        for (let i = 0; i <= lyrics.length - 2; i++) {
+          const current = lyrics[i].time;
+          const next = lyrics[i + 1].time;
 
-            MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
-              listener(MediaPlayer.lyric)
-            })
-            MediaPlayer.lyricListScroller.scrollToIndex(i - 1, true)
+          if (currentTime >= current && currentTime < next) {
+            if (currentLineIndex !== i) {
+              // 歌词滚动效果
+              nextLineIndex = i
+              MediaPlayer.lyric = {
+                currentLineIndex: nextLineIndex,
+                lyrics: MediaPlayer.lyric.lyrics
+              }
+            }
+            break
           }
-          break
         }
       }
     } else {
+      nextLineIndex = 0
+
       MediaPlayer.lyric = {
-        currentLineIndex: 0,
+        currentLineIndex: nextLineIndex,
         lyrics: MediaPlayer.lyric.lyrics
       }
+    }
+
+    if (nextLineIndex !== -1) {
 
       MediaPlayer.eventListener.get("lyric")?.forEach((listener) => {
         listener(MediaPlayer.lyric)
       })
-      MediaPlayer.lyricListScroller.scrollToIndex(0)
+      MediaPlayer.lyricListScroller.scrollToIndex(nextLineIndex ? nextLineIndex - 1 : 0, true)
     }
   }
 

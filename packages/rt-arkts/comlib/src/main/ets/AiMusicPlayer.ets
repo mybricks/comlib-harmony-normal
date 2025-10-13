@@ -412,30 +412,12 @@ export default struct MyBricksAIMusicPlayer {
           .width('100%')
           .onChange((value: number, mode) => {
             if (mode === SliderChangeMode.Begin) {
-              // 开始拖动暂停
-              // MediaPlayer.avPlayer?.pause()
-              MediaPlayer.pause()
+              MediaPlayer.isSliderDragging = true
+            } else if (mode === SliderChangeMode.End) {
+              MediaPlayer.isSliderDragging = false
             }
 
-            // 设置时间
-            // MediaPlayer.avPlayer?.seek(value * 1000)
             MediaPlayer.seek(value * 1000)
-
-            if (mode === SliderChangeMode.End) {
-              // 拖动结束，继续播放
-              // MediaPlayer.avPlayer?.play()
-              MediaPlayer.play()
-            }
-
-            // // 更新UI显示
-            // MediaPlayer.currentTime = value
-            // MediaPlayer.sliderValue = value
-            // MediaPlayer.updateLyricIndex()
-            //
-            // // 执行seek操作
-            // MediaPlayer.seek(value * 1000).catch((error: BusinessError) => {
-            //   console.error('Failed to seek:', error)
-            // })
           })
           .padding({
             left: 11,
