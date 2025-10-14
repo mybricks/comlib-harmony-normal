@@ -5,6 +5,8 @@ import React, {
   useState,
 } from "react";
 import { View, Text, Slider } from "@tarojs/components";
+import MySlider from "../components/slider";
+
 import css from "./style.less";
 
 const step = 50;
@@ -40,7 +42,6 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       clearInterval(interval);
       interval = null;
     }
-    console.log(total);
     interval = setInterval(() => {
       setCurrent((prev: number) => {
         if (prev + step >= total) {
@@ -63,8 +64,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
     setCurrent(0);
   }, []);
 
-  const onChange = useCallback((e) => {
-    const value = e.detail.value;
+  const onChange = useCallback((value) => {
     setCurrent(value);
     outputs["onChange"]?.(value);
   }, []);
@@ -99,15 +99,53 @@ export default function ({ env, data, inputs, outputs, title, style }) {
     });
   }, []);
 
+  useEffect(() => {
+    if (process.env.TARO_ENV !== "h5") return;
+
+    const sliders = document.querySelectorAll(".weui-slider__handler");
+    sliders.forEach((slider) => {
+      let isDown = false;
+      const onMouseDown = (e) => {
+        isDown = true;
+        e.preventDefault();
+      };
+      const onMouseMove = (e) => {
+        if (!isDown) return;
+        // 手动触发 touchmove 事件模拟
+        const touchLike = {
+          touches: [{ clientX: e.clientX, clientY: e.clientY }],
+        };
+        slider.dispatchEvent(
+          new CustomEvent("touchmove", { detail: touchLike })
+        );
+      };
+      const onMouseUp = () => (isDown = false);
+
+      slider.addEventListener("mousedown", onMouseDown);
+      window.addEventListener("mousemove", onMouseMove);
+      window.addEventListener("mouseup", onMouseUp);
+    });
+  }, []);
+
   return (
     <View>
-      <Slider
+      {/* <Slider
+        className="my-slider"
         step={1}
         value={current}
         max={total}
         blockColor={data.blockColor}
         backgroundColor={data.trackColor}
         activeColor={data.selectedColor}
+        blockSize={data.blockSize}
+        onChange={onChange}
+      /> */}
+      <MySlider
+        value={current}
+        max={total}
+        blockColor={data.blockColor}
+        trackColor={data.trackColor}
+        selectedColor={data.selectedColor}
         blockSize={data.blockSize}
         onChange={onChange}
       />
