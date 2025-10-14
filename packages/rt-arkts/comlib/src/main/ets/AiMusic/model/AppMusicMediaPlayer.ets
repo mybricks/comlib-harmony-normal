@@ -240,6 +240,8 @@ class MediaPlayer {
           // 播放完成状态。媒体文件播放到末尾时自动进入此状态，此时可调用 play() 重新播放，或调用 stop() 停止。
           if (MediaPlayer.playMode === PlayMode.SINGLE) {
             MediaPlayer.avPlayer?.play()
+            MediaPlayer.avPlayer?.seek(0)
+
           } else {
             MediaPlayer.playNext()
           }
