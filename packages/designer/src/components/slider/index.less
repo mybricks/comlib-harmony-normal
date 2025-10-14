@@ -1,0 +1,28 @@
+.wrapper {
+  padding: 15px 18px;
+  .slider {
+    position: relative !important;
+    width: 100%;
+    height: 4px;
+    border-radius: 9999px;
+    background: #e5e5e5;
+    .selected {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background: #fa6400;
+      border-radius: 9999px;
+    }
+    .handle {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      background: #fa6400;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

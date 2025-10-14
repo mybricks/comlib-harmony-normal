@@ -13,14 +13,14 @@
   "inputs": [
     {
       "id": "setTotal",
-      "title": "设置总时长(ms)",
+      "title": "设置总时长(秒)",
       "schema": {
         "type": "number"
       }
     },
     {
       "id": "setCurrent",
-      "title": "设置当前进度(ms)",
+      "title": "设置当前进度(秒)",
       "schema": {
         "type": "number"
       }
