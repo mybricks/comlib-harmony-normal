@@ -385,6 +385,12 @@ export {
 } from './Progress'
 
 export {
+  default as mybricks_harmony_playProgress,
+  DataType as mybricks_harmony_playProgress_DataType,
+  Data as mybricks_harmony_playProgress_Data,
+} from './PlayProgress'
+
+export {
   default as mybricks_harmony_marquee,
   DataType as mybricks_harmony_marquee_DataType,
   Data as mybricks_harmony_marquee_Data,

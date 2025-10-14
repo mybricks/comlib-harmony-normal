@@ -1,0 +1,54 @@
+{
+  "title": "播放进度",
+  "namespace": "mybricks.harmony.playProgress",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "icon": "./icon.svg",
+  "version": "1.0.0",
+  "description": "播放进度条",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "inputs": [
+    {
+      "id": "setTotal",
+      "title": "设置总时长(ms)",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "setCurrent",
+      "title": "设置当前进度(ms)",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "play",
+      "title": "开始播放"
+    },
+    {
+      "id": "pause",
+      "title": "暂停播放"
+    },
+    {
+      "id": "reset",
+      "title": "重置进度"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onChange",
+      "title": "当拖动进度后",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "onEnd",
+      "title": "当播放结束时"
+    }
+  ]
+}
