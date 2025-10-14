@@ -92,9 +92,9 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
     return this
   }
 
-  private initMargin?: Margin
-  margin(mar: Margin) {
-    this.initMargin = mar
+  private initMargin?: Length
+  margin(height: Length) {
+    this.initHeight = height
     return this
   }
 
@@ -234,49 +234,6 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
         right: style?.paddingRight,
         top: style?.paddingTop,
         bottom: style?.paddingBottom
-      })
-    }
-
-    let marginTop = this.initMargin?.top ?? 0
-    let marginLeft = this.initMargin?.left ?? 0
-    let marginRight = this.initMargin?.right ?? 0
-    let marginBottom = this.initMargin?.bottom ?? 0
-
-    const configMargins = style?.margin ? String(style?.margin).split?.(' ') : [];
-    if (configMargins.length === 4) {
-      marginTop = parseFloat(configMargins[0])
-      marginRight = parseFloat(configMargins[1])
-      marginBottom = parseFloat(configMargins[2])
-      marginLeft = parseFloat(configMargins[3])
-      instance.margin({
-        left: marginLeft,
-        right: marginRight,
-        top: marginTop,
-        bottom: marginBottom
-      })
-    } else if (configMargins.length === 2) {
-      const marginTB = parseFloat(configMargins[0])
-      const marginLR = parseFloat(configMargins[1])
-      instance.padding({
-        left: marginLR,
-        right: marginLR,
-        top: marginTB,
-        bottom: marginTB
-      })
-    } else if (configMargins.length === 1) {
-      const marginValue = parseFloat(configMargins[0])
-      instance.margin({
-        left: marginValue,
-        right: marginValue,
-        top: marginValue,
-        bottom: marginValue
-      })
-    } else {
-      instance.margin({
-        left: style?.marginLeft,
-        right: style?.marginRight,
-        top: style?.marginTop,
-        bottom: style?.marginBottom
       })
     }
 
