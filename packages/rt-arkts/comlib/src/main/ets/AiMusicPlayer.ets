@@ -41,7 +41,6 @@ export class Data implements DataType {
 
 interface Inputs {
   setTitle: (fn: (title: string) => void) => void
-
 }
 
 interface Outputs {
@@ -252,7 +251,7 @@ export default struct MyBricksAIMusicPlayer {
             .rotate({ angle: this.rotationAngle })
 
           // 封面
-          Image(this.targetAudio?.file?.thumbnailImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
+          Image(this.targetAudio?.file?.coverImgUrl || 'https://p66-ec.becukwai.com/udata/pkg/eshop/fangzhou/image/app_play_page_img_cover.png')
             .width('50%')
             .aspectRatio(1)
             .borderRadius(200)
