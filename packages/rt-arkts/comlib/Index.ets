@@ -31,7 +31,9 @@ import {
   mybricks_harmony__aliyunOssUpload as basicMyBricksHarmony_aliyunOssUpload,
   mybricks_harmony__getPreferences as basicMyBricksHarmony_getPreferences,
   mybricks_harmony__setPreferences as basicMyBricksHarmony_setPreferences,
+  mybricks_harmony__audioPlayer as basicMyBricksHarmony_audioPlayer,
   mybricks_harmony__aiMusicPlayerController as basicMyBricksHarmony_aiMusicPlayerController,
+  mybricks_harmony__audioRecorder as basicMyBricksHarmony_audioRecorder,
   mybricks_harmony_systemPage as BasicMyBricksHarmonySystemPage,
   mybricks_harmony_systemPage_Data,
   mybricks_harmony_systemWebview as BasicMyBricksHarmonySystemWebview,
@@ -112,6 +114,8 @@ import {
   mybricks_harmony_progress_Data,
   mybricks_harmony_playProgress as BasicMyBricksHarmonyPlayProgress,
   mybricks_harmony_playProgress_Data,
+  mybricks_harmony_audioWavy as BasicMyBricksHarmonyAudioWavy,
+  mybricks_harmony_audioWavy_Data,
   mybricks_harmony_petalMap as BasicMyBricksHarmonyPetalMap,
   mybricks_harmony_petalMap_Data,
   mybricks_harmony_support as BasicMyBricksHarmonySupport,
@@ -209,9 +213,19 @@ export const myBricksHarmony_setPreferences = (props: MyBricks.JSParams,
   return createJSHandle(basicMyBricksHarmony_setPreferences, { props, appContext });
 }
 
+export const myBricksHarmony_audioPlayer = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_audioPlayer, { props, appContext });
+}
+
 export const myBricksHarmony_aiMusicPlayerController = (props: MyBricks.JSParams,
   appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
   return createJSHandle(basicMyBricksHarmony_aiMusicPlayerController, { props, appContext });
+}
+
+export const myBricksHarmony_audioRecorder = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_audioRecorder, { props, appContext });
 }
 
 @Builder
@@ -1491,6 +1505,38 @@ export function MyBricksHarmonyPlayProgress(params: MyBricksComponentBuilderPara
     }).params)
   } else {
     MyBricksHarmonyPlayProgressBuilder(params)
+  }
+}
+
+@Builder
+function MyBricksHarmonyAudioWavyBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyAudioWavy({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_audioWavy_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+
+
+    parentSlot: params.parentSlot,
+    env: createEnv(params),
+    _env: _createEnv(params),
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyAudioWavy(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyAudioWavyBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyAudioWavyBuilder(params)
   }
 }
 

@@ -1,0 +1,249 @@
+// import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+// import { AnyType } from './types'
+//
+// import { BasicStylesType, Styles } from "./types/Styles"
+//
+// import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+//
+// interface MyBricksButtonStyles {
+//   color: Styles.Color
+//   fontSize: Styles.FontSize
+//   fontWeight: Styles.FontWeight
+//   backgroundColor: Styles.BackgroundColor
+//   borderRadius: Styles.BorderRadius
+//   border: Styles.Border
+//   borderTop: Styles.BorderTop
+//   borderLeft: Styles.BorderLeft
+//   borderRight: Styles.BorderRight
+//   borderBottom: Styles.BorderBottom
+//   backgroundSize: Styles.BackgroundSize
+//   backgroundImage: Styles.BackgroundImage
+// }
+//
+// export interface StylesType extends BasicStylesType {
+//   ".mybricks-button"?: Partial<MyBricksButtonStyles>
+//   ".mybricks-button-disable"?: Partial<MyBricksButtonStyles>
+// }
+//
+// export interface DataType {
+//   text: string
+//   disabled?: boolean
+// }
+//
+// @ObservedV2
+// export class Data implements DataType {
+//   @Trace text: string
+//   @Trace disabled: boolean = false
+//
+//   constructor(config: DataType) {
+//     this.text = config.text
+//     this.disabled = config.disabled ?? false
+//   }
+// }
+//
+// interface _Env {
+//   currentScenes: _EnvCurrentScenes
+// }
+//
+// interface Env {
+//   currentScenes: EnvCurrentScenes
+// }
+//
+// interface _EnvCurrentScenes {
+//   close: () => void
+// }
+//
+//
+// interface EnvCurrentScenes {
+//   close: () => void
+// }
+//
+// interface Inputs {
+//   buttonText: (fn: (text: string) => void) => void
+//   setDisabled: (fn: (val: boolean, outputRels: void) => void) => void
+//   setEnabled: (fn: (val: boolean, outputRels: void) => void) => void
+// }
+//
+// interface Outputs {
+//   onClick: (value: string) => void
+//   setDisabledSuccess: (value: string) => void
+//   setEnabledSuccess: (value: string) => void
+// }
+//
+// export interface SlotsParams {
+//   id: string,
+//   style?: CSSProperties
+// }
+//
+//
+//
+//
+// @Builder function emptySlot(params: SlotsParams) {}
+//
+// @ComponentV2
+// export default struct MyBricksButton {
+//   @Param data: Data = new Data({
+//     text: '按钮'
+//   });
+//   @Param styles: Record<string, CSSProperties> = {}
+//   @Param inputs?: Inputs = undefined;
+//   @Param outputs?: Outputs = undefined;
+//   @Param uid?: string = undefined;
+//   @Param parentSlot?: AnyType = undefined;
+//   @Param _env?: _Env = undefined
+//   @Param env?: Env = undefined
+//
+//   @Param slotsIO?: AnyType = undefined;
+//   @BuilderParam slots: (slotsParams: SlotsParams) => void = emptySlot;
+//   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+//
+//   aboutToAppear(): void {
+//
+//     this.inputs?.setDisabled((val, outputRels: AnyType) => {
+//       this.data.disabled = !!val;
+//       outputRels?.["setDisabledSuccess"]?.(val);
+//     })
+//
+//     this.inputs?.setEnabled((val, outputRels: AnyType) => {
+//       this.data.disabled = false;
+//       outputRels?.["setEnabledSuccess"]?.(val);
+//     })
+//
+//     this.inputs?.buttonText((text) => {
+//       this.data.text = String(text);
+//     })
+//   }
+//
+//   build() {
+//     Button({ type: ButtonType.Normal }) {
+//       Text(this.data.text)
+//         .halfLeading(true)
+//         .attributeModifier(
+//           new ApplyFontStyleModifier(this.styles['.mybricks-button'])
+//             .fontSize(14)
+//             .fontColor('#ffffff')
+//         )
+//     }
+//     .type(ButtonType.Normal)
+//     .onClick(() => {
+//       this.outputs?.onClick(this.data.text)
+//     })
+//     .enabled(!this.data.disabled)
+//     .align(Alignment.Center)
+//     .attributeModifier(new ApplyStyleModifier(this.styles[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button']).borderRadius('50%').backgroundColor('#fa6400'))
+//     .attributeModifier(
+//       new ApplyRootStyleModifier(this.styles['root'])
+//     )
+//     //渐变色需要通过链式调用单独配置
+//     .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button'],'backgroundImage')))
+//     .attributeModifier(this.modifier)
+//   }
+// }
+
+import { CSSProperties, ApplyRootStyleModifier } from './utils/GetDesignStyle';
+
+
+class Constants {
+  static NORMAL_COLOR = "rgb(150 145 145)";
+  static AUDIO_COLOR = "blue";
+  static COLUMN_WIDTH = 2;
+}
+
+export interface DataType {
+  // 间距
+  gap: number;
+  // 最小高度
+  minHeight: number;
+}
+
+@ObservedV2
+export class Data implements DataType {
+  @Trace gap: number;
+  @Trace minHeight: number;
+
+  constructor(config: DataType) {
+    this.gap = config.gap;
+    this.minHeight = config.minHeight;
+  }
+}
+
+interface PrivateContext {
+  // 输入长度
+  audioLength: number;
+  // 振幅长度
+  heightsLength: number;
+}
+
+interface Inputs {
+  push: (fn: (height: number) => void) => void;
+}
+
+interface Outputs {}
+
+interface Env {}
+
+interface _Env {}
+
+@ComponentV2
+export default struct MyBricksAudioWavy {
+  @Param uid?: string = undefined;
+  @Param data: Data = new Data({
+    gap: 5,
+    minHeight: 10,
+  });
+  @Param inputs?: Inputs = undefined;
+  @Param outputs?: Outputs = undefined;
+  @Param styles: Record<string, CSSProperties> = {};
+  @Param parentSlot?: ESObject = undefined;
+  @Param env?: Env = undefined;
+  @Param _env?: _Env = undefined;
+  @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
+
+  @Local heights: number[] = [];
+
+  private context: PrivateContext = {
+    audioLength: 0,
+    heightsLength: 0,
+  }
+
+  aboutToAppear() {
+    this.inputs?.push((height) => {
+      this.context.audioLength = this.context.audioLength + 1;
+      this.heights.shift();
+      this.heights.push(height);
+    })
+  }
+
+  build() {
+    Stack() {
+      Row({ space: this.data.gap }) {
+        ForEach(this.heights, (height: number, index) => {
+          Column()
+            .width(Constants.COLUMN_WIDTH)
+            .height(height)
+            .backgroundColor(this.context.heightsLength - this.context.audioLength > index ? Constants.NORMAL_COLOR : Constants.AUDIO_COLOR)
+            .borderRadius(Constants.COLUMN_WIDTH)
+        })
+      }
+    }
+    .onAreaChange((oldValue: Area, newValue: Area) => {
+      const count = (newValue.width as number) / (Constants.COLUMN_WIDTH + this.data.gap);
+      const length = Math.round(count)
+      if (!this.heights) {
+        // 初始化
+        this.context.heightsLength = length;
+        this.heights = Array(length).fill(this.data.minHeight);
+      } else if (this.context.audioLength) {
+        if (length > this.heights.length) {
+          this.heights = Array(length - this.heights.length).fill(this.data.minHeight).concat(this.heights);
+        }
+      } else {
+        this.heights = Array(length).fill(this.data.minHeight);
+      }
+    })
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(this.modifier)
+  }
+}

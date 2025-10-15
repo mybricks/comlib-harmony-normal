@@ -1,0 +1,21 @@
+{
+  "title": "音频振幅",
+  "namespace": "mybricks.harmony.audioWavy",
+  "author": "MyBricks",
+  "author_name": "板砖团队",
+  "icon": "./icon.svg",
+  "version": "1.0.0",
+  "description": "音频振幅",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "inputs": [
+    {
+      "id": "push",
+      "title": "振幅",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ]
+}
