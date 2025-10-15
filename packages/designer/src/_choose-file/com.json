@@ -30,10 +30,6 @@
             "description": "失败的文件数量",
             "type": "number"
           },
-          "type": {
-            "description": "选择的媒体类型，例如'image'",
-            "type": "string"
-          },
           "tempFiles": {
             "description": "临时文件列表",
             "type": "array",
@@ -45,13 +41,41 @@
                   "description": "临时文件的路径",
                   "type": "string"
                 },
+                "filename": {
+                  "description": "文件名",
+                  "type": "string"
+                },
                 "size": {
                   "description": "文件的大小，单位为字节",
                   "type": "number"
                 },
                 "fileType": {
-                  "description": "文件的类型，例如'image'",
+                  "description": "文件的类型后缀，例如'jpg'",
                   "type": "string"
+                },
+                "atime": {
+                  "description": "上次访问该文件的时间(秒)",
+                  "type": "number"
+                },
+                "mtime": {
+                  "description": "上次修改该文件的时间(秒)",
+                  "type": "number"
+                },
+                "ctime": {
+                  "description": "最近改变文件状态的时间(秒)",
+                  "type": "number"
+                },
+                "atimeNs": {
+                  "description": "上次访问该文件的时间(纳秒)",
+                  "type": "number"
+                },
+                "mtimeNs": {
+                  "description": "上次修改该文件的时间(纳秒)",
+                  "type": "number"
+                },
+                "ctimeNs": {
+                  "description": "最近改变文件状态的时间(纳秒)",
+                  "type": "number"
                 }
               }
             }
@@ -61,7 +85,7 @@
     },
     {
       "id": "onFail",
-      "title": "取消或失败",
+      "title": "失败",
       "schema": {
         "type": "object",
         "properties": {
@@ -70,6 +94,10 @@
           }
         }
       }
+    },
+    {
+      "id": "onCancel",
+      "title": "取消"
     }
   ]
 }

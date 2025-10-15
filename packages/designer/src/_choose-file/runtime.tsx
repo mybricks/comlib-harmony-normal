@@ -1,15 +1,9 @@
 import * as Taro from "@tarojs/taro";
-import { isH5 } from "../utils/env";
 
 export default function ({ env, data, inputs, outputs }) {
   inputs["chooseFile"](() => {
     let params = {
       count: data.count,
-      mediaType: data.mediaType,
-      sourceType: isH5() ? ["album"] : data.sourceType,
-      maxDuration: data.maxDuration,
-      sizeType: data.sizeType,
-      camera: data.camera,
     };
 
     Taro.chooseMedia({
