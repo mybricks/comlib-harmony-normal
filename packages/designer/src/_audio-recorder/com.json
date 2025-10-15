@@ -1,0 +1,31 @@
+{
+  "title": "录音",
+  "namespace": "mybricks.harmony._audioRecorder",
+  "author": "MyBricks",
+  "author_name": "板砖团队",
+  "icon": "./icon.svg",
+  "version": "1.0.0",
+  "description": "录音",
+  "runtime": "./runtime.ts",
+  "data": "./data.json",
+  "editors": "./editors.ts",
+  "rtType": "js-autorun",
+  "inputs": [
+    {
+      "id": "call",
+      "title": "调用",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "then",
+      "title": "结果",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ]
+}
