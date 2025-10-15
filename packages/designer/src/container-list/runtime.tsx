@@ -36,7 +36,7 @@ enum ListStatus {
 
 const ContainerList = ({ env, data, inputs, outputs, slots }) => {
   const [dataSource, setDataSource] = useState<DsItem[]>(
-    env.edit || env?.runtime?.debug?.prototype ? mockData : (data.dataSource ?? [])
+    env.edit || env?.runtime?.debug?.prototype ? mockData : []
   );
   const [status, setStatus] = useState<ListStatus>(ListStatus.IDLE);
   const statusRef = useRef<ListStatus>(false as any);
@@ -129,12 +129,13 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
     });
   }, [data.dataSource]);
 
-  const mountedRef = useRef(false);
+  /** 接收搭建响应式变量 */
+  // const mountedRef = useRef(false);
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true
-      return
-    }
+    // if (!mountedRef.current) {
+    //   mountedRef.current = true
+    //   return
+    // }
     
     if (env?.runtime) {
       if (Array.isArray(data.dataSource)) {
@@ -147,14 +148,6 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
       }
     }
   }, [data.dataSource, env?.runtime])
-
-  useEffect(()=>{
-    console.log("data.dataSource22222",data.dataSource)
-  },[data.dataSource])
-
-  useEffect(()=>{
-    console.log("dataSource",dataSource)
-  },[dataSource])
 
   useEffect(() => {
     /* 获取值 */

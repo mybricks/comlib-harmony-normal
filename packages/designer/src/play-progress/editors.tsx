@@ -3,6 +3,9 @@ export default {
     style.width = "100%";
     style.height = "auto";
   },
+  '@resize': {
+    options: ['width', 'height'],
+  },
   ":root": {
     style: [
       {

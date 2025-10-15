@@ -107,6 +107,12 @@ export {
 } from './_GetPreferences'
 
 export {
+  default as mybricks_harmony__audioPlayer
+  DataType as mybricks_harmony__audioPlayer_DataType,
+  Data as mybricks_harmony__audioPlayer_Data
+} from './_AudioPlayer'
+
+export {
   default as mybricks_harmony__aiMusicPlayerController,
   DataType as mybricks_harmony__aiMusicPlayerController_DataType,
   Data as mybricks_harmony__aiMusicPlayerController_Data

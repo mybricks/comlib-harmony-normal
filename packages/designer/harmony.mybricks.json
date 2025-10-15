@@ -19,6 +19,7 @@
     "./src/_aliyun-oss-upload/com.json",
     "./src/_getPreferences/com.json",
     "./src/_setPreferences/com.json",
+    "./src/_audio-player/com.json",
     "./src/_ai-music-player-controller/com.json",
     {
       "title": "系统",

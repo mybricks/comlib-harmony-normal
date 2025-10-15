@@ -28,7 +28,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
 
     inputs?.['activeIndex']?.((index) => {
       if (!isNaN(parseFloat(index))) {
-        setCurrent(current)
+        setCurrent(index)
       }
     })
   }, [])
