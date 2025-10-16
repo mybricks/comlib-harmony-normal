@@ -45,10 +45,12 @@ function timeStringToTimestamp(timeString) {
 
 export default function ({ env, data, inputs, outputs, title, style }) {
   const [showTime, setShowTime] = useState("--:--:--");
-  const [initTime, setInitTime] = useState(new Date());
   const [countDown, setCountDown] = useState(data.countdown);
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | undefined>(undefined);
+
   const timerIdRef = useRef(null);
+  const initTimeRef = useRef(null);
+  const elapsedTimeRef = useRef(0); // 记录已经过去的时间
+  const finishedRef = useRef(true);
 
   //更新当前时间
   const updateCurrentTime = () => {
@@ -59,34 +61,61 @@ export default function ({ env, data, inputs, outputs, title, style }) {
 
   //计时器
   const updateTimer = () => {
-    const currentTime = new Date();
-    const timeDiff = currentTime.getTime() - initTime.getTime();
-    setShowTime(formatTimeDiff(timeDiff));
-    outputs.currentTime?.(timeDiff);
+    elapsedTimeRef.current += 1000; // 每秒增加1000毫秒
+    setShowTime(formatTimeDiff(elapsedTimeRef.current));
+    outputs.currentTime?.(elapsedTimeRef.current);
   }
 
   //倒计时
   const updateCountDown = useCallback(() => {
-    let countDownStamp = timeStringToTimestamp(countDown)
-    let endTimeStamp = initTime.getTime() + countDownStamp
-    let currentTimeStamp = new Date().getTime()
-    let timeDiff = endTimeStamp - currentTimeStamp
-    if (timeDiff >= 0) {
-      setShowTime(formatTimeDiff(timeDiff));
-      outputs.currentTime?.(timeDiff);
+    const countDownStamp = timeStringToTimestamp(countDown);
+    elapsedTimeRef.current += 1000; // 每秒增加1000毫秒
+    const remainingTime = countDownStamp - elapsedTimeRef.current;
+
+    if (remainingTime >= 0) {
+      setShowTime(formatTimeDiff(remainingTime));
+      outputs.currentTime?.(remainingTime);
     } else {
-      clearInterval(timerIdRef.current)
+      clearInterval(timerIdRef.current);
       outputs.finishCountDown?.(countDownStamp);
     }
+  }, [countDown])
 
-  }, [timerId, countDown])
-
-  useEffect(() => {
+  useMemo(() => {
     inputs["countDownTimeStamp"]?.((ds) => {
       setCountDown(ds);
     })
 
-  }, [])
+    inputs["start"]?.(() => {
+      if (finishedRef.current) {
+        elapsedTimeRef.current = 0;
+        finishedRef.current = false;
+      }
+
+      if (data.clockType === "timer") {
+        updateTimer();
+        timerIdRef.current = setInterval(updateTimer, 1000);
+      } else if (data.clockType === "countdown") {
+        updateCountDown();
+        timerIdRef.current = setInterval(updateCountDown, 1000);
+      }
+    })
+
+    inputs["pause"]?.(() => {
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current);
+      }
+    })
+
+    inputs["finish"]?.(() => {
+      if (timerIdRef.current) {
+        clearInterval(timerIdRef.current);
+        finishedRef.current = true;
+        elapsedTimeRef.current = 0;
+      }
+    })
+
+  }, [updateTimer, updateCountDown])
 
   useEffect(() => {
     if (!env.runtime) return;
@@ -104,13 +133,19 @@ export default function ({ env, data, inputs, outputs, title, style }) {
         break;
 
       case "timer":
-        updateTimer();
-        newTimerId = setInterval(updateTimer, 1000);
+        if (data.startImmediately !== false) {
+          initTimeRef.current = new Date();
+          updateTimer();
+          newTimerId = setInterval(updateTimer, 1000);
+        }
         break;
 
       case "countdown":
-        updateCountDown();
-        newTimerId = setInterval(updateCountDown, 1000);
+        if (data.startImmediately !== false) {
+          initTimeRef.current = new Date();
+          updateCountDown();
+          newTimerId = setInterval(updateCountDown, 1000);
+        }
         break;
     }
     timerIdRef.current = newTimerId; 
@@ -119,7 +154,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
     return () => {
       clearInterval(newTimerId);
     };
-  }, [data.clockType, env.runtime, countDown]);
+  }, [data.clockType, env.runtime, data.startImmediately, countDown]);
 
   return (
     <View

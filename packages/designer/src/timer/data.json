@@ -1,4 +1,5 @@
 {
   "clockType":"realtime",
-  "countdown":"1:00:00"
+  "countdown":"1:00:00",
+  "startImmediately": true
 }

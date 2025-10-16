@@ -53,6 +53,21 @@ export default {
               }
             },
             {
+              title: "启动后立即开始",
+              type: "switch",
+              ifVisible: ({ data }) => {
+                return data.clockType !== 'realtime';
+              },
+              value: {
+                get({ data }) {
+                  return data.startImmediately ?? true;
+                },
+                set({ data }, value: boolean) {
+                  data.startImmediately = value;
+                },
+              }
+            },
+            {
               title:"倒计时",
               type:"textinput",
               ifVisible: ({ data }) => {

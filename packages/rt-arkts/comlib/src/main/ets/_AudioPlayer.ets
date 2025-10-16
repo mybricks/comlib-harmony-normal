@@ -83,6 +83,10 @@ class AudioPlayer {
           break;
       }
     })
+
+    this.avPlayer.on('error', err => {
+      console.log('1')
+    })
   }
 
 
@@ -91,13 +95,23 @@ class AudioPlayer {
       return
     }
 
-    await this.avPlayer?.stop();
-    await this.avPlayer?.reset();
+    try {
+      // await this.avPlayer?.stop();
+      await this.avPlayer?.reset();
+    } catch (e) {}
 
-    if (url) {
-      this.avPlayer.url = url
-    } else {
-      await this.avPlayer?.play()
+    try {
+      if (url) {
+        this.avPlayer.url = url
+        setTimeout(async () => {
+          await this.avPlayer?.prepare()
+          await this.avPlayer?.play()
+        }, 100)
+      } else {
+        await this.avPlayer?.play()
+      }
+    } catch (err) {
+      console.log('111')
     }
   }
 

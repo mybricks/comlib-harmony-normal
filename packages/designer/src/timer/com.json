@@ -18,6 +18,30 @@
       "schema": {
         "type": "string"
       }
+    },
+    {
+      "id": "start",
+      "title": "开始",
+      "description":"开始计时",
+      "schema": {
+        "type": "any"
+      }
+    },
+    {
+      "id": "pause",
+      "title": "暂停",
+      "description":"暂停计时",
+      "schema": {
+        "type": "any"
+      }
+    },
+    {
+      "id": "finish",
+      "title": "结束",
+      "description":"结束计时",
+      "schema": {
+        "type": "any"
+      }
     }
   ],
   "outputs": [
