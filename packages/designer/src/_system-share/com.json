@@ -30,12 +30,12 @@
           "description": {
             "title": "描述",
             "type": "string",
-            "description": "描述(选填)"
+            "description": "(选填)描述"
           },
           "thumbnail": {
             "title": "缩略图",
             "type": "string",
-            "description": "缩略图(选填)"
+            "description": "(选填)缩略图: 网络图片连接"
           }
         }
       }
