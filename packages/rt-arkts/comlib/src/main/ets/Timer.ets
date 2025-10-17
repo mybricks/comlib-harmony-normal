@@ -37,8 +37,20 @@ export class Data implements DataType {
   }
 }
 
+interface Inputs {
+  countDownTimeStamp?: (fn: (p: AnyType) => void) => void
+  start?: (fn: (p?: AnyType) => void) => void
+  pause?: (fn: (p?: AnyType) => void) => void
+  finish?: (fn: (p?: AnyType) => void) => void
+}
+
+interface Outputs {
+  currentTime: (value?: AnyType) => void
+  finishCountDown: (value?: AnyType) => void
+}
+
 @ComponentV2
-export default struct MyBricksText {
+export default struct MyBricksTimer {
   @Param data: Data = new Data({});
   @Param styles: Record<string, CSSProperties> = {}
   @Param inputs?: Inputs = undefined;
@@ -148,14 +160,20 @@ export default struct MyBricksText {
 
   aboutToAppear(): void {
     // 设置输入监听
-    this.inputs?.countDownTimeStamp((text) => {
+    this.inputs?.countDownTimeStamp?.((text: string) => {
       this.countDown = text
     })
 
     // 添加控制接口
-    this.inputs?.start?.(() => this.startTimer())
-    this.inputs?.pause?.(() => this.pauseTimer())
-    this.inputs?.finish?.(() => this.finishTimer())
+    this.inputs?.start?.(() => {
+      this.startTimer()
+    })
+    this.inputs?.pause?.(() => {
+      this.pauseTimer()
+    })
+    this.inputs?.finish?.(() => {
+      this.finishTimer()
+    })
 
     // 初始化定时器
     if (this.data.clockType) {
