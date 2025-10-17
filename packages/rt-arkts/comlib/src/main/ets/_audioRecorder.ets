@@ -77,11 +77,17 @@ export default (context: IOContext) => {
       audioCapturerPromise.then((audioCapturer) => {
         const callType = data.callType;
         if (callType === 'start') {
-          audioCapturer.start();
+          audioCapturer.start().then(() => {
+            outputs.then(undefined);
+          });
         } else if (callType === 'pause') {
-          audioCapturer.stop();
+          audioCapturer.stop().then(() => {
+            outputs.then(undefined);
+          });
         } else if (callType === 'stop') {
-          audioCapturer.destroy();
+          audioCapturer.destroy().then((buffer) => {
+            outputs.then(buffer);
+          });
         }
       })
     })

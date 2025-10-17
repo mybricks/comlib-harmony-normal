@@ -1,6 +1,7 @@
+import { util, buffer } from '@kit.ArkTS';
 import { audio } from '@kit.AudioKit';
 import { common } from '@kit.AbilityKit';
-import { fileIo } from '@kit.CoreFileKit';
+import { fileIo, ReadOptions } from '@kit.CoreFileKit';
 import { Constants } from './common/Constants';
 import { PermissionUtil } from './common/utils/PermissionUtil';
 
@@ -60,8 +61,10 @@ export class AudioCapturer {
 
         const hostContext = this.uiContext!.getHostContext();
         const path = hostContext!.cacheDir;
-        const filePath = path + `/${"helloworld"}.pcm`;
+        const filePath = path + `/${util.generateRandomUUID()}.pcm`;
         const file: fileIo.File = fileIo.openSync(filePath, fileIo.OpenMode.READ_WRITE | fileIo.OpenMode.CREATE);
+
+        this.file = file;
 
         const readDataCallback = (buffer: ArrayBuffer) => {
           this.eventListener.get('readData')?.forEach((listener) => {
@@ -107,11 +110,26 @@ export class AudioCapturer {
 
   // 销毁
   async destroy() {
-    await this.stop();
-    await this.audioCapturer!.release();
-    fileIo.closeSync(this.file!.fd);
-    this.file = undefined;
-    this.eventListener = new Map();
+    if (this.audioCapturer) {
+      await this.stop();
+      await this.audioCapturer!.release();
+      const arrayBuffer = new ArrayBuffer(this.bufferSize);
+      const readOptions: ReadOptions = {
+        offset: 0,
+        length: arrayBuffer.byteLength
+      };
+      const readLen = fileIo.readSync(this.file!.fd, arrayBuffer, readOptions);
+      const buf = buffer.from(arrayBuffer, 0, readLen);
+      this.audioCapturer = undefined;
+      fileIo.closeSync(this.file!.fd);
+      this.file = undefined;
+      this.eventListener = new Map();
+      this.sampleValCnt = 0;
+      this.sampleValSum = 0;
+      this.bufferSize = 0;
+      return buf;
+    }
+    return undefined;
   }
 
   // 计算分贝
