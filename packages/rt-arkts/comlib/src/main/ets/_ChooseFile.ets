@@ -1,6 +1,7 @@
 import picker from '@ohos.file.picker';
 import { fileIo as fs } from '@kit.CoreFileKit';
 import { fileShare } from '@kit.CoreFileKit';
+import { BusinessError } from '@kit.BasicServicesKit'
 
 import { AnyType } from './types'
 import { JSON } from '@kit.ArkTS';

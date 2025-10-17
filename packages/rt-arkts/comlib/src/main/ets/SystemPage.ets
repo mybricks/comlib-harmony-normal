@@ -60,6 +60,7 @@ interface Outputs {
   pageDidShow: () => void
   pageDidHide: () => void
   onScroll: (p: ScrollParams) => void
+  onDestroy?: () => void
 }
 
 @Builder
@@ -94,6 +95,10 @@ export default struct MyBricksSystemPage {
   private scroller: Scroller = new Scroller();
 
   aboutToAppear(): void {
+  }
+
+  aboutToDisappear(): void {
+    this.outputs?.onDestroy?.()
   }
 
   @Builder

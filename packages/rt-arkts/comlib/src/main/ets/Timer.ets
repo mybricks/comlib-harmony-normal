@@ -3,7 +3,8 @@ import { AnyType } from './types'
 
 export interface DataType {
   clockType?: "realtime" | "countdown" | "timer" | string,
-  countdown?: string
+  countdown?: string,
+  startImmediately?: boolean
 }
 
 interface _Env {
@@ -27,20 +28,13 @@ interface EnvCurrentScenes {
 export class Data implements DataType {
   @Trace clockType?: string
   @Trace countdown?: string
+  @Trace startImmediately?: boolean
 
   constructor(config: DataType) {
     this.clockType = config.clockType
     this.countdown = config.countdown
+    this.startImmediately = config.startImmediately
   }
-}
-
-interface Inputs {
-  countDownTimeStamp: (fn: (timestamp: string) => void) => void
-}
-
-interface Outputs {
-  finishCountDown: (value: string) => void,
-  currentTime: (value: string) => void,
 }
 
 @ComponentV2
@@ -53,13 +47,13 @@ export default struct MyBricksText {
   @Param parentSlot?: AnyType = undefined;
 
   @Local showTime: string = "--:--:--"
-  @Local initTime: number = new Date().getTime()
   @Local countDown: string = ""
   private timerID: number = -1
+  private elapsedTime: number = 0
+  private isFinished: boolean = true
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
-
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   formatTime(date: Date): string {
@@ -91,25 +85,65 @@ export default struct MyBricksText {
   }
 
   updateTimer() {
-    const currentTime = new Date().getTime()
-    const timeDiff = currentTime - this.initTime
-    this.showTime = this.formatTimeDiff(timeDiff)
-    this.outputs?.currentTime?.(timeDiff.toString())
+    this.elapsedTime += 1000
+    this.showTime = this.formatTimeDiff(this.elapsedTime)
+    this.outputs?.currentTime?.(this.elapsedTime.toString())
   }
 
   updateCountDown() {
-    let countDownStamp = this.timeStringToTimestamp(this.countDown)
-    let endTimeStamp = this.initTime + countDownStamp
-    let currentTimeStamp = new Date().getTime()
-    let timeDiff = endTimeStamp - currentTimeStamp
+    this.elapsedTime += 1000
+    const countDownStamp = this.timeStringToTimestamp(this.countDown)
+    const remainingTime = countDownStamp - this.elapsedTime
 
-    if (timeDiff >= 0) {
-      this.showTime = this.formatTimeDiff(timeDiff)
-      this.outputs?.currentTime?.(timeDiff.toString())
+    if (remainingTime >= 0) {
+      this.showTime = this.formatTimeDiff(remainingTime)
+      this.outputs?.currentTime?.(remainingTime.toString())
     } else {
-      clearInterval(this.timerID)
+      this.finishTimer()
       this.outputs?.finishCountDown?.(countDownStamp.toString())
     }
+  }
+
+  startTimer() {
+    if (this.isFinished) {
+      this.elapsedTime = 0
+      this.isFinished = false
+    }
+
+    if (this.timerID !== -1) {
+      clearInterval(this.timerID)
+    }
+
+    switch (this.data.clockType) {
+      case "timer":
+        this.updateTimer()
+        this.timerID = setInterval(() => {
+          this.updateTimer()
+        }, 1000)
+        break
+      case "countdown":
+        this.updateCountDown()
+        this.timerID = setInterval(() => {
+          this.updateCountDown()
+        }, 1000)
+        break
+    }
+  }
+
+  pauseTimer() {
+    if (this.timerID !== -1) {
+      clearInterval(this.timerID)
+      this.timerID = -1
+    }
+  }
+
+  finishTimer() {
+    if (this.timerID !== -1) {
+      clearInterval(this.timerID)
+      this.timerID = -1
+    }
+    this.isFinished = true
+    this.elapsedTime = 0
   }
 
   aboutToAppear(): void {
@@ -118,9 +152,13 @@ export default struct MyBricksText {
       this.countDown = text
     })
 
+    // 添加控制接口
+    this.inputs?.start?.(() => this.startTimer())
+    this.inputs?.pause?.(() => this.pauseTimer())
+    this.inputs?.finish?.(() => this.finishTimer())
+
     // 初始化定时器
     if (this.data.clockType) {
-      // 清除之前的定时器
       if (this.timerID !== -1) {
         clearInterval(this.timerID)
       }
@@ -134,18 +172,13 @@ export default struct MyBricksText {
           break
 
         case "timer":
-          this.updateTimer()
-          this.timerID = setInterval(() => {
-            this.updateTimer()
-          }, 1000)
-          break
-
         case "countdown":
-          this.countDown = this.data.countdown || ""
-          this.updateCountDown()
-          this.timerID = setInterval(() => {
-            this.updateCountDown()
-          }, 1000)
+          if (this.data.startImmediately !== false) {
+            this.countDown = this.data.countdown || ""
+            this.elapsedTime = 0
+            this.isFinished = false
+            this.startTimer()
+          }
           break
       }
     }
