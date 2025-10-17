@@ -125,6 +125,12 @@ export {
 } from './AiMusicPlayer'
 
 export {
+  default as mybricks_harmony__systemShare,
+  DataType as mybricks_harmony__systemShare_DataType,
+  Data as mybricks_harmony__systemShare_Data
+} from './_SystemShare'
+
+export {
   default as mybricks_harmony__audioRecorder,
   DataType as mybricks_harmony__audioRecorder_DataType,
   Data as mybricks_harmony__audioRecorder_Data
