@@ -255,6 +255,9 @@ export default {
         },
         {
           title: "当页面被销毁时",
+          ifVisible({ data, output }: EditorResult<Data>) {
+            return output.get('onDestroy') !== undefined;
+          },
           type: "_event",
           options: {
             outputId: "onDestroy",
