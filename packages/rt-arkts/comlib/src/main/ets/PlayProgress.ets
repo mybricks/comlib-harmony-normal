@@ -125,6 +125,10 @@ export default struct MyBricksPlayProgress {
       const current = value ?? 0
       this.data.current = current * 1000;
       this.remainingDuration = this.data.total - this.data.current;
+
+      if (!this.remainingDuration) {
+        this.outputs?.onEnd();
+      }
     })
 
     this.inputs?.play(() => {

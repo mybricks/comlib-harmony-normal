@@ -107,6 +107,13 @@ class AudioPlayer {
     }
   }
 
+  // 跳转
+  async seek(timeMs: number) {
+    if (['prepared', 'playing', 'paused', 'completed']) {
+      await this.avPlayer!.seek(timeMs);
+    }
+  }
+
   // 销毁（目前不需要销毁，不调用release）
   async destroy() {
     await this.stopAndReset();
