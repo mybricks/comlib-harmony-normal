@@ -9,6 +9,8 @@ class AudioPlayer {
   private waitingToPlay?: boolean;
   // 监听
   private eventListener: Map<string, Set<(value: ESObject) => void>> = new Map();
+  // 预跳转，用于音频未初始化场景
+  private preSeekTimeMs: number = -1;
 
   constructor() {
     this.init();
@@ -39,6 +41,9 @@ class AudioPlayer {
           break;
         case 'playing':
           // 播放中状态。调用 play() 后进入此状态，媒体正在正常播放。
+          if (typeof this.preSeekTimeMs === 'number') {
+            this.avPlayer!.seek(this.preSeekTimeMs);
+          }
           break;
         case 'paused':
           // 暂停状态。调用 pause() 后进入此状态，媒体播放暂停，可通过 play() 恢复播放。
@@ -62,7 +67,13 @@ class AudioPlayer {
     })
 
     this.avPlayer!.on('timeUpdate', (time) => {
-      this.runEventListener("timeUpdate", time);
+      if (this.preSeekTimeMs === -1) {
+        this.runEventListener("timeUpdate", time);
+      }
+    })
+
+    this.avPlayer!.on('seekDone', () => {
+      this.preSeekTimeMs = -1;
     })
   }
 
@@ -109,7 +120,8 @@ class AudioPlayer {
 
   // 跳转
   async seek(timeMs: number) {
-    if (['prepared', 'playing', 'paused', 'completed']) {
+    this.preSeekTimeMs = timeMs;
+    if (['prepared', 'playing', 'paused', 'completed'].includes(this.avPlayer!.state)) {
       await this.avPlayer!.seek(timeMs);
     }
   }
