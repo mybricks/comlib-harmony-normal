@@ -38,6 +38,13 @@
       }
     },
     {
+      "id": "onDestroy",
+      "title": "当页面被销毁时",
+      "schema": {
+        "type": "object"
+      }
+    },
+    {
       "id": "pulldown",
       "title": "当下拉刷新时"
     }

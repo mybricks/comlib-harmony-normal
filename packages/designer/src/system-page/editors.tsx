@@ -253,6 +253,13 @@ export default {
             outputId: "pageDidHide",
           },
         },
+        {
+          title: "当页面被销毁时",
+          type: "_event",
+          options: {
+            outputId: "onDestroy",
+          },
+        },
         // {
         //   title: "分享",
         //   type: "switch",
@@ -315,8 +322,8 @@ export default {
       //     value: {
       //       set({ output }) {
       //         output.add({
-      //           id: 'onScroll',
-      //           title: '当页面滚动时',
+      //           id: 'onDestroy',
+      //           title: '当页面被销毁时',
       //           schema: {
       //             type: 'object'
       //           }
