@@ -21,6 +21,7 @@ export default {
       options: [
         { label: "播放", value: "play" },
         { label: "暂停", value: "pause" },
+        { label: "跳转", value: "seek"},
         // { label: "播放指定音频", value: "playAudio" },
         { label: "销毁", value: "destroy" }
       ],
