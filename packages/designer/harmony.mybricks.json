@@ -22,6 +22,7 @@
     "./src/_audio-player/com.json",
     "./src/_ai-music-player-controller/com.json",
     "./src/_audio-recorder/com.json",
+    "./src/_system-share/com.json",
     {
       "title": "系统",
       "visible": false,
@@ -91,9 +92,7 @@
     },
     {
       "title": "华为",
-      "comAry": [
-        "./src/petal-map/com.json"
-      ]
+      "comAry": ["./src/petal-map/com.json"]
     },
     {
       "title": "其它",

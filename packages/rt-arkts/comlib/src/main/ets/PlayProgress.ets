@@ -81,6 +81,9 @@ export default struct MyBricksPlayProgress {
   private intervalNum: number = 0;
   private step: number = 50
 
+  @Local remainingDuration: number = this.data.total;
+  @Local isSliding: boolean = false;
+
   handlePlay() {
     if (this.intervalNum) {
       clearInterval(this.intervalNum)
@@ -107,13 +110,21 @@ export default struct MyBricksPlayProgress {
 
   aboutToAppear(): void {
     this.inputs?.setTotal((value) => {
+      if (this.isSliding) {
+        return
+      }
       const total = value ?? 60
       this.data.total = total * 1000;
+      this.remainingDuration = this.data.total;
     })
 
     this.inputs?.setCurrent((value) => {
+      if (this.isSliding) {
+        return
+      }
       const current = value ?? 0
       this.data.current = current * 1000;
+      this.remainingDuration = this.data.total - this.data.current;
     })
 
     this.inputs?.play(() => {
@@ -149,7 +160,15 @@ export default struct MyBricksPlayProgress {
         })
         .width('100%')
         .onChange((value: number, mode: SliderChangeMode) => {
-          if (mode === SliderChangeMode.End) {
+          if (mode === SliderChangeMode.Begin) {
+            this.isSliding = true;
+          } else if (mode === SliderChangeMode.Moving) {
+            this.data.current = value;
+            this.remainingDuration = this.data.total - this.data.current;
+          } else if (mode === SliderChangeMode.End) {
+            this.isSliding = false;
+            this.data.current = value;
+            this.remainingDuration = this.data.total - this.data.current;
             this.outputs?.onChange?.(value);
           }
         })
@@ -164,7 +183,7 @@ export default struct MyBricksPlayProgress {
               .fontSize(12)
               .fontColor('#666')
           )
-        Text(this.formatTime(this.data.total))
+        Text(this.formatTime(this.remainingDuration))
           .attributeModifier(
             new ApplyStyleModifier(this.styles['.mybricks-play-progress-text'])
           )
@@ -186,7 +205,7 @@ export default struct MyBricksPlayProgress {
     }
     const hour = Math.floor(milliseconds / (60*60*1000))
     const min = Math.floor((milliseconds % (60*60*1000)) / (60*1000))
-    const sec = Math.floor((milliseconds % (60*1000)) / 1000)
+    const sec = Math.round((milliseconds % (60*1000)) / 1000)
     const ms = Math.floor(milliseconds % 1000).toString().padStart(3, '0')
     const defaultStr = [hour, min, sec].map(i => i.toString().padStart(2, '0')).join(':')
     if (!showMillisecond) return defaultStr

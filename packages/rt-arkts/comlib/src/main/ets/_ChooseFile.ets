@@ -15,9 +15,6 @@ interface TempFile {
   atime: number,
   mtime: number,
   ctime: number,
-  atimeNs?: bigint,
-  mtimeNs?: bigint,
-  ctimeNs?: bigint,
 }
 interface UploadResult {
   failedCount: number,
@@ -127,9 +124,6 @@ function getFilesInfo(uris: string[]): UploadResult {
         atime: stat.atime,
         mtime: stat.mtime,
         ctime: stat.ctime,
-        atimeNs: stat.atimeNs,
-        mtimeNs: stat.mtimeNs,
-        ctimeNs: stat.ctimeNs,
       })
     } catch (e) {
       ++failedCount

@@ -1,0 +1,57 @@
+{
+  "title": "系统分享",
+  "namespace": "mybricks.harmony._systemShare",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "系统分享",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "share",
+      "title": "分享",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "title": "标题",
+            "type": "string",
+            "description": "标题"
+          },
+          "content": {
+            "title": "内容",
+            "type": "string",
+            "description": "除了文本和链接，其他文件请传入文件的uri"
+          },
+          "description": {
+            "title": "描述",
+            "type": "string",
+            "description": "(选填)描述"
+          },
+          "thumbnail": {
+            "title": "缩略图",
+            "type": "string",
+            "description": "(选填)缩略图: 网络图片连接"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onSuccess",
+      "title": "成功"
+    },
+    {
+      "id": "onFail",
+      "title": "失败",
+      "schema": {
+        "type": "string"
+      }
+    }
+  ]
+}
