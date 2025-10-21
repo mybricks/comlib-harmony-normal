@@ -687,7 +687,7 @@ class MediaPlayer {
     await MediaPlayer.avPlayer?.stop()
 
     MediaPlayer.setAudioListIndex(index)
-    MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
+    await MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
     MediaPlayer.play()
   }
 
@@ -702,7 +702,7 @@ class MediaPlayer {
     await MediaPlayer.avPlayer?.stop()
 
     MediaPlayer.setAudioListIndex(index)
-    MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
+    await MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
     MediaPlayer.play()
   }
 
