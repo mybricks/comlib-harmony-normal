@@ -320,6 +320,8 @@ class MediaPlayer {
         // 播放器非播放状态
         MediaPlayer.avPlayer.state !== "playing"
     ) {
+      MediaPlayer.waitingToPlay = false
+      await MediaPlayer.avPlayer?.reset()
       MediaPlayer.setTime({
         currentTime: 0,
         duration: MediaPlayer.targetAudio.file.duration
@@ -395,10 +397,9 @@ class MediaPlayer {
       })
 
       await MediaPlayer.avPlayer?.stop()
-      await MediaPlayer.avPlayer?.reset()
 
       MediaPlayer.setAudioListIndex(index === -1 ? 0 : index)
-      MediaPlayer.setTargetAudio(audio)
+      await MediaPlayer.setTargetAudio(audio)
       MediaPlayer.play()
       return
     }
@@ -413,7 +414,6 @@ class MediaPlayer {
       MediaPlayer.waitingToPlay = true
       return
     }
-
     if (MediaPlayer.avPlayer.state !== 'prepared') {
       if (MediaPlayer.avPlayer.state === "paused") {
         MediaPlayer.avPlayer.play()
@@ -685,7 +685,6 @@ class MediaPlayer {
     const index = MediaPlayer.getNextIndex('prev')
 
     await MediaPlayer.avPlayer?.stop()
-    await MediaPlayer.avPlayer?.reset()
 
     MediaPlayer.setAudioListIndex(index)
     MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
@@ -701,7 +700,6 @@ class MediaPlayer {
     const index = MediaPlayer.getNextIndex('next')
 
     await MediaPlayer.avPlayer?.stop()
-    await MediaPlayer.avPlayer?.reset()
 
     MediaPlayer.setAudioListIndex(index)
     MediaPlayer.setTargetAudio(MediaPlayer.audioList[index])
