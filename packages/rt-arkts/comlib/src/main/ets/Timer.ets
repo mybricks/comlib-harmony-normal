@@ -159,10 +159,6 @@ export default struct MyBricksTimer {
   }
 
   aboutToAppear(): void {
-    // 设置输入监听
-    this.inputs?.countDownTimeStamp?.((text: string) => {
-      this.countDown = text
-    })
 
     // 添加控制接口
     this.inputs?.start?.(() => {
@@ -200,6 +196,11 @@ export default struct MyBricksTimer {
           break
       }
     }
+
+    // 设置输入监听
+    this.inputs?.countDownTimeStamp?.((text: string) => {
+      this.countDown = text
+    })
   }
 
   aboutToDisappear(): void {
