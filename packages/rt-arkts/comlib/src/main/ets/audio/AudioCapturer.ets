@@ -94,12 +94,15 @@ export class AudioCapturer {
         });
 
         await this.audioCapturer.start();
+        return true
       } else {
         await this.audioCapturer.start();
+        return true
       }
     } else {
       // TODO:提示用户去应用授权
       console.log('未授权');
+      return false
     }
   }
 
