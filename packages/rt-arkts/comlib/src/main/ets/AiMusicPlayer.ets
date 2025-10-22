@@ -136,7 +136,10 @@ export default struct MyBricksAIMusicPlayer {
 
     this.inputs?.setTitle((title:string) => {
       if(this.targetAudio){
-        this.targetAudio.file.title = title
+        const old = this.targetAudio
+        old.file.title = title
+        this.targetAudio = null
+        this.targetAudio = old
       }
     })
   }

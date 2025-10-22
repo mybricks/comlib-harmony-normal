@@ -294,7 +294,12 @@ class MediaPlayer {
   }
 
   // 设置当前歌曲
-  static async setTargetAudio(targetAudio: WorksItemWithLabelsModel) {
+  static async setTargetAudio(targetAudio: WorksItemWithLabelsModel, justEditInfo?: boolean) {
+    // 只修改信息，不触发更换歌曲url,进度等
+    if (justEditInfo) {
+      MediaPlayer.targetAudio = targetAudio
+      return
+    }
 
     if (MediaPlayer.targetAudio && MediaPlayer.targetAudio.file.id !== targetAudio.file.id) {
       MediaPlayer.eventListener.get("onChange")?.forEach((listener) => {

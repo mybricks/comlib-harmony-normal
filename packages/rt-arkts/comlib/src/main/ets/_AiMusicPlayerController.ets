@@ -153,7 +153,11 @@ export default (context: IOContext) => {
           return
         }
         case data.type === 'editSong': {
-
+          if(val){
+            MediaPlayer.setTargetAudio(val, true)
+            outputs?.then()
+          }
+          return
         }
       }
     })
