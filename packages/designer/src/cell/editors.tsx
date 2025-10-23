@@ -18,86 +18,112 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "单元格";
       cate0.items = [
         {
-          title: "展示图标",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.useThumb;
-            },
-            set({ data }, value: boolean) {
-              data.useThumb = value;
-            },
-          },
-          binding: {
-            with: `data.useThumb`,
-            schema: {
-              type: 'boolean'
-            }
-          }
-        },
-        {
-          ifVisible({ data }) {
-            return data.useThumb;
-          },
-          title: "图标",
-          type: "imageSelector",
-          value: {
-            get({ data }) {
-              return data.thumb;
-            },
-            set({ data }, value) {
-              data.thumb = value;
-            },
-          },
-          binding: {
-            with: `data.thumb`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "标题",
-          type: "text",
-          value: {
-            get({ data }) {
-              return data.title;
-            },
-            set({ data }, val) {
-              data.title = val;
-            },
-          },
-          binding: {
-            with: `data.title`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "描述",
-          type: "text",
-          value: {
-            get({ data }) {
-              return data.brief;
-            },
-            set({ data }, val) {
-              data.brief = val;
-            },
-          },
-          binding: {
-            with: `data.brief`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "内容",
+          title: "基础属性",
           items: [
+            {
+              title: "标题",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.title;
+                },
+                set({ data }, val) {
+                  data.title = val;
+                },
+              },
+              binding: {
+                with: `data.title`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              title: "描述",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.brief;
+                },
+                set({ data }, val) {
+                  data.brief = val;
+                },
+              },
+              binding: {
+                with: `data.brief`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              ifVisible({ data }) {
+                return !data.useChildren;
+              },
+              title: "内容",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.content;
+                },
+                set({ data }, val) {
+                  data.content = val;
+                },
+              },
+              binding: {
+                with: `data.content`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+        {
+          title: "高级属性",
+          items: [
+            {
+              title: "展示图标",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.useThumb;
+                },
+                set({ data }, value: boolean) {
+                  data.useThumb = value;
+                },
+              },
+              binding: {
+                with: `data.useThumb`,
+                schema: {
+                  type: "boolean",
+                },
+              },
+            },
+            {
+              ifVisible({ data }) {
+                return data.useThumb;
+              },
+              title: "图标",
+              type: "imageSelector",
+              value: {
+                get({ data }) {
+                  return data.thumb;
+                },
+                set({ data }, value) {
+                  data.thumb = value;
+                },
+              },
+              binding: {
+                with: `data.thumb`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
             {
               title: "开启内容插槽",
               type: "switch",
@@ -138,27 +164,6 @@ export default {
               },
             },
             {
-              ifVisible({ data }) {
-                return !data.useChildren;
-              },
-              title: "内容",
-              type: "text",
-              value: {
-                get({ data }) {
-                  return data.content;
-                },
-                set({ data }, val) {
-                  data.content = val;
-                },
-              },
-              binding: {
-                with: `data.content`,
-                schema: {
-                  type: 'string'
-                }
-              }
-            },
-            {
               title: "显示右箭头",
               type: "switch",
               value: {
@@ -172,9 +177,9 @@ export default {
               binding: {
                 with: `data.useArrowIcon`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
             {
               ifVisible({ data }) {
@@ -193,15 +198,10 @@ export default {
               binding: {
                 with: `data.arrowIconColor`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
-          ],
-        },
-        {
-          title: "卡片滑动",
-          items: [
             {
               title: "支持左滑",
               type: "switch",
@@ -243,9 +243,9 @@ export default {
               binding: {
                 with: `data.leftSwipeText`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
             {
               ifVisible({ data }) {
@@ -255,7 +255,7 @@ export default {
               type: "styleNew",
               options: {
                 defaultOpen: true,
-                plugins: ["background","font","size","border"],
+                plugins: ["background", "font", "size", "border"],
               },
               value: {
                 get({ data }) {
@@ -271,16 +271,6 @@ export default {
                 set({ data }, value) {
                   data.leftSwipeStyle = JSON.parse(JSON.stringify(value));
                 },
-              },
-            },
-            {
-              ifVisible({ data }) {
-                return data.useSwipeLeft;
-              },
-              title: "单击主按钮",
-              type: "_event",
-              options: {
-                outputId: "onClickLeftAction",
               },
             },
             {
@@ -327,9 +317,9 @@ export default {
               binding: {
                 with: `data.leftSwipeTextSecondary`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
             {
               ifVisible({ data }) {
@@ -339,7 +329,7 @@ export default {
               type: "styleNew",
               options: {
                 defaultOpen: true,
-                plugins: ["background","font","size","border"],
+                plugins: ["background", "font", "size", "border"],
               },
               value: {
                 get({ data }) {
@@ -353,8 +343,37 @@ export default {
                   );
                 },
                 set({ data }, value) {
-                  data.leftSwipeStyleSecondary = JSON.parse(JSON.stringify(value));
+                  data.leftSwipeStyleSecondary = JSON.parse(
+                    JSON.stringify(value)
+                  );
                 },
+              },
+            },
+          ],
+        },
+
+        {
+          title: "卡片滑动",
+          items: [],
+        },
+        {
+          title: "事件",
+          items: [
+            {
+              title: "单击",
+              type: "_event",
+              options: {
+                outputId: "onClick",
+              },
+            },
+            {
+              ifVisible({ data }) {
+                return data.useSwipeLeft;
+              },
+              title: "单击主按钮",
+              type: "_event",
+              options: {
+                outputId: "onClickLeftAction",
               },
             },
             {
@@ -365,18 +384,6 @@ export default {
               type: "_event",
               options: {
                 outputId: "onClickLeftActionSecondary",
-              },
-            },
-          ],
-        },
-        {
-          title: "事件",
-          items: [
-            {
-              title: "单击",
-              type: "_event",
-              options: {
-                outputId: "onClick",
               },
             },
           ],
@@ -395,31 +402,36 @@ export default {
     ],
     items: [
       {
-        title: "展示图标",
-        type: "switch",
-        value: {
-          get({ data }) {
-            return data.useThumb;
+        title: "基础属性",
+        items: [
+          {
+            title: "展示图标",
+            type: "switch",
+            value: {
+              get({ data }) {
+                return data.useThumb;
+              },
+              set({ data }, value: boolean) {
+                data.useThumb = value;
+              },
+            },
           },
-          set({ data }, value: boolean) {
-            data.useThumb = value;
+          {
+            ifVisible({ data }) {
+              return data.useThumb;
+            },
+            title: "图标",
+            type: "imageSelector",
+            value: {
+              get({ data }) {
+                return data.thumb;
+              },
+              set({ data }, value) {
+                data.thumb = value;
+              },
+            },
           },
-        },
-      },
-      {
-        ifVisible({ data }) {
-          return data.useThumb;
-        },
-        title: "图标",
-        type: "imageSelector",
-        value: {
-          get({ data }) {
-            return data.thumb;
-          },
-          set({ data }, value) {
-            data.thumb = value;
-          },
-        },
+        ],
       },
     ],
   },
@@ -445,16 +457,21 @@ export default {
     ],
     items: [
       {
-        title: "标题",
-        type: "text",
-        value: {
-          get({ data }) {
-            return data.title;
+        title: "基础属性",
+        items: [
+          {
+            title: "标题",
+            type: "text",
+            value: {
+              get({ data }) {
+                return data.title;
+              },
+              set({ data }, val) {
+                data.title = val;
+              },
+            },
           },
-          set({ data }, val) {
-            data.title = val;
-          },
-        },
+        ],
       },
     ],
   },
@@ -480,16 +497,21 @@ export default {
     ],
     items: [
       {
-        title: "描述",
-        type: "text",
-        value: {
-          get({ data }) {
-            return data.brief;
+        title: "基础属性",
+        items: [
+          {
+            title: "描述",
+            type: "text",
+            value: {
+              get({ data }) {
+                return data.brief;
+              },
+              set({ data }, val) {
+                data.brief = val;
+              },
+            },
           },
-          set({ data }, val) {
-            data.brief = val;
-          },
-        },
+        ],
       },
     ],
   },

@@ -3,8 +3,8 @@ export default {
     style.width = "100%";
     style.height = "auto";
   },
-  '@resize': {
-    options: ['width', 'height'],
+  "@resize": {
+    options: ["width", "height"],
   },
   ":root": {
     style: [
@@ -15,26 +15,31 @@ export default {
       },
     ],
     items: ({ data, inputs, output, style }, cate0, cate1) => {
-      cate0.title = "常规";
+      cate0.title = "播放进度";
       cate0.items = [
         {
-          title: "总时长(秒)",
-          type: "inputnumber",
-          options: [{ min: 1, step: 1 }],
-          value: {
-            get({ data }) {
-              return [data.total];
-            },
-            set({ data }, value: number) {
-              data.total = value;
-            },
-          },
-        },
-        {
-          title: "滑块",
+          title: "基础属性",
           items: [
             {
-              title: "颜色",
+              title: "总时长(秒)",
+              type: "inputnumber",
+              options: [{ min: 1, step: 1 }],
+              value: {
+                get({ data }) {
+                  return [data.total];
+                },
+                set({ data }, value: number) {
+                  data.total = value;
+                },
+              },
+            },
+          ],
+        },
+        {
+          title: "高级属性",
+          items: [
+            {
+              title: "滑块颜色",
               type: "colorpicker",
               value: {
                 get({ data }) {
@@ -46,7 +51,7 @@ export default {
               },
             },
             {
-              title: "大小",
+              title: "滑块大小",
               type: "inputnumber",
               options: [{ title: "", width: "100%", min: 12, max: 28 }],
               value: {
@@ -58,13 +63,8 @@ export default {
                 },
               },
             },
-          ],
-        },
-        {
-          title: "滑轨",
-          items: [
             {
-              title: "背景颜色",
+              title: "滑轨背景颜色",
               type: "colorpicker",
               value: {
                 get({ data }) {
@@ -76,7 +76,7 @@ export default {
               },
             },
             {
-              title: "已滑动部分颜色",
+              title: "滑轨已滑动部分颜色",
               type: "colorpicker",
               value: {
                 get({ data }) {

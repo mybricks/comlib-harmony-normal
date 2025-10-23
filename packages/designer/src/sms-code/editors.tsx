@@ -20,7 +20,7 @@ export default {
             if (Array.isArray(value)) {
               data.gutter = value[0];
             } else {
-              data.gutter = value
+              data.gutter = value;
             }
           },
         },
@@ -37,151 +37,162 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "验证码宫格";
       cate0.items = [
         {
-          title: "验证码位数",
-          type: "InputNumber",
-          options: [{ min: 1, max: 8 }],
-          description: "输入的位数限制 1~8",
-          value: {
-            get({ data }) {
-              return [data.length];
+          title: "基础属性",
+          items: [
+            {
+              title: "验证码位数",
+              type: "InputNumber",
+              options: [{ min: 1, max: 8 }],
+              description: "输入的位数限制 1~8",
+              value: {
+                get({ data }) {
+                  return [data.length];
+                },
+                set({ data }, value) {
+                  if (Array.isArray(value)) {
+                    data.length = value[0];
+                  } else {
+                    data.length = value;
+                  }
+                },
+              },
+              binding: {
+                with: `data.length`,
+                schema: {
+                  type: "number",
+                },
+              },
             },
-            set({ data }, value) {
-              if (Array.isArray(value)) {
-                data.length = value[0];
-              } else {
-                data.length = value
-              }
+            {
+              title: "验证码倒数秒数",
+              type: "InputNumber",
+              options: [{ min: 1 }],
+              value: {
+                get({ data }) {
+                  return [data.countdown];
+                },
+                set({ data }, value) {
+                  if (Array.isArray(value)) {
+                    data.countdown = value[0];
+                  } else {
+                    data.countdown = value;
+                  }
+                },
+              },
+              binding: {
+                with: `data.countdown`,
+                schema: {
+                  type: "number",
+                },
+              },
             },
-          },
-          binding: {
-            with: `data.length`,
-            schema: {
-              type: 'number'
-            }
-          }
+            {
+              title: "倒数文案",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.countDownText;
+                },
+                set({ data }, value) {
+                  data.countDownText = value;
+                },
+              },
+              binding: {
+                with: `data.countDownText`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              title: "重试文案",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.retryText;
+                },
+                set({ data }, value) {
+                  data.retryText = value;
+                },
+              },
+              binding: {
+                with: `data.retryText`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+            {
+              title: "提示文案",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.desc;
+                },
+                set({ data }, value) {
+                  data.desc = value;
+                },
+              },
+              binding: {
+                with: `data.desc`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
         },
         {
-          title: "显示中间分割线",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.showLine;
+          title: "高级属性",
+          items: [
+            {
+              title: "显示为密文",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.isPassword;
+                },
+                set({ data }, value) {
+                  data.isPassword = value;
+                },
+              },
+              binding: {
+                with: `data.isPassword`,
+                schema: {
+                  type: "boolean",
+                },
+              },
             },
-            set({ data }, value) {
-              data.showLine = value;
+            {
+              title: "显示中间分割线",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.showLine;
+                },
+                set({ data }, value) {
+                  data.showLine = value;
+                },
+              },
             },
-          },
+            {
+              title: "隐藏宫格下方操作按钮",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.hideOptButton;
+                },
+                set({ data }, value) {
+                  data.hideOptButton = value;
+                },
+              },
+            },
+          ],
         },
-        {
-          title: "显示为密文",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.isPassword;
-            },
-            set({ data }, value) {
-              data.isPassword = value;
-            },
-          },
-          binding: {
-            with: `data.isPassword`,
-            schema: {
-              type: 'boolean'
-            }
-          }
-        },
-        {
-          title: "隐藏宫格下方操作按钮",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.hideOptButton;
-            },
-            set({ data }, value) {
-              data.hideOptButton = value;
-            },
-          },
-        },
-        {
-          title: "验证码倒数秒数",
-          type: "InputNumber",
-          options: [{ min: 1 }],
-          value: {
-            get({ data }) {
-              return [data.countdown];
-            },
-            set({ data }, value) {
-              if (Array.isArray(value)) {
-                data.countdown = value[0];
-              } else {
-                data.countdown = value
-              }
-            },
-          },
-          binding: {
-            with: `data.countdown`,
-            schema: {
-              type: 'number'
-            }
-          }
-        },
-        {
-          title: "倒数文案",
-          type: "text",
-          value: {
-            get({ data }) {
-              return data.countDownText;
-            },
-            set({ data }, value) {
-              data.countDownText = value;
-            },
-          },
-          binding: {
-            with: `data.countDownText`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "重试文案",
-          type: "text",
-          value: {
-            get({ data }) {
-              return data.retryText;
-            },
-            set({ data }, value) {
-              data.retryText = value;
-            },
-          },
-          binding: {
-            with: `data.retryText`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "提示文案",
-          type: "text",
-          value: {
-            get({ data }) {
-              return data.desc;
-            },
-            set({ data }, value) {
-              data.desc = value;
-            },
-          },
-          binding: {
-            with: `data.desc`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
+
         {
           title: "事件",
           items: [
@@ -211,8 +222,8 @@ export default {
               type: "_event",
               options: {
                 outputId: "onClickDesc",
-              }
-            }
+              },
+            },
           ],
         },
       ];
@@ -222,13 +233,13 @@ export default {
     "@dblclick": {
       type: "text",
       value: {
-        get({data}) {
-          return data.retryText
+        get({ data }) {
+          return data.retryText;
         },
         set({ data, focusArea }, value) {
-          data.retryText = value
-        }
-      }
-    }
-  }
+          data.retryText = value;
+        },
+      },
+    },
+  },
 };
