@@ -38,25 +38,32 @@ export default {
         ],
       },
     ],
+
     items: [
       {
-        title: "按钮文案",
-        type: "text",
-        value: {
-          get({ data }) {
-            return data.text;
-          },
-          set({ data, outputs }, value: string) {
-            data.text = value;
-          },
-        },
-        binding:{
-          with: 'data.text',
-          schema: {
-            type: 'string'
+        title: "基础属性",
+        items: [
+          {
+            title: "按钮文案",
+            type: "text",
+            value: {
+              get({ data }) {
+                return data.text;
+              },
+              set({ data, outputs }, value: string) {
+                data.text = value;
+              },
+            },
+            binding: {
+              with: 'data.text',
+              schema: {
+                type: 'string'
+              }
+            }
           }
-        }
+        ]
       },
+
       {
         title: "事件",
         items: [

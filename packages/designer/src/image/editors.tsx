@@ -17,9 +17,10 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "图片";
       cate0.items = [
         {
+          title: "基础属性",
           items: [
             {
               title: "图片链接",
@@ -40,34 +41,38 @@ export default {
                   }
                 },
               },
-              binding:{
+              binding: {
                 with: 'data.src',
                 schema: {
                   type: 'string'
                 }
               }
             },
-            {
-              title: "展示方式",
-              type: "editorRender",
-              description:
-                "展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用",
-              options: {
-                render: ImageFitMode,
+
+          ],
+        }, {
+          title: "高级属性",
+          items: [{
+            title: "展示方式",
+            type: "editorRender",
+            description:
+              "展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用",
+            options: {
+              render: ImageFitMode,
+            },
+            value: {
+              get({ data, style }) {
+                return {
+                  mode: data.mode,
+                  style: style,
+                };
               },
-              value: {
-                get({ data, style }) {
-                  return {
-                    mode: data.mode,
-                    style: style,
-                  };
-                },
-                set({ }, value) {
-                  data.mode = value;
-                },
+              set({ }, value) {
+                data.mode = value;
               },
             },
-          ],
+          },]
+
         },
         {
           title: "事件",

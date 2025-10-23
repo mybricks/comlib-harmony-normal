@@ -127,12 +127,12 @@ export default {
       },
     ],
     items({ data, input, slots, outputs }, cate0, cate1, cate2) {
-      cate0.title = "常规";
+      cate0.title = "Tabs";
       cate0.items = [
         dynamicArrayData.editors(
           { data: data },
           {
-            title: "标签项",
+            title: "基础属性",
             array: {
               options: {
                 selectable: true,
@@ -278,104 +278,107 @@ export default {
           }
         ),
         {
-          title: "动态标签",
-          type: "switch",
-          description: "开启后，可通过连线动态配置左侧的选项列表",
-          value: {
-            get({ data, slot }) {
-              if (!data.useDynamicTab) {
-                try {
-                  slot.remove("tabItem");
-                } catch (e) { }
-              }
-              return data.useDynamicTab;
-            },
-            set({ data, slot }, value) {
-              data.useDynamicTab = value;
-              //当动态标签开启时，把目前的全部slot存起来，后面可以还原
-              if (value) {
-                data.slotStorage = data.tabs.map((item) => {
-                  slot.remove(item._id);
-                  return {
-                    id: item._id,
-                    title: item.tabName,
-                  };
-                });
-                slot.add(comJson.slots[0]);
-                //默认配置为智能布局
-                const style = {
-                    "position": "smart"
+          title: "高级属性",
+          items: [
+            {
+              title: "动态标签",
+              type: "switch",
+              description: "开启后，可通过连线动态配置左侧的选项列表",
+              value: {
+                get({ data, slot }) {
+                  if (!data.useDynamicTab) {
+                    try {
+                      slot.remove("tabItem");
+                    } catch (e) { }
                   }
-                  setSlotLayout(slots.get(comJson.slots[0]?.id), style);
-              } else {
-                //动态标签页关闭时，还原存储的slot
-                data.slotStorage.forEach((item) => {
-                  slot.add(item);
-                  //还原的时候配置为智能布局
-                  const style = {
-                    "position": "smart"
+                  return data.useDynamicTab;
+                },
+                set({ data, slot }, value) {
+                  data.useDynamicTab = value;
+                  //当动态标签开启时，把目前的全部slot存起来，后面可以还原
+                  if (value) {
+                    data.slotStorage = data.tabs.map((item) => {
+                      slot.remove(item._id);
+                      return {
+                        id: item._id,
+                        title: item.tabName,
+                      };
+                    });
+                    slot.add(comJson.slots[0]);
+                    //默认配置为智能布局
+                    const style = {
+                      "position": "smart"
+                    }
+                    setSlotLayout(slots.get(comJson.slots[0]?.id), style);
+                  } else {
+                    //动态标签页关闭时，还原存储的slot
+                    data.slotStorage.forEach((item) => {
+                      slot.add(item);
+                      //还原的时候配置为智能布局
+                      const style = {
+                        "position": "smart"
+                      }
+                      setSlotLayout(slots.get(item?.id), style);
+                    });
+                    slot.remove("tabItem");
+                    data.slotStorage = [];
                   }
-                  setSlotLayout(slots.get(item?.id), style);
-                });
-                slot.remove("tabItem");
-                data.slotStorage = [];
+                },
+              },
+            },
+            {
+              title: "吸顶",
+              type: "switch",
+              description:
+                "当tabs上滑到页面顶部时触发吸顶，tabs内容完全离开屏幕时吸顶会自动取消",
+              ifVisible({ data }) {
+                return !data.hideContent;
+              },
+              value: {
+                get({ data }) {
+                  return data.sticky;
+                },
+                set({ data }, value) {
+                  data.sticky = value;
+                },
+              },
+            },
+            {
+              title: "隐藏内容",
+              type: "switch",
+              description: "开启后tab内容项不展示",
+              value: {
+                get({ data }) {
+                  return data.hideContent
+                },
+                set({ data }, value) {
+                  data.hideContent = value
+                }
               }
             },
-          },
+            {
+              title: "内容展示方式",
+              ifVisible({ data }: EditorResult<Data>) {
+                return !data.hideContent;
+              },
+              type: "radio",
+              description:
+                "锚定显示：在同一个页面显示所有内容，点击后滚动到对应区域；切换显示：在不同页面显示对应的侧边栏内容",
+              options: [
+                { label: "锚定显示", value: "roll" },
+                { label: "切换显示", value: "switch" },
+              ],
+              value: {
+                get({ data }) {
+                  return data.contentShowType;
+                },
+                set({ data }, value) {
+                  data.contentShowType = value;
+                },
+              },
+            },
+          ]
         },
- 
-        {
-          title: "吸顶",
-          type: "switch",
-          description:
-            "当tabs上滑到页面顶部时触发吸顶，tabs内容完全离开屏幕时吸顶会自动取消",
-          ifVisible({ data }) {
-            return !data.hideContent;
-          },
-          value: {
-            get({ data }) {
-              return data.sticky;
-            },
-            set({ data }, value) {
-              data.sticky = value;
-            },
-          },
-        },
-        {
-          title: "隐藏内容",
-          type: "switch",
-          description: "开启后tab内容项不展示",
-          value: {
-            get({ data }) {
-              return data.hideContent
-            },
-            set({ data }, value) {
-              data.hideContent = value
-            }
-          }
-        },
-        {
-          title: "内容展示方式",
-          ifVisible({ data }: EditorResult<Data>) {
-            return !data.hideContent;
-          },
-          type: "radio",
-          description:
-            "锚定显示：在同一个页面显示所有内容，点击后滚动到对应区域；切换显示：在不同页面显示对应的侧边栏内容",
-          options: [
-            { label: "锚定显示", value: "roll" },
-            { label: "切换显示", value: "switch" },
-          ],
-          value: {
-            get({ data }) {
-              return data.contentShowType;
-            },
-            set({ data }, value) {
-              data.contentShowType = value;
-            },
-          },
-        },
-        {},
         {
           title: "事件",
           items: [
@@ -410,29 +413,33 @@ export default {
       cate1.title = "常规";
       cate1.items = [
         {
-          title: "布局",
-          type: "layout",
-          value: {
-            get({ data, slots }) {
-              const defaultLayout = {
-                position: "smart"
-              }
-              const tab = getFocusTab(props)
-              return tab?.layout || defaultLayout;
+          title: "基础属性",
+          items: [{
+            title: "布局",
+            type: "layout",
+            value: {
+              get({ data, slots }) {
+                const defaultLayout = {
+                  position: "smart"
+                }
+                const tab = getFocusTab(props)
+                return tab?.layout || defaultLayout;
+              },
+              set({ data, slots }, value) {
+                const { focusArea } = props;
+                if (!focusArea) return {};
+                const { index } = focusArea;
+
+                const tab = data.tabs[index];
+
+                tab.layout = value;
+                setSlotLayout(slots.get(tab?._id), value);
+
+              },
             },
-            set({ data, slots }, value) {
-              const { focusArea } = props;
-              if (!focusArea) return {};
-              const { index } = focusArea;
-
-              const tab = data.tabs[index];
-
-              tab.layout = value;
-              setSlotLayout(slots.get(tab?._id), value);
-
-            },
-          },
+          },]
         },
+
       ]
     }
   },
@@ -445,46 +452,53 @@ export default {
       cate1.title = "常规";
       cate1.items = [
         {
-          title: "标签项",
-          type: "text",
-          value: {
-            get({ data, focusArea }) {
-              return focusItem?.tabName;
-            },
-            set({ data, focusArea, slot, output }, value) {
-              if (!focusArea) return;
-              focusItem.tabName = value;
-              slot.setTitle(focusItem?._id, value);
-              output.setTitle("changeTab_" + focusItem?._id, value);
-            },
-          },
-        },
-        {
-          title: "切换到该标签时",
-          type: "_event",
-          options: {
-            outputId: `changeTab_${focusItem?._id}`,
-          },
-        },
-        {
-          items: [
-            {
-              title: "删除标签项",
-              type: "Button",
-              value: {
-                set({ data, slot, input, outputs, focusArea }) {
-                  if (!focusArea) return;
-                  const item = findItemByInnerId(focusItem?._id, data);
-                  outputs.remove(`changeTab_${item?._id}`);
-                  data.tabs.splice(focusArea.index, 1);
-                  input.remove(focusItem?._id);
-                  slot.remove(focusItem?._id);
-                  data.edit.currentTabId = data.tabs[0]?._id;
-                },
+          title: "基础属性",
+          items: [{
+            title: "标签项",
+            type: "text",
+            value: {
+              get({ data, focusArea }) {
+                return focusItem?.tabName;
+              },
+              set({ data, focusArea, slot, output }, value) {
+                if (!focusArea) return;
+                focusItem.tabName = value;
+                slot.setTitle(focusItem?._id, value);
+                output.setTitle("changeTab_" + focusItem?._id, value);
               },
             },
-          ],
+          },]
         },
+        {
+          title: "事件",
+          items: [
+            {
+              title: "切换到该标签时",
+              type: "_event",
+              options: {
+                outputId: `changeTab_${focusItem?._id}`,
+              },
+            },
+          ]
+        },
+        {
+          title: "操作",
+          items: [{
+            title: "删除标签项",
+            type: "Button",
+            value: {
+              set({ data, slot, input, outputs, focusArea }) {
+                if (!focusArea) return;
+                const item = findItemByInnerId(focusItem?._id, data);
+                outputs.remove(`changeTab_${item?._id}`);
+                data.tabs.splice(focusArea.index, 1);
+                input.remove(focusItem?._id);
+                slot.remove(focusItem?._id);
+                data.edit.currentTabId = data.tabs[0]?._id;
+              },
+            },
+          },]
+        }
       ];
       cate2.title = "样式";
       cate2.items = [

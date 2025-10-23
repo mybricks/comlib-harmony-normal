@@ -5,6 +5,22 @@ export default {
     title: "导航栏",
     items: [
       {
+        ifVisible({ data }) {
+          return data.navigationStyle === "default";
+        },
+        title: "标题",
+        type: "text",
+        value: {
+          get({ data }) {
+            return data.navigationBarTitleText;
+          },
+          set({ data }, value) {
+            data.navigationBarTitleText = value;
+          },
+        },
+      },
+      {
+        title: "导航栏类型",
         type: "select",
         options: [
           {
@@ -33,7 +49,7 @@ export default {
                 data.statusBarStyle = null
                 try {
                   slot.remove("header");
-                } catch (e) {}
+                } catch (e) { }
                 break;
               case "custom":
                 data.navigationStyle = "custom";
@@ -48,7 +64,7 @@ export default {
                 };
                 try {
                   slot.remove("header");
-                } catch (e) {}
+                } catch (e) { }
                 break;
             }
           },
@@ -69,112 +85,8 @@ export default {
           },
         },
       },
-      {
-        ifVisible({ data }) {
-          return data.navigationStyle=== "default";
-        },
-        title: "标题",
-        type: "text",
-        value: {
-          get({ data }) {
-            return data.navigationBarTitleText;
-          },
-          set({ data }, value) {
-            data.navigationBarTitleText = value;
-          },
-        },
-      },
-      {
-        title: '样式',
-        type: "styleNew",
-        ifVisible({ data }) {
-          return data.navigationStyle === "default" || data.navigationStyle === 'custom';
-        },
-        options: {
-          defaultOpen: true,
-          plugins: [
-            { type: "background", config: { disableBackgroundImage: true, disableGradient: true } },
-            { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
-          ],
-        },
-        value: {
-          get({ data }) {
-            return data.navigationBarStyle ?? {
-              color: '#ffffff',
-              backgroundColor: '#464646'
-            };
-          },
-          set({ data }, value) {
-            data.navigationBarStyle = value;
-          },
-        },
-      },
-      // TODO，暂时无需求
-      // {
-      //   title: '状态栏样式配置',
-      //   type: 'switch',
-      //   ifVisible({ data }) {
-      //     return data.navigationStyle === "default" || data.navigationStyle === 'custom';
-      //   },
-      //   value: {
-      //     get({ data }) {
-      //       return !!data.statusBarStyle;
-      //     },
-      //     set({ data }, value) {
-      //       if (value === false) {
-      //         data.statusBarStyle = null
-      //       } else {
-      //         data.statusBarStyle = {
-      //           color: '#000000',
-      //           backgroundColor: '#ffffff'
-      //         };
-      //       }
-      //     },
-      //   },
-      // },
-      {
-        title: '样式', // 此时其实只是状态栏样式
-        type: "styleNew",
-        ifVisible({ data }) {
-          return !!data.statusBarStyle && (data.navigationStyle === "default" || data.navigationStyle === 'custom');
-        },
-        options: {
-          defaultOpen: true,
-          plugins: [
-            { type: "background", config: { disableBackgroundImage: true, disableGradient: true } },
-            { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
-          ],
-        },
-        value: {
-          get({ data }) {
-            return data.statusBarStyle
-          },
-          set({ data }, value) {
-            data.statusBarStyle = value;
-          },
-        },
-      },
-      {
-        title: '状态栏',
-        type: "styleNew",
-        ifVisible({ data }) {
-          return !!data.statusBarStyle && data.navigationStyle === "none";
-        },
-        options: {
-          defaultOpen: true,
-          plugins: [
-            { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
-          ],
-        },
-        value: {
-          get({ data }) {
-            return data.statusBarStyle
-          },
-          set({ data }, value) {
-            data.statusBarStyle = value;
-          },
-        },
-      },
+
+
     ],
   },
   ".mybricks-header": {
@@ -236,7 +148,7 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["size","color"],
+        options: ["size", "color"],
         target: ".mybricks-navTitle",
       },
     ],

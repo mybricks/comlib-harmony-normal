@@ -18,36 +18,46 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "容器";
       cate0.items = [
         {
-          title: "布局",
-          type: "layout",
-          value: {
-            get({ data }) {
-              return data.layout;
+          title: "基础属性",
+          items: [
+            {
+              title: "布局",
+              type: "layout",
+              value: {
+                get({ data }) {
+                  return data.layout;
+                },
+                set({ data, slots }, val) {
+                  data.layout = val;
+                  setSlotLayout(slots.get("content"), val);
+                },
+              },
             },
-            set({ data, slots }, val) {
-              data.layout = val;
-              setSlotLayout(slots.get("content"), val);
-            },
-          },
-        },
-        {},
-        {
-          title: "单击",
-          type: "_event",
-          options: {
-            outputId: "onClick",
-          },
+          ]
         },
         {
-          title: "当容器滚动时",
-          type: "_event",
-          options: {
-            outputId: "onScroll"
-          }
-        }
+          title: "事件",
+          items: [
+            {
+              title: "单击",
+              type: "_event",
+              options: {
+                outputId: "onClick",
+              },
+            },
+            {
+              title: "当容器滚动时",
+              type: "_event",
+              options: {
+                outputId: "onScroll"
+              }
+            }
+          ]
+        },
+
       ];
     },
   },

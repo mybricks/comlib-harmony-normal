@@ -17,92 +17,100 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "图标";
       cate0.items = [
         {
-          title: "图标",
-          type: "editorRender",
-          options: {
-            render: (props) => {
-              return <IconSelector value={props.editConfig.value}  />;
-            },
-          },
-          value: {
-            get({ data }) {
-              return data.icon;
-            },
-            set({ data }, value: string) {
-              data.icon = value;
-            },
-          },
-          binding:{
-            with: 'data.icon',
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title: "大小",
-          type: "inputnumber",
-          options: [{ min: 1 }],
-          value: {
-            get({ data }) {
-              return [data.fontSize];
-            },
-            set({ data }, value: string) {
-              if (Array.isArray(value)) {
-                data.fontSize = value?.[0];
-              } else {
-                data.fontSize = value;
+          title: "基础属性",
+          items: [
+            {
+              title: "图标",
+              type: "editorRender",
+              options: {
+                render: (props) => {
+                  return <IconSelector value={props.editConfig.value} />;
+                },
+              },
+              value: {
+                get({ data }) {
+                  return data.icon;
+                },
+                set({ data }, value: string) {
+                  data.icon = value;
+                },
+              },
+              binding: {
+                with: 'data.icon',
+                schema: {
+                  type: 'string'
+                }
               }
             },
-          },
-          binding:{
-            with: 'data.fontSize',
-            schema: {
-              type: 'number'
-            }
-          }
+            {
+              title: "大小",
+              type: "inputnumber",
+              options: [{ min: 1 }],
+              value: {
+                get({ data }) {
+                  return [data.fontSize];
+                },
+                set({ data }, value: string) {
+                  if (Array.isArray(value)) {
+                    data.fontSize = value?.[0];
+                  } else {
+                    data.fontSize = value;
+                  }
+                },
+              },
+              binding: {
+                with: 'data.fontSize',
+                schema: {
+                  type: 'number'
+                }
+              }
+            },
+          ]
         },
         {
-          title: "颜色",
-          type: "colorpicker",
-          value: {
-            get({ data }) {
-              return data.fontColor?.[0];
-            },
-            set({ data }, value: string) {
-              data.fontColor[0] = value;
-            },
-          }
-        },
-        {
-          title: "线宽",
-          type: "select",
-          options: [
-            { label: '超细', value: 100 },
-            { label: '较细', value: 200 },
-            { label: '细', value: 300 },
-            { label: '常规', value: 400 },
-            { label: '宽', value: 500 },
-            { label: '较宽', value: 600 },
-            { label: '超宽', value: 800 },
-          ],
-          value: {
-            get({ data }) {
-              return data.fontWeight;
-            },
-            set({ data }, value: number) {
-              data.fontWeight = value;
-            },
-          },
-          binding:{
-            with: 'data.fontWeight',
-            schema: {
-              type: 'number'
+          title: "高级属性",
+          items: [{
+            title: "颜色",
+            type: "colorpicker",
+            value: {
+              get({ data }) {
+                return data.fontColor?.[0];
+              },
+              set({ data }, value: string) {
+                data.fontColor[0] = value;
+              },
             }
-          }
+          },
+          {
+            title: "线宽",
+            type: "select",
+            options: [
+              { label: '超细', value: 100 },
+              { label: '较细', value: 200 },
+              { label: '细', value: 300 },
+              { label: '常规', value: 400 },
+              { label: '宽', value: 500 },
+              { label: '较宽', value: 600 },
+              { label: '超宽', value: 800 },
+            ],
+            value: {
+              get({ data }) {
+                return data.fontWeight;
+              },
+              set({ data }, value: number) {
+                data.fontWeight = value;
+              },
+            },
+            binding: {
+              with: 'data.fontWeight',
+              schema: {
+                type: 'number'
+              }
+            }
+          },]
         },
         {
           title: "事件",
@@ -114,10 +122,7 @@ export default {
             },
           },]
         }
-
-
       ];
-
     },
   }
 

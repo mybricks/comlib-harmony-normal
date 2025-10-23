@@ -126,13 +126,20 @@ export default {
       cate0.title = "页面";
       cate0.items = [
         {
-          type: "_homepage",
+          title: "基础属性",
+          items: [
+            {
+              type: "_homepage",
+            },
+            MybricksTabBarEditor[".mybricks-tabBar"].items[0],
+
+          ]
         },
-          MybricksTabBarEditor[".mybricks-tabBar"].items[0],
         {
           title: "顶部栏",
           items: MybricksNavigationEditor[".mybricks-navigation"].items,
         },
+
         {
           title: "内容区",
           items: [
@@ -145,10 +152,236 @@ export default {
                 },
                 set({ data, slots }, value) {
                   data.layout = value;
-                  setSlotLayout( slots.get("content"), value);
+                  setSlotLayout(slots.get("content"), value);
                 },
               },
             },
+
+            {
+              title: "底部留白",
+              type: "text",
+              options: {
+                type: "number",
+                min: 0,
+              },
+              value: {
+                get({ data }) {
+                  return data.bottomSpace || 0;
+                },
+                set({ data }, value) {
+                  data.bottomSpace = value;
+                },
+              },
+            },
+            // {
+            //   title: "禁用页面滚动",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.disableScroll;
+            //     },
+            //     set({ data }, value) {
+            //       data.disableScroll = value;
+            //     },
+            //   },
+            // },
+          ],
+        },
+
+        {
+          title: "事件",
+          items: [
+            {
+              title: "当页面滚动时",
+              description:
+                "页面级滚动事件",
+              type: "_event",
+              options: {
+                outputId: "onScroll",
+              },
+            },
+            {
+              title: "当页面重新显示时",
+              description:
+                "请注意，当页面第一次显示时，不会触发该事件。仅当页面被打开后，重新显示/切入前台时触发。",
+              type: "_event",
+              options: {
+                outputId: "pageDidShow",
+              },
+            },
+            {
+              title: "当页面隐藏时",
+              type: "_event",
+              options: {
+                outputId: "pageDidHide",
+              },
+            },
+            {
+              title: "当页面被销毁时",
+              ifVisible({ data, output }: EditorResult<Data>) {
+                return output.get('onDestroy') !== undefined;
+              },
+              type: "_event",
+              options: {
+                outputId: "onDestroy",
+              },
+            },
+            // {
+            //   title: "分享",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.enabledShareMessage ?? false;
+            //     },
+            //     set({ data }, value) {
+            //       data.enabledShareMessage = value;
+            //     },
+            //   },
+            // },
+            {
+              title: "下拉刷新",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.enabledPulldown;
+                },
+                set({ data, slots }, value) {
+                  data.enabledPulldown = value;
+                },
+              },
+            },
+            {
+              title: "当下拉刷新触发时",
+              ifVisible({ data }) {
+                return data.enabledPulldown;
+              },
+              type: "_event",
+              options: {
+                outputId: "pulldown",
+              },
+            },
+            // {
+            //   title: "开启页面 Loading",
+            //   type: "switch",
+            //   value: {
+            //     get({ data }) {
+            //       return data.useLoading;
+            //     },
+            //     set({ data, input }, value) {
+            //       data.useLoading = value;
+
+            //       if (value) {
+            //         input.add("ready", "初始化完成", { type: "any" });
+            //       } else {
+            //         input.remove("ready");
+            //       }
+            //     },
+            //   },
+            // },
+          ]
+        }
+      ];
+
+      cate1.title = "样式";
+      cate1.items = [
+        {
+          title: "顶部栏",
+          items: [
+            {
+              title: '样式',
+              type: "styleNew",
+              ifVisible({ data }) {
+                return data.navigationStyle === "default" || data.navigationStyle === 'custom';
+              },
+              options: {
+                defaultOpen: true,
+                plugins: [
+                  { type: "background", config: { disableBackgroundImage: true, disableGradient: true } },
+                  { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
+                ],
+              },
+              value: {
+                get({ data }) {
+                  return data.navigationBarStyle ?? {
+                    color: '#ffffff',
+                    backgroundColor: '#464646'
+                  };
+                },
+                set({ data }, value) {
+                  data.navigationBarStyle = value;
+                },
+              },
+            },
+            // TODO，暂时无需求
+            // {
+            //   title: '状态栏样式配置',
+            //   type: 'switch',
+            //   ifVisible({ data }) {
+            //     return data.navigationStyle === "default" || data.navigationStyle === 'custom';
+            //   },
+            //   value: {
+            //     get({ data }) {
+            //       return !!data.statusBarStyle;
+            //     },
+            //     set({ data }, value) {
+            //       if (value === false) {
+            //         data.statusBarStyle = null
+            //       } else {
+            //         data.statusBarStyle = {
+            //           color: '#000000',
+            //           backgroundColor: '#ffffff'
+            //         };
+            //       }
+            //     },
+            //   },
+            // },
+            {
+              title: '样式', // 此时其实只是状态栏样式
+              type: "styleNew",
+              ifVisible({ data }) {
+                return !!data.statusBarStyle && (data.navigationStyle === "default" || data.navigationStyle === 'custom');
+              },
+              options: {
+                defaultOpen: true,
+                plugins: [
+                  { type: "background", config: { disableBackgroundImage: true, disableGradient: true } },
+                  { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
+                ],
+              },
+              value: {
+                get({ data }) {
+                  return data.statusBarStyle
+                },
+                set({ data }, value) {
+                  data.statusBarStyle = value;
+                },
+              },
+            },
+            {
+              title: '状态栏',
+              type: "styleNew",
+              ifVisible({ data }) {
+                return !!data.statusBarStyle && data.navigationStyle === "none";
+              },
+              options: {
+                defaultOpen: true,
+                plugins: [
+                  { type: "font", config: { disableTextAlign: true, disableLetterSpacing: true, disableLineHeight: true, disableFontSize: true, disableFontWeight: true, disableFontFamily: true } }
+                ],
+              },
+              value: {
+                get({ data }) {
+                  return data.statusBarStyle
+                },
+                set({ data }, value) {
+                  data.statusBarStyle = value;
+                },
+              },
+            },
+          ]
+        }, {
+          title: "内容区",
+          items: [
             {
               title: "背景",
               type: "styleNew",
@@ -194,127 +427,8 @@ export default {
                 },
               },
             },
-            {
-              title: "底部留白",
-              type: "text",
-              options: {
-                type: "number",
-                min: 0,
-              },
-              value: {
-                get({ data }) {
-                  return data.bottomSpace || 0;
-                },
-                set({ data }, value) {
-                  data.bottomSpace = value;
-                },
-              },
-            },
-            // {
-            //   title: "禁用页面滚动",
-            //   type: "switch",
-            //   value: {
-            //     get({ data }) {
-            //       return data.disableScroll;
-            //     },
-            //     set({ data }, value) {
-            //       data.disableScroll = value;
-            //     },
-            //   },
-            // },
-          ],
-        },
-      ];
-
-      cate1.title = "事件";
-      cate1.items = [
-        {
-          title: "当页面滚动时",
-          description:
-            "页面级滚动事件",
-          type: "_event",
-          options: {
-            outputId: "onScroll",
-          },
-        },
-        {
-          title: "当页面重新显示时",
-          description:
-            "请注意，当页面第一次显示时，不会触发该事件。仅当页面被打开后，重新显示/切入前台时触发。",
-          type: "_event",
-          options: {
-            outputId: "pageDidShow",
-          },
-        },
-        {
-          title: "当页面隐藏时",
-          type: "_event",
-          options: {
-            outputId: "pageDidHide",
-          },
-        },
-        {
-          title: "当页面被销毁时",
-          ifVisible({ data, output }: EditorResult<Data>) {
-            return output.get('onDestroy') !== undefined;
-          },
-          type: "_event",
-          options: {
-            outputId: "onDestroy",
-          },
-        },
-        // {
-        //   title: "分享",
-        //   type: "switch",
-        //   value: {
-        //     get({ data }) {
-        //       return data.enabledShareMessage ?? false;
-        //     },
-        //     set({ data }, value) {
-        //       data.enabledShareMessage = value;
-        //     },
-        //   },
-        // },
-        {
-          title: "下拉刷新",
-          type: "switch",
-          value: {
-            get({ data }) {
-              return data.enabledPulldown;
-            },
-            set({ data, slots }, value) {
-              data.enabledPulldown = value;
-            },
-          },
-        },
-        {
-          title: "当下拉刷新触发时",
-          ifVisible({ data }) {
-            return data.enabledPulldown;
-          },
-          type: "_event",
-          options: {
-            outputId: "pulldown",
-          },
-        },
-        // {
-        //   title: "开启页面 Loading",
-        //   type: "switch",
-        //   value: {
-        //     get({ data }) {
-        //       return data.useLoading;
-        //     },
-        //     set({ data, input }, value) {
-        //       data.useLoading = value;
-
-        //       if (value) {
-        //         input.add("ready", "初始化完成", { type: "any" });
-        //       } else {
-        //         input.remove("ready");
-        //       }
-        //     },
-        //   },
-        // },
+          ]
+        }
       ];
 
       // cate2.title = "高级";

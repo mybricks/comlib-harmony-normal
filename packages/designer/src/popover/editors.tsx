@@ -39,21 +39,103 @@ export default {
       }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "气泡";
       cate0.items = [
         {
-          title: "布局",
-          type: "layout",
-          value: {
-            get({ data }) {
-              return data.layout;
+          title: "基础属性",
+          items: [
+            {
+              title: "布局",
+              type: "layout",
+              value: {
+                get({ data }) {
+                  return data.layout;
+                },
+                set({ data, slots }, val) {
+                  data.layout = val;
+                  setSlotLayout(slots.get("content"), val);
+                },
+              },
             },
-            set({ data, slots }, val) {
-              data.layout = val;
-              setSlotLayout(slots.get("content"), val);
+            {
+              title: '触发方式',
+              type: 'Select',
+              options: [
+                {
+                  label: '点击',
+                  value: 'click'
+                },
+                {
+                  label: '长按',
+                  value: 'longpress'
+                }
+              ],
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.trigger;
+                },
+                set({ data }: EditorResult<Data>, val: Trigger) {
+                  data.trigger = val;
+                }
+              }
             },
-          },
+          ]
         },
+        {
+          title: "高级属性",
+          items: [
+            {
+              title: '展示方向',
+              type: 'select',
+              options: [
+                {
+                  label: '上',
+                  value: 'top'
+                },
+                {
+                  label: '下',
+                  value: 'bottom'
+                },
+                {
+                  label: '左',
+                  value: 'left'
+                },
+                {
+                  label: '右',
+                  value: 'right'
+                },
+              ],
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.placement;
+                },
+                set({ data }: EditorResult<Data>, val: Placement) {
+                  data.placement = val;
+                }
+              },
+              binding: {
+                with: `data.placement`,
+                schema: {
+                  type: 'string'
+                }
+              }
+            },
+            {
+              title: "点击气泡后关闭",
+              type: "switch",
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.closeOnClick;
+                },
+                set({ data }: EditorResult<Data>, val: boolean) {
+                  data.closeOnClick = val;
+                }
+              }
+            }
+          ]
+        }
+
+
         // {
         //   title: '标题自定义',
         //   type: 'switch',
@@ -126,78 +208,10 @@ export default {
         //     }
         //   }
         // },
-        {
-          title: '触发方式',
-          type: 'Select',
-          options: [
-            {
-              label: '点击',
-              value: 'click'
-            },
-            {
-              label: '长按',
-              value: 'longpress'
-            }
-          ],
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.trigger;
-            },
-            set({ data }: EditorResult<Data>, val: Trigger) {
-              data.trigger = val;
-            }
-          }
-        },
-        {
-          title: '展示方向',
-          type: 'select',
-          options: [
-            {
-              label: '上',
-              value: 'top'
-            },
-            {
-              label: '下',
-              value: 'bottom'
-            },
-            {
-              label: '左',
-              value: 'left'
-            },
-            {
-              label: '右',
-              value: 'right'
-            },
-          ],
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.placement;
-            },
-            set({ data }: EditorResult<Data>, val: Placement) {
-              data.placement = val;
-            }
-          },
-          binding: {
-            with: `data.placement`,
-            schema: {
-              type: 'string'
-            }
-          }
-        },
-        {
-          title:"点击气泡后关闭",
-          type:"switch",
-          value: {
-            get({ data }: EditorResult<Data>) {
-              return data.closeOnClick;
-            },
-            set({ data }: EditorResult<Data>, val: boolean) {
-              data.closeOnClick = val;
-            }
-          }
-        }
+
+
       ];
-      
+
     },
   }
 };

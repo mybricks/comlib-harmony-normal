@@ -114,86 +114,91 @@ export default {
       },
     ],
     items({ data }, cate0, cate1, cate2) {
-      cate0.title = "常规";
+      cate0.title = "侧边栏";
       cate0.items = [
         {
-          title: "标签项",
-          type: "array",
-          options: {
-            selectable: true,
-            editable: false,
-            getTitle: (item, index) => {
-              return [`${item.tabName || "未命名"}`];
-            },
-            onAdd() {
-              return defaultItem;
-            },
-            onSelect(_id, index) {
-              if (index !== -1) {
-                data.edit.currentTabId = data.tabs[index]?._id;
-              }
-            },
-            items: [
-              {
-                title: "标签名",
-                type: "text",
-                value: "tabName",
+          title: "基础属性",
+          items: [
+            {
+              title: "标签项",
+              type: "array",
+              options: {
+                selectable: true,
+                editable: false,
+                getTitle: (item, index) => {
+                  return [`${item.tabName || "未命名"}`];
+                },
+                onAdd() {
+                  return defaultItem;
+                },
+                onSelect(_id, index) {
+                  if (index !== -1) {
+                    data.edit.currentTabId = data.tabs[index]?._id;
+                  }
+                },
+                items: [
+                  {
+                    title: "标签名",
+                    type: "text",
+                    value: "tabName",
+                  },
+                ],
               },
-            ],
-          },
-          value: {
-            get({ data }) {
-              return data.tabs;
-            },
-            set({ data, slot, outputs }, value) {
-              let action = computedAction({
-                before: data.tabs,
-                after: value,
-              });
+              value: {
+                get({ data }) {
+                  return data.tabs;
+                },
+                set({ data, slot, outputs }, value) {
+                  let action = computedAction({
+                    before: data.tabs,
+                    after: value,
+                  });
 
-              switch (action?.name) {
-                case "remove":
-                  outputs.remove(`changeTab_${action?.value._id}`);
-                  slot.remove(action?.value._id);
-                  break;
-                case "add":
-                  slot.add({
-                    id: action?.value._id,
-                    title: defaultItem.tabName,
-                  });
-                  outputs.add({
-                    id: `changeTab_${action?.value._id}`,
-                    title: action?.value.tabName,
-                    schema: {
-                      type: "object",
-                      properties: {
-                        id: {
-                          type: "string",
+                  switch (action?.name) {
+                    case "remove":
+                      outputs.remove(`changeTab_${action?.value._id}`);
+                      slot.remove(action?.value._id);
+                      break;
+                    case "add":
+                      slot.add({
+                        id: action?.value._id,
+                        title: defaultItem.tabName,
+                      });
+                      outputs.add({
+                        id: `changeTab_${action?.value._id}`,
+                        title: action?.value.tabName,
+                        schema: {
+                          type: "object",
+                          properties: {
+                            id: {
+                              type: "string",
+                            },
+                            tabName: {
+                              type: "string",
+                            },
+                            index: {
+                              type: "number",
+                            },
+                          },
                         },
-                        tabName: {
-                          type: "string",
-                        },
-                        index: {
-                          type: "number",
-                        },
-                      },
-                    },
-                  });
-                  break;
-                case "update":
-                  // slot.setTitle(action?.value._id, action?.value.tabName);
-                  break;
+                      });
+                      break;
+                    case "update":
+                      // slot.setTitle(action?.value._id, action?.value.tabName);
+                      break;
+                  }
+
+                  data.tabs = value;
+                },
+              },
+              binding: {
+                with: `data.tabs`,
+                schema: {
+                  type: 'array'
+                }
               }
-
-              data.tabs = value;
             },
-          },
-          binding: {
-            with: `data.tabs`,
-            schema: {
-              type: 'array'
-            }
-          }
+          ]
         },
         {
           title: "事件",
@@ -258,7 +263,7 @@ export default {
           title: "删除标签项",
           type: "Button",
           value: {
-            set({ data,outputs, slot, focusArea }) {
+            set({ data, outputs, slot, focusArea }) {
               if (!focusArea) return;
               data.tabs.splice(focusArea.index, 1);
               // const _id = getFocusTab({ data, focusArea })?._id

@@ -74,25 +74,30 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "文本";
       cate0.items = [
         {
-          title: "文本内容",
-          type: "textarea",
-          value: {
-            get({ data }) {
-              return data.text;
-            },
-            set({ data, setTitle }, value: string) {
-              data.text = value;
-            },
-          },
-          binding:{
-            with: 'data.text',
-            schema: {
-              type: 'string'
+          title: "基础属性",
+          items: [
+            {
+              title: "文本内容",
+              type: "textarea",
+              value: {
+                get({ data }) {
+                  return data.text;
+                },
+                set({ data, setTitle }, value: string) {
+                  data.text = value;
+                },
+              },
+              binding: {
+                with: 'data.text',
+                schema: {
+                  type: 'string'
+                }
+              }
             }
-          }
+          ]
         },
         {
           title: "事件",

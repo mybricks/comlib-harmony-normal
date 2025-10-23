@@ -36,45 +36,46 @@ export default {
   ".mybricks-tabBar": {
     items: [
       {
-        title: "作为标签页",
-        type: "switch",
-        value: {
-          get({ data }) {
-            return data.useTabBar;
-          },
-          set({ data }, value: boolean) {
-            data.useTabBar = value;
+          title: "作为标签页",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.useTabBar;
+            },
+            set({ data }, value: boolean) {
+              data.useTabBar = value;
 
-            // 开启
-            let globalTabBar = window.__tabbar__?.get() ?? [];
+              // 开启
+              let globalTabBar = window.__tabbar__?.get() ?? [];
 
-            let isContain = globalTabBar.find((item) => {
-              return item.scene.id == data.id;
-            });
-
-            if (value && !isContain) {
-              let tabBar = [
-                ...globalTabBar,
-                getDefaultTabItem(data.id),
-              ];
-
-              window.__tabbar__?.set(tabBar);
-
-              if (tabBar.length > 5) {
-                message.error("由于底部标签栏最多支持5个标签");
-              }
-            }
-
-            // 关闭
-            if (!value && isContain) {
-              let tabBar = globalTabBar.filter((item) => {
-                return item.scene.id != data.id;
+              let isContain = globalTabBar.find((item) => {
+                return item.scene.id == data.id;
               });
-              window.__tabbar__?.set(tabBar);
-            }
+
+              if (value && !isContain) {
+                let tabBar = [
+                  ...globalTabBar,
+                  getDefaultTabItem(data.id),
+                ];
+
+                window.__tabbar__?.set(tabBar);
+
+                if (tabBar.length > 5) {
+                  message.error("由于底部标签栏最多支持5个标签");
+                }
+              }
+
+              // 关闭
+              if (!value && isContain) {
+                let tabBar = globalTabBar.filter((item) => {
+                  return item.scene.id != data.id;
+                });
+                window.__tabbar__?.set(tabBar);
+              }
+            },
           },
-        },
-      },
+        }
+
     ],
   },
   ".mybricks-tabItem"({ data, output, style }, cate0, cate1, cate2) {

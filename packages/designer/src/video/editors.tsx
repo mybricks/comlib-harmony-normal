@@ -7,9 +7,10 @@ export default {
     options: ["width", "height"],
   },
   ":root"({ data, output, style }, cate0, cate1, cate2) {
-    cate0.title = "常规";
+    cate0.title = "视频";
     cate0.items = [
       {
+        title: "基础属性",
         items: [
           {
             title: "视频资源地址",
@@ -22,28 +23,10 @@ export default {
                 data.src = src;
               },
             },
-            binding:{
+            binding: {
               with: 'data.src',
               schema: {
                 type: 'string'
-              }
-            }
-          },
-          {
-            title: "是否显示默认播放控件",
-            type: "Switch",
-            value: {
-              get({ data }) {
-                return data.controls;
-              },
-              set({ data }, controls: boolean) {
-                data.controls = controls;
-              },
-            },
-            binding:{
-              with: 'data.controls',
-              schema: {
-                type: 'boolean'
               }
             }
           },
@@ -61,103 +44,94 @@ export default {
                 data.poster = poster;
               },
             },
-            binding:{
+            binding: {
               with: 'data.poster',
               schema: {
                 type: 'string'
               }
             }
           },
-          {
-            title: "是否自动播放",
-            type: "Switch",
-            value: {
-              get({ data }) {
-                return data.autoplay;
-              },
-              set({ data }, autoplay: boolean) {
-                data.autoplay = autoplay;
-              },
-            },
-            binding:{
-              with: 'data.autoplay',
-              schema: {
-                type: 'boolean'
-              }
-            }
-          },
-          {
-            title: "是否循环播放",
-            type: "Switch",
-            value: {
-              get({ data }) {
-                return data.loop;
-              },
-              set({ data }, loop: boolean) {
-                data.loop = loop;
-              },
-            },
-            binding:{
-              with: 'data.loop',
-              schema: {
-                type: 'boolean'
-              }
-            }
-          },
-          {
-            title: "是否静音播放",
-            type: "Switch",
-            value: {
-              get({ data }) {
-                return data.muted;
-              },
-              set({ data }, muted: boolean) {
-                data.muted = muted;
-              },
-            },
-            binding:{
-              with: 'data.muted',
-              schema: {
-                type: 'boolean'
-              }
-            }
-          },
+
         ],
       },
-    ];
-
-    cate1.title = "样式";
-    cate1.items = [
       {
-        title: "当视频大小与 video 容器大小不一致时，视频的表现形式",
-        type: "Select",
-        options: [
-          {
-            value: "contain",
-            label: "包含",
+        title: "高级属性",
+        items: [{
+          title: "是否显示默认播放控件",
+          type: "Switch",
+          value: {
+            get({ data }) {
+              return data.controls;
+            },
+            set({ data }, controls: boolean) {
+              data.controls = controls;
+            },
           },
-          {
-            value: "fill",
-            label: "填充",
-          },
-          {
-            value: "cover",
-            label: "覆盖",
-          },
-        ],
-        value: {
-          get({ data }) {
-            return data["object-fit"];
-          },
-          set({ data }, value: string) {
-            data["object-fit"] = value;
-          },
+          binding: {
+            with: 'data.controls',
+            schema: {
+              type: 'boolean'
+            }
+          }
         },
+        {
+          title: "是否自动播放",
+          type: "Switch",
+          value: {
+            get({ data }) {
+              return data.autoplay;
+            },
+            set({ data }, autoplay: boolean) {
+              data.autoplay = autoplay;
+            },
+          },
+          binding: {
+            with: 'data.autoplay',
+            schema: {
+              type: 'boolean'
+            }
+          }
+        },
+        {
+          title: "是否循环播放",
+          type: "Switch",
+          value: {
+            get({ data }) {
+              return data.loop;
+            },
+            set({ data }, loop: boolean) {
+              data.loop = loop;
+            },
+          },
+          binding: {
+            with: 'data.loop',
+            schema: {
+              type: 'boolean'
+            }
+          }
+        },
+        {
+          title: "是否静音播放",
+          type: "Switch",
+          value: {
+            get({ data }) {
+              return data.muted;
+            },
+            set({ data }, muted: boolean) {
+              data.muted = muted;
+            },
+          },
+          binding: {
+            with: 'data.muted',
+            schema: {
+              type: 'boolean'
+            }
+          }
+        },]
       },
-    ];
-
-    cate2.title = "动作";
-    cate2.items = [
+      {
+        title: "事件",
+        items: [
       {
         title: "当开始/继续播放时",
         type: "_event",
@@ -200,6 +174,39 @@ export default {
           outputId: "onError",
         },
       },
+    ]
+      }
     ];
+
+    cate1.title = "样式";
+    cate1.items = [
+      {
+        title: "当视频大小与 video 容器大小不一致时，视频的表现形式",
+        type: "Select",
+        options: [
+          {
+            value: "contain",
+            label: "包含",
+          },
+          {
+            value: "fill",
+            label: "填充",
+          },
+          {
+            value: "cover",
+            label: "覆盖",
+          },
+        ],
+        value: {
+          get({ data }) {
+            return data["object-fit"];
+          },
+          set({ data }, value: string) {
+            data["object-fit"] = value;
+          },
+        },
+      },
+    ];
+
   },
 };
