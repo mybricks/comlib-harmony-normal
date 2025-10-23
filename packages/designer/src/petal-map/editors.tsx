@@ -1,14 +1,14 @@
 // import GeoConfig from './editor/geoConfig'
 
 export default {
-  '@init': ({ style, data }) => {
+  "@init": ({ style, data }) => {
     style.width = "100%";
     style.height = 300;
   },
-  '@resize': {
-    options: ['width', 'height'],
+  "@resize": {
+    options: ["width", "height"],
   },
-  ':root': {
+  ":root": {
     style: [
       {
         title: "样式",
@@ -17,124 +17,121 @@ export default {
       },
     ],
     items({ data, output, style }, cate0, cate1, cate2) {
-      cate0.title = '常规'
+      cate0.title = "地图";
       cate0.items = [
         {
-          title: '控件配置',
+          title: "基础属性",
           items: [
             {
-              title: '展示比例尺',
-              type: 'switch',
+              title: "展示比例尺",
+              type: "switch",
               value: {
                 get({ data }) {
-                  return data.showScale
+                  return data.showScale;
                 },
                 set({ data }, val) {
-                  data.showScale = val
-                }
+                  data.showScale = val;
+                },
               },
               binding: {
                 with: `data.showScale`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
             {
-              title: '展示指南针',
-              type: 'switch',
+              title: "展示指南针",
+              type: "switch",
               value: {
                 get({ data }) {
-                  return data.showCompass
+                  return data.showCompass;
                 },
                 set({ data }, val) {
-                  data.showCompass = val
-                }
+                  data.showCompass = val;
+                },
               },
               binding: {
                 with: `data.showCompass`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
-          ]
-        },
-        {
-          title: '地图交互',
-          items: [
             {
-              title: '支持缩放',
-              type: 'switch',
+              title: "支持缩放",
+              type: "switch",
               value: {
                 get({ data }) {
-                  return data.enableZoom
+                  return data.enableZoom;
                 },
                 set({ data }, val) {
-                  data.enableZoom = val
-                }
+                  data.enableZoom = val;
+                },
               },
               binding: {
                 with: `data.enableZoom`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
             {
-              title: '支持拖动',
-              type: 'switch',
+              title: "支持拖动",
+              type: "switch",
               value: {
                 get({ data }) {
-                  return data.enableScroll
+                  return data.enableScroll;
                 },
                 set({ data }, val) {
-                  data.enableScroll = val
-                }
+                  data.enableScroll = val;
+                },
               },
               binding: {
                 with: `data.enableScroll`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
+          ],
+        },
+        {
+          title: "高级属性",
+          items: [
             {
-              title: '展示实时路况',
-              type: 'switch',
+              title: "展示实时路况",
+              type: "switch",
               value: {
                 get({ data }) {
-                  return data.enableTraffic
+                  return data.enableTraffic;
                 },
                 set({ data }, val) {
-                  data.enableTraffic = val
-                }
+                  data.enableTraffic = val;
+                },
               },
               binding: {
                 with: `data.enableTraffic`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
-            },
-          ]
-        },
-      ]
-      cate1.title = '动作'
-      cate1.items = [
-        {
-          title: '事件',
-          items: [
-            {
-              title: '单击',
-              type: '_event',
-              options: {
-                outputId: 'onClick',
+                  type: "boolean",
+                },
               },
             },
           ],
-        }
-      ]
+        },
+        // {
+        //   title: "事件",
+        //   items: [
+        //     {
+        //       title: "单击",
+        //       type: "_event",
+        //       options: {
+        //         outputId: "onClick",
+        //       },
+        //     },
+        //   ],
+        // },
+      ];
     },
-  }
-}
+  },
+};

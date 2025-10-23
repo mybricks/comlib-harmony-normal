@@ -1,12 +1,12 @@
 export default {
-  '@init'({ style }) {
+  "@init"({ style }) {
     style.width = "auto";
-    style.height = 'auto';
+    style.height = "auto";
   },
-  '@resize': {
-    options: ['width', 'height'],
+  "@resize": {
+    options: ["width", "height"],
   },
-  ':root': {
+  ":root": {
     style: [
       {
         title: "数字",
@@ -15,7 +15,7 @@ export default {
       },
       {
         title: "数字背景",
-        options: ["background","size","border", "padding"],
+        options: ["background", "size", "border", "padding"],
         target: ".mybricks_timer_unit_background",
       },
       {
@@ -25,68 +25,73 @@ export default {
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = '常规';
+      cate0.title = "计时器";
       cate0.items = [
         {
           items: [
             {
-              title:"时钟类型",
-              type: 'select',
-              options: [
-                { label:'当前时间',value:'realtime'},
-                { label: '倒计时', value: 'countdown' },
-                { label: '计时器', value: 'timer' },
+              title: "基础属性",
+              items: [
+                {
+                  title: "时钟类型",
+                  type: "select",
+                  options: [
+                    { label: "当前时间", value: "realtime" },
+                    { label: "倒计时", value: "countdown" },
+                    { label: "计时器", value: "timer" },
+                  ],
+                  value: {
+                    get({ data }) {
+                      return data.clockType;
+                    },
+                    set({ data }, value: string) {
+                      data.clockType = value;
+                    },
+                  },
+                  binding: {
+                    with: `data.clockType`,
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+                {
+                  title: "启动后立即开始",
+                  type: "switch",
+                  ifVisible: ({ data }) => {
+                    return data.clockType !== "realtime";
+                  },
+                  value: {
+                    get({ data }) {
+                      return data.startImmediately ?? true;
+                    },
+                    set({ data }, value: boolean) {
+                      data.startImmediately = value;
+                    },
+                  },
+                },
+                {
+                  title: "倒计时",
+                  type: "textinput",
+                  ifVisible: ({ data }) => {
+                    return data.clockType === "countdown";
+                  },
+                  value: {
+                    get({ data }) {
+                      return data.countdown;
+                    },
+                    set({ data }, value: string) {
+                      data.countdown = value;
+                    },
+                  },
+                },
               ],
-              value: {
-                get({ data }) {
-                  return data.clockType;
-                },
-                set({ data }, value: string) {
-                  data.clockType = value;
-                },
-              },
-              binding: {
-                with: `data.clockType`,
-                schema: {
-                  type: 'string'
-                }
-              }
-            },
-            {
-              title: "启动后立即开始",
-              type: "switch",
-              ifVisible: ({ data }) => {
-                return data.clockType !== 'realtime';
-              },
-              value: {
-                get({ data }) {
-                  return data.startImmediately ?? true;
-                },
-                set({ data }, value: boolean) {
-                  data.startImmediately = value;
-                },
-              }
-            },
-            {
-              title:"倒计时",
-              type:"textinput",
-              ifVisible: ({ data }) => {
-                return data.clockType === 'countdown';
-              },
-              value: {
-                get({ data }) {
-                  return data.countdown;
-                },
-                set({ data }, value: string) {
-                  data.countdown = value;
-                },
-              },
             },
             {
               title: "事件",
               items: [
                 {
-                  title:"当前时间",
+                  title: "当前时间",
                   type: "_event",
                   options: {
                     outputId: "currentTime",
@@ -95,20 +100,18 @@ export default {
                 {
                   title: "倒计时结束触发",
                   ifVisible: ({ data }) => {
-                    return data.clockType === 'countdown';
+                    return data.clockType === "countdown";
                   },
                   type: "_event",
                   options: {
                     outputId: "finishCountDown",
                   },
-                }
+                },
               ],
             },
-            
           ],
         },
       ];
-    }
-
+    },
   },
 };

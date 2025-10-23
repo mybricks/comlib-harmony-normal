@@ -1,33 +1,39 @@
 export default {
-  '@init'({style, data}) {
+  "@init"({ style, data }) {
     style.width = 200;
     style.height = "auto";
   },
-  '@resize': {
-    options: ['width'],
+  "@resize": {
+    options: ["width"],
   },
-  ':root': [
-    {
-      items: [
+  ":root": {
+    items({ data, slot }, cate0, cate1, cate2) {
+      cate0.title = "技术支持";
+      cate0.items = [
         {
-          title: '版权所有',
-          type: 'text',
-          value: {
-            get({data}) {
-              return data.copyright;
+          title: "基础属性",
+          items: [
+            {
+              title: "技术支持",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.copyright;
+                },
+                set({ data }, value: string) {
+                  data.copyright = value;
+                },
+              },
+              binding: {
+                with: `data.copyright`,
+                schema: {
+                  type: "string",
+                },
+              },
             },
-            set({data}, value: string) {
-              data.copyright = value;
-            },
-          },
-          binding: {
-            with: `data.copyright`,
-            schema: {
-              type: 'string'
-            }
-          }
-        }
-      ]
-    }
-  ],
+          ],
+        },
+      ];
+    },
+  },
 };

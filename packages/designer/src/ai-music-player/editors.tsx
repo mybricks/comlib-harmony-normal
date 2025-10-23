@@ -18,7 +18,7 @@ export default {
       // },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "常规";
+      cate0.title = "AI音乐播放器";
       cate0.items = [
         // {
         //   title: "布局",
@@ -33,21 +33,25 @@ export default {
         //     },
         //   },
         // },
-        {},
         {
-          title: "当点击播放列表",
-          type: "_event",
-          options: {
-            outputId: "onPlayListClick",
-          },
+          title: "事件",
+          items: [
+            {
+              title: "当点击播放列表",
+              type: "_event",
+              options: {
+                outputId: "onPlayListClick",
+              },
+            },
+            {
+              title: "当点击修改时",
+              type: "_event",
+              options: {
+                outputId: "onEditClick",
+              },
+            },
+          ],
         },
-        {
-          title:"当点击修改时",
-          type: "_event",
-          options:{
-            outputId:"onEditClick"
-          }
-        }
       ];
     },
   },
