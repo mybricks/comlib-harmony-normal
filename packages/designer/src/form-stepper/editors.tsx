@@ -23,6 +23,30 @@ export default {
       cate0.title = "数字输入";
       cate0.items = [
         {
+          title: "数据",
+          items: [
+            {
+              title: "数值",
+              type: "inputnumber",
+              options: [{ title: "", width: "100%" }],
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "number",
+                },
+              },
+            },
+          ],
+        },
+        {
           title: "基础属性",
           items: [
             {
@@ -58,13 +82,12 @@ export default {
               binding: {
                 with: `data.step`,
                 schema: {
-                  type: 'number'
-                }
-              }
+                  type: "number",
+                },
+              },
             },
-          ]
+          ],
         },
-
 
         {
           title: "事件",
@@ -76,11 +99,9 @@ export default {
                 outputId: "onChange",
               },
             },
-          ]
+          ],
         },
-
       ];
-    }
-
+    },
   },
 };

@@ -37,42 +37,67 @@ export default {
       cate0.title = "开关";
       cate0.items = [
         {
-          title: "基础属性",
-          items: [{
-            title: "外观",
-            type: "radio",
-            options: [
-              { label: "开关", value: "switch" },
-              { label: "选择框", value: "checkbox" },
-            ],
-            value: {
-              get({ data }) {
-                return data.type || "switch";
+          title: "数据",
+          items: [
+            {
+              title: "数据值",
+              type: "switch",
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
               },
-              set({ data }, value) {
-                data.type = value;
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "boolean",
+                },
               },
             },
-            binding: {
-              with: `data.type`,
-              schema: {
-                type: 'string'
-              }
-            }
-          },]
+          ],
+        },
+        {
+          title: "基础属性",
+          items: [
+            {
+              title: "外观",
+              type: "radio",
+              options: [
+                { label: "开关", value: "switch" },
+                { label: "选择框", value: "checkbox" },
+              ],
+              value: {
+                get({ data }) {
+                  return data.type || "switch";
+                },
+                set({ data }, value) {
+                  data.type = value;
+                },
+              },
+              binding: {
+                with: `data.type`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
         },
         {
           title: "事件",
-          items: [{
-            title: "当值变化",
-            type: "_event",
-            options: {
-              outputId: "onChange",
+          items: [
+            {
+              title: "当值变化",
+              type: "_event",
+              options: {
+                outputId: "onChange",
+              },
             },
-          },]
-        }
-
-
+          ],
+        },
       ];
     },
   },

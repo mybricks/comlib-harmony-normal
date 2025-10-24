@@ -21,6 +21,29 @@ export default {
       cate0.title = "时间选择";
       cate0.items = [
         {
+          title: "数据",
+          items: [
+            {
+              title: "时间值",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+        {
           title: "基础属性",
           items: [
             {
@@ -111,7 +134,6 @@ export default {
         {
           title: "高级属性",
           items: [
-            
             {
               title: "开启清空按钮",
               type: "switch",

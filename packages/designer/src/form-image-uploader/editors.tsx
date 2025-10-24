@@ -19,6 +19,40 @@ export default {
       cate0.title = "图片上传";
       cate0.items = [
         {
+          title: "数据",
+          items: [
+            {
+              title: "数据源",
+              type: "json",
+              options: {
+                minimap: {
+                  enabled: false,
+                },
+                height: 80,
+                autoSave: false,
+                encodeValue: false,
+              },
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.value ?? [];
+                },
+                set({ data }: EditorResult<Data>, value: any) {
+                  if (!Array.isArray(value)) {
+                    return;
+                  }
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "array",
+                },
+              },
+            },
+          ],
+        },
+        {
           title: "基础属性",
           items: [
             {

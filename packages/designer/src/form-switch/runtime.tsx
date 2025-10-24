@@ -21,6 +21,10 @@ export default function (props) {
   });
 
   useEffect(() => {
+    setValue(!!data.value);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,

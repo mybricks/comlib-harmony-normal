@@ -51,6 +51,32 @@ export default {
       cate0.title = "下拉选择";
       cate0.items = [
         {
+          title: "数据",
+          items: [
+            {
+              title: "选择值",
+              type: "SELECT",
+              options({ data }) {
+                return data.options;
+              },
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+        {
           title: "基础属性",
           items: [
             {

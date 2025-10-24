@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { isNumber, isObject, isString, isEmpty } from "../utils/type";
 import { useFormItemValue } from "../utils/hooks";
-import { Input,Image } from "brickd-mobile";
+import { Input, Image } from "brickd-mobile";
 import { View } from "@tarojs/components";
 import css from "./style.less";
 import { isH5 } from "../utils/env";
@@ -24,6 +24,11 @@ export default function (props) {
   });
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -36,22 +41,7 @@ export default function (props) {
   useEffect(() => {
     /* 设置值 */
     inputs["setValue"]((val, outputRels) => {
-      let result;
-
-      switch (true) {
-        case isEmpty(val): {
-          result = "";
-          break;
-        }
-        case isString(val) || isNumber(val): {
-          result = `${val}`;
-          break;
-        }
-        default:
-          // 其他类型的值，直接返回
-          return;
-      }
-
+      const result = formatValue(val);
       setValue(result);
       outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
     });
@@ -96,40 +86,40 @@ export default function (props) {
 
   const onChange = useCallback((e) => {
     let value = e.detail.value;
-    switch(data.type) {
+    switch (data.type) {
       // 【身份证号】只允许输入数字
-      case 'idcard':
-        value = value.replace(/[^\d]/g, '')
+      case "idcard":
+        value = value.replace(/[^\d]/g, "");
         break;
 
       // 【手机号】只允许输入数字、+、-、空格
-      case 'phone':
-        value = value.replace(/[^\d+-\s]/g, '')
+      case "phone":
+        value = value.replace(/[^\d+-\s]/g, "");
         // 不允许多个 +
         if ((value.match(/\+/g) || []).length > 1) {
           // 保留第一个 +
-          const first = value.indexOf('+')
-          value = '+' + value.slice(first + 1).replace(/\+/g, '')
+          const first = value.indexOf("+");
+          value = "+" + value.slice(first + 1).replace(/\+/g, "");
         }
         // + 号只能在最前面
-        if (value.indexOf('+') > 0) {
-          value = value.replace(/\+/g, '') // 删除中间的 +
+        if (value.indexOf("+") > 0) {
+          value = value.replace(/\+/g, ""); // 删除中间的 +
         }
         // 连字符 - 不能在最前或在空格或 + 之后
-        value = value.replace(/(^-|(?<=\+)-|(?<=\s)-)/g, '')
+        value = value.replace(/(^-|(?<=\+)-|(?<=\s)-)/g, "");
         break;
 
       // 【数字(支持小数)】只允许输入正确的数字，包括整数、小数、负数
-      case 'number_decimal':
-        value = value.replace(/[^\d.-]/g, '')
-        if (value.startsWith('-')) {
-          value = '-' + value.slice(1).replace(/\-/g, '');
+      case "number_decimal":
+        value = value.replace(/[^\d.-]/g, "");
+        if (value.startsWith("-")) {
+          value = "-" + value.slice(1).replace(/\-/g, "");
         } else {
-          value = value.replace(/\-/g, '');
+          value = value.replace(/\-/g, "");
         }
-        const parts = value.split('.');
+        const parts = value.split(".");
         if (parts.length > 1) {
-          value = parts.shift() + '.' + parts.join('');
+          value = parts.shift() + "." + parts.join("");
         }
         break;
     }
@@ -161,17 +151,41 @@ export default function (props) {
     }
   }, [data.maxlength, data.showCount, value]);
 
-  const $clearIcon = useMemo(()=>{
-    if(data.clearable && value.length > 0){
-      return <View style={{width:18,height:18}} onClick={()=>{
-        setValue('')
-      }}>
-        <Image src={clearable}></Image>
-      </View>
-    }else{
-      return null
+  const $clearIcon = useMemo(() => {
+    if (data.clearable && value.length > 0) {
+      return (
+        <View
+          style={{ width: 18, height: 18 }}
+          onClick={() => {
+            setValue("");
+          }}
+        >
+          <Image src={clearable}></Image>
+        </View>
+      );
+    } else {
+      return null;
     }
-  },[data.clearable,value.length])
+  }, [data.clearable, value.length]);
+
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = "";
+        break;
+      }
+      case isString(val) || isNumber(val): {
+        result = `${val}`;
+        break;
+      }
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+    return result;
+  }
 
   return (
     <View

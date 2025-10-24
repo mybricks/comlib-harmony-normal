@@ -11,12 +11,12 @@ export default {
       {
         title: "输入框",
         options: ["border", "padding", "background"],
-        target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`]
+        target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`],
       },
       {
         title: "内容文本",
         options: ["font"],
-        target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`]
+        target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`],
       },
       {
         title: "提示内容文本",
@@ -24,12 +24,35 @@ export default {
         target: [
           `.mybricks-h5Input .taroify-native-input::placeholder`,
           `.mybricks-input .taroify-input__placeholder`,
-        ]
+        ],
       },
     ],
     items: ({ data, inputs, output, style }, cate0, cate1, cate2) => {
       cate0.title = "单行输入";
       cate0.items = [
+        {
+          title: "数据",
+          items: [
+            {
+              title: "输入内容",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
         {
           title: "基础属性",
           items: [
@@ -48,9 +71,9 @@ export default {
               binding: {
                 with: `data.placeholder`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
             {
               title: "内容类型",
@@ -70,7 +93,7 @@ export default {
                 },
               },
             },
-          ]
+          ],
         },
         {
           title: "高级属性",
@@ -108,9 +131,9 @@ export default {
               binding: {
                 with: `data.maxlength`,
                 schema: {
-                  type: 'number'
-                }
-              }
+                  type: "number",
+                },
+              },
             },
             {
               title: "显示字数",
@@ -127,9 +150,9 @@ export default {
               binding: {
                 with: `data.showCount`,
                 schema: {
-                  type: 'number'
-                }
-              }
+                  type: "number",
+                },
+              },
             },
             {
               title: "禁用编辑",
@@ -145,9 +168,9 @@ export default {
               binding: {
                 with: `data.disabled`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
             {
               title: "展示清除图标",
@@ -164,11 +187,11 @@ export default {
               binding: {
                 with: `data.disabled`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
-          ]
+          ],
         },
         {
           title: "事件",
@@ -184,8 +207,8 @@ export default {
               title: "当得到焦点",
               type: "_event",
               options: {
-                outputId: "onFocus"
-              }
+                outputId: "onFocus",
+              },
             },
             {
               title: "当失去焦点",

@@ -38,6 +38,13 @@ export default function (props) {
     outputs["onChange"](val);
   });
 
+  useEffect(() => {
+    const result = formatValue(data.value);
+    if (result !== false) {
+      setValue(result);
+    }
+  }, [data.value]);
+
   //判断组件是否需要为可交互状态
   const comOperatable = useMemo(() => {
     if (env.edit) {
@@ -58,45 +65,11 @@ export default function (props) {
   }, [props.style.display]);
 
   useEffect(() => {
-    inputs["setValue"]((val) => {
-      switch (true) {
-        case isEmpty(val): {
-          data.value = undefined;
-          break;
-        }
-        case isString(val): {
-          let value = dayjs(val).valueOf();
-          data.value = isNaN(value) ? undefined : value;
-          break;
-        }
-
-        case isNumber(val):
-          data.value = val;
-          break;
-
-        case val instanceof Date:
-          data.value = val.valueOf();
-          break;
-
-        case isObject(val):
-          let _value = val[data.name];
-          switch (true) {
-            case typeof _value === "string":
-              _value = dayjs(_value).valueOf();
-              break;
-
-            case typeof _value === "number":
-              _value = _value;
-              break;
-
-            case _value instanceof Date:
-              _value = _value.valueOf();
-              break;
-          }
-          data.value = _value;
-          break;
-        default:
-          break;
+    inputs["setValue"]((val, outputRels) => {
+      const result = formatValue(val);
+      if (result !== false) {
+        setValue(result);
+        outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
       }
     });
 
@@ -221,6 +194,53 @@ export default function (props) {
       );
     }
   }, [data.clearable, displayValue]);
+
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = undefined;
+        break;
+      }
+      case isString(val): {
+        let value = dayjs(val).valueOf();
+        result = isNaN(value) ? undefined : value;
+        break;
+      }
+
+      case isNumber(val):
+        result = val;
+        break;
+
+      case val instanceof Date:
+        result = val.valueOf();
+        break;
+
+      case isObject(val):
+        let _value = val[data.name];
+        switch (true) {
+          case typeof _value === "string":
+            _value = dayjs(_value).valueOf();
+            break;
+
+          case typeof _value === "number":
+            _value = _value;
+            break;
+
+          case _value instanceof Date:
+            _value = _value.valueOf();
+            break;
+        }
+        result = _value;
+        break;
+      default:
+        result = false;
+        break;
+    }
+
+    return result;
+  }
 
   //普通表单视图
   const normalView = useMemo(() => {

@@ -22,6 +22,11 @@ export default function (props) {
   });
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -34,21 +39,7 @@ export default function (props) {
   useEffect(() => {
     /* 设置值 */
     inputs["setValue"]((val, outputRels) => {
-      let result;
-
-      switch (true) {
-        case isEmpty(val): {
-          result = "";
-          break;
-        }
-        case isString(val) || isNumber(val):
-          result = isNaN(+val) ? "" : +val;
-          break;
-        default:
-          // 其他类型的值，直接返回
-          return;
-      }
-
+      const result = formatValue(val);
       setValue(result);
       outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
     });
@@ -89,6 +80,24 @@ export default function (props) {
   const onChange = useCallback((val) => {
     setValue(val);
   }, []);
+
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = "";
+        break;
+      }
+      case isString(val) || isNumber(val):
+        result = isNaN(+val) ? "" : +val;
+        break;
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+    return result;
+  }
 
   return (
     <Stepper

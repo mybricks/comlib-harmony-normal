@@ -19,7 +19,7 @@ export default {
         target: [
           ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea",
           ".taroify-textarea__wrapper .mybricks-textarea",
-        ]
+        ],
       },
       {
         title: "提示内容文本",
@@ -27,12 +27,35 @@ export default {
         target: [
           ".taroify-textarea__wrapper .mybricks-h5Textarea .taroify-native-textarea::placeholder",
           ".taroify-textarea__wrapper .taroify-textarea__placeholder",
-        ]
+        ],
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "多行输入";
       cate0.items = [
+        {
+          title: "数据",
+          items: [
+            {
+              title: "输入内容",
+              type: "textarea",
+              value: {
+                get({ data }) {
+                  return data.value;
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
         {
           title: "基础属性",
           items: [
@@ -51,9 +74,9 @@ export default {
               binding: {
                 with: `data.placeholder`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
             {
               title: "限制字数",
@@ -71,11 +94,11 @@ export default {
               binding: {
                 with: `data.limit`,
                 schema: {
-                  type: 'number'
-                }
-              }
+                  type: "number",
+                },
+              },
             },
-          ]
+          ],
         },
         {
           title: "高级属性",
@@ -98,9 +121,9 @@ export default {
               binding: {
                 with: `data.showCount`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
             {
               title: "自动高度",
@@ -129,11 +152,11 @@ export default {
               binding: {
                 with: `data.disabled`,
                 schema: {
-                  type: 'boolean'
-                }
-              }
+                  type: "boolean",
+                },
+              },
             },
-          ]
+          ],
         },
         {
           title: "事件",
@@ -159,11 +182,8 @@ export default {
                 outputId: "onBlur",
               },
             },
-          ]
-        }
-
-
-
+          ],
+        },
       ];
     },
   },

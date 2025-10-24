@@ -28,6 +28,11 @@ export default function (props) {
   );
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -40,26 +45,7 @@ export default function (props) {
   useEffect(() => {
     /* 设置值 */
     inputs["setValue"]((val, outputRels) => {
-      let result;
-
-      switch (true) {
-        case isEmpty(val): {
-          result = [];
-          break;
-        }
-        case isString(val) || isNumber(val): {
-          result = [val];
-          break;
-        }
-        case Array.isArray(val): {
-          result = val;
-          break;
-        }
-        default:
-          // 其他类型的值，直接返回
-          return;
-      }
-
+      let result = formatValue(val);
       setValue(result);
       outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
     });
@@ -147,13 +133,36 @@ export default function (props) {
     }
   }, [data.direction, data.gap]);
 
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = [];
+        break;
+      }
+      case isString(val) || isNumber(val): {
+        result = [val];
+        break;
+      }
+      case Array.isArray(val): {
+        result = val;
+        break;
+      }
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+    return result;
+  }
+
   return (
     <Checkbox.Group
       direction={data.direction}
       value={value}
       onChange={onChange}
     >
-      {options.map((item,index) => {
+      {options.map((item, index) => {
         const restProps = {} as any;
         if (item.icon) {
           restProps.icon = <Image src={item.icon} />;
@@ -171,7 +180,9 @@ export default function (props) {
             {...restProps}
             style={gapStyle}
           >
-            <View data-index={index} className="mybricks-label">{item.label}</View>
+            <View data-index={index} className="mybricks-label">
+              {item.label}
+            </View>
           </Checkbox>
         );
       })}

@@ -14,10 +14,10 @@ import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { isH5 } from "../utils/env";
 import cx from "classnames";
 import { uuid } from "../utils";
-import { useConnector } from '../utils/connector/runtime'
+import { useConnector } from "../utils/connector/runtime";
 
 export default function (props) {
-  const { env, data, inputs, outputs, slots, parentSlot,id } = props;
+  const { env, data, inputs, outputs, slots, parentSlot, id } = props;
 
   //判断组件是否需要为可交互状态
   const comOperatable = useMemo(() => {
@@ -27,13 +27,12 @@ export default function (props) {
       return true;
     }
   }, [env.edit]);
-  
 
   const [ready, setReady] = useState(
     env.edit ? true : data.defaultRenderMode === "dynamic" ? false : true
   );
 
-  const [dataSource, setDataSource] = useState(env?.edit ? [] : data.options)
+  const [dataSource, setDataSource] = useState(env?.edit ? [] : data.options);
 
   const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {
     //
@@ -48,6 +47,11 @@ export default function (props) {
   });
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -59,34 +63,20 @@ export default function (props) {
 
   const connectorStateRef = useConnector({ env, data }, (fetchPromise) => {
     if (env.edit) {
-      return
+      return;
     }
-    fetchPromise.then(options => {
+    fetchPromise.then((options) => {
       if (Array.isArray(options) && !connectorStateRef.stop) {
-        setDataSource(options)
+        setDataSource(options);
         setReady(true);
       }
-    })
+    });
   });
 
   useEffect(() => {
     /* 设置值 */
     inputs["setValue"]((val, outputRels) => {
-      let result;
-
-      switch (true) {
-        case isEmpty(val): {
-          result = "";
-          break;
-        }
-        case isString(val) || isNumber(val):
-          result = val;
-          break;
-        default:
-          // 其他类型的值，直接返回
-          return;
-      }
-
+      let result = formatValue(val);
       setValue(result);
       outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
     });
@@ -184,6 +174,25 @@ export default function (props) {
     }
   }, [value, selectIndex, dataSource, data.placeholder]);
 
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = "";
+        break;
+      }
+      case isString(val) || isNumber(val):
+        result = val;
+        break;
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+
+    return result;
+  }
+
   const normalView = useMemo(() => {
     return (
       <View
@@ -195,15 +204,38 @@ export default function (props) {
           "mybricks-h5Select": isH5(),
         })}
       >
-        {comOperatable && <Picker
-          disabled={data.disabled}
-          className={css.picker}
-          value={selectIndex}
-          options={options}
-          onChange={onChange}
-          onCancel={onCancel}
-        >
-          <View className={cx(css.display,"mybricks-display")}>
+        {comOperatable && (
+          <Picker
+            disabled={data.disabled}
+            className={css.picker}
+            value={selectIndex}
+            options={options}
+            onChange={onChange}
+            onCancel={onCancel}
+          >
+            <View className={cx(css.display, "mybricks-display")}>
+              <View
+                className={cx({
+                  [css.input]: true,
+                  "mybricks-input": value,
+                  [css.placeholder]: !value,
+                  "mybricks-placeholder": !value,
+                })}
+              >
+                {displayValue || data.placeholder}
+              </View>
+              <ArrowRight
+                className={cx({
+                  [css.right]: data.arrow === "right",
+                  [css.down]: data.arrow === "down",
+                  [css.none]: data.arrow === "none",
+                })}
+              />
+            </View>
+          </Picker>
+        )}
+        {!comOperatable && (
+          <View className={css.display}>
             <View
               className={cx({
                 [css.input]: true,
@@ -222,27 +254,7 @@ export default function (props) {
               })}
             />
           </View>
-        </Picker>}
-        {!comOperatable && <View className={css.display}>
-            <View
-              className={cx({
-                [css.input]: true,
-                "mybricks-input": value,
-                [css.placeholder]: !value,
-                "mybricks-placeholder": !value,
-              })}
-            >
-              {displayValue || data.placeholder}
-            </View>
-            <ArrowRight
-              className={cx({
-                [css.right]: data.arrow === "right",
-                [css.down]: data.arrow === "down",
-                [css.none]: data.arrow === "none",
-              })}
-            />
-          </View>}
-
+        )}
       </View>
     );
   }, [

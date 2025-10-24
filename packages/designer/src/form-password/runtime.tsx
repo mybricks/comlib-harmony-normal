@@ -5,12 +5,31 @@ import css from "./style.less";
 import cx from "classnames";
 import { Input } from "brickd-mobile";
 import { isH5 } from "../utils/env";
+import { useFormItemValue } from "../utils/hooks";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
 
-  const [value, setValue] = useState(data.value);
+  const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {
+    //
+    parentSlot?._inputs["onChange"]?.({
+      id: props.id,
+      name: props.name,
+      value: val,
+    });
+
+    //
+    outputs["onChange"](val);
+  });
+
   const [paasword, setPassword] = useState(true);
+
+  useEffect(() => {
+    const result = formatValue(data.value);
+    if (result !== false) {
+      setValue(result);
+    }
+  }, [data.value]);
 
   useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
@@ -24,25 +43,14 @@ export default function (props) {
 
   useEffect(() => {
     inputs["getValue"]((val, outputRels) => {
-      outputRels["returnValue"](value);
+      outputRels["returnValue"](getValue());
     });
-  }, [value]);
 
-  useEffect(() => {
-    inputs["setValue"]((val) => {
-      switch (true) {
-        case isEmpty(val): {
-          setValue("");
-          break;
-        }
-        case isString(val) || isNumber(val):
-          setValue(val);
-          break;
-        case isObject(val):
-          setValue(val[data.name]);
-          break;
-        default:
-          break;
+    inputs["setValue"]((val, outputRels) => {
+      const result = formatValue(val);
+      if (result !== false) {
+        setValue(result);
+        outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
       }
     });
 
@@ -85,6 +93,28 @@ export default function (props) {
     let value = e.detail.value;
     outputs["onBlur"](value);
   }, []);
+
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = "";
+        break;
+      }
+      case isString(val) || isNumber(val):
+        result = val;
+        break;
+      case isObject(val):
+        result = val[data.name];
+        break;
+      default:
+        result = false;
+        break;
+    }
+
+    return result;
+  }
 
   return (
     <View

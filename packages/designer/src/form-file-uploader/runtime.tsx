@@ -31,6 +31,16 @@ export default function (props) {
   });
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+    let filenames = [];
+    result.forEach((item) => {
+      filenames.push(item.fileName);
+    });
+    setFileName(filenames);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -40,41 +50,21 @@ export default function (props) {
     });
   }, [props.style.display]);
 
-  useMemo(()=>{
-  /* 设置值 */
-  inputs["setValue"]((val, outputRels) => {
-    let result;
-
-    switch (true) {
-      case isEmpty(val): {
-        result = [];
-        break;
-      }
-      case isString(val):
-        result = [val].filter((item) => !!item);
-        break;
-
-      case Array.isArray(val):
-        result = val;
-        break;
-
-      default:
-        // 其他类型的值，直接返回
-        return;
-    }
-
-    setValue(result);
-    let filenames = []
-    result.forEach((item) => {
-      filenames.push(item.fileName)
-    })
-    setFileName(filenames)
-    outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
-  });
-  },[])
+  useMemo(() => {
+    /* 设置值 */
+    inputs["setValue"]((val, outputRels) => {
+      let result = formatValue(val);
+      setValue(result);
+      let filenames = [];
+      result.forEach((item) => {
+        filenames.push(item.fileName);
+      });
+      setFileName(filenames);
+      outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
+    });
+  }, []);
 
   useEffect(() => {
-
     /* 获取值 */
     inputs["getValue"]((val, outputRels) => {
       let result = getValue();
@@ -111,7 +101,6 @@ export default function (props) {
       setValue(result);
     });
 
-
     // 上传完成
     slots["customUpload"]?.outputs["setFileInfoName"]?.((name) => {
       if (!name && typeof name !== "string") {
@@ -122,8 +111,6 @@ export default function (props) {
       result = result.slice(0, data.maxCount);
       setFileName(result);
     });
-
-
   }, [value, data.maxCount, fileName]);
 
   const onRemoveFile = useCallback(
@@ -145,7 +132,6 @@ export default function (props) {
       type: "all",
       success: async (res) => {
         for (const tempFile of res.tempFiles) {
-
           let result = {
             filePath: tempFile.path,
             size: tempFile.size,
@@ -178,20 +164,45 @@ export default function (props) {
     [data, slots]
   );
 
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = [];
+        break;
+      }
+      case isString(val):
+        result = [val].filter((item) => !!item);
+        break;
+
+      case Array.isArray(val):
+        result = val;
+        break;
+
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+    return result;
+  }
+
   const uploader = useMemo(() => {
     if (data.maxCount && value.length >= data.maxCount) {
       return null;
     }
 
     if (isH5()) {
-      if(env.edit){
+      if (env.edit) {
         //编辑态不能触发
         return (
           <div className={cx(css.uploader, "mybricks-square")}>
-            <div className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</div>
+            <div className={cx(css.icon_placeholder, "mybricks-button-text")}>
+              +{data.buttonText ?? "上传文件"}
+            </div>
           </div>
         );
-      }else{
+      } else {
         //运行时可以触发
         return (
           <label className={cx(css.uploader, "mybricks-square")}>
@@ -200,41 +211,52 @@ export default function (props) {
               type="file"
               onChange={handleFileChange}
             />
-            <div className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</div>
+            <div className={cx(css.icon_placeholder, "mybricks-button-text")}>
+              +{data.buttonText ?? "上传文件"}
+            </div>
           </label>
         );
       }
     }
 
     return (
-      <View className={cx(css.uploader, "mybricks-square")} onClick={onChooseFile}>
-        <View className={cx(css.icon_placeholder,"mybricks-button-text")}>+{data.buttonText ?? "上传文件"}</View>
+      <View
+        className={cx(css.uploader, "mybricks-square")}
+        onClick={onChooseFile}
+      >
+        <View className={cx(css.icon_placeholder, "mybricks-button-text")}>
+          +{data.buttonText ?? "上传文件"}
+        </View>
       </View>
     );
-  }, [env, value, data.maxCount, data.iconSlot,data.buttonText]);
+  }, [env, value, data.maxCount, data.iconSlot, data.buttonText]);
 
   const uploaderSlot = useMemo(() => {
     if (data.maxCount && value.length >= data.maxCount) {
       return null;
     }
     if (isH5()) {
-      return <label>
-        <input
-        className={css.input}
-        type={env.runtime ? "file" : "text"} //防止在搭建态的时候触发文件选择
-        onChange={handleFileChange}
-         />
-        {slots["iconSlot"]?.render({})}
+      return (
+        <label>
+          <input
+            className={css.input}
+            type={env.runtime ? "file" : "text"} //防止在搭建态的时候触发文件选择
+            onChange={handleFileChange}
+          />
+          {slots["iconSlot"]?.render({})}
         </label>
+      );
     }
-    return <View onClick={onChooseFile}>{slots["iconSlot"]?.render({})}</View>
-  }, [data.iconSlot])
+    return <View onClick={onChooseFile}>{slots["iconSlot"]?.render({})}</View>;
+  }, [data.iconSlot]);
 
   const thumbnails = useMemo(() => {
     return value.map((raw, index) => {
       return (
         <View className={cx(css.item)} key={raw + "_" + index}>
-          <View className={cx(css.thumbnail,"mybricks-thumbnail")}>{fileName[index] ? fileName[index] : raw}</View>
+          <View className={cx(css.thumbnail, "mybricks-thumbnail")}>
+            {fileName[index] ? fileName[index] : raw}
+          </View>
           <View
             className={css.remove}
             onClick={(e) => {

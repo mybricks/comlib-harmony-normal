@@ -6,7 +6,7 @@ import * as Taro from "@tarojs/taro";
 import { isNumber, isObject, isString, isEmpty } from "./../utils/type";
 import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { isDesigner, isH5 } from "../utils/env";
-import { plus } from "./icon"
+import { plus } from "./icon";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
@@ -31,6 +31,11 @@ export default function (props) {
   });
 
   useEffect(() => {
+    const result = formatValue(data.value);
+    setValue(result);
+  }, [data.value]);
+
+  useEffect(() => {
     parentSlot?._inputs["setProps"]?.({
       id: props.id,
       name: props.name,
@@ -43,26 +48,7 @@ export default function (props) {
   useEffect(() => {
     /* 设置值 */
     inputs["setValue"]((val, outputRels) => {
-      let result;
-
-      switch (true) {
-        case isEmpty(val): {
-          result = [];
-          break;
-        }
-        case isString(val):
-          result = [val].filter((item) => !!item);
-          break;
-
-        case Array.isArray(val):
-          result = val;
-          break;
-
-        default:
-          // 其他类型的值，直接返回
-          return;
-      }
-
+      let result = formatValue(val);
       setValue(result);
       outputRels["setValueComplete"]?.(result); // 表单容器调用 setValue 时，没有 outputRels
     });
@@ -94,8 +80,8 @@ export default function (props) {
 
     inputs["resetValue"]?.((val, outputRels) => {
       setValue([]);
-      outputRels["resetValueComplete"]?.()
-    })
+      outputRels["resetValueComplete"]?.();
+    });
 
     // 上传完成
     slots["customUpload"]?.outputs["setFileInfo"]?.((filePath) => {
@@ -197,6 +183,29 @@ export default function (props) {
     });
   }, []);
 
+  function formatValue(val) {
+    let result = val;
+
+    switch (true) {
+      case isEmpty(val): {
+        result = [];
+        break;
+      }
+      case isString(val):
+        result = [val].filter((item) => !!item);
+        break;
+
+      case Array.isArray(val):
+        result = val;
+        break;
+
+      default:
+        // 其他类型的值，直接返回
+        return;
+    }
+    return result;
+  }
+
   const uploader = useMemo(() => {
     if (data.maxCount && value.length >= data.maxCount) {
       return null;
@@ -221,7 +230,7 @@ export default function (props) {
           {data.iconSlot ? (
             <View>{slots["iconSlot"]?.render({})}</View>
           ) : (
-            <View className={cx(css.icon_placeholder,"mybricks-icon")}>+</View>
+            <View className={cx(css.icon_placeholder, "mybricks-icon")}>+</View>
           )}
         </View>
       );
@@ -258,7 +267,6 @@ export default function (props) {
     if (!data.placeholder) return null;
     if (value.length > 0) return null;
 
-
     return (
       <View
         className={cx(css.placeholder, "mybricks-square")}
@@ -274,7 +282,7 @@ export default function (props) {
         <View className={css.text}>示例图片</View>
       </View>
     );
-  }, [data.placeholder,value]);
+  }, [data.placeholder, value]);
 
   const placeholderText = useMemo(() => {
     if (!data.placeholderText) return null;

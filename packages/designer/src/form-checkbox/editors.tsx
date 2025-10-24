@@ -44,6 +44,36 @@ export default {
       cate0.title = "多选";
       cate0.items = [
         {
+          title: "数据",
+          items: [
+            {
+              title: "选择值",
+              type: "select",
+              options({ data }) {
+                return {
+                  mode: "tags",
+                  multiple: true,
+                  options: data.options,
+                };
+              },
+              value: {
+                get({ data }) {
+                  return data.value || [];
+                },
+                set({ data }, value) {
+                  data.value = value;
+                },
+              },
+              binding: {
+                with: `data.value`,
+                schema: {
+                  type: "string",
+                },
+              },
+            },
+          ],
+        },
+        {
           title: "基础属性",
           items: [
             {
