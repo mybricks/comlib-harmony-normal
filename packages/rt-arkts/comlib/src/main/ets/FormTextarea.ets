@@ -106,6 +106,10 @@ export default struct MyBricksFormTextarea {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   @Local value: string = this.data.value ?? ''
+  @Monitor ('data.value')
+  onDataValueChange(monitor: IMonitor) {
+    this.value = monitor.value()?.now as string
+  }
   @Local placeholder: string = this.data.placeholder ?? ''
 
   aboutToAppear(): void {

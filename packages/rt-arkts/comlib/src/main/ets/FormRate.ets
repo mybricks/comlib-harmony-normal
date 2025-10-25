@@ -8,6 +8,7 @@ export interface DataType {
   count: number
   allowHalf: boolean
   disabled: boolean
+  value: number
 }
 
 interface _Env {
@@ -34,6 +35,7 @@ export class Data implements DataType {
   @Trace count: number
   @Trace allowHalf: boolean
   @Trace disabled: boolean
+  @Trace value: number
 
   constructor(config?: DataType) {
     this.label = config?.label ?? '评分'
@@ -41,6 +43,7 @@ export class Data implements DataType {
     this.count = config?.count ?? 5
     this.allowHalf = config?.allowHalf ?? false
     this.disabled = config?.disabled ?? false
+    this.value = config?.value ?? 0
   }
 }
 
@@ -62,7 +65,11 @@ export default struct MyBricksRate {
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
   
-  @Local value: number = 0
+  @Local value: number = this.data.value
+  @Monitor ('data.value')
+  onDataValueChange(monitor: IMonitor) {
+    this.value = monitor.value()?.now as number
+  }
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined

@@ -25,6 +25,7 @@ export interface DataType {
   gap: number
   columns?: number
   defaultRenderMode?: string
+  value?: string | number
 }
 
 interface _Env {
@@ -53,6 +54,7 @@ export class Data implements DataType {
   @Trace gap: number = 8
   @Trace columns?: number
   @Trace defaultRenderMode?: string
+  @Trace value?: string | number
 
   constructor(config?: Partial<DataType>) {
     this.options = config?.options ?? []
@@ -61,6 +63,7 @@ export class Data implements DataType {
     this.gap = config?.gap ?? 8
     this.columns = config?.columns
     this.defaultRenderMode = config?.defaultRenderMode
+    this.value = config?.value
   }
 }
 
@@ -91,7 +94,11 @@ export default struct MyBricksFormRadio {
   @Param outputs?: Outputs = undefined
   @Param uid?: string = undefined;
   @Param parentSlot?: AnyType = undefined;
-  @Local activeValue: string | number = ''
+  @Local activeValue: string | number = this.data.value ?? ''
+  @Monitor ('data.value')
+  onDataValueChange(monitor: IMonitor) {
+    this.activeValue = monitor.value()?.now as string | number
+  }
   @Local ready: boolean = true
   @Local uniqueRroupId: string = String(Math.random())
 
