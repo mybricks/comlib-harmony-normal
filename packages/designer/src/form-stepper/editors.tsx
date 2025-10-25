@@ -30,11 +30,11 @@ export default {
               type: "inputnumber",
               options: [{ title: "", width: "100%" }],
               value: {
-                get({ data }) {
-                  return data.value;
+                get({ data }: any) {
+                  return [data.value];
                 },
-                set({ data }, value) {
-                  data.value = value;
+                set({ data }: any, value: [number, number]) {
+                  [data.value] = value;
                 },
               },
               binding: {

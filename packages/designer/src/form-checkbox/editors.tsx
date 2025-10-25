@@ -67,7 +67,7 @@ export default {
               binding: {
                 with: `data.value`,
                 schema: {
-                  type: "string",
+                  type: "array",
                 },
               },
             },
