@@ -3,12 +3,13 @@
   "namespace": "mybricks.harmony.systemPage",
   "author": "MyBricks",
   "author_name": "板砖团队",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "runtime": "./runtime.tsx",
   "target.arkts": "@arkts/src/system/systemPage.ets",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "icon": "./icon.svg",
+  "upgrade": "./upgrade.ts",
   "inputs": [
     {
       "id": "cancelPulldown",

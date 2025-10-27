@@ -30,6 +30,11 @@ export default function (props) {
     outputs["onChange"](result);
   });
 
+  useEffect(()=>{
+    setValue(data.value);
+  },[data.value])
+
+
   useEffect(() => {
     const result = formatValue(data.value);
     setValue(result);

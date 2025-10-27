@@ -28,6 +28,7 @@ export default {
       },
     ],
     items: ({ data, inputs, output, style }, cate0, cate1, cate2) => {
+
       cate0.title = "单行输入";
       cate0.items = [
         {

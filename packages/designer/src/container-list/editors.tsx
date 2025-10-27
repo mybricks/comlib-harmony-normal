@@ -56,11 +56,11 @@ export default {
             schema: {
               type: 'array'
             },
-            set(p, { schema }) {
-              if (schema.type === 'array' && schema.items) {
-                slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
-              }
-            }
+            // set(p, { schema }) {
+            //   if (schema.type === 'array' && schema.items) {
+            //     slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
+            //   }
+            // }
           }
         },]
       },

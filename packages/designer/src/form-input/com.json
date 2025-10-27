@@ -3,12 +3,13 @@
   "namespace": "mybricks.harmony.formInput",
   "author": "MyBricks",
   "author_name": "板砖团队",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "ai": "./ai.ts",
   "icon": "./icon.svg",
+  "upgrade": "./upgrade.ts",
   "preview": "https://assets.mybricks.world/MLkFdX7eFQLDoP0LInaxnOQOaOSuya7N-1743576494057.png",
   "inputs": [
     {

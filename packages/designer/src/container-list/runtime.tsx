@@ -136,6 +136,8 @@ const ContainerList = ({ env, data, inputs, outputs, slots }) => {
     //   mountedRef.current = true
     //   return
     // }
+
+    console.log('data.dataSource changed:',data.dataSource);
     
     if (env?.runtime) {
       if (Array.isArray(data.dataSource)) {
