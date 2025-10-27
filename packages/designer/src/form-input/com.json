@@ -3,7 +3,7 @@
   "namespace": "mybricks.harmony.formInput",
   "author": "MyBricks",
   "author_name": "板砖团队",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
