@@ -17,6 +17,7 @@ layout规则
 - height，取决于文字内容（中英文、特殊符号以及字符个数）、fontSize、lineHeight以及是否配置了maxLines；
 
 美观度注意事项
+- 注意配置fontSize同时要配置lineHeight，否则会无法正常展示；
 - 尽量不用全黑的字体颜色，而是用柔和一些的颜色比如深灰色；
 - 在保证可读性的前提下，尽量使用小字体；
 - 对于大部分（特别是动态内容）的文本，需要配置data中的ellipsis + maxLines，防止内容过多换行；

@@ -1,129 +1,146 @@
-import { IconSelector } from "./../utils/editors/icon-selector";
+import { IconSelector, HarmonyIcons } from './../utils/editors/icon-selector'
+
+const validIconKeys = {}
+HarmonyIcons.forEach(function (group) {
+  const icons = group.icons
+  for (const key in icons) {
+    if (icons.hasOwnProperty(key)) {
+      validIconKeys[key] = true // 用对象模拟 Set，值为 true 表示存在
+    }
+  }
+})
+
+function setIcon(iconKey: string): string {
+  return validIconKeys.hasOwnProperty(iconKey) ? iconKey : 'livephoto'
+}
 
 export default {
-  "@init": ({ style, data }) => {
-    style.width = data.fontSize;
-    style.height = data.fontSize;
+  '@init': ({ style, data }) => {
+    style.width = data.fontSize
+    style.height = data.fontSize
   },
-  "@resize": {
-    options: ["width", "height"],
+  '@resize': {
+    options: ['width', 'height'],
   },
-  ":root": {
+  ':root': {
     style: [
       {
-        title: "图标",
-        options: ["border", "padding", "background"],
-        target: ".mybricks-icon",
+        title: '图标',
+        options: ['border', 'padding', 'background'],
+        target: '.mybricks-icon',
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
-      cate0.title = "图标";
+      cate0.title = '图标'
       cate0.items = [
         {
-          title: "基础属性",
+          title: '基础属性',
           items: [
             {
-              title: "图标",
-              type: "editorRender",
+              title: '图标',
+              type: 'editorRender',
               options: {
                 render: (props) => {
-                  return <IconSelector value={props.editConfig.value} />;
+                  return <IconSelector value={props.editConfig.value} />
                 },
               },
               value: {
                 get({ data }) {
-                  return data.icon;
+                  return data.icon
                 },
                 set({ data }, value: string) {
-                  data.icon = value;
+                  data.icon = setIcon(value)
                 },
               },
               binding: {
                 with: 'data.icon',
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: 'string',
+                },
+              },
             },
             {
-              title: "大小",
-              type: "inputnumber",
+              title: '大小',
+              type: 'inputnumber',
               options: [{ min: 1 }],
               value: {
                 get({ data }) {
-                  return [data.fontSize];
+                  return [data.fontSize]
                 },
                 set({ data }, value: string) {
                   if (Array.isArray(value)) {
-                    data.fontSize = value?.[0];
+                    data.fontSize = value?.[0]
                   } else {
-                    data.fontSize = value;
+                    data.fontSize = value
                   }
                 },
               },
               binding: {
                 with: 'data.fontSize',
                 schema: {
-                  type: 'number'
-                }
-              }
+                  type: 'number',
+                },
+              },
             },
-          ]
+          ],
         },
         {
-          title: "高级属性",
-          items: [{
-            title: "颜色",
-            type: "colorpicker",
-            value: {
-              get({ data }) {
-                return data.fontColor?.[0];
-              },
-              set({ data }, value: string) {
-                data.fontColor[0] = value;
-              },
-            }
-          },
-          {
-            title: "线宽",
-            type: "select",
-            options: [
-              { label: '超细', value: 100 },
-              { label: '较细', value: 200 },
-              { label: '细', value: 300 },
-              { label: '常规', value: 400 },
-              { label: '宽', value: 500 },
-              { label: '较宽', value: 600 },
-              { label: '超宽', value: 800 },
-            ],
-            value: {
-              get({ data }) {
-                return data.fontWeight;
-              },
-              set({ data }, value: number) {
-                data.fontWeight = value;
+          title: '高级属性',
+          items: [
+            {
+              title: '颜色',
+              type: 'colorpicker',
+              value: {
+                get({ data }) {
+                  return data.fontColor?.[0]
+                },
+                set({ data }, value: string) {
+                  data.fontColor[0] = value
+                },
               },
             },
-            binding: {
-              with: 'data.fontWeight',
-              schema: {
-                type: 'number'
-              }
-            }
-          },]
+            {
+              title: '线宽',
+              type: 'select',
+              options: [
+                { label: '超细', value: 100 },
+                { label: '较细', value: 200 },
+                { label: '细', value: 300 },
+                { label: '常规', value: 400 },
+                { label: '宽', value: 500 },
+                { label: '较宽', value: 600 },
+                { label: '超宽', value: 800 },
+              ],
+              value: {
+                get({ data }) {
+                  return data.fontWeight
+                },
+                set({ data }, value: number) {
+                  data.fontWeight = value
+                },
+              },
+              binding: {
+                with: 'data.fontWeight',
+                schema: {
+                  type: 'number',
+                },
+              },
+            },
+          ],
         },
         {
-          title: "事件",
-          items: [{
-            title: "单击",
-            type: "_event",
-            options: {
-              outputId: "onClick",
+          title: '事件',
+          items: [
+            {
+              title: '单击',
+              type: '_event',
+              options: {
+                outputId: 'onClick',
+              },
             },
-          },]
-        }
-      ];
+          ],
+        },
+      ]
     },
-  }
-
-};
+  },
+}

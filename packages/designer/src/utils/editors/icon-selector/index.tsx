@@ -3,7 +3,9 @@ import css from "./index.less";
 import { basicIcons, filledIcons, outlinedIcons } from "./icons";
 import { HarmonyIcons, SymbolGlyph } from './../../../components/symbol-glyph'
 
+export { HarmonyIcons } from './../../../components/symbol-glyph'
 export * from './icons'
+
 
 const { Drawer, Radio } = window.antd ?? {}
 
