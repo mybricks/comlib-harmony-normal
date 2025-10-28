@@ -123,7 +123,8 @@ export default function (props) {
         }
         break;
     }
-    setValue(value);
+    data.value = value;
+    // setValue(value);
     outputs?.["onChange"](value);
   }, []);
 
