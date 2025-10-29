@@ -10,6 +10,9 @@ export interface DataType {
   useSwipeLeft?: boolean   //是否开启左滑菜单
   leftSwipeText?: string   //左滑菜单按钮文本内容
   leftSwipeWidth?: number  //左滑菜单的宽度
+  useChildren?: boolean    //是否展示插槽
+  useThumb?: boolean       //是否展示图标
+  thumb?: string           //图标链接
 }
 
 @ObservedV2
@@ -22,6 +25,9 @@ export class Data implements DataType {
   @Trace useSwipeLeft?: boolean | undefined
   @Trace leftSwipeText?: string | undefined
   @Trace leftSwipeWidth?: number | undefined
+  @Trace useChildren?: boolean | undefined
+  @Trace useThumb?: boolean | undefined
+  @Trace thumb?: string | undefined
 
   constructor(config: DataType) {
     this.title = config?.title
@@ -32,6 +38,9 @@ export class Data implements DataType {
     this.useSwipeLeft = config?.useSwipeLeft
     this.leftSwipeText = config?.leftSwipeText
     this.leftSwipeWidth = config?.leftSwipeWidth
+    this.useChildren = config?.useChildren
+    this.useThumb = config?.useThumb
+    this.thumb = config?.thumb
   }
 }
 
@@ -68,7 +77,7 @@ interface ItemParamsInputValues {
 
 export interface SlotsParamsItem {
   id: string,
-  inputValues: ItemParamsInputValues
+  inputValues?: ItemParamsInputValues
 }
 
 @Builder
@@ -135,50 +144,67 @@ export default struct MyBricksCell {
     Column() {
       List({ space: 0, scroller: this.scroller }) {
           ListItem() {
-              Row(){
-                Column(){
-                  Text(this.data.title)
-                    .fontColor('#323233')
-                    .fontSize(17)
+            Row(){
+              Row() {
+                if (this.data.useThumb) {
+                  Image(this.data.thumb)
+                    .width(23)
+                    .height(23)
                     .margin({
-                      bottom:10
+                      right:10
                     })
-                  Text(this.data.brief)
-                    .fontColor('#969799')
-                    .fontSize(15)
                 }
-                .height('100%')
-                .alignItems(HorizontalAlign.Center)
+                Column() {
+                  Text(this.data.title)
+                    // .fontColor('#323233')
+                    // .fontSize(17)
+                    .attributeModifier(
+                      new ApplyFontStyleModifier(this.styles['.mybricks-title'])
+                    )
+                  Text(this.data.brief)
+                    // .fontColor('#969799')
+                    // .fontSize(15)
+                    .attributeModifier(
+                      new ApplyFontStyleModifier(this.styles['.mybricks-brief'])
+                    )
+                }
+                .height(55)
                 .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Start) // 添加水平对齐
+              }
+              .alignItems(VerticalAlign.Center) // 确保 Row 内容垂直居中
 
-                Row(){
+              Row(){
+                if(this.data.useChildren){
+                  this.slots({
+                    id: 'children',
+                  })
+                }else{
                   Text(this.data.content)
                     .fontColor('#969799')
                     .fontSize(15)
                     .margin({
                       right:5
                     })
-
-                  // Image(this.arrowRight).width(20).height(20)
-                  Text('>')
-                    .fontColor('#323233')
                 }
+
+                SymbolGlyph($r(`sys.symbol.chevron_right`))
+                  .width('auto')
+                  .height(19)
+                  .fontSize(18)
+                  .fontColor(['#969799'])
               }
-              .width('100%')
-              .height('100%')
-              .padding({
-                left:20,
-                right:20
-              })
-              .justifyContent(FlexAlign.SpaceBetween)
+              .backgroundColor(Color.Red)
+            }
+            .width('100%')
+            .padding({
+              left:20,
+              right:20
+            })
+            .justifyContent(FlexAlign.SpaceBetween)
+            .alignItems(VerticalAlign.Center)
           }
-          .height("100%")
-          .backgroundColor(Color.White)
-          .border({
-            width: { bottom: 1 },
-            color: '#F8F8F8',
-            style: BorderStyle.Solid
-          })
+
           .transition({ type: TransitionType.Delete, opacity: 0 })
           .swipeAction({
             end: {
@@ -199,7 +225,7 @@ export default struct MyBricksCell {
       }
     }
     .width('100%')
-    .height('100%')
+    // .height('100%')
     .onClick(() => {
       this.outputs?.onClick(this.data.title || "")
     })
@@ -210,5 +236,6 @@ export default struct MyBricksCell {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(this.modifier)
+    // .backgroundColor(Color.Red)
   }
 }
