@@ -194,7 +194,6 @@ export default struct MyBricksCell {
                   .fontSize(18)
                   .fontColor(['#969799'])
               }
-              .backgroundColor(Color.Red)
             }
             .width('100%')
             .padding({
