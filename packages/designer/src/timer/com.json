@@ -4,25 +4,37 @@
   "author": "mybricks-team",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "计时器",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "ai": "./ai.ts",
+  "upgrade": "./upgrade.ts",
   "inputs": [
     {
       "id": "countDownTimeStamp",
       "title": "倒计时配置",
-      "description":"格式为00:01:00,配置后将从此时间开始倒数",
+      "description": "格式为00:01:00,配置后将从此时间开始倒数",
       "schema": {
         "type": "string"
       }
     },
     {
+      "id": "setTimerStartTimeStamp",
+      "title": "设置计时器开始时间",
+      "description": "设置当前计时器时间，格式为00:01:00",
+      "schema": {
+        "type": "string"
+      },
+      "rels": [
+        "setTimerStartTimeStampComplete"
+      ]
+    },
+    {
       "id": "start",
       "title": "开始",
-      "description":"开始计时",
+      "description": "开始计时",
       "schema": {
         "type": "any"
       }
@@ -30,7 +42,7 @@
     {
       "id": "pause",
       "title": "暂停",
-      "description":"暂停计时",
+      "description": "暂停计时",
       "schema": {
         "type": "any"
       }
@@ -38,7 +50,7 @@
     {
       "id": "finish",
       "title": "结束",
-      "description":"结束计时",
+      "description": "结束计时",
       "schema": {
         "type": "any"
       }
@@ -51,11 +63,19 @@
       "schema": {
         "type": "number"
       }
-    },{
+    },
+    {
       "id": "currentTime",
       "title": "当前时间",
       "schema": {
         "type": "number"
+      }
+    },
+    {
+      "id": "setTimerStartTimeStampComplete",
+      "title": "设置计时器开始时间完成",
+      "schema": {
+        "type": "string"
       }
     }
   ]

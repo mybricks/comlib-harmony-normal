@@ -51,6 +51,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
   const initTimeRef = useRef(null);
   const elapsedTimeRef = useRef(0); // 记录已经过去的时间
   const finishedRef = useRef(true);
+  const hasCustomStartTimeRef = useRef(false); // 新增：标记是否设置了自定义起始时间
 
   //更新当前时间
   const updateCurrentTime = () => {
@@ -86,9 +87,20 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       setCountDown(ds);
     })
 
+    inputs["setTimerStartTimeStamp"]?.((ds, rel) => {
+      const timeStamp = timeStringToTimestamp(ds);
+      elapsedTimeRef.current = timeStamp;
+      hasCustomStartTimeRef.current = true; // 标记已设置自定义起始时间
+      setShowTime(formatTimeDiff(elapsedTimeRef.current));
+      rel?.["setTimerStartTimeStampComplete"]?.(ds);
+    })
+
     inputs["start"]?.(() => {
       if (finishedRef.current) {
-        elapsedTimeRef.current = 0;
+        // 只有在没有设置自定义起始时间时才重置为0
+        if (!hasCustomStartTimeRef.current) {
+          elapsedTimeRef.current = 0;
+        }
         finishedRef.current = false;
       }
 
@@ -112,6 +124,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
         clearInterval(timerIdRef.current);
         finishedRef.current = true;
         elapsedTimeRef.current = 0;
+        hasCustomStartTimeRef.current = false; // 重置自定义起始时间标记
       }
     })
 
