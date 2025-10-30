@@ -19,7 +19,6 @@ interface _EnvCurrentScenes {
   close: () => void
 }
 
-
 interface EnvCurrentScenes {
   close: () => void
 }
@@ -39,6 +38,7 @@ export class Data implements DataType {
 
 interface Inputs {
   countDownTimeStamp?: (fn: (p: AnyType) => void) => void
+  setTimerStartTimeStamp?:(fn: (val: AnyType, outputRels: void) => void) => void
   start?: (fn: (p?: AnyType) => void) => void
   pause?: (fn: (p?: AnyType) => void) => void
   finish?: (fn: (p?: AnyType) => void) => void
@@ -47,6 +47,7 @@ interface Inputs {
 interface Outputs {
   currentTime: (value?: AnyType) => void
   finishCountDown: (value?: AnyType) => void
+  setTimerStartTimeStampComplete: (value?: AnyType) => void
 }
 
 @ComponentV2
@@ -63,6 +64,7 @@ export default struct MyBricksTimer {
   private timerID: number = -1
   private elapsedTime: number = 0
   private isFinished: boolean = true
+  private hasCustomStartTime: boolean = false // 新增：标记是否设置了自定义起始时间
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
@@ -118,7 +120,10 @@ export default struct MyBricksTimer {
 
   startTimer() {
     if (this.isFinished) {
-      this.elapsedTime = 0
+      // 只有在没有设置自定义起始时间时才重置为0
+      if (!this.hasCustomStartTime) {
+        this.elapsedTime = 0
+      }
       this.isFinished = false
     }
 
@@ -156,19 +161,35 @@ export default struct MyBricksTimer {
     }
     this.isFinished = true
     this.elapsedTime = 0
+    this.hasCustomStartTime = false // 重置自定义起始时间标记
   }
 
   aboutToAppear(): void {
-
     // 添加控制接口
     this.inputs?.start?.(() => {
       this.startTimer()
     })
+
     this.inputs?.pause?.(() => {
       this.pauseTimer()
     })
+
     this.inputs?.finish?.(() => {
       this.finishTimer()
+    })
+
+    // 设置输入监听
+    this.inputs?.countDownTimeStamp?.((text: string) => {
+      this.countDown = text
+    })
+
+    // 新增：设置计时器起始时间
+    this.inputs?.setTimerStartTimeStamp?.((ds: string, rel: AnyType) => {
+      const timeStamp = this.timeStringToTimestamp(ds)
+      this.elapsedTime = timeStamp
+      this.hasCustomStartTime = true // 标记已设置自定义起始时间
+      this.showTime = this.formatTimeDiff(this.elapsedTime)
+      rel?.["setTimerStartTimeStampComplete"]?.(ds)
     })
 
     // 初始化定时器
@@ -196,11 +217,6 @@ export default struct MyBricksTimer {
           break
       }
     }
-
-    // 设置输入监听
-    this.inputs?.countDownTimeStamp?.((text: string) => {
-      this.countDown = text
-    })
   }
 
   aboutToDisappear(): void {
@@ -230,7 +246,6 @@ export default struct MyBricksTimer {
             )
         }
 
-
         Column(){
           Text(this.showTime.substring(3, 5))
             .halfLeading(true)
@@ -248,7 +263,6 @@ export default struct MyBricksTimer {
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
         }
-
 
         Column(){
           Text(this.showTime.substring(6, 8))
