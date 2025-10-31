@@ -76,6 +76,7 @@ export default function (props) {
 
   const onChange = useCallback((value) => {
     setValue(value);
+    data.value = value;
   }, []);
 
   const checkboxValue = useMemo(() => {
