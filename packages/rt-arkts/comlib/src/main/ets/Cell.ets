@@ -1,5 +1,6 @@
 import { AnyType } from './types'
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { parsePadding, parseMargin } from './utils/StyleMatching'
 
 export interface DataType {
   title?: string
@@ -7,9 +8,12 @@ export interface DataType {
   content?: string
   useArrowIcon?: boolean
   arrowIconColor?: string
-  useSwipeLeft?: boolean   //是否开启左滑菜单
+  useSwipeLeft?: boolean   //是否开启左滑主按钮
   leftSwipeText?: string   //左滑菜单按钮文本内容
-  leftSwipeWidth?: number  //左滑菜单的宽度
+  leftSwipeStyle?: AnyType  //左滑菜单的样式
+  useSwipeLeftSecondary?: boolean   //是否开启左滑副按钮
+  leftSwipeTextSecondary?: string   //左滑菜单副按钮文本内容
+  leftSwipeStyleSecondary?: AnyType  //左滑菜单副按钮的样式
   useChildren?: boolean    //是否展示插槽
   useThumb?: boolean       //是否展示图标
   thumb?: string           //图标链接
@@ -24,7 +28,10 @@ export class Data implements DataType {
   @Trace arrowIconColor?: string | undefined
   @Trace useSwipeLeft?: boolean | undefined
   @Trace leftSwipeText?: string | undefined
-  @Trace leftSwipeWidth?: number | undefined
+  @Trace leftSwipeStyle?: AnyType
+  @Trace useSwipeLeftSecondary?: boolean | undefined
+  @Trace leftSwipeTextSecondary?: string | undefined
+  @Trace leftSwipeStyleSecondary?: AnyType
   @Trace useChildren?: boolean | undefined
   @Trace useThumb?: boolean | undefined
   @Trace thumb?: string | undefined
@@ -37,7 +44,10 @@ export class Data implements DataType {
     this.arrowIconColor = config?.arrowIconColor
     this.useSwipeLeft = config?.useSwipeLeft
     this.leftSwipeText = config?.leftSwipeText
-    this.leftSwipeWidth = config?.leftSwipeWidth
+    this.leftSwipeStyle = config?.leftSwipeStyle
+    this.useSwipeLeftSecondary = config?.useSwipeLeftSecondary
+    this.leftSwipeTextSecondary = config?.leftSwipeTextSecondary
+    this.leftSwipeStyleSecondary = config?.leftSwipeStyleSecondary
     this.useChildren = config?.useChildren
     this.useThumb = config?.useThumb
     this.thumb = config?.thumb
@@ -50,6 +60,8 @@ interface Inputs {
 
 interface Outputs {
   onClick: (value: string) => void
+  onClickLeftAction: () => void
+  onClickLeftActionSecondary: () => void
 }
 
 interface _Env {
@@ -101,7 +113,7 @@ export default struct MyBricksCell {
   @Param env?: Env = undefined
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
-  
+
   aboutToAppear(): void {
     this.inputs?.value((value:AnyType) => {
       this.data.title = value.title
@@ -114,20 +126,23 @@ export default struct MyBricksCell {
 
   @Builder itemEnd() {
     Row() {
-      Column(){
-        Text("编辑")
+      if (this.data.useSwipeLeftSecondary) {
+        Column(){
+          Text(this.data.leftSwipeTextSecondary ?? '')
+        }
+        .backgroundColor('#D9D9D9')
+        .width(65)
+        .height("100%")
+        .alignItems(HorizontalAlign.Center)
+        .justifyContent(FlexAlign.Center)
+        .onClick(() => {
+          this.outputs?.onClickLeftActionSecondary()
+          this.scroller.closeAllSwipeActions();
+        })
       }
-      .backgroundColor('#D9D9D9')
-      .width(65)
-      .height("100%")
-      .alignItems(HorizontalAlign.Center)
-      .justifyContent(FlexAlign.Center)
-      .onClick(() => {
-        this.scroller.closeAllSwipeActions();
-      })
 
       Column(){
-        Text("删除").fontColor(Color.White)
+        Text(this.data.leftSwipeText ?? '').fontColor(Color.White)
       }
       .width(65)
       .height("100%")
@@ -135,6 +150,7 @@ export default struct MyBricksCell {
       .alignItems(HorizontalAlign.Center)
       .justifyContent(FlexAlign.Center)
       .onClick(() => {
+        this.outputs?.onClickLeftAction()
         this.scroller.closeAllSwipeActions();
       })
     }.justifyContent(FlexAlign.Start).backgroundColor(Color.Transparent)
@@ -143,84 +159,85 @@ export default struct MyBricksCell {
   build() {
     Column() {
       List({ space: 0, scroller: this.scroller }) {
-          ListItem() {
-            Row(){
-              Row() {
-                if (this.data.useThumb) {
-                  Image(this.data.thumb)
-                    .width(23)
-                    .height(23)
-                    .margin({
-                      right:10
-                    })
-                }
-                Column() {
-                  Text(this.data.title)
-                    // .fontColor('#323233')
-                    // .fontSize(17)
-                    .attributeModifier(
-                      new ApplyFontStyleModifier(this.styles['.mybricks-title'])
-                    )
-                  Text(this.data.brief)
-                    // .fontColor('#969799')
-                    // .fontSize(15)
-                    .attributeModifier(
-                      new ApplyFontStyleModifier(this.styles['.mybricks-brief'])
-                    )
-                }
-                .height(55)
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Start) // 添加水平对齐
-              }
-              .alignItems(VerticalAlign.Center) // 确保 Row 内容垂直居中
-
-              Row(){
-                if(this.data.useChildren){
-                  this.slots({
-                    id: 'children',
+        ListItem() {
+          Row(){
+            Row() {
+              if (this.data.useThumb) {
+                Image(this.data.thumb)
+                  .width(23)
+                  .height(23)
+                  .margin({
+                    right:10
                   })
-                }else{
-                  Text(this.data.content)
-                    .fontColor('#969799')
-                    .fontSize(15)
-                    .margin({
-                      right:5
-                    })
-                }
+              }
+              Column() {
+                Text(this.data.title)
+                // .fontColor('#323233')
+                // .fontSize(17)
+                  .attributeModifier(
+                    new ApplyFontStyleModifier(this.styles['.mybricks-title'])
+                  )
+                  .margin(parseMargin(this.styles['.mybricks-title']))
+                Text(this.data.brief)
+                // .fontColor('#969799')
+                // .fontSize(15)
+                  .attributeModifier(
+                    new ApplyFontStyleModifier(this.styles['.mybricks-brief'])
+                  )
+                  .margin(parseMargin(this.styles['.mybricks-brief']))
+              }
+              // .height(55)
+              .justifyContent(FlexAlign.Center)
+              .alignItems(HorizontalAlign.Start) // 添加水平对齐
+            }
+            .alignItems(VerticalAlign.Center) // 确保 Row 内容垂直居中
 
+            Row(){
+              if(this.data.useChildren){
+                this.slots({
+                  id: 'children',
+                })
+              }else{
+                Text(this.data.content)
+                  .fontColor('#969799')
+                  .fontSize(15)
+                  .margin({
+                    right:5
+                  })
+              }
+
+              if (this.data.useArrowIcon) {
                 SymbolGlyph($r(`sys.symbol.chevron_right`))
                   .width('auto')
                   .height(19)
                   .fontSize(18)
-                  .fontColor(['#969799'])
+                  .fontColor([this.data.arrowIconColor || '#969799'])
               }
             }
-            .width('100%')
-            .padding({
-              left:20,
-              right:20
-            })
-            .justifyContent(FlexAlign.SpaceBetween)
-            .alignItems(VerticalAlign.Center)
           }
+          .width('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .alignItems(VerticalAlign.Center)
+          .padding(parsePadding(this.styles['.mybricks-cell']))
+        }
 
-          .transition({ type: TransitionType.Delete, opacity: 0 })
-          .swipeAction({
-            end: {
-              builder: () => { this.itemEnd() },
-              // onAction: () => {
-              //   this.getUIContext()?.animateTo({ duration: 1000 }, () => {
-              //     let index = this.arr.indexOf(item);
-              //     this.arr.splice(index, 1);
-              //   });
-              // },
-              actionAreaDistance: 56,
-              onEnterActionArea: () => {
-              },
-              onExitActionArea: () => {
-              }
+        .transition({ type: TransitionType.Delete, opacity: 0 })
+        .swipeAction(this.data?.useSwipeLeft ? {
+          end: {
+            builder: () => { this.itemEnd() },
+            // onAction: () => {
+            //   this.getUIContext()?.animateTo({ duration: 1000 }, () => {
+            //     let index = this.arr.indexOf(item);
+            //     this.arr.splice(index, 1);
+            //   });
+            // },
+            actionAreaDistance: 56,
+            onEnterActionArea: () => {
+            },
+            onExitActionArea: () => {
             }
-          })
+          }
+        } : {})
       }
     }
     .width('100%')

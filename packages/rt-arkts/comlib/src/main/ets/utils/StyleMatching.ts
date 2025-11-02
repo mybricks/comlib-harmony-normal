@@ -152,3 +152,107 @@ export function parseBorder(borderStr: string, defaultColor: string = "#fff", de
     color: color || defaultColor
   };
 }
+
+interface PaddingStyle {
+  left: number | string;
+  right: number | string;
+  top: number | string;
+  bottom: number | string;
+}
+export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
+  let paddingTop = style?.paddingTop ?? 0
+  let paddingLeft = style?.paddingLeft ?? 0
+  let paddingRight = style?.paddingRight ?? 0
+  let paddingBottom = style?.paddingBottom ?? 0
+
+  const paddingStr = style?.padding
+  const configPaddings = paddingStr ? String(paddingStr).split?.(' ') : [];
+  if (configPaddings.length === 4) {
+    paddingTop = parseFloat(configPaddings[0])
+    paddingRight = parseFloat(configPaddings[1])
+    paddingBottom = parseFloat(configPaddings[2])
+    paddingLeft = parseFloat(configPaddings[3])
+    return({
+      left: paddingLeft,
+      right: paddingRight,
+      top: paddingTop,
+      bottom: paddingBottom
+    })
+  } else if (configPaddings.length === 2) {
+    const paddingTB = parseFloat(configPaddings[0])
+    const paddingLR = parseFloat(configPaddings[1])
+    return({
+      left: paddingLR,
+      right: paddingLR,
+      top: paddingTB,
+      bottom: paddingTB
+    })
+  } else if (configPaddings.length === 1) {
+    const paddingValue = parseFloat(configPaddings[0])
+    return({
+      left: paddingValue,
+      right: paddingValue,
+      top: paddingValue,
+      bottom: paddingValue
+    })
+  } else {
+    return({
+      left: paddingLeft,
+      right: paddingRight,
+      top: paddingTop,
+      bottom: paddingBottom
+    })
+  }
+}
+
+interface MarginStyle {
+  left: number | string;
+  right: number | string;
+  top: number | string;
+  bottom: number | string;
+}
+export function parseMargin(style: Record<string, AnyType>): MarginStyle {
+  let marginTop = style?.marginTop ?? 0
+  let marginLeft = style?.marginLeft ?? 0
+  let marginRight = style?.marginRight ?? 0
+  let marginBottom = style?.marginBottom ?? 0
+
+  const marginStr = style?.margin
+  const configMargins = marginStr ? String(marginStr).split?.(' ') : [];
+  if (configMargins.length === 4) {
+    marginTop = parseFloat(configMargins[0])
+    marginRight = parseFloat(configMargins[1])
+    marginBottom = parseFloat(configMargins[2])
+    marginLeft = parseFloat(configMargins[3])
+    return({
+      left: marginLeft,
+      right: marginRight,
+      top: marginTop,
+      bottom: marginBottom
+    })
+  } else if (configMargins.length === 2) {
+    const marginTB = parseFloat(configMargins[0])
+    const marginLR = parseFloat(configMargins[1])
+    return({
+      left: marginLR,
+      right: marginLR,
+      top: marginTB,
+      bottom: marginTB
+    })
+  } else if (configMargins.length === 1) {
+    const marginValue = parseFloat(configMargins[0])
+    return({
+      left: marginValue,
+      right: marginValue,
+      top: marginValue,
+      bottom: marginValue
+    })
+  } else {
+    return({
+      left: marginLeft,
+      right: marginRight,
+      top: marginTop,
+      bottom: marginBottom
+    })
+  }
+}
