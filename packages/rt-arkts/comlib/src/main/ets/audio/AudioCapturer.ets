@@ -108,7 +108,11 @@ export class AudioCapturer {
 
   // 停止录制
   async stop() {
-    await this.audioCapturer!.stop();
+    try {
+      let res = await this.audioCapturer!.stop();
+    } catch (e) {
+      console.log("e",e)
+    }
   }
 
   // 销毁
