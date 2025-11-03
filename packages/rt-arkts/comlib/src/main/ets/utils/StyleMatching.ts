@@ -178,6 +178,16 @@ export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
       top: paddingTop,
       bottom: paddingBottom
     })
+  } else if (configPaddings.length === 3) {
+    const paddingT = parseFloat(configPaddings[0])
+    const paddingLR = parseFloat(configPaddings[1])
+    const paddingB = parseFloat(configPaddings[2])
+    return({
+      left: paddingLR,
+      right: paddingLR,
+      top: paddingT,
+      bottom: paddingB
+    })
   } else if (configPaddings.length === 2) {
     const paddingTB = parseFloat(configPaddings[0])
     const paddingLR = parseFloat(configPaddings[1])
@@ -229,6 +239,16 @@ export function parseMargin(style: Record<string, AnyType>): MarginStyle {
       right: marginRight,
       top: marginTop,
       bottom: marginBottom
+    })
+  } else if (configMargins.length === 3) {
+    const marginT = parseFloat(configMargins[0])
+    const marginLR = parseFloat(configMargins[1])
+    const marginB = parseFloat(configMargins[2])
+    return({
+      left: marginLR,
+      right: marginLR,
+      top: marginT,
+      bottom: marginB
     })
   } else if (configMargins.length === 2) {
     const marginTB = parseFloat(configMargins[0])
