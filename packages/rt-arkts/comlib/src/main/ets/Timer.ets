@@ -85,6 +85,9 @@ export default struct MyBricksTimer {
   }
 
   timeStringToTimestamp(timeString: string): number {
+    if(timeString == undefined){
+      return 0
+    }
     const timeParts = timeString.split(':')
     const hours = Number(timeParts[0])
     const minutes = Number(timeParts[1])
