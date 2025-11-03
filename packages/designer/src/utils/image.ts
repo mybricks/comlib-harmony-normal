@@ -114,12 +114,12 @@ export function autoCdnCut ({
   if (url.indexOf('https') === -1 || url.indexOf('assets.mybricks.world') === -1) {
     return url
   }
-  let query = '?x-oss-process=image/resize,';
+  let query = '?x-oss-process=image';
 
   if (isNumber(width)) {
-    query+= `w_${(width * dpr).toFixed(0)}`
+    query+= `/resize,w_${(width * dpr).toFixed(0)}`
   } else if (isNumber(height)) {
-    query+= `h_${(height * dpr).toFixed(0)}`
+    query+= `/resize,h_${(height * dpr).toFixed(0)}`
   }
 
   if (isNumber(quality)) {

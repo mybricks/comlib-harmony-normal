@@ -105,7 +105,7 @@ export default struct MyBricksText {
   build() {
     Column() {
       if (this.data.direction === "horizonal") {
-        Text(this.data.text)
+        Text(this.data.text.toString())
           .lineBreakStrategy(LineBreakStrategy.GREEDY)
           .wordBreak(WordBreak.BREAK_WORD)
           .textOverflow({ overflow: this.data.ellipsis ? TextOverflow.Ellipsis : TextOverflow.None })

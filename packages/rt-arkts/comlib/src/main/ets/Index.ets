@@ -419,3 +419,9 @@ export {
   DataType as mybricks_harmony_marquee_DataType,
   Data as mybricks_harmony_marquee_Data,
 } from './Marquee'
+
+export {
+  default as mybricks_harmony_imagePreview,
+  DataType as mybricks_harmony_imagePreview_DataType,
+  Data as mybricks_harmony_imagePreview_Data,
+} from './ImagePreview'

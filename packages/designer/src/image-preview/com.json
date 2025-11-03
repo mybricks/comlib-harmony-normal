@@ -1,0 +1,55 @@
+{
+  "title": "图片预览",
+  "namespace": "mybricks.harmony.imagePreview",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.6",
+  "runtime": "./runtime.tsx",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "ai": "./ai.ts",
+  "icon": "./icon.svg",
+  "inputs": [
+    {
+      "id": "setItems",
+      "title": "设置图片内容",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "thumbnail: 图片",
+          "properties": {
+            "thumbnail": {
+              "title": "图片",
+              "description": "图片",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "activeIndex",
+      "title": "设置图片索引",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onClick",
+      "title": "单击",
+      "schema": {
+        "type": "number"
+      }
+    },
+    {
+      "id": "onChange",
+      "title": "当切换图片时",
+      "schema": {
+        "type": "number"
+      }
+    }
+  ]
+}

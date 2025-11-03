@@ -87,7 +87,8 @@
         "./src/cascader/com.json",
         "./src/progress/com.json",
         "./src/play-progress/com.json",
-        "./src/audio-wavy/com.json"
+        "./src/audio-wavy/com.json",
+        "./src/image-preview/com.json"
       ]
     },
     {
