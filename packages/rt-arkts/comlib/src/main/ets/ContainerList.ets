@@ -248,29 +248,33 @@ export default struct MyBricksContainerList {
     Column() {
       if (this.data.direction === 'row') {
         // 横向且需要换行的情况使用Flex
-        Flex({
-          direction: FlexDirection.Row,
-          wrap: this.data.wrap ? FlexWrap.Wrap : FlexWrap.NoWrap,
-          justifyContent: FlexAlign.Start,
-          alignItems: ItemAlign.Start
-        }) {
-          LazyForEach(this.dataSource, (item: DataSourceItem, index) => {
-            Column() {
-              this.slots({
-                id: 'item',
-                inputValues: {
-                  itemData: item,
-                  index
-                }
+        Scroll(this.scroller) {
+          Flex({
+            direction: FlexDirection.Row,
+            wrap: this.data.wrap ? FlexWrap.Wrap : FlexWrap.NoWrap,
+            justifyContent: FlexAlign.Start,
+            alignItems: ItemAlign.Start
+          }) {
+            LazyForEach(this.dataSource, (item: DataSourceItem, index) => {
+              Column() {
+                this.slots({
+                  id: 'item',
+                  inputValues: {
+                    itemData: item,
+                    index
+                  }
+                })
+              }
+              .margin({
+                right: this.data.spacing,
               })
-            }
-            .margin({
-              right: this.data.spacing,
+              .flexShrink(0)
             })
-          })
+          }
+          .width(this.data.wrap ? '100%' : 'auto')
+          .height('fit-content')
         }
-        .width('100%')
-        .height('fit-content')
+        .scrollable(ScrollDirection.Horizontal)
       } else {
         if(this.shouldScroll){
           // 纵向列表，需要滚动，此时使用List组件
