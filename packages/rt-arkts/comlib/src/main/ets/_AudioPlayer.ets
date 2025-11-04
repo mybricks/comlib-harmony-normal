@@ -1,4 +1,5 @@
 import media from '@ohos.multimedia.media'
+import fs, { ReadOptions } from '@ohos.file.fs';
 
 import { AnyType } from './types'
 
@@ -95,12 +96,18 @@ class AudioPlayer {
 
   // 播放歌曲
   async play(resourceUrl?: string) {
+    let url = ''
     if (resourceUrl) {
-      // 切换歌曲
+      if(resourceUrl.startsWith('/data')){
+        let file = fs.openSync(resourceUrl, fs.OpenMode.READ_ONLY);
+        url =  `fd://${file.fd}`;
+      }else{
+        url = resourceUrl
+      }
       await this.stopAndReset();
 
       this.waitingToPlay = true;
-      this.avPlayer!.url = resourceUrl;
+      this.avPlayer!.url = url;
       return;
     }
 
