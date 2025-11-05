@@ -11,6 +11,20 @@ interface AudioCapturerConstructorParams {
   maxHeight: number;
 }
 
+function concatBuffers(buffers: ArrayBuffer[]) {
+  const totalLength = buffers.reduce((acc, buffer) => acc + buffer.byteLength, 0);
+  const result = new ArrayBuffer(totalLength);
+  const resultView = new Uint8Array(result);
+
+  let offset = 0;
+  buffers.forEach(buffer => {
+    resultView.set(new Uint8Array(buffer), offset);
+    offset += buffer.byteLength;
+  });
+
+  return result;
+}
+
 export class AudioCapturer {
   private audioCapturer?: audio.AudioCapturer;
   private uiContext?: UIContext;
@@ -66,10 +80,17 @@ export class AudioCapturer {
 
         this.file = file;
 
+        let buffers: ArrayBuffer[] = [];
+
         const readDataCallback = (buffer: ArrayBuffer) => {
-          this.eventListener.get('readData')?.forEach((listener) => {
-            listener(buffer);
-          });
+          buffers.push(buffer)
+          if (buffers.length === 2) {
+            this.eventListener.get('readData')?.forEach((listener) => {
+              listener(concatBuffers(buffers));
+            });
+            buffers = []
+          }
+
           let options: Options = {
             offset: this.bufferSize,
             length: buffer.byteLength
@@ -148,8 +169,6 @@ export class AudioCapturer {
     const db = Math.max(Constants.MIN_DB, Math.min(0, 20 * Math.log10(rms)));
     this.sampleValCnt = 0;
     this.sampleValSum = 0;
-
-    console.log(`Leon calculateDecibelHeight ${db} ${(db + Math.abs(Constants.MIN_DB)) / Math.abs(Constants.MIN_DB) * this.maxHeight}`)
 
     return Math.max(this.minHeight, (db + Math.abs(Constants.MIN_DB)) / Math.abs(Constants.MIN_DB) * this.maxHeight)
   }
