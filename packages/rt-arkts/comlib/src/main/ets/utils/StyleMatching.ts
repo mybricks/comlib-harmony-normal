@@ -42,7 +42,8 @@ export function getStyleValueByPattern<T>(
   return styles[matchingKey] ?? defaultValue;
 }
 
-export function parseRadius(radiusStr: string): AnyType {
+export function parseRadius(radiusStr: string | number): AnyType {
+  if (typeof radiusStr === 'number') return radiusStr
   const values = radiusStr.trim().split(/\s+/);
   const numbers = values.map(val => parseInt(val));
   switch (numbers.length) {

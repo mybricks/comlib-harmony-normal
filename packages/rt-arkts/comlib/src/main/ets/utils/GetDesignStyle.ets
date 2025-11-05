@@ -1,4 +1,5 @@
 import { MyBricksModifier } from "@mybricks/render-utils"
+import {parseRadius} from "./StyleMatching"
 export type CSSProperties = Record<string, string | number>
 
 type ComponentAttribute = CommonAttribute
@@ -159,7 +160,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
     }
 
     if (!isNil(style?.borderRadius)) {
-      instance.borderRadius(parseFloat(String(style.borderRadius)))
+      instance.borderRadius(parseRadius(style.borderRadius))
     } else if (!isNil(this.initBorderRadius)) {
       instance.borderRadius(parseFloat(String(this.initBorderRadius)))
     }
