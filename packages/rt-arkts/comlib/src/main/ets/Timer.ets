@@ -244,6 +244,8 @@ export default struct MyBricksTimer {
         Column(){
           Text(":")
             .halfLeading(true)
+            .width(12)
+            .textAlign(TextAlign.Center)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
@@ -262,6 +264,8 @@ export default struct MyBricksTimer {
         Column(){
           Text(":")
             .halfLeading(true)
+            .width(12)
+            .textAlign(TextAlign.Center)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )

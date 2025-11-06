@@ -174,19 +174,19 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       className={cls(css.timer, "mybricks_timer")}
     >
       <View className={cls(css.timeUnit, "mybricks_timer_unit", "mybricks_timer_unit_background")}>
-        {showTime.substring(0, 2)}
+        {showTime?.split(":")[0] || "--"}
       </View>
 
       <View className={cls(css.separator, "mybricks_timer_separator","mybricks_timer_separator_background")}>:</View>
 
       <View className={cls(css.timeUnit, "mybricks_timer_unit", "mybricks_timer_unit_background")}>
-        {showTime.substring(3, 5)}
+        {showTime?.split(":")[1] || "--"}
       </View>
 
       <View className={cls(css.separator, "mybricks_timer_separator","mybricks_timer_separator_background")}>:</View>
 
       <View className={cls(css.timeUnit, "mybricks_timer_unit", "mybricks_timer_unit_background")}>
-        {showTime.substring(6, 8)}
+        {showTime?.split(":")[2] || "--"}
       </View>
     </View>
   );
