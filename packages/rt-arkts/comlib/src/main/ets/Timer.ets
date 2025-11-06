@@ -232,7 +232,7 @@ export default struct MyBricksTimer {
     Column() {
       Row() {
         Column(){
-          Text(this.showTime.substring(0, 2))
+          Text(this.showTime?.split(':')?.[0] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
@@ -250,7 +250,7 @@ export default struct MyBricksTimer {
         }
 
         Column(){
-          Text(this.showTime.substring(3, 5))
+          Text(this.showTime?.split(':')?.[1] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
@@ -268,7 +268,7 @@ export default struct MyBricksTimer {
         }
 
         Column(){
-          Text(this.showTime.substring(6, 8))
+          Text(this.showTime?.split(':')?.[2] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
