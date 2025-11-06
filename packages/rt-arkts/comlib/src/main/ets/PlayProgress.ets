@@ -209,7 +209,7 @@ export default struct MyBricksPlayProgress {
     }
     const hour = Math.floor(milliseconds / (60*60*1000))
     const min = Math.floor((milliseconds % (60*60*1000)) / (60*1000))
-    const sec = Math.round((milliseconds % (60*1000)) / 1000)
+    const sec = Math.ceil(Number(((milliseconds % (60*1000)) / 1000).toFixed(10)))
     const ms = Math.floor(milliseconds % 1000).toString().padStart(3, '0')
     const defaultStr = [hour, min, sec].map(i => i.toString().padStart(2, '0')).join(':')
     if (!showMillisecond) return defaultStr

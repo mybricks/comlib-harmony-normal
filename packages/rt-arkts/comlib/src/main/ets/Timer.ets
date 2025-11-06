@@ -101,14 +101,18 @@ export default struct MyBricksTimer {
     this.outputs?.currentTime?.(currentTime.getTime().toString())
   }
 
-  updateTimer() {
-    this.elapsedTime += 1000
+  updateTimer(updateElapsedTime: boolean = true) {
+    if (updateElapsedTime) {
+      this.elapsedTime += 1000
+    }
     this.showTime = this.formatTimeDiff(this.elapsedTime)
     this.outputs?.currentTime?.(this.elapsedTime.toString())
   }
 
-  updateCountDown() {
-    this.elapsedTime += 1000
+  updateCountDown(updateElapsedTime: boolean = true) {
+    if (updateElapsedTime) {
+      this.elapsedTime += 1000
+    }
     const countDownStamp = this.timeStringToTimestamp(this.countDown)
     const remainingTime = countDownStamp - this.elapsedTime
 
@@ -136,13 +140,13 @@ export default struct MyBricksTimer {
 
     switch (this.data.clockType) {
       case "timer":
-        this.updateTimer()
+        this.updateTimer(false)
         this.timerID = setInterval(() => {
           this.updateTimer()
         }, 1000)
         break
       case "countdown":
-        this.updateCountDown()
+        this.updateCountDown(false)
         this.timerID = setInterval(() => {
           this.updateCountDown()
         }, 1000)
