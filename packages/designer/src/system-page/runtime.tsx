@@ -197,7 +197,11 @@ export default function ({ env, data, inputs, outputs, slots }) {
         //导航栏为默认的时候，在这里配置背景
         style={contentStyle}
       >
-        {slots["content"]?.render?.()}
+        {slots["content"]?.render?.({
+          style: {
+            transform: "none"
+          }
+        })}
       </View>
       {/* content end*/}
 
