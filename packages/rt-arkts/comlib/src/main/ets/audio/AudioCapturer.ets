@@ -49,6 +49,17 @@ export class AudioCapturer {
     this.maxHeight = params.maxHeight;
   }
 
+  private getBytesPerSample(format: audio.AudioSampleFormat): number {
+    switch (format) {
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_U8: return 1;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S16LE: return 2;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S24LE: return 3;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S32LE:
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_F32LE: return 4;
+      default: return 2;
+    }
+  }
+
   // 开始录制
   async start() {
     const uiAbilityContext = this.uiContext!.getHostContext() as common.UIAbilityContext;
@@ -184,5 +195,20 @@ export class AudioCapturer {
   // 取消事件监听
   removeEventListener(key: string, listener: (value: ESObject) => void) {
     this.eventListener.get(key)?.delete(listener);
+  }
+
+  // 计算音频时长
+  async getDuration(): Promise<number> {
+    const audioParamsGet = this.audioCapturer?.getStreamInfoSync()
+    if (!audioParamsGet) return 0;
+
+    const bytesPerSample = this.getBytesPerSample(audioParamsGet.sampleFormat);
+    const duration = this.bufferSize / (
+      audioParamsGet.samplingRate *
+      audioParamsGet.channels *
+        bytesPerSample
+    ) * 1000;
+
+    return Math.floor(duration);
   }
 }

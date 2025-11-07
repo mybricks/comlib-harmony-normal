@@ -196,7 +196,7 @@ export default struct MyBricksTimer {
       this.elapsedTime = timeStamp
       this.hasCustomStartTime = true // 标记已设置自定义起始时间
       this.showTime = this.formatTimeDiff(this.elapsedTime)
-      rel?.["setTimerStartTimeStampComplete"]?.(ds)
+      rel?.["setTimerStartTimeStampComplete"]?.(this.elapsedTime.toString())
     })
 
     // 初始化定时器

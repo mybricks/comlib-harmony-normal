@@ -25,6 +25,7 @@ interface Inputs {
 interface Outputs {
   then: (value: ESObject) => void;
   amplitude: (value: number) => void;
+  duration: (value: number) => void;
 }
 
 interface IOContext {
@@ -59,8 +60,9 @@ export default (context: IOContext) => {
       // 监听状态变更
       audioCapturer.addEventListener('stateChange', (state: audio.AudioState) => {
         if (state === audio.AudioState.STATE_RUNNING) {
-          intervalId = setInterval(() => {
+          intervalId = setInterval(async () => {
             outputs.amplitude(audioCapturer.calculateDecibelHeight())
+            outputs.duration(await audioCapturer.getDuration())
           }, 80)
         } else {
           clearInterval(intervalId);

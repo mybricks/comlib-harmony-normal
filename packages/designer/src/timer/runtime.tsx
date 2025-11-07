@@ -92,7 +92,7 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       elapsedTimeRef.current = timeStamp;
       hasCustomStartTimeRef.current = true; // 标记已设置自定义起始时间
       setShowTime(formatTimeDiff(elapsedTimeRef.current));
-      rel?.["setTimerStartTimeStampComplete"]?.(ds);
+      rel?.["setTimerStartTimeStampComplete"]?.(elapsedTimeRef.current);
     })
 
     inputs["start"]?.(() => {
