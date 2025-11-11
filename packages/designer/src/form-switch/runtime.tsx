@@ -4,6 +4,7 @@ import { isObject, isString, isEmpty, isBoolean } from "../utils/type";
 import useFormItemValue from "../utils/hooks/use-form-item-value";
 import { Switch, Checkbox } from "brickd-mobile";
 import cx from "classnames";
+import css from "./style.less";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
@@ -99,6 +100,7 @@ export default function (props) {
     <>
       {data.type === "switch" || !data.type ? (
         <Switch
+          className={css.form_switch}
           style={{ marginLeft: "auto" }}
           value={value}
           size={24}

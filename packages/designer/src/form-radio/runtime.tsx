@@ -156,7 +156,12 @@ export default function (props) {
   }
 
   return (
-    <Radio.Group direction={data.direction} value={value} onChange={onChange}>
+    <Radio.Group 
+    direction={data.direction} 
+    value={value} 
+    onChange={onChange}
+    className={css.radio_group}
+    >
       {options.map((item, index) => {
         const restProps = {} as any;
         if (item.icon) {

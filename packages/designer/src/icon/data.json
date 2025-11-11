@@ -2,7 +2,7 @@
   "scope": "system",
   "type": "single",
   "icon": "wifi",
-  "fontColor": ["#1989fa"],
+  "fontColor": ["#FA6400"],
   "fontSize": 24,
   "fontWeight": 400
 }
