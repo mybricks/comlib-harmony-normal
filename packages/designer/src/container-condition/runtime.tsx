@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { View } from "@tarojs/components";
 import css from "./style.less";
 
@@ -11,6 +11,14 @@ export default function ({ env, data, slots, inputs, outputs }) {
     }
     return innputId;
   }, [data.items, data._editSelectId_, innputId]);
+
+  useEffect(() => { 
+    const item = data.items.find((t) => t.title === data.now_condition);
+    if (!item) {
+      return;
+    }
+    setInputId(item.id);
+  },[data.now_condition])
 
   /** useMemo里注册IO */
   useMemo(() => {
