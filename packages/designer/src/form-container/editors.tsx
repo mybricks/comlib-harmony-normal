@@ -1,5 +1,6 @@
 import { getFormItem } from "./utils";
 import { FormItems, Data, RuleKeys } from "./types";
+import { jsonToSchema } from "./../utils/json-to-schema";
 
 function getFormItemProp(
   { data, ...com }: { data: Data; id: string; name: string },
@@ -226,9 +227,51 @@ export default {
         target: ".mybricks-submit .taroify-button",
       },
     ],
-    items: ({ data, output, style }, cate0, cate1, cate2) => {
+    items: ({ data, output, slots, style }, cate0, cate1, cate2) => {
       cate0.title = "表单容器";
       cate0.items = [
+        {
+          title: "表单数据",
+          items: [
+            {
+              title: '数据源',
+              type: 'json',
+              options: {
+                minimap: {
+                  enabled: false
+                },
+                height: 80,
+                autoSave: false,
+                encodeValue: false,
+                onBlur: () => {
+                  slots.get('item')?.inputs.get('itemData')?.setSchema(data.dataSource?.[0] ? jsonToSchema(data.dataSource?.[0]) : { type: 'any' })
+                }
+              },
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.dataSource ?? {}
+                },
+                set({ data }: EditorResult<Data>, value: any) {
+                  if (!Array.isArray(value)) {
+                    return
+                  }
+                  data.dataSource = value
+                },
+              },
+              binding: {
+                with: `data.dataSource`,
+                schema: {
+                  type: 'array'
+                },
+                // set(p, { schema }) {
+                //   if (schema.type === 'array' && schema.items) {
+                //     slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
+                //   }
+                // }
+              }
+            },
+          ],
+        },
         {
           title: "表单容器通用属性",
           items: [

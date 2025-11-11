@@ -106,12 +106,21 @@ export default function ({ env, data, inputs, outputs, slots }) {
   const [form, formRef] = useForm({ items: data.items, childrenInputs });
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // 初始化表单数据
+    form.setValues(data.dataSource || {});
+  }, [data.dataSource]);
+
   useLayoutEffect(() => {
     /** 下发表单项的onChange函数，用来收集表单项数据 */
     slots["content"]._inputs["onChange"](({ id, name, value }) => {
       const item = getFormItem(data.items, { id, name });
       if (item) {
         form.setFieldValue(item.name || item.label, value);
+
+        
+        const values = form.getValues();
+        data.dataSource = values;
       }
     });
 
