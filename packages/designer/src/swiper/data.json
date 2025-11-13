@@ -16,5 +16,6 @@
   "slideIndex": 0,
   "showIndicator": true,
   "circular": true,
+  "vertical": false,
   "itemOffsets": [0, 0]
 }

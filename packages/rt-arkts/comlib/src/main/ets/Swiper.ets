@@ -10,6 +10,7 @@ export interface DataType {
   showIndicator?: boolean,
   contentType?: ContentType,
   circular?: boolean,
+  vertical?: boolean,
   indicatorColor?: string
   itemOffsets?: Array<number | string>
   blurInactive?: boolean
@@ -45,6 +46,7 @@ export class Data implements DataType {
   @Trace showIndicator?: boolean
   @Trace contentType?: ContentType
   @Trace circular?: boolean
+  @Trace vertical?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
   @Trace blurInactive?: boolean = false
@@ -57,6 +59,7 @@ export class Data implements DataType {
     this.showIndicator = config.showIndicator
     this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
+    this.vertical = config.vertical
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
     this.blurInactive = config.blurInactive
@@ -210,6 +213,7 @@ export default struct MyBricksSwiper {
       .autoPlay(this.data.autoplay)
       .duration(this.data.duration)
       .loop(this.data.circular)
+      .vertical(this.data.vertical)
       .prevMargin(this.data.itemOffsets?.[0] ?? 0)
       .nextMargin(this.data.itemOffsets?.[1] ?? 0)
       .onAreaChange((oldValue: Area, newValue: Area) => {

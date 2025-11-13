@@ -86,8 +86,8 @@ export default {
                       }
                     })
                     data._count = data.items.length
-                    data.autoplay = false
-                    data.circular = false
+                    // data.autoplay = false
+                    // data.circular = false
                   }
                 },
               }
@@ -232,6 +232,18 @@ export default {
             },
             set({ data }, value) {
               data.autoplay = value;
+            },
+          },
+        },
+        {
+          title: "纵向滑动",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.vertical;
+            },
+            set({ data }, value) {
+              data.vertical = value;
             },
           },
         },
