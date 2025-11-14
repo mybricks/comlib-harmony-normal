@@ -7,9 +7,12 @@ import css from "./style.less";
 import { uuid } from "../utils";
 
 export default function ({ env, data, inputs, outputs, style, slots }) {
-  const [dataSource, setDataSource] = useState(
-    data.useDynamic ? [] : data.items || []
-  );
+  const [dataSource, setDataSource] = useState(() => {
+    if (data.useDynamic) {
+      return env.edit ? [{}] : [];
+    }
+    return data.items || [];
+  });
   // 当前选中的tab
   const [current, setCurrent] = useState(0);
   const [loadedImages, setLoadedImages] = useState([
