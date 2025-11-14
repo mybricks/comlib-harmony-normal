@@ -14,6 +14,7 @@ export interface DataType {
   indicatorColor?: string
   itemOffsets?: Array<number | string>
   blurInactive?: boolean
+  useDynamic?: boolean
 }
 
 interface _Env {
@@ -47,6 +48,7 @@ export class Data implements DataType {
   @Trace contentType?: ContentType
   @Trace circular?: boolean
   @Trace vertical?: boolean
+  @Trace useDynamic?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
   @Trace blurInactive?: boolean = false
@@ -60,6 +62,7 @@ export class Data implements DataType {
     this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
     this.vertical = config.vertical
+    this.useDynamic = config.useDynamic
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
     this.blurInactive = config.blurInactive
@@ -82,6 +85,7 @@ interface Outputs {
 export interface SlotsParams {
   id: string,
   key?: string
+  inputValues?: AnyType
 }
 
 @Builder function emptySlot(params: SlotsParams) {}
@@ -105,6 +109,14 @@ export default struct MyBricksSwiper {
 
   @Local indicatorColor?: AnyType = '#558EFF'
   @Local indicatorColorDefault?: AnyType = '#D9D9D9'
+
+  @Local dataSource: AnyType[] = this.data.items ?? []
+  @Monitor ('data.items')
+  onDataItemsChange(monitor: IMonitor) {
+    if (!this.data.useDynamic) {
+      this.dataSource = monitor.value()?.now as AnyType[]
+    }
+  }
 
   @Param _env?: _Env = undefined
   @Param env?: Env = undefined
@@ -138,7 +150,9 @@ export default struct MyBricksSwiper {
 
   aboutToAppear(): void {
     this.inputs?.setItems((array:AnyType) => {
-      this.data.items = array
+      if (Array.isArray(array)) {
+        this.dataSource = array
+      }
     })
 
     this.inputs?.activeIndex((index: AnyType) => {
@@ -177,7 +191,7 @@ export default struct MyBricksSwiper {
   build() {
     Column() {
       Swiper(this.swiperController) {
-        ForEach(this.data.items, (item: DataSourceItem, index) => {
+        ForEach(this.dataSource, (item: DataSourceItem, index) => {
           if (this.data.contentType !== 'custom') {
             Image(item.thumbnail)
               .width('100%')
@@ -189,19 +203,35 @@ export default struct MyBricksSwiper {
           } else {
             if (this.shouldScroll) {
               Scroll() {
-                this.slots({
-                  id: `slot_${item._id}`,
-                  key: item._id,
-                })
+                if (!this.data.useDynamic) {
+                  this.slots({
+                    id: `slot_${item._id}`,
+                    key: item._id,
+                  })
+                } else {
+                  this.slots({
+                    id: 'slot_custom',
+                    key: String(index),
+                    inputValues: { itemData: item, index }
+                  })
+                }
               }
               .blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 10 : 0) : 0)
               .opacity(this.data?.blurInactive ? (this.swiperIndex !== index ? 0.4 : 1) : 1)
             } else {
               Column() {
-                this.slots({
-                  id: `slot_${item._id}`,
-                  key: item._id,
-                })
+                if (!this.data.useDynamic) {
+                  this.slots({
+                    id: `slot_${item._id}`,
+                    key: item._id,
+                  })
+                } else {
+                  this.slots({
+                    id: 'slot_custom',
+                    key: String(index),
+                    inputValues: { itemData: item, index }
+                  })
+                }
               }
               .blur(this.data?.blurInactive ? (this.swiperIndex !== index ? 10 : 0) : 0)
               .opacity(this.data?.blurInactive ? (this.swiperIndex !== index ? 0.4 : 1) : 1)
@@ -209,6 +239,7 @@ export default struct MyBricksSwiper {
           }
         })
       }
+      .width("100%")
       .height("100%")
       .autoPlay(this.data.autoplay)
       .duration(this.data.duration)
@@ -245,7 +276,7 @@ export default struct MyBricksSwiper {
       .customContentTransition({
         timeout: 1000,
         transition: (proxy: SwiperContentTransitionProxy) => {
-          const hasNext = proxy.index < this.data.items.length - 1;
+          const hasNext = proxy.index < this.dataSource.length - 1;
           const hasPrev = proxy.index > 0;
 
           if (!this.inputTo.isInputing) { // 如果是输入触发的动画，不要再触发事件，防止循环
