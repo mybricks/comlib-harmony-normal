@@ -110,7 +110,7 @@ export default struct MyBricksSwiper {
   @Local indicatorColor?: AnyType = '#558EFF'
   @Local indicatorColorDefault?: AnyType = '#D9D9D9'
 
-  @Local dataSource: AnyType[] = this.data.items ?? []
+  @Local dataSource: AnyType[] = this.data.useDynamic ? [] : this.data.items || []
   @Monitor ('data.items')
   onDataItemsChange(monitor: IMonitor) {
     if (!this.data.useDynamic) {
