@@ -57,7 +57,7 @@ export default {
           return;
         }
 
-        if (contentType === "image" || data.useDynamic) {
+        if (contentType === "image" || contentType === "custom_dynamic") {
           data.items.forEach((item, index) => {
             if (slots.get(`slot_${item._id}`)) {
               slots.remove(`slot_${item._id}`);
@@ -76,8 +76,11 @@ export default {
           data._count = data.items.length;
         }
 
-        if (data.useDynamic) {
-          if (!slots.get(`slot_custom`) && data.contentType === "custom") {
+        if (contentType === "image" || contentType === "custom_dynamic") {
+          if (
+            !slots.get(`slot_custom`) &&
+            data.contentType === "custom_dynamic"
+          ) {
             slots.add({
               id: "slot_custom",
               capacity: 1,
@@ -105,7 +108,7 @@ export default {
           }
 
           const setItemsSchema =
-            data.contentType === "custom"
+            data.contentType === "custom_dynamic"
               ? Schemas.CustomDataSource
               : Schemas.ImageDataSource;
           if (input.get("setItems")) {
@@ -146,9 +149,14 @@ export default {
                   value: "image",
                 },
                 {
-                  label: "自定义内容",
+                  label: "自定义内容(静态)",
                   value: "custom",
                 },
+                {
+                  label: "自定义内容(动态)",
+                  value: "custom_dynamic",
+                },
+                ,
               ],
               value: {
                 get({ data }) {
@@ -157,6 +165,13 @@ export default {
                 set({ data }, value) {
                   data.contentType = value;
                   resetSlots();
+                  if (value === "custom_dynamic") {
+                    data.items = [];
+                    if (!data.edit) {
+                      data.edit = {};
+                    }
+                    data.edit.current = 0;
+                  }
                 },
               },
             },
@@ -202,7 +217,7 @@ export default {
                 ],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return data.contentType !== "custom" && !data.useDynamic;
+                return data.contentType === "image";
               },
               value: {
                 get({ data }) {
@@ -247,7 +262,7 @@ export default {
                 items: [],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return data.contentType === "custom" && !data.useDynamic;
+                return data.contentType === "custom";
               },
               value: {
                 get({ data }) {
@@ -286,6 +301,43 @@ export default {
                   type: "array",
                 },
               },
+            },
+            {
+              title: "数据",
+              ifVisible({ data }: EditorResult<Data>) {
+                return data.contentType === "custom_dynamic";
+              },
+              items: [
+                {
+                  title: "数据源",
+                  type: "json",
+                  options: {
+                    minimap: {
+                      enabled: false,
+                    },
+                    height: 80,
+                    autoSave: false,
+                    encodeValue: false,
+                  },
+                  value: {
+                    get({ data }: EditorResult<Data>) {
+                      return data.items ?? [];
+                    },
+                    set({ data }: EditorResult<Data>, value: any) {
+                      if (!Array.isArray(value)) {
+                        return;
+                      }
+                      data.items = value;
+                    },
+                  },
+                  binding: {
+                    with: `data.items`,
+                    schema: {
+                      type: "array",
+                    },
+                  },
+                },
+              ],
             },
           ],
         },
@@ -335,25 +387,25 @@ export default {
         {
           title: "高级属性",
           items: [
-            {
-              title: "使用动态传入",
-              type: "Switch",
-              description: "开启后，需要动态传入数据",
-              value: {
-                get({ data }: EditorResult<Data>) {
-                  return data.useDynamic;
-                },
-                set({ data }: EditorResult<Data>, value: boolean) {
-                  data.useDynamic = value;
-                  resetSlots();
-                  data.items = [{}];
-                  if (!data.edit) {
-                    data.edit = {};
-                  }
-                  data.edit.current = 0;
-                },
-              },
-            },
+            // {
+            //   title: "使用动态传入",
+            //   type: "Switch",
+            //   description: "开启后，需要动态传入数据",
+            //   value: {
+            //     get({ data }: EditorResult<Data>) {
+            //       return data.useDynamic;
+            //     },
+            //     set({ data }: EditorResult<Data>, value: boolean) {
+            //       data.useDynamic = value;
+            //       resetSlots();
+            //       data.items = [{}];
+            //       if (!data.edit) {
+            //         data.edit = {};
+            //       }
+            //       data.edit.current = 0;
+            //     },
+            //   },
+            // },
             {
               title: "循环轮播",
               description: "滑动到最后一项后可以继续滑动到第一项",

@@ -1,7 +1,7 @@
 import { AnyType } from './types'
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 
-type ContentType = 'image' | 'custom'
+type ContentType = 'image' | 'custom' | 'custom_dynamic'
 
 export interface DataType {
   items?: AnyType,
@@ -14,7 +14,6 @@ export interface DataType {
   indicatorColor?: string
   itemOffsets?: Array<number | string>
   blurInactive?: boolean
-  useDynamic?: boolean
 }
 
 interface _Env {
@@ -48,7 +47,6 @@ export class Data implements DataType {
   @Trace contentType?: ContentType
   @Trace circular?: boolean
   @Trace vertical?: boolean
-  @Trace useDynamic?: boolean
   @Trace indicatorColor?: string
   @Trace itemOffsets?: Array<number | string>
   @Trace blurInactive?: boolean = false
@@ -62,7 +60,6 @@ export class Data implements DataType {
     this.contentType = config.contentType
     this.circular = config.circular  //是否支持循环播放
     this.vertical = config.vertical
-    this.useDynamic = config.useDynamic
     this.indicatorColor = config.indicatorColor
     this.itemOffsets = config.itemOffsets
     this.blurInactive = config.blurInactive
@@ -110,10 +107,10 @@ export default struct MyBricksSwiper {
   @Local indicatorColor?: AnyType = '#558EFF'
   @Local indicatorColorDefault?: AnyType = '#D9D9D9'
 
-  @Local dataSource: AnyType[] = this.data.useDynamic ? [] : this.data.items || []
+  @Local dataSource: AnyType[] = this.data.items || []
   @Monitor ('data.items')
   onDataItemsChange(monitor: IMonitor) {
-    if (!this.data.useDynamic) {
+    if (this.data.contentType !== 'custom') {
       this.dataSource = monitor.value()?.now as AnyType[]
     }
   }
@@ -192,7 +189,7 @@ export default struct MyBricksSwiper {
     Column() {
       Swiper(this.swiperController) {
         ForEach(this.dataSource, (item: DataSourceItem, index) => {
-          if (this.data.contentType !== 'custom') {
+          if (this.data.contentType === 'image') {
             Image(item.thumbnail)
               .width('100%')
               .height('100%')
@@ -203,7 +200,7 @@ export default struct MyBricksSwiper {
           } else {
             if (this.shouldScroll) {
               Scroll() {
-                if (!this.data.useDynamic) {
+                if (this.data.contentType === 'custom') {
                   this.slots({
                     id: `slot_${item._id}`,
                     key: item._id,
@@ -220,7 +217,7 @@ export default struct MyBricksSwiper {
               .opacity(this.data?.blurInactive ? (this.swiperIndex !== index ? 0.4 : 1) : 1)
             } else {
               Column() {
-                if (!this.data.useDynamic) {
+                if (this.data.contentType === 'custom') {
                   this.slots({
                     id: `slot_${item._id}`,
                     key: item._id,

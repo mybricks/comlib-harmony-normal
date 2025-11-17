@@ -11,6 +11,24 @@
   "icon": "./icon.svg",
   "inputs": [
     {
+      "id": "setItems",
+      "title": "设置轮播内容",
+      "schema": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "thumbnail: 图片",
+          "properties": {
+            "thumbnail": {
+              "title": "图片",
+              "description": "图片",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    {
       "id": "activeIndex",
       "title": "设置激活项",
       "schema": {

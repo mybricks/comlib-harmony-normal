@@ -7,12 +7,7 @@ import css from "./style.less";
 import { uuid } from "../utils";
 
 export default function ({ env, data, inputs, outputs, style, slots }) {
-  const [dataSource, setDataSource] = useState(() => {
-    if (data.useDynamic) {
-      return env.edit ? [{}] : [];
-    }
-    return data.items || [];
-  });
+  const [dataSource, setDataSource] = useState(data.items || []);
   // 当前选中的tab
   const [current, setCurrent] = useState(0);
   const [loadedImages, setLoadedImages] = useState([
@@ -75,7 +70,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
   }, []);
 
   useEffect(() => {
-    if (!data.useDynamic) {
+    if (data.contentType !== "custom") {
       setDataSource(data.items || []);
     }
   }, [data.items]);
@@ -95,7 +90,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
     return null;
   }
 
-  if (env.edit && !data.useDynamic && !dataSource.length) {
+  if (env.edit && !dataSource.length && data.contentType !== "custom_dynamic") {
     return <EmptyCom title="请配置幻灯片" />;
   }
 
@@ -111,7 +106,10 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       circular={env.edit ? false : data.circular}
       {...extra}
     >
-      {dataSource.map((item, index) => {
+      {(data.contentType === "custom_dynamic" && env.edit
+        ? [{}]
+        : dataSource
+      ).map((item, index) => {
         // 搭建态下加载全部
         const shouldLoad = loadedImages.includes(index);
         const active = current === index;
@@ -149,7 +147,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
             }}
             index={index}
           >
-            {data.contentType !== "custom" ? (
+            {data.contentType === "image" ? (
               <SkeletonImage
                 useHtml={env.edit}
                 className={css.thumbnail}
@@ -162,7 +160,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
                 cdnCut="auto"
                 cdnCutOption={{ width: style.width, height: style.height }}
               />
-            ) : data.useDynamic ? (
+            ) : data.contentType === "custom_dynamic" ? (
               slots[`slot_custom`]?.render({
                 inputValues: {
                   itemData: item,
