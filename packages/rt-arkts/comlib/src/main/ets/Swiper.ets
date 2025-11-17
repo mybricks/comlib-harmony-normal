@@ -110,9 +110,7 @@ export default struct MyBricksSwiper {
   @Local dataSource: AnyType[] = this.data.items || []
   @Monitor ('data.items')
   onDataItemsChange(monitor: IMonitor) {
-    if (this.data.contentType !== 'custom') {
-      this.dataSource = monitor.value()?.now as AnyType[]
-    }
+    this.dataSource = monitor.value()?.now as AnyType[]
   }
 
   @Param _env?: _Env = undefined

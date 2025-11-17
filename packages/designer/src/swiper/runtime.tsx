@@ -70,9 +70,7 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
   }, []);
 
   useEffect(() => {
-    if (data.contentType !== "custom") {
-      setDataSource(data.items || []);
-    }
+    setDataSource(data.items || []);
   }, [data.items]);
 
   useEffect(() => {
