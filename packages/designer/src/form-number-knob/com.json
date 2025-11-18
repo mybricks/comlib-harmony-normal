@@ -3,12 +3,13 @@
   "namespace": "mybricks.harmony.formNumberKnob",
   "author": "mybricks-team",
   "author_name": "板砖团队",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "ai": "./ai.ts",
   "icon": "./icon.svg",
+  "upgrade": "./upgrade.ts",
   "preview": "https://assets.mybricks.world/j864I8a0yIhYIY1XFNhGW5MqmAnSH1vR-1743580565071.png",
   "inputs": [
     {
@@ -56,7 +57,7 @@
     },
     {
       "id": "onPress",
-      "title": "当值按钮被按下",
+      "title": "当按钮按下",
       "schema": {
         "type": "boolean"
       }

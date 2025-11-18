@@ -104,14 +104,15 @@ export default struct MyBricksFormNumberKnob {
   @Local value: number = this.data.value
   @Monitor ('data.value')
   onDataValueChange(monitor: IMonitor) {
+    const val = monitor.value()?.now as number
     if (!this.actioning) {
-      this.value = monitor.value()?.now as number
-      this.outputs?.onChange?.(this.value)
-      this.parentSlot?._inputs?.["onChange"]?.({
-        id: this.uid,
-        value: this.value,
-      });
+      this.value = val
     }
+    this.outputs?.onChange?.(val)
+    this.parentSlot?._inputs?.["onChange"]?.({
+      id: this.uid,
+      value: val,
+    });
   }
 
   private startAngle: number = 0;
@@ -202,11 +203,6 @@ export default struct MyBricksFormNumberKnob {
           .onActionEnd(() => {
             if (this.data.disabled) return
             this.actioning = false
-            this.outputs?.onChange?.(this.data.value)
-            this.parentSlot?._inputs?.["onChange"]?.({
-              id: this.uid,
-              value: this.data.value,
-            });
             this.outputs?.onPress?.(false)
           })
       )

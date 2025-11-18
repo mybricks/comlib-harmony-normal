@@ -89,8 +89,8 @@ export default {
           title: "高级属性",
           items: [
             {
-              title: "指针位置",
-              description: "设置指针距离外圈的位置",
+              title: "指针外边距",
+              description: "设置指针距离外圈的距离",
               type: "inputnumber",
               options: [{ title: "", width: "100%" }],
               value: {
@@ -155,7 +155,7 @@ export default {
               },
             },
             {
-              title: "当值按钮被按下",
+              title: "当按钮按下",
               type: "_event",
               options: {
                 outputId: "onPress",
