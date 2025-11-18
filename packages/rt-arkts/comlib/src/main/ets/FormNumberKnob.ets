@@ -65,7 +65,6 @@ export class Data implements DataType {
 interface Inputs {
   setValue: (fn: (val: number, outputRels?: void) => void) => void
   getValue: (fn: (val: AnyType, outputRels?: AnyType) => void) => void
-  resetValue: (fn: (val: AnyType, outputRels?: AnyType) => void) => void
   setLabel: (fn: (val: string) => void) => void
   setDisabled: (fn: (val: boolean, outputRels: void) => void) => void
 }
@@ -74,7 +73,6 @@ interface Outputs {
   onChange: (value: number) => void
   setValueComplete: (value: boolean) => void
   returnValue: (value: number) => void
-  resetValueComplete: (value: boolean) => void
   setDisabledComplete: (value: boolean) => void
 }
 
@@ -102,17 +100,19 @@ export default struct MyBricksFormNumberKnob {
 
   @Local boxSize: number = 0;
   @Local angle: number = 0;
-  private startAngle: number = 0;
+  @Local value: number = this.data.value
+  @Monitor ('data.value')
+  onDataValueChange(monitor: IMonitor) {
+    if (!this.actioning) {
+      this.value = monitor.value()?.now as number
+    }
+  }
 
+  private startAngle: number = 0;
+  private actioning: boolean = false;
   private pointerWidth: number = getStyleValueByPattern(this.styles, ['.mybricks-form-number-knob-pointer'], 'width') ?? 6
   private pointerHeight: number = getStyleValueByPattern(this.styles, ['.mybricks-form-number-knob-pointer'], 'height') ?? 20
 
-    // 将旋钮角度映射到 value
-  private updateValueFromAngle() {
-    const angleVal = this.angle / 360 * this.data.lapValue + this.data.min;
-    const val = Math.min(Math.max(angleVal, this.data.min), this.data.max)
-    this.data.value = Math.round(val);
-  }
 
   /**
    * 根据触摸点计算相对圆心的角度
@@ -126,16 +126,11 @@ export default struct MyBricksFormNumberKnob {
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
       this.data.value = val;
-      outputRels?.["setValueComplete"]?.(!!val);
+      outputRels?.["setValueComplete"]?.(val);
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
       outputRels?.["returnValue"]?.(this.data.value);
-    })
-
-    this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.data.value = 0;
-      outputRels?.["resetValueComplete"]?.(false);
     })
   }
 
@@ -163,7 +158,7 @@ export default struct MyBricksFormNumberKnob {
               id: `slot_center`,
             })
           } else {
-            Text(this.data.value + '')
+            Text(Math.ceil(this.value) + '')
           }
         }
         .attributeModifier(
@@ -174,19 +169,37 @@ export default struct MyBricksFormNumberKnob {
       }
       .gesture(
         PanGesture()
+          .onActionStart((event: GestureEvent) => {
+            if (this.data.disabled) return
+            this.startAngle = this.calcAngle(event);
+            this.actioning = true
+          })
           .onActionUpdate((event: GestureEvent) => {
             if (this.data.disabled) return
             let current = this.calcAngle(event);
-            let delta = current - this.startAngle;
 
+            let delta = current - this.startAngle;
             // 调整跨 -180~180 度问题
             if (delta > 180) delta -= 360;
             if (delta < -180) delta += 360;
 
             this.angle += delta;
-
             this.startAngle = current;
-            this.updateValueFromAngle();
+            const deltaVal = delta / 360 * this.data.lapValue;
+            this.value = Math.min(Math.max(this.value + deltaVal, this.data.min), this.data.max);
+
+            if (Math.ceil(this.value) !== this.data.value) {
+              this.data.value = Math.ceil(this.value)
+            }
+          })
+          .onActionEnd(() => {
+            if (this.data.disabled) return
+            this.actioning = false
+            this.outputs?.onChange?.(this.data.value)
+            this.parentSlot?._inputs?.["onChange"]?.({
+              id: this.uid,
+              value: this.data.value,
+            });
           })
       )
       .backgroundColor('#eee')

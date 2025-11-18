@@ -83,5 +83,6 @@
       }
     }
   ],
+  "schema": ["mybricks.taro.formContainer/formItem", "*"],
   "slots": []
 }

@@ -7,7 +7,15 @@ import css from "./style.less";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
-  const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {});
+  const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {
+    parentSlot?._inputs["onChange"]?.({
+      id: props.id,
+      name: props.name,
+      value: Math.ceil(val),
+    });
+
+    outputs["onChange"](Math.ceil(val));
+  });
 
   const knobRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(375);
@@ -60,14 +68,6 @@ export default function (props) {
       return;
     }
     actioning.current = false;
-
-    parentSlot?._inputs["onChange"]?.({
-      id: props.id,
-      name: props.name,
-      value: data.value,
-    });
-
-    outputs["onChange"](data.value);
   };
 
   useEffect(() => {
