@@ -105,6 +105,11 @@ export default struct MyBricksFormNumberKnob {
   onDataValueChange(monitor: IMonitor) {
     if (!this.actioning) {
       this.value = monitor.value()?.now as number
+      this.outputs?.onChange?.(this.value)
+      this.parentSlot?._inputs?.["onChange"]?.({
+        id: this.uid,
+        value: this.value,
+      });
     }
   }
 
