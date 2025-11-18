@@ -7,53 +7,67 @@ import css from "./style.less";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
-  const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {
-    //
-    parentSlot?._inputs["onChange"]?.({
-      id: props.id,
-      name: props.name,
-      value: val,
-    });
-
-    //
-    outputs["onChange"](val);
-  });
+  const [value, setValue, getValue] = useFormItemValue(data.value, (val) => {});
 
   const knobRef = useRef<HTMLDivElement>(null);
-  const [angle, setAngle] = useState(0);
   const [size, setSize] = useState(375);
-  const [startAngle, setStartAngle] = useState(0);
+  const angle = useRef(0);
+  const [realAngle, setRealAngle] = useState(0); // 为了视图重新渲染
+  const startAngle = useRef(0);
+  const actioning = useRef(false);
 
-  // -------------------------
-  // 计算角度 + 数值变化
-  // -------------------------
-  const updateRotation = (clientX: number, clientY: number) => {
+  const calcAngle = (clientX: number, clientY: number) => {
     const rect = knobRef.current!.getBoundingClientRect();
     const x = clientX - (rect.left + size / 2);
     const y = clientY - (rect.top + size / 2);
-    const current = (Math.atan2(y, x) * 180) / Math.PI + 90;
-
-    let delta = current - startAngle;
-
-    // 处理跨越 -180 / 180 的角度跳变
-    if (delta > 180) delta -= 360;
-    if (delta < -180) delta += 360;
-    setAngle(angle + delta);
-    console.log("angle", startAngle, angle);
-    setStartAngle(current);
-
-    const angleVal = (angle / 360) * data.lapValue + data.min;
-    const val = Math.min(Math.max(angleVal, data.min), data.max);
-    data.value = Math.round(val);
+    return (Math.atan2(y, x) * 180) / Math.PI + 90;
   };
 
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (data.disabled || env.edit) {
+      return;
+    }
+    if (e.buttons === 1) {
+      actioning.current = true;
+      startAngle.current = calcAngle(e.clientX, e.clientY);
+    }
+  };
   const onMouseMove = (e: React.MouseEvent) => {
     if (data.disabled || env.edit) {
       return;
     }
     if (e.buttons === 1) {
-      updateRotation(e.clientX, e.clientY);
+      const current = calcAngle(e.clientX, e.clientY);
+
+      let delta = current - startAngle.current;
+      // 处理跨越 -180 / 180 的角度跳变
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+
+      angle.current += delta;
+      setRealAngle(angle.current);
+      startAngle.current = current;
+      const deltaVal = (delta / 360) * data.lapValue;
+      setValue(Math.min(Math.max(deltaVal + getValue(), data.min), data.max));
+
+      if (Math.ceil(getValue()) !== data.value) {
+        data.value = Math.ceil(getValue());
+      }
     }
+  };
+  const onMouseUp = () => {
+    if (data.disabled || env.edit) {
+      return;
+    }
+    actioning.current = false;
+
+    parentSlot?._inputs["onChange"]?.({
+      id: props.id,
+      name: props.name,
+      value: data.value,
+    });
+
+    outputs["onChange"](data.value);
   };
 
   useEffect(() => {
@@ -69,8 +83,10 @@ export default function (props) {
   }, []);
 
   useEffect(() => {
-    const result = formatValue(data.value);
-    setValue(result);
+    if (!actioning.current) {
+      const result = formatValue(data.value);
+      setValue(result);
+    }
   }, [data.value]);
 
   useEffect(() => {
@@ -139,7 +155,9 @@ export default function (props) {
   return (
     <View
       ref={knobRef}
+      onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
       className={cls(css.wrapper, "mybricks-form-number-knob")}
       style={{
         height: size,
@@ -153,15 +171,14 @@ export default function (props) {
                 height: "100%",
               },
             })
-          : value}
+          : Math.ceil(value)}
       </View>
-
       <View
         className={cls(css.pointer, "mybricks-form-number-knob-pointer")}
         style={{
           top: `${data.pointerY}px`,
           transformOrigin: `center ${size / 2 - data.pointerY}px`,
-          transform: `translateX(-50%) rotate(${angle}deg)`,
+          transform: `translateX(-50%) rotate(${realAngle}deg)`,
         }}
       />
     </View>
