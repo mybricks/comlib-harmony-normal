@@ -55,6 +55,13 @@
       }
     },
     {
+      "id": "onPress",
+      "title": "当值按钮被按下",
+      "schema": {
+        "type": "boolean"
+      }
+    },
+    {
       "id": "setValueComplete",
       "title": "设置值完成",
       "schema": {

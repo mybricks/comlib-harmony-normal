@@ -154,6 +154,13 @@ export default {
                 outputId: "onChange",
               },
             },
+            {
+              title: "当值按钮被按下",
+              type: "_event",
+              options: {
+                outputId: "onPress",
+              },
+            },
           ],
         },
       ];

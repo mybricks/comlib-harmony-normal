@@ -71,6 +71,7 @@ interface Inputs {
 
 interface Outputs {
   onChange: (value: number) => void
+  onPress: (value: boolean) => void
   setValueComplete: (value: boolean) => void
   returnValue: (value: number) => void
   setDisabledComplete: (value: boolean) => void
@@ -178,6 +179,7 @@ export default struct MyBricksFormNumberKnob {
             if (this.data.disabled) return
             this.startAngle = this.calcAngle(event);
             this.actioning = true
+            this.outputs?.onPress?.(true)
           })
           .onActionUpdate((event: GestureEvent) => {
             if (this.data.disabled) return
@@ -205,6 +207,7 @@ export default struct MyBricksFormNumberKnob {
               id: this.uid,
               value: this.data.value,
             });
+            this.outputs?.onPress?.(false)
           })
       )
       .backgroundColor('#eee')

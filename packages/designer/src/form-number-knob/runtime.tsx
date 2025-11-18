@@ -38,6 +38,7 @@ export default function (props) {
     if (e.buttons === 1) {
       actioning.current = true;
       startAngle.current = calcAngle(e.clientX, e.clientY);
+      outputs["onPress"](true);
     }
   };
   const onMouseMove = (e: React.MouseEvent) => {
@@ -68,6 +69,7 @@ export default function (props) {
       return;
     }
     actioning.current = false;
+    outputs["onPress"](false);
   };
 
   useEffect(() => {
