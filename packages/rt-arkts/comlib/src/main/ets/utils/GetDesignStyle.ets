@@ -133,7 +133,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
     }
     const height = !isNil(style?.height) ? style?.height : this.initHeight;
     if (!isNil(height)) {
-      instance.width(height)
+      instance.height(height)
     }
 
     if (!isNil(style?.opacity)) {

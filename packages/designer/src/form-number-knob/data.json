@@ -1,0 +1,12 @@
+{
+  "label": "数字旋钮",
+  "hideLabel": false,
+  "name": "数字旋钮",
+  "value": 0,
+  "lapValue": 24,
+  "min": 0,
+  "max": 999,
+  "pointerY": 0,
+  "disabled": false,
+  "openSlot": false
+}
