@@ -100,13 +100,14 @@ export default struct MyBricksFormNumberKnob {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   @Local boxSize: number = 0;
-  @Local angle: number = 0;
+  @Local angle: number = this.data.value / this.data.lapValue * 360;
   @Local value: number = this.data.value
   @Monitor ('data.value')
   onDataValueChange(monitor: IMonitor) {
     const val = monitor.value()?.now as number
     if (!this.actioning) {
       this.value = val
+      this.angle = val / this.data.lapValue * 360
     }
     this.outputs?.onChange?.(val)
     this.parentSlot?._inputs?.["onChange"]?.({

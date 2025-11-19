@@ -88,6 +88,8 @@ export default function (props) {
     if (!actioning.current) {
       const result = formatValue(data.value);
       setValue(result);
+      angle.current = (result / data.lapValue) * 360;
+      setRealAngle(angle.current);
     }
   }, [data.value]);
 
