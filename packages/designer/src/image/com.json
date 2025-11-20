@@ -28,6 +28,13 @@
       }
     },
     {
+      "id": "onPress",
+      "title": "当图片按下",
+      "schema": {
+        "type": "boolean"
+      }
+    },
+    {
       "id": "onLoad",
       "title": "加载完毕",
       "schema": {
