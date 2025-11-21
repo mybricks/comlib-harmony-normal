@@ -317,16 +317,15 @@ export default struct MyBricksTabs {
                     )
                 }
 
-                Column()
-                  .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) ?? 45)
-                  .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) ?? 3)
-                  .backgroundColor(
-                    this.currentTabId === tab._id
-                      ? (this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
-                      : Color.Transparent
-                  )
-                // .position({ x: '50%', y: 0 }) // 设置绝对定位
-                // .translate({ x: '-50%', y: 0 }) // 居中对齐
+                if (this.currentTabId === tab._id) {
+                  Column()
+                    .attributeModifier(new ApplyStyleModifier(this.styles[`.taroify-tabs__line${getFilterSelector()}`]))
+                    .width(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.width) ?? 45)
+                    .height(this.parseStyleValue(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.height) ?? 3)
+                    .backgroundColor(this.styles[`.taroify-tabs__line${getFilterSelector()}`]?.backgroundColor || "#EE0A24")
+                  // .position({ x: '50%', y: 0 }) // 设置绝对定位
+                  // .translate({ x: '-50%', y: 0 }) // 居中对齐
+                }
               }
               // .width('100%')
               .height('100%')
@@ -365,19 +364,16 @@ export default struct MyBricksTabs {
               this.styles[this.currentTabId === tab._id ? `.taroify-tabs__tab--active${getFilterSelector()}` :
                 `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`]
             ))
-            .padding({
-              left: this.styles[
-              this.currentTabId === tab._id
-                ? `.taroify-tabs__tab--active${getFilterSelector()}`
-                : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-              ]?.paddingLeft || 12,
-              right: this.styles[
-              this.currentTabId === tab._id
-                ? `.taroify-tabs__tab--active${getFilterSelector()}`
-                : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
-              ]?.paddingRight || 12,
-            })
-            .width('auto')
+            .width(getStyleValueByPattern(
+              this.styles,
+              [
+                this.currentTabId === tab._id
+                  ? `.taroify-tabs__tab--active${getFilterSelector()}`
+                  : `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`
+              ],
+              'width',
+              'auto'
+            ))
             .onAreaChange((oldArea: Area, newArea: Area)=>{
               this.itemMaxHeight = Math.max(this.itemMaxHeight, parseInt(newArea.height as string))
             })
@@ -405,6 +401,7 @@ export default struct MyBricksTabs {
       }
 
     }
+    .attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-tabs']))
     .attributeModifier(new ApplyRootStyleModifier(this.styles['root']))
     .attributeModifier(this.modifier)
   }

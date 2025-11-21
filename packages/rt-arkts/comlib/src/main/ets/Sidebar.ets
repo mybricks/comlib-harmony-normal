@@ -1,6 +1,7 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties, ApplyFontStyleModifier } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 import { CommonModifier } from '@kit.ArkUI';
+import { getStyleValueByPattern, parseMargin } from './utils/StyleMatching'
 
 type ContentShowType = "roll" | "switch"
 
@@ -111,7 +112,7 @@ export default struct MyBricksSideBar {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   aboutToAppear() {
-     // this.data.tabs = [{_id:"1",tabName:"全部"},{_id:"2",tabName:"1号线"},{_id:"3",tabName:"2号线"}]
+    // this.data.tabs = [{_id:"1",tabName:"全部"},{_id:"2",tabName:"1号线"},{_id:"3",tabName:"2号线"}]
     // 初始化当前tab
     if(this.data.tabs.length > 0) {
       this.currentTabId = this.data.tabs[0]._id
@@ -140,15 +141,26 @@ export default struct MyBricksSideBar {
     this.tabBarModifier.align(Alignment.Top);
   }
 
+  parseHorizontalAlign(value: string) {
+    let result = HorizontalAlign.Start
+    switch (value) {
+      case "center":
+        result = HorizontalAlign.Center
+      case "end":
+        result = HorizontalAlign.End
+    }
+    return result
+  }
+
   @Builder
   renderTabContent(tab: Tab, index: number) {
     Column() {
       //Text(`tab._id+${tab._id}`)
-        // 静态tab内容
-        this.slots?.({
-          id: tab._id,
-          key: tab._id,
-        })
+      // 静态tab内容
+      this.slots?.({
+        id: tab._id,
+        key: tab._id,
+      })
     }
     .width('100%')
     .height('100%')
@@ -157,46 +169,76 @@ export default struct MyBricksSideBar {
 
   @Builder
   renderTabItem(params: RenderTabItemParams) {
-    Column() {
-      Text(params?.tab.tabName).fontSize(12).fontColor(params.isActive ? '#FF686B' : "#434343").attributeModifier(
-        new ApplyFontStyleModifier(
-        this.styles[params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)']
+    Stack(){
+      Column() {
+        Text(params?.tab.tabName).attributeModifier(
+          new ApplyFontStyleModifier(
+            this.styles[params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)']
+          ).fontSize(14).fontColor("#323233")
         )
+      }
+      .attributeModifier(
+        new ApplyStyleModifier(
+          this.styles[params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)']
+        )
+          .padding({
+            top: 14,
+            right: 12,
+            left: 12,
+            bottom: 14
+          })
+          .backgroundColor(params.isActive ? '#fff' : '#F7F8FA')
+          .borderRadius(0)
       )
-      Line()
-        .position({
-          left: 0,
-          top: '50%',
-        })
-        .width(3)
-        .height(15)
-         .translate({ y: '-50%' })
-        .backgroundColor(params.isActive ? '#FF686B' : Color.Transparent)
-        .borderRadius(10)
-        .attributeModifier(
-           new ApplyStyleModifier(
-             this.styles[params.isActive ? '.taroify-sidebar-tab--active:before' : '']
-           )
-        )
-    }
-    // .align(Alignment.Bottom)
-    .align(Alignment.Center)
-    .width('100%')
-    // .flexGrow(1)
-    .height(45)
-    .justifyContent(FlexAlign.Center)
-    .alignItems(HorizontalAlign.Center)
-    .backgroundColor(params.isActive ? '#FFFFFF' : Color.Transparent)
-    .onClick(()=>{
-      this.controller.changeIndex(params.index)
-      this.currentTabId = this.data.tabs[params.index]._id
+      // .align(Alignment.Bottom)
+      // .align(Alignment.Center)
+      .width('100%')
+      .height(getStyleValueByPattern(
+        this.styles,
+        [params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)'],
+        'height',
+        45
+      ))
+      .alignItems(this.parseHorizontalAlign(getStyleValueByPattern<string>(
+        this.styles,
+        [params.isActive ? '.taroify-sidebar-tab--active' : '.taroify-sidebar-tab:not(.taroify-sidebar-tab--active)'],
+        'textAlign',
+        "start"
+      )))
+      .onClick(()=>{
+        this.controller.changeIndex(params.index)
+        this.currentTabId = this.data.tabs[params.index]._id
 
-      this.outputs?.changeTab?.({
-        id: this.data.tabs[params.index]._id,
-        title: this.data.tabs[params.index].tabName,
-        index:params.index,
+        this.outputs?.changeTab?.({
+          id: this.data.tabs[params.index]._id,
+          title: this.data.tabs[params.index].tabName,
+          index:params.index,
+        })
       })
-    })
+      if (params.isActive) {
+        Line()
+          .attributeModifier(
+            new ApplyStyleModifier(
+              this.styles['.taroify-sidebar-tab--active:before']
+            )
+              .borderRadius(0)
+              .backgroundColor('#ee0a24')
+          )
+          .width(getStyleValueByPattern(
+            this.styles,
+            ['.taroify-sidebar-tab--active:before'],
+            'width',
+            4
+          ))
+          .height(getStyleValueByPattern(
+            this.styles,
+            ['.taroify-sidebar-tab--active:before'],
+            'height',
+            16
+          ))
+          .margin(parseMargin(this.styles['.taroify-sidebar-tab--active:before']))
+      }
+    }.alignContent(Alignment.Start)
   }
 
 
@@ -233,8 +275,8 @@ export default struct MyBricksSideBar {
       .scrollable(false)
       .animationDuration(0)
       .barMode(BarMode.Scrollable)
-      .barWidth(90)
-      .barBackgroundColor('#F8F8F8')
+      .barWidth(getStyleValueByPattern(this.styles, [`.taroify-tree-select__sidebar`], 'width', 90))
+      .barBackgroundColor(this.styles[`.taroify-tree-select__sidebar`]?.backgroundColor || "#F8F8F8")
     }
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])

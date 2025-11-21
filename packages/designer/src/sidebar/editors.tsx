@@ -69,9 +69,10 @@ export default {
   ":root": {
     style: [
       {
-        title: "侧边栏底色",
+        title: "侧边栏",
         options: [
           { type: "background", config: { disableBackgroundImage: false } },
+          { type: "size", config: { disableHeight: true } },
         ],
         target: ".taroify-tree-select__sidebar",
       },
@@ -80,6 +81,9 @@ export default {
         options: [
           { type: "background", config: { disableBackgroundImage: false } },
           { type: "size", config: { disableWidth: false } },
+          "border",
+          "boxshadow",
+          "margin",
         ],
         target: ".taroify-sidebar-tab--active:before",
       },
@@ -90,11 +94,12 @@ export default {
             title: "默认样式",
             catelog: "默认样式",
             options: [
-              { type: "font", config: { disableTextAlign: true } },
-              { type: "size" },
+              { type: "font" },
+              { type: "size", config: { disableWidth: true } },
               { type: "border" },
               { type: "padding" },
               { type: "background" },
+              { type: "boxshadow" },
             ],
             target: ".taroify-sidebar-tab:not(.taroify-sidebar-tab--active)",
           },
@@ -102,11 +107,12 @@ export default {
             title: "选中样式",
             catelog: "选中样式",
             options: [
-              { type: "font", config: { disableTextAlign: true } },
-              { type: "size" },
+              { type: "font" },
+              { type: "size", config: { disableWidth: true } },
               { type: "border" },
               { type: "padding" },
               { type: "background" },
+              { type: "boxshadow" },
             ],
             target: ".taroify-sidebar-tab--active",
           },
@@ -194,11 +200,11 @@ export default {
               binding: {
                 with: `data.tabs`,
                 schema: {
-                  type: 'array'
-                }
-              }
+                  type: "array",
+                },
+              },
             },
-          ]
+          ],
         },
         {
           title: "事件",

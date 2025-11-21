@@ -12,7 +12,7 @@ export default {
     style: [
       {
         title: "图片",
-        options: ["border"],
+        options: ["border", "background", "boxshadow"],
         target: `.mybricks-image`,
       },
     ],

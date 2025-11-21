@@ -161,10 +161,10 @@ interface PaddingStyle {
   bottom: number | string;
 }
 export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
-  let paddingTop = style?.paddingTop ?? 0
-  let paddingLeft = style?.paddingLeft ?? 0
-  let paddingRight = style?.paddingRight ?? 0
-  let paddingBottom = style?.paddingBottom ?? 0
+  let paddingTop = style?.paddingTop ? parseFloat(style?.paddingTop) : 0
+  let paddingLeft = style?.paddingLeft ? parseFloat(style?.paddingLeft) : 0
+  let paddingRight = style?.paddingRight ? parseFloat(style?.paddingRight) : 0
+  let paddingBottom = style?.paddingBottom ? parseFloat(style?.paddingBottom) : 0
 
   const paddingStr = style?.padding
   const configPaddings = paddingStr ? String(paddingStr).split?.(' ') : [];
@@ -223,10 +223,10 @@ interface MarginStyle {
   bottom: number | string;
 }
 export function parseMargin(style: Record<string, AnyType>): MarginStyle {
-  let marginTop = style?.marginTop ?? 0
-  let marginLeft = style?.marginLeft ?? 0
-  let marginRight = style?.marginRight ?? 0
-  let marginBottom = style?.marginBottom ?? 0
+  let marginTop = style?.marginTop ? parseFloat(style?.marginTop) : 0
+  let marginLeft = style?.marginLeft ? parseFloat(style?.marginLeft) : 0
+  let marginRight = style?.marginRight ? parseFloat(style?.marginRight) : 0
+  let marginBottom = style?.marginBottom ? parseFloat(style?.marginBottom) : 0
 
   const marginStr = style?.margin
   const configMargins = marginStr ? String(marginStr).split?.(' ') : [];

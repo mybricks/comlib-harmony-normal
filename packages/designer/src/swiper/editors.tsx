@@ -32,13 +32,14 @@ export default {
     style: [
       {
         title: "轮播",
-        options: ["border", "overflow"],
+        options: ["border", "overflow", "background", "boxshadow"],
         target: ".mybricks-swiper-wrapper",
       },
       {
         title: "默认指示器",
         options: [
           { type: "background", config: { disableBackgroundImage: true } },
+          "size",
         ],
         target: ".mybricks-swiper-wrapper .indicator:not(.indicator-active)",
       },
@@ -46,6 +47,7 @@ export default {
         title: "高亮指示器",
         options: [
           { type: "background", config: { disableBackgroundImage: true } },
+          "size",
         ],
         target: ".mybricks-swiper-wrapper .indicator.indicator-active",
       },

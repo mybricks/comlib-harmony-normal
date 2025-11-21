@@ -14,7 +14,7 @@ export default {
       {
         title: "样式",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: "> .mybricks-container"
+        target: "> .mybricks-container",
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -36,7 +36,7 @@ export default {
                 },
               },
             },
-          ]
+          ],
         },
         {
           title: "事件",
@@ -52,12 +52,11 @@ export default {
               title: "当容器滚动时",
               type: "_event",
               options: {
-                outputId: "onScroll"
-              }
-            }
-          ]
+                outputId: "onScroll",
+              },
+            },
+          ],
         },
-
       ];
     },
   },

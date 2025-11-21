@@ -106,6 +106,10 @@ export default struct MyBricksSwiper {
 
   @Local indicatorColor?: AnyType = '#558EFF'
   @Local indicatorColorDefault?: AnyType = '#D9D9D9'
+  @Local indicatorItemWidth?: number = 6
+  @Local indicatorItemHeight?: number = 6
+  @Local indicatorSelectItemWidth?: number = 6
+  @Local indicatorSelectItemHeight?: number = 6
 
   @Local dataSource: AnyType[] = this.data.items || []
   @Monitor ('data.items')
@@ -168,12 +172,16 @@ export default struct MyBricksSwiper {
     })
 
     //获取指示器选中颜色
-    const indicatorColor = this.styles[".mybricks-swiper-wrapper .indicator.indicator-active"]
-    this.indicatorColor = indicatorColor?.backgroundColor
+    const indicatorStyle = this.styles[".mybricks-swiper-wrapper .indicator.indicator-active"]
+    this.indicatorColor = indicatorStyle?.backgroundColor ? indicatorStyle?.backgroundColor :this.indicatorColor
+    this.indicatorSelectItemWidth = indicatorStyle?.width ? parseFloat(indicatorStyle.width as string) :this.indicatorSelectItemWidth
+    this.indicatorSelectItemHeight = indicatorStyle?.height ? parseFloat(indicatorStyle.height as string) :this.indicatorSelectItemHeight
 
     //获取指示器非选中颜色
-    const indicatorColorDefault = this.styles[".mybricks-swiper-wrapper .indicator:not(.indicator-active)"]
-    this.indicatorColorDefault = indicatorColorDefault?.backgroundColor
+    const indicatorDefaultStyle = this.styles[".mybricks-swiper-wrapper .indicator:not(.indicator-active)"]
+    this.indicatorColorDefault = indicatorDefaultStyle?.backgroundColor
+    this.indicatorItemWidth = indicatorDefaultStyle?.width ? parseFloat(indicatorDefaultStyle.width as string) :this.indicatorItemWidth
+    this.indicatorItemHeight = indicatorDefaultStyle?.height ? parseFloat(indicatorDefaultStyle.height as string) :this.indicatorItemHeight
   }
 
   private onActive (index: number) {
@@ -246,9 +254,15 @@ export default struct MyBricksSwiper {
         this.swiperWidth = newValue.width as number
       })
       .indicator(
-        Indicator.dot()
-          .color(this.data.showIndicator ? this.indicatorColorDefault : Color.Transparent)
-          .selectedColor(this.data.showIndicator ? this.indicatorColor : Color.Transparent)
+        this.data.showIndicator
+          ? Indicator.dot()
+            .color(this.indicatorColorDefault)
+            .selectedColor(this.indicatorColor)
+            .itemWidth(this.indicatorItemWidth)
+            .itemHeight(this.indicatorItemHeight)
+            .selectedItemWidth(this.indicatorSelectItemWidth)
+            .selectedItemHeight(this.indicatorSelectItemHeight)
+          : false
       )
       .onAnimationStart((index, targetIndex) => {
         this.outputs?.onChangeConfirm?.(targetIndex)
