@@ -216,6 +216,7 @@ export default struct MyBricksCell {
             }
           }
           .width('100%')
+          .height(55)
           .justifyContent(FlexAlign.SpaceBetween)
           .alignItems(VerticalAlign.Center)
           .padding(parsePadding(this.styles['.mybricks-cell']))
