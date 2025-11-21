@@ -71,9 +71,9 @@ const submitEditorItems = [
     binding: {
       with: `data.submitButtonText`,
       schema: {
-        type: 'string'
-      }
-    }
+        type: "string",
+      },
+    },
   },
 
   {},
@@ -190,16 +190,16 @@ export default {
         },
         set(props, value) {
           const { data, focusArea } = props;
-          const items = data.items
+          const items = data.items;
           let innerText = focusArea.ele.innerText;
           const updateName = (items, innerText, value) => {
-            items.forEach(item => {
+            items.forEach((item) => {
               if (item.label === innerText) {
                 item.label = value;
               }
             });
-          }
-          updateName(items, innerText, value)
+          };
+          updateName(items, innerText, value);
         },
       },
     },
@@ -208,22 +208,29 @@ export default {
     style: [
       {
         title: "表单整体",
-        options: ["border"],
-        target: ".mybricks-form .taroify-cell-group"
+        options: ["border", "padding", "background", "boxShadow"],
+        target: ".mybricks-form .mybricks-form-cell-group",
       },
       {
         title: "表单项",
-        options: ["font", "border", "padding", "margin", "background"],
+        options: ["border", "padding", "background", "margin", "boxShadow"],
         target: ".mybricks-field",
       },
       {
         title: "表单标题",
-        options: ["size"],
+        options: ["font", "size", "padding"],
         target: ".taroify-form-label",
       },
       {
         title: "提交按钮",
-        options: ["border", "background", "font"],
+        options: [
+          "border",
+          "background",
+          { type: "font", config: { disableTextAlign: true } },
+          "padding",
+          "boxShadow",
+          "margin",
+        ],
         target: ".mybricks-submit .taroify-button",
       },
     ],
@@ -234,41 +241,48 @@ export default {
           title: "表单数据",
           items: [
             {
-              title: '数据源',
-              type: 'json',
+              title: "数据源",
+              type: "json",
               options: {
                 minimap: {
-                  enabled: false
+                  enabled: false,
                 },
                 height: 80,
                 autoSave: false,
                 encodeValue: false,
                 onBlur: () => {
-                  slots.get('item')?.inputs.get('itemData')?.setSchema(data.dataSource?.[0] ? jsonToSchema(data.dataSource?.[0]) : { type: 'any' })
-                }
+                  slots
+                    .get("item")
+                    ?.inputs.get("itemData")
+                    ?.setSchema(
+                      data.dataSource?.[0]
+                        ? jsonToSchema(data.dataSource?.[0])
+                        : { type: "any" }
+                    );
+                },
               },
               value: {
                 get({ data }: EditorResult<Data>) {
-                  return data.dataSource ?? {}
+                  return data.dataSource ?? {};
                 },
                 set({ data }: EditorResult<Data>, value: any) {
                   if (!Array.isArray(value)) {
-                    return
+                    return;
                   }
-                  data.dataSource = value
+                  data.dataSource = value;
                 },
               },
               binding: {
                 with: `data.dataSource`,
                 schema: {
-                  type: 'array'
+                  type: "array",
                 },
                 // set(p, { schema }) {
                 //   if (schema.type === 'array' && schema.items) {
                 //     slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
                 //   }
                 // }
-              }
+              },
             },
           ],
         },
@@ -284,9 +298,10 @@ export default {
               },
               value: {
                 set({ data, slot }: EditorResult<Data>, namespace: string) {
-                  slot
-                    .get("content")
-                    .addCom(namespace, false, { deletable: true, movable: true });
+                  slot.get("content").addCom(namespace, false, {
+                    deletable: true,
+                    movable: true,
+                  });
                 },
               },
             },
@@ -308,15 +323,13 @@ export default {
               binding: {
                 with: `data.itemLayout`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
 
             ...submitEditorItems,
-
-          ]
-
+          ],
         },
         {
           title: "表单事件",
@@ -328,9 +341,8 @@ export default {
                 outputId: "onSubmit",
               },
             },
-          ]
-        }
-
+          ],
+        },
       ];
 
       // cate1.title = "高级";
@@ -511,7 +523,8 @@ export default {
           },
           {
             title: "隐藏当前项",
-            description: "隐藏后仅仅是不展示，依然可以能获取和设置当前表单项的数据",
+            description:
+              "隐藏后仅仅是不展示，依然可以能获取和设置当前表单项的数据",
             type: "switch",
             value: {
               get({ id, data, name }: any) {
@@ -527,16 +540,13 @@ export default {
               },
             },
           },
-        ]
+        ],
       },
-
-
-
     ],
     style: [
       {
         title: "表单项",
-        options: ["font", "border", "padding", "margin", "background"],
+        options: ["border", "padding", "background", "margin", "boxShadow"],
         target: ".mybricks-field",
       },
       {
@@ -546,8 +556,8 @@ export default {
       },
       {
         title: "标题",
-        options: ["font"],
-        target: ".taroify-cell__title",
+        options: ["font", "size", "padding"],
+        target: ".taroify-form-label",
       },
     ],
   },
@@ -566,7 +576,14 @@ export default {
     style: [
       {
         title: "提交按钮",
-        options: ["border", "background", "font"],
+        options: [
+          "border",
+          "background",
+          { type: "font", config: { disableTextAlign: true } },
+          "padding",
+          "boxShadow",
+          "margin",
+        ],
         target: ".mybricks-submit .taroify-button",
       },
     ],

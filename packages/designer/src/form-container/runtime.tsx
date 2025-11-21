@@ -118,7 +118,6 @@ export default function ({ env, data, inputs, outputs, slots }) {
       if (item) {
         form.setFieldValue(item.name || item.label, value);
 
-        
         const values = form.getValues();
         data.dataSource = values;
       }
@@ -320,24 +319,33 @@ export default function ({ env, data, inputs, outputs, slots }) {
   }, [data.useLoading, loading, data.skipValidation]);
 
   return (
-    <Form className={cx(css.form, 'mybricks-form', { [css.h5]: isH5 })} ref={formRef}>
-      <Cell.Group bordered={false}>{content}</Cell.Group>
-      {data.useSubmitButton ? (
-        <View className={cx(css.foot, "mybricks-submit")}>
-          <Button className="taroify-button" onClick={onCustomSubmit}>
-            {loading ? (
-              // ... 的动画
-              <View className={css.loading}>
-                <View className={css.dot1}></View>
-                <View className={css.dot2}></View>
-                <View className={css.dot3}></View>
-              </View>
-            ) : (
-              data.submitButtonText
-            )}
-          </Button>
-        </View>
-      ) : null}
+    <Form
+      className={cx(css.form, "mybricks-form", { [css.h5]: isH5 })}
+      ref={formRef}
+    >
+      <Cell.Group
+        bordered={false}
+        className={cx(css.group, "mybricks-form-cell-group")}
+      >
+        {content}
+
+        {data.useSubmitButton ? (
+          <View className={cx(css.foot, "mybricks-submit")}>
+            <Button className="taroify-button" onClick={onCustomSubmit}>
+              {loading ? (
+                // ... 的动画
+                <View className={css.loading}>
+                  <View className={css.dot1}></View>
+                  <View className={css.dot2}></View>
+                  <View className={css.dot3}></View>
+                </View>
+              ) : (
+                data.submitButtonText
+              )}
+            </Button>
+          </View>
+        ) : null}
+      </Cell.Group>
     </Form>
   );
 }

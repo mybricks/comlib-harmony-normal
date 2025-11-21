@@ -17,26 +17,13 @@ export default {
       {
         title: "容器样式",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: ".mybricks-popover"
+        target: ".mybricks-popover",
       },
       {
         title: "弹出层",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: ".mybricks-carrier"
+        target: ".mybricks-carrier",
       },
-      {
-
-        title: '标题',
-        options: ['font', 'padding', 'border'],
-        global: true,
-        target: ".mybricks-carrier-title"
-      },
-      {
-        title: '内容',
-        options: ['font', 'padding'],
-        global: true,
-        target: ".mybricks-carrier-content"
-      }
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "气泡";
@@ -58,17 +45,17 @@ export default {
               },
             },
             {
-              title: '触发方式',
-              type: 'Select',
+              title: "触发方式",
+              type: "Select",
               options: [
                 {
-                  label: '点击',
-                  value: 'click'
+                  label: "点击",
+                  value: "click",
                 },
                 {
-                  label: '长按',
-                  value: 'longpress'
-                }
+                  label: "长按",
+                  value: "longpress",
+                },
               ],
               value: {
                 get({ data }: EditorResult<Data>) {
@@ -76,33 +63,33 @@ export default {
                 },
                 set({ data }: EditorResult<Data>, val: Trigger) {
                   data.trigger = val;
-                }
-              }
+                },
+              },
             },
-          ]
+          ],
         },
         {
           title: "高级属性",
           items: [
             {
-              title: '展示方向',
-              type: 'select',
+              title: "展示方向",
+              type: "select",
               options: [
                 {
-                  label: '上',
-                  value: 'top'
+                  label: "上",
+                  value: "top",
                 },
                 {
-                  label: '下',
-                  value: 'bottom'
+                  label: "下",
+                  value: "bottom",
                 },
                 {
-                  label: '左',
-                  value: 'left'
+                  label: "左",
+                  value: "left",
                 },
                 {
-                  label: '右',
-                  value: 'right'
+                  label: "右",
+                  value: "right",
                 },
               ],
               value: {
@@ -111,14 +98,14 @@ export default {
                 },
                 set({ data }: EditorResult<Data>, val: Placement) {
                   data.placement = val;
-                }
+                },
               },
               binding: {
                 with: `data.placement`,
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
             {
               title: "点击气泡后关闭",
@@ -129,12 +116,11 @@ export default {
                 },
                 set({ data }: EditorResult<Data>, val: boolean) {
                   data.closeOnClick = val;
-                }
-              }
-            }
-          ]
-        }
-
+                },
+              },
+            },
+          ],
+        },
 
         // {
         //   title: '标题自定义',
@@ -208,10 +194,7 @@ export default {
         //     }
         //   }
         // },
-
-
       ];
-
     },
-  }
+  },
 };
