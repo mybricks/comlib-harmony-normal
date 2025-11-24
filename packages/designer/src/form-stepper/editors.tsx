@@ -9,13 +9,39 @@ export default {
   ":root": {
     style: [
       {
+        title: "数字",
+        options: [
+          "border",
+          "background",
+          { type: "font", config: { disableTextAlign: true } },
+          "size",
+          "margin",
+          "boxshadow",
+        ],
+        target: `.taroify-stepper__input input`,
+      },
+      {
         title: "增加按钮样式",
-        options: ["border", "background", "font"],
+        options: [
+          "border",
+          "background",
+          { type: "font", config: { disableTextAlign: true } },
+          "size",
+          "margin",
+          "boxshadow",
+        ],
         target: `.taroify-stepper__increase`,
       },
       {
         title: "减少按钮样式",
-        options: ["border", "background", "font"],
+        options: [
+          "border",
+          "background",
+          { type: "font", config: { disableTextAlign: true } },
+          "size",
+          "margin",
+          "boxshadow",
+        ],
         target: `.taroify-stepper__decrease`,
       },
     ],

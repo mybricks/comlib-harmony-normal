@@ -4,20 +4,24 @@
 
 .h5Reset {
   :global {
+    .taroify-stepper__input {
+      width: auto;
+      height: auto;
+    }
     input {
       box-sizing: inherit;
       display: inherit;
-      width: inherit;
       min-width: inherit;
-      height: inherit;
       line-height: inherit;
       color: inherit;
       resize: inherit;
       background: inherit;
-      border: inherit;
+      border: 0 solid transparent;
     }
 
     .weui-input {
+      width: 32px;
+      height: 24px;
       //这样处理先，不然在调试的时候数字会看不见
       opacity: 1;
       text-align: center;
@@ -40,11 +44,17 @@
 
   :global {
     .taroify-stepper__decrease {
+      width: 24px;
+      height: 24px;
+      font-size: 25px;
       color: rgb(250, 100, 0);
       border-color: rgb(250, 100, 0);
     }
 
     .taroify-stepper__increase {
+      width: 24px;
+      height: 24px;
+      font-size: 25px;
       color: #fff;
       background: rgb(250, 100, 0);
     }

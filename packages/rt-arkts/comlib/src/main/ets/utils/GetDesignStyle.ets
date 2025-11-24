@@ -174,7 +174,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       instance.borderWidth(settingBorder.width)
       instance.borderStyle(settingBorder.style)
       instance.borderColor(settingBorder.color)
-    } else {
+    } else if(!isNil(style?.borderTop) || !isNil(style?.borderLeft) || !isNil(style?.borderRight) || !isNil(style?.borderBottom)) {
       const borderTop = parseBorder(style?.borderTop as string)
       const borderLeft = parseBorder(style?.borderLeft as string)
       const borderRight = parseBorder(style?.borderRight as string)

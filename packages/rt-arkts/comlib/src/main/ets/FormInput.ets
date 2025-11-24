@@ -148,7 +148,7 @@ export default struct MyBricksFormInput {
 
   @Computed
   get placeHolderStyle(): AnyType {
-    const style = this.styles?.['.mybricks-input .taroify-input__placeholder,.mybricks-h5Input .taroify-native-input::placeholder'] ?? {}
+    const style = this.styles?.['.mybricks-h5Input .taroify-native-input::placeholder'] ?? {}
     return {
       color: style?.color,
       fontSize: parseFloat(style?.fontSize as string)

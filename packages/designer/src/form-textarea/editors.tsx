@@ -10,7 +10,7 @@ export default {
     style: [
       {
         title: "输入框",
-        options: ["size", "border", "padding", "background"],
+        options: ["size", "border", "padding", "background", "boxshadow"],
         target: ".taroify-textarea__wrapper",
       },
       {
