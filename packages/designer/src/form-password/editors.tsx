@@ -11,7 +11,7 @@ export default {
     style: [
       {
         title: "输入框",
-        options: ["border", "padding", "background"],
+        options: ["border", "padding", "background", "boxshadow"],
         target: [".mybricks-h5Password", ".mybricks-password"],
       },
       {

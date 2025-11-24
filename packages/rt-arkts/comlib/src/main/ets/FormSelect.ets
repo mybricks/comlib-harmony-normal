@@ -10,13 +10,6 @@ export interface DataType {
   arrow?: "right" | "down" | "none"
 }
 
-interface PaddingStyle {
-  left: number | string;
-  right: number | string;
-  top: number | string;
-  bottom: number | string;
-}
-
 interface _Env {
   currentScenes: _EnvCurrentScenes
 }
@@ -133,21 +126,14 @@ export default struct MyBricksFormSelect {
     })
   }
 
-  @Computed
-  get paddingStyle(): PaddingStyle {
-    return {
-      left: Number(this.styles['.mybricks-select']?.paddingLeft) || 0,
-      right: Number(this.styles['.mybricks-select']?.paddingRight) || 0,
-      top: Number(this.styles['.mybricks-select']?.paddingTop) || 0,
-      bottom: Number(this.styles['.mybricks-select']?.paddingBottom) || 0
-    }
-  }
-
   build() {
     Flex({direction:FlexDirection.Row,alignItems:ItemAlign.Center,justifyContent:FlexAlign.SpaceBetween}) {
       Text(this.data.value || this.data.placeholder)
-        .fontColor(this.data.value ? '#182431' : '#B9B9B9')
-        .fontSize(14)
+        .attributeModifier(
+          new ApplyFontStyleModifier(this.data.value ? this.styles['.mybricks-input'] : this.styles['.mybricks-placeholder'])
+            .fontSize(14)
+            .fontColor(this.data.value ?'#000000' : '#C8C9CC')
+        )
       if(this.data.arrow != 'none'){
         SymbolGlyph(this.data.arrow === 'right' ? $r('sys.symbol.chevron_right') : $r('sys.symbol.chevron_down'))
           .fontSize(16)
@@ -216,7 +202,6 @@ export default struct MyBricksFormSelect {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'] || {})
     )
-    .padding(this.paddingStyle)
     .attributeModifier(this.modifier)
   }
 }

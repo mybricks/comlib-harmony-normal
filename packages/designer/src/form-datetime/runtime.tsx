@@ -257,18 +257,23 @@ export default function (props) {
             onChange={onChange}
           >
             <View className={css.select}>
-              <InputDisplay
+              <Input
+                className="mybricks-input"
+                readonly
+                disabled={data.disabled}
                 placeholder={data.placeholder}
                 value={displayValue}
-              ></InputDisplay>
+                style={{ flex: 1, pointerEvents: "none" }}
+              />
               {RightBtn}
             </View>
           </DatetimePicker>
         ) : (
           <View className={css.select}>
             <Input
+              className="mybricks-input"
               readonly
-              disabled={!displayValue}
+              disabled={data.disabled}
               placeholder={data.placeholder}
               value={displayValue}
               style={{ flex: 1 }}

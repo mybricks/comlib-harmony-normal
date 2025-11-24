@@ -1,5 +1,63 @@
-.form_switch {}
+.form_switch {
+}
 
-:global(.taroify-switch--checked) {
-    background-color: #FA6400;
+.form_switch_checkbox {
+  :global {
+    .taroify-checkbox {
+      display: inline-flex;
+    }
+    .taroify-checkbox__icon {
+      height: auto;
+    }
+    .taroify-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 24px;
+      height: 24px;
+    }
+    .mybricks-inactive {
+      .taroify-icon {
+        border: 1px solid #666;
+        border-radius: 50%;
+        background-color: transparent;
+      }
+    }
+    .mybricks-active {
+      .taroify-icon {
+        border-radius: 50%;
+        background-color: #fa6400;
+      }
+    }
+  }
+}
+
+:global {
+  .taroify-switch__node {
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .taroify-switch__node::after {
+    display: block;
+    content: " ";
+    width: 24px;
+    padding-bottom: 100%;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+  .taroify-switch:not(.taroify-switch--checked) {
+    border: 0;
+    background-color: rgba(127, 127, 127, 0.2);
+  }
+  .taroify-switch--checked {
+    background-color: #fa6400;
+    .taroify-switch__node {
+      left: auto;
+      right: 0;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
 }

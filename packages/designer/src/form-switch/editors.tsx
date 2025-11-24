@@ -12,7 +12,37 @@ export default {
         ifVisible({ data }) {
           return data.type === "switch" || !data.type;
         },
-        title: "切换按钮",
+        title: "尺寸",
+        options: ["size"],
+        target: ".taroify-switch",
+      },
+      {
+        ifVisible({ data }) {
+          return data.type === "switch" || !data.type;
+        },
+        title: "滑块",
+        options: [
+          { type: "size", config: { disableHeight: true } },
+          {
+            type: "background",
+            config: { disableBackgroundImage: true, disableGradient: true },
+          },
+        ],
+        target: ".taroify-switch__node::after",
+      },
+      {
+        ifVisible({ data }) {
+          return data.type === "switch" || !data.type;
+        },
+        title: "滑轨未激活样式",
+        options: ["background"],
+        target: ".taroify-switch:not(.taroify-switch--checked)",
+      },
+      {
+        ifVisible({ data }) {
+          return data.type === "switch" || !data.type;
+        },
+        title: "滑轨激活样式",
         options: ["background"],
         target: ".taroify-switch--checked",
       },
@@ -20,8 +50,21 @@ export default {
         ifVisible({ data }) {
           return data.type === "checkbox";
         },
+        title: "尺寸",
+        options: ["size"],
+        target: ".taroify-icon",
+      },
+      {
+        ifVisible({ data }) {
+          return data.type === "checkbox";
+        },
         title: "未激活样式",
-        options: ["border", "background"],
+        options: [
+          {
+            type: "background",
+            config: { disableBackgroundImage: true, disableGradient: true },
+          },
+        ],
         target: `.mybricks-inactive .taroify-icon`,
       },
       {
@@ -29,7 +72,12 @@ export default {
           return data.type === "checkbox";
         },
         title: "激活样式",
-        options: ["border", "background"],
+        options: [
+          {
+            type: "background",
+            config: { disableBackgroundImage: true, disableGradient: true },
+          },
+        ],
         target: `.mybricks-active .taroify-icon`,
       },
     ],

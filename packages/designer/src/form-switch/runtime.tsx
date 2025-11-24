@@ -110,7 +110,11 @@ export default function (props) {
       ) : null}
 
       {data.type === "checkbox" ? (
-        <Checkbox.Group value={checkboxValue} onChange={onChangeCheckbox}>
+        <Checkbox.Group
+          value={checkboxValue}
+          onChange={onChangeCheckbox}
+          className={css.form_switch_checkbox}
+        >
           <Checkbox
             className={cx({
               ["mybricks-inactive"]: !value,
