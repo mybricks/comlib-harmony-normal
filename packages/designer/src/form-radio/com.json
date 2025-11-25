@@ -46,10 +46,6 @@
         "items": {
           "type": "object",
           "properties": {
-            "icon": {
-              "title": "图标",
-              "type": "string"
-            },
             "label": {
               "title": "标签",
               "type": "string"

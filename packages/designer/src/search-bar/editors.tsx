@@ -12,12 +12,19 @@ export default {
     style: [
       {
         title: "搜索框样式",
-        options: ["background", "border"],
+        options: ["background", "border", "padding", "boxShadow"],
         target: [`.mybricks-searchBar`],
       },
       {
         title: "搜索按钮样式",
-        options: ["background", "border"],
+        options: [
+          "background",
+          "border",
+          "padding",
+          "boxShadow",
+          "size",
+          "font",
+        ],
         target: [`.mybricks-searchButton`],
       },
       {
@@ -31,6 +38,14 @@ export default {
         target: [
           `.mybricks-searchBar-input .taroify-native-input::placeholder`,
         ],
+      },
+      {
+        ifVisible({ data }) {
+          return !!data.label;
+        },
+        title: "左侧文本",
+        options: ["background", "border", "padding", "size", "margin", "font"],
+        target: [`.mybricks-searchBar-label`],
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -278,7 +293,14 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["border", "background", "size", "font", "margin"],
+        options: [
+          "background",
+          "border",
+          "padding",
+          "boxShadow",
+          "size",
+          "font",
+        ],
         target: `.mybricks-searchBar .mybricks-searchButton`,
       },
     ],

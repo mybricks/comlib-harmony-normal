@@ -4,25 +4,22 @@
   "name": "单选",
   "direction": "vertical",
   "value": "",
-  "gap":12,
+  "gap": 12,
   "options": [
     {
       "label": "公开",
       "brief": "",
-      "value": "公开",
-      "icon": ""
+      "value": "公开"
     },
     {
       "label": "仅好友可见",
       "brief": "",
-      "value": "仅好友可见",
-      "icon": ""
+      "value": "仅好友可见"
     },
     {
       "label": "保密",
       "brief": "",
-      "value": "保密",
-      "icon": ""
+      "value": "保密"
     }
   ]
 }
