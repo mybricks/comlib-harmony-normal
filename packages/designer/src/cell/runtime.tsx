@@ -40,7 +40,6 @@ export default function ({ env, data, slots, inputs, outputs }) {
     outputs["onClickLeftAction"](raw);
   }, []);
 
-
   const onClickLeftActionSecondary = useCallback((raw) => {
     if (!env.runtime) {
       return;
@@ -75,22 +74,28 @@ export default function ({ env, data, slots, inputs, outputs }) {
         return;
       }
 
-      if (translateXRef.current <= -(data.leftSwipeWidth+data.leftSwipeWidthSecondary) && deltaX < 0) {
+      if (
+        translateXRef.current <=
+          -(data.leftSwipeWidth + data.leftSwipeWidthSecondary) &&
+        deltaX < 0
+      ) {
         return;
       }
 
       let result = deltaX + translateXRef.current;
       if (result > 0) {
         result = 0;
-      } else if (result < -(data.leftSwipeWidth+data.leftSwipeWidthSecondary)) {
-        result = -(data.leftSwipeWidth+data.leftSwipeWidthSecondary);
+      } else if (
+        result < -(data.leftSwipeWidth + data.leftSwipeWidthSecondary)
+      ) {
+        result = -(data.leftSwipeWidth + data.leftSwipeWidthSecondary);
       }
 
       setCellStyle({
         transform: `translateX(${result}px)`,
       });
     },
-    [data.useSwipeLeft,touchStartX.current]
+    [data.useSwipeLeft, touchStartX.current]
   );
 
   const onTouchEnd = useCallback(
@@ -108,9 +113,15 @@ export default function ({ env, data, slots, inputs, outputs }) {
           transition: "transform 0.3s",
         });
       } else {
-        translateXRef.current = -(parseInt(data.leftSwipeStyle.width)+parseInt(data.leftSwipeStyleSecondary.width));
+        translateXRef.current = -(
+          parseInt(data.leftSwipeStyle.width) +
+          parseInt(data.leftSwipeStyleSecondary.width)
+        );
         setCellStyle({
-          transform: `translateX(${-(parseInt(data.leftSwipeStyle.width)+parseInt(data.leftSwipeStyleSecondary.width))}px)`,
+          transform: `translateX(${-(
+            parseInt(data.leftSwipeStyle.width) +
+            parseInt(data.leftSwipeStyleSecondary.width)
+          )}px)`,
           transition: "transform 0.3s",
         });
       }
@@ -182,22 +193,18 @@ export default function ({ env, data, slots, inputs, outputs }) {
             <View className={css.arrow}>
               <Arrow
                 className={css.icon}
-                style={
-                  data.useChildren && data.useArrowIcon
-                    ? { color: data.arrowIconColor }
-                    : {}
-                }
+                style={{ color: data.arrowIconColor }}
               />
             </View>
           ) : null}
         </View>
       </View>
-      
+
       <View
         className={css.action}
         style={{
           ...data.leftSwipeStyleSecondary,
-          right:`${data.leftSwipeStyle?.width ?? 50}px`
+          right: `${data.leftSwipeStyle?.width ?? 50}px`,
         }}
         onClick={(e) => {
           if (env.runtime) {
@@ -209,13 +216,13 @@ export default function ({ env, data, slots, inputs, outputs }) {
           });
           onClickLeftActionSecondary({ title: data.title });
         }}
-        >
-          {data.leftSwipeTextSecondary}
-        </View>
+      >
+        {data.leftSwipeTextSecondary}
+      </View>
       <View
         className={css.action}
         style={{
-          ...data.leftSwipeStyle
+          ...data.leftSwipeStyle,
         }}
         onClick={(e) => {
           if (env.runtime) {
@@ -230,6 +237,15 @@ export default function ({ env, data, slots, inputs, outputs }) {
       >
         {data.leftSwipeText}
       </View>
+
+      {/* 为了左滑主辅按钮默认样式回显 */}
+      <View className={cx(css.swipeLeft, "mybricks-cell-swipe-left")}></View>
+      <View
+        className={cx(
+          css.swipeLeftSecondary,
+          "mybricks-cell-swipe-left-secondary"
+        )}
+      ></View>
     </View>
   );
 }

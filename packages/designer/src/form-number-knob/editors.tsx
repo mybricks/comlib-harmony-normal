@@ -9,7 +9,7 @@ export default {
     style: [
       {
         title: "数字旋钮",
-        options: ["background"],
+        options: ["background", "border", "boxShadow"],
         target: ".mybricks-form-number-knob",
       },
       {

@@ -20,7 +20,13 @@ export default {
     options: ["width", "height"],
   },
   ":root": {
-    style: [],
+    style: [
+      {
+        title: "样式",
+        options: ["background", "border", "boxShadow", "padding"],
+        target: ".mybricks-marquee",
+      },
+    ],
     items({ data, output, style, slots }, cate0, cate1, cate2) {
       cate0.title = "跑马灯";
       cate0.items = [
