@@ -3,7 +3,7 @@ import { View } from "@tarojs/components";
 import css from "./style.less";
 import cx from "classnames";
 
-export default function ({ env, data, slots, inputs, outputs }) {
+export default function ({ env, data, slots, style, inputs, outputs }) {
   const onClick = useCallback((e) => {
     if (!env.runtime) {
       return;
@@ -18,13 +18,13 @@ export default function ({ env, data, slots, inputs, outputs }) {
   }, []);
 
   return (
-      <View className={cx(css.container, "mybricks-container")} onClick={onClick}>
-        {slots["content"].render({
-          style: {
-            ...data.layout,
-          },
-        })}
-      </View>
+    <View className={cx(css.container, "mybricks-container")} onClick={onClick}>
+      {slots["content"].render({
+        style: {
+          ...style?.slots?.content?.layout || { position: "smart" },
+        },
+      })}
+    </View>
 
   );
 }
