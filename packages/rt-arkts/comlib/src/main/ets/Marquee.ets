@@ -227,6 +227,9 @@ export default struct MyBricksMarquee {
         }
         return { offsetRemain: offset }
       })
+      .attributeModifier(
+        new ApplyStyleModifier(this.styles['.mybricks-marquee'])
+      )
     }
     .height('fit-content')
     .width('100%')

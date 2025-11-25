@@ -208,10 +208,10 @@ export function parsePadding(style: Record<string, AnyType>, initPadding?: Paddi
     })
   } else if(style?.paddingLeft || style?.paddingRight || style?.paddingTop || style?.paddingBottom) {
     return({
-      left: style?.paddingLeft,
-      right: style?.paddingRight,
-      top: style?.paddingTop,
-      bottom: style?.paddingBottom
+      left: parseFloat(style?.paddingLeft ?? 0),
+      right: parseFloat(style?.paddingRight ?? 0),
+      top: parseFloat(style?.paddingTop ?? 0),
+      bottom: parseFloat(style?.paddingBottom ?? 0)
     })
   } else {
     return({
@@ -229,11 +229,11 @@ interface MarginStyle {
   top: number | string;
   bottom: number | string;
 }
-export function parseMargin(style: Record<string, AnyType>): MarginStyle {
-  let marginTop = style?.marginTop ?? 0
-  let marginLeft = style?.marginLeft ?? 0
-  let marginRight = style?.marginRight ?? 0
-  let marginBottom = style?.marginBottom ?? 0
+export function parseMargin(style: Record<string, AnyType>, initMargin?: MarginStyle): MarginStyle {
+  let marginTop = initMargin?.top ?? 0
+  let marginLeft = initMargin?.left ?? 0
+  let marginRight = initMargin?.right ?? 0
+  let marginBottom = initMargin?.bottom ?? 0
 
   const marginStr = style?.margin
   const configMargins = marginStr ? String(marginStr).split?.(' ') : [];
@@ -275,12 +275,19 @@ export function parseMargin(style: Record<string, AnyType>): MarginStyle {
       top: marginValue,
       bottom: marginValue
     })
-  } else {
+  } else if(style?.marginLeft || style?.marginRight || style?.marginTop || style?.marginBottom) {
     return({
-      left: parseFloat(marginLeft),
-      right: parseFloat(marginRight),
-      top: parseFloat(marginTop),
-      bottom: parseFloat(marginBottom)
+      left: parseFloat(style?.marginLeft ?? 0),
+      right: parseFloat(style?.marginRight ?? 0),
+      top: parseFloat(style?.marginTop ?? 0),
+      bottom: parseFloat(style?.marginBottom ?? 0)
+    })
+  }  else {
+    return({
+      left: marginLeft,
+      right: marginRight,
+      top: marginTop,
+      bottom: marginBottom
     })
   }
 }

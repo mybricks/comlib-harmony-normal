@@ -13,8 +13,24 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["border", "background", "padding"],
+        options: ["border", "background", "padding", "boxShadow", "margin"],
         target: `.mybricks-cell`,
+      },
+      {
+        title: "左滑主按钮样式",
+        ifVisible({ data }) {
+          return data.useSwipeLeft;
+        },
+        options: ["background", "font", "size", "border", "margin"],
+        target: `.mybricks-cell-swipe-left`,
+      },
+      {
+        title: "左滑副按钮样式",
+        ifVisible({ data }) {
+          return data.useSwipeLeftSecondary;
+        },
+        options: ["background", "font", "size", "border", "margin"],
+        target: `.mybricks-cell-swipe-left-secondary`,
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -183,7 +199,7 @@ export default {
             },
             {
               ifVisible({ data }) {
-                return data.useChildren && data.useArrowIcon;
+                return data.useArrowIcon;
               },
               title: "右箭头颜色",
               type: "colorpicker",
@@ -247,32 +263,32 @@ export default {
                 },
               },
             },
-            {
-              ifVisible({ data }) {
-                return data.useSwipeLeft;
-              },
-              title: "主按钮样式",
-              type: "styleNew",
-              options: {
-                defaultOpen: true,
-                plugins: ["background", "font", "size", "border"],
-              },
-              value: {
-                get({ data }) {
-                  return (
-                    data.leftSwipeStyle ?? {
-                      paddingTop: "0px",
-                      paddingLeft: "0px",
-                      paddingBottom: "0px",
-                      paddingRight: "0px",
-                    }
-                  );
-                },
-                set({ data }, value) {
-                  data.leftSwipeStyle = JSON.parse(JSON.stringify(value));
-                },
-              },
-            },
+            // {
+            //   ifVisible({ data }) {
+            //     return data.useSwipeLeft;
+            //   },
+            //   title: "主按钮样式",
+            //   type: "styleNew",
+            //   options: {
+            //     defaultOpen: true,
+            //     plugins: ["background", "font", "size", "border", "margin"],
+            //   },
+            //   value: {
+            //     get({ data }) {
+            //       return (
+            //         data.leftSwipeStyle ?? {
+            //           paddingTop: "0px",
+            //           paddingLeft: "0px",
+            //           paddingBottom: "0px",
+            //           paddingRight: "0px",
+            //         }
+            //       );
+            //     },
+            //     set({ data }, value) {
+            //       data.leftSwipeStyle = JSON.parse(JSON.stringify(value));
+            //     },
+            //   },
+            // },
             {
               title: "开启左滑副按钮",
               type: "switch",
@@ -321,34 +337,34 @@ export default {
                 },
               },
             },
-            {
-              ifVisible({ data }) {
-                return data.useSwipeLeftSecondary;
-              },
-              title: "副按钮样式",
-              type: "styleNew",
-              options: {
-                defaultOpen: true,
-                plugins: ["background", "font", "size", "border"],
-              },
-              value: {
-                get({ data }) {
-                  return (
-                    data.leftSwipeStyleSecondary ?? {
-                      paddingTop: "0px",
-                      paddingLeft: "0px",
-                      paddingBottom: "0px",
-                      paddingRight: "0px",
-                    }
-                  );
-                },
-                set({ data }, value) {
-                  data.leftSwipeStyleSecondary = JSON.parse(
-                    JSON.stringify(value)
-                  );
-                },
-              },
-            },
+            // {
+            //   ifVisible({ data }) {
+            //     return data.useSwipeLeftSecondary;
+            //   },
+            //   title: "副按钮样式",
+            //   type: "styleNew",
+            //   options: {
+            //     defaultOpen: true,
+            //     plugins: ["background", "font", "size", "border", "margin"],
+            //   },
+            //   value: {
+            //     get({ data }) {
+            //       return (
+            //         data.leftSwipeStyleSecondary ?? {
+            //           paddingTop: "0px",
+            //           paddingLeft: "0px",
+            //           paddingBottom: "0px",
+            //           paddingRight: "0px",
+            //         }
+            //       );
+            //     },
+            //     set({ data }, value) {
+            //       data.leftSwipeStyleSecondary = JSON.parse(
+            //         JSON.stringify(value)
+            //       );
+            //     },
+            //   },
+            // },
           ],
         },
 
@@ -396,7 +412,7 @@ export default {
     style: [
       {
         title: "",
-        options: ["size", "border"],
+        options: ["size", "border", "margin", "background"],
         target: ".mybricks-thumb",
       },
     ],
@@ -491,7 +507,7 @@ export default {
     style: [
       {
         title: "",
-        options: ["font"],
+        options: ["font", "margin"],
         target: ".mybricks-brief",
       },
     ],

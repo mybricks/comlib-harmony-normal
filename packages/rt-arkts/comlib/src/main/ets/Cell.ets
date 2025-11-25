@@ -1,6 +1,6 @@
 import { AnyType } from './types'
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
-import { parsePadding, parseMargin } from './utils/StyleMatching'
+import { parsePadding, parseMargin, parseSize } from './utils/StyleMatching'
 
 export interface DataType {
   title?: string
@@ -129,12 +129,20 @@ export default struct MyBricksCell {
       if (this.data.useSwipeLeftSecondary) {
         Column(){
           Text(this.data.leftSwipeTextSecondary ?? '')
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-cell-swipe-left-secondary'])
+                .fontSize(14)
+                .fontColor('#333')
+            )
         }
-        .backgroundColor('#D9D9D9')
-        .width(65)
-        .height("100%")
         .alignItems(HorizontalAlign.Center)
         .justifyContent(FlexAlign.Center)
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-cell-swipe-left-secondary'])
+            .backgroundColor('#d9d9d9')
+        )
+        .width(parseSize(this.styles['.mybricks-cell-swipe-left-secondary']?.width) ?? 50)
+        .height(parseSize(this.styles['.mybricks-cell-swipe-left-secondary']?.height) ?? '100%')
         .onClick(() => {
           this.outputs?.onClickLeftActionSecondary()
           this.scroller.closeAllSwipeActions();
@@ -142,13 +150,21 @@ export default struct MyBricksCell {
       }
 
       Column(){
-        Text(this.data.leftSwipeText ?? '').fontColor(Color.White)
+        Text(this.data.leftSwipeText ?? '')
+          .attributeModifier(
+            new ApplyFontStyleModifier(this.styles['.mybricks-cell-swipe-left'])
+              .fontSize(14)
+              .fontColor(Color.White)
+          )
       }
-      .width(65)
-      .height("100%")
-      .backgroundColor('#DD241F')
       .alignItems(HorizontalAlign.Center)
       .justifyContent(FlexAlign.Center)
+      .attributeModifier(
+        new ApplyStyleModifier(this.styles['.mybricks-cell-swipe-left'])
+          .backgroundColor('#DD241F')
+      )
+      .width(parseSize(this.styles['.mybricks-cell-swipe-left']?.width) ?? 50)
+      .height(parseSize(this.styles['.mybricks-cell-swipe-left']?.height) ?? '100%')
       .onClick(() => {
         this.outputs?.onClickLeftAction()
         this.scroller.closeAllSwipeActions();
@@ -164,27 +180,38 @@ export default struct MyBricksCell {
             Row() {
               if (this.data.useThumb) {
                 Image(this.data.thumb)
-                  .width(23)
-                  .height(23)
-                  .margin({
-                    right:10
-                  })
+                  .attributeModifier(
+                    new ApplyStyleModifier(this.styles['.mybricks-thumb'])
+                  )
+                  .width(parseSize(this.styles['.mybricks-thumb'].width) ?? 42)
+                  .height(parseSize(this.styles['.mybricks-thumb'].height) ?? 42)
+                  .margin(parseMargin(this.styles['.mybricks-thumb'], {
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 12,
+                  }))
               }
               Column() {
                 Text(this.data.title)
-                // .fontColor('#323233')
-                // .fontSize(17)
                   .attributeModifier(
                     new ApplyFontStyleModifier(this.styles['.mybricks-title'])
+                      .fontSize(14)
+                      .fontColor('#323233')
                   )
                   .margin(parseMargin(this.styles['.mybricks-title']))
                 Text(this.data.brief)
-                // .fontColor('#969799')
-                // .fontSize(15)
                   .attributeModifier(
                     new ApplyFontStyleModifier(this.styles['.mybricks-brief'])
+                      .fontSize(12)
+                      .fontColor('#969799')
                   )
-                  .margin(parseMargin(this.styles['.mybricks-brief']))
+                  .margin(parseMargin(this.styles['.mybricks-brief'], {
+                    top: 4,
+                    bottom: 0,
+                    right: 0,
+                    left: 0
+                  }))
               }
               // .height(55)
               .justifyContent(FlexAlign.Center)
@@ -199,16 +226,17 @@ export default struct MyBricksCell {
                 })
               }else{
                 Text(this.data.content)
-                  .fontColor('#969799')
-                  .fontSize(15)
-                  .margin({
-                    right:5
-                  })
+                  .attributeModifier(
+                    new ApplyFontStyleModifier(this.styles['.mybricks-content'])
+                      .fontSize(14)
+                      .fontColor('#969799')
+                  )
+                  .margin(parseMargin(this.styles['.mybricks-content']))
               }
 
               if (this.data.useArrowIcon) {
                 SymbolGlyph($r(`sys.symbol.chevron_right`))
-                  .width('auto')
+                  .width(12)
                   .height(19)
                   .fontSize(18)
                   .fontColor([this.data.arrowIconColor || '#969799'])
@@ -216,10 +244,14 @@ export default struct MyBricksCell {
             }
           }
           .width('100%')
-          .height(55)
           .justifyContent(FlexAlign.SpaceBetween)
           .alignItems(VerticalAlign.Center)
-          .padding(parsePadding(this.styles['.mybricks-cell']))
+          .padding(parsePadding(this.styles['.mybricks-cell'],{
+            top: 12,
+            bottom: 12,
+            left: 16,
+            right: 16,
+          }))
         }
 
         .transition({ type: TransitionType.Delete, opacity: 0 })
@@ -247,11 +279,14 @@ export default struct MyBricksCell {
       this.outputs?.onClick(this.data.title || "")
     })
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-cell'])
-    )
-    .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-cell'])
+        .backgroundColor(Color.White)
+    )
+    .margin(parseMargin(this.styles['.mybricks-cell']))
+    .padding(0)
     .attributeModifier(this.modifier)
     // .backgroundColor(Color.Red)
   }
