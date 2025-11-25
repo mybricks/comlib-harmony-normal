@@ -1,0 +1,58 @@
+.tabBar {
+  height: 100%; // 改为100%高度
+  background: transparent;
+  // box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.1); // 调整阴影方向
+  z-index: 9999;
+  width: 70px;
+  background-color: #fff;
+
+
+  .items {
+    height: 100%; // 改为100%高度
+    display: flex;
+    flex-direction: column; // 改为竖向排布
+    justify-content: center; // 垂直居中
+  }
+
+  .item {
+    height: 200px;
+    // flex: 1; // 每个item平均分布
+    width: 100%; // 宽度100%
+    padding: 12px 6px; // 调整padding
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; // 垂直居中
+
+    .iconSlot {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      margin-bottom: 6px; // 图标和文字间距
+
+      .icon {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%); // 居中显示
+      }
+
+      &.iconSlotCenter .icon {
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    .textSlot {
+      height: auto; // 自适应高度
+      text-align: center; // 文字居中
+      
+      .text {
+        font-size: 12px; // 可以根据需要调整字体大小
+        line-height: 1.2;
+      }
+    }
+  }
+}
