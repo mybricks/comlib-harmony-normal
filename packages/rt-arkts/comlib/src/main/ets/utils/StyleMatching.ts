@@ -160,11 +160,11 @@ interface PaddingStyle {
   top: number | string;
   bottom: number | string;
 }
-export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
-  let paddingTop = style?.paddingTop ? parseFloat(style?.paddingTop) : 0
-  let paddingLeft = style?.paddingLeft ? parseFloat(style?.paddingLeft) : 0
-  let paddingRight = style?.paddingRight ? parseFloat(style?.paddingRight) : 0
-  let paddingBottom = style?.paddingBottom ? parseFloat(style?.paddingBottom) : 0
+export function parsePadding(style: Record<string, AnyType>, initPadding?: PaddingStyle): PaddingStyle {
+  let paddingTop = initPadding?.top ?? 0
+  let paddingLeft = initPadding?.left ?? 0
+  let paddingRight = initPadding?.right ?? 0
+  let paddingBottom = initPadding?.bottom ?? 0
 
   const paddingStr = style?.padding
   const configPaddings = paddingStr ? String(paddingStr).split?.(' ') : [];
@@ -206,6 +206,13 @@ export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
       top: paddingValue,
       bottom: paddingValue
     })
+  } else if(style?.paddingLeft || style?.paddingRight || style?.paddingTop || style?.paddingBottom) {
+    return({
+      left: style?.paddingLeft,
+      right: style?.paddingRight,
+      top: style?.paddingTop,
+      bottom: style?.paddingBottom
+    })
   } else {
     return({
       left: paddingLeft,
@@ -223,10 +230,10 @@ interface MarginStyle {
   bottom: number | string;
 }
 export function parseMargin(style: Record<string, AnyType>): MarginStyle {
-  let marginTop = style?.marginTop ? parseFloat(style?.marginTop) : 0
-  let marginLeft = style?.marginLeft ? parseFloat(style?.marginLeft) : 0
-  let marginRight = style?.marginRight ? parseFloat(style?.marginRight) : 0
-  let marginBottom = style?.marginBottom ? parseFloat(style?.marginBottom) : 0
+  let marginTop = style?.marginTop ?? 0
+  let marginLeft = style?.marginLeft ?? 0
+  let marginRight = style?.marginRight ?? 0
+  let marginBottom = style?.marginBottom ?? 0
 
   const marginStr = style?.margin
   const configMargins = marginStr ? String(marginStr).split?.(' ') : [];
@@ -270,10 +277,20 @@ export function parseMargin(style: Record<string, AnyType>): MarginStyle {
     })
   } else {
     return({
-      left: marginLeft,
-      right: marginRight,
-      top: marginTop,
-      bottom: marginBottom
+      left: parseFloat(marginLeft),
+      right: parseFloat(marginRight),
+      top: parseFloat(marginTop),
+      bottom: parseFloat(marginBottom)
     })
   }
+}
+
+export function parseSize(size: string | number | undefined): string | number {
+  if (!size && size !== 0) return undefined
+  if (typeof size === 'number') return size
+  if (typeof size === 'string' && size.endsWith('%')) return size
+  if (typeof size === 'string' && size.endsWith('px')) {
+    return parseFloat(size)
+  }
+  return 'auto'
 }

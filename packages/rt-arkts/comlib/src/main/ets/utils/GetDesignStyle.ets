@@ -20,26 +20,22 @@ export class ApplyRootStyleModifier extends MyBricksModifier<ComponentAttribute>
     // marginBottom
     // marginLeft
     // marginRight
-    if (style.marginTop || style.marginRight || style.marginBottom || style.marginLeft) {
-      instance.margin({
-        top: style.marginTop,
-        right: style.marginRight,
-        bottom: style.marginBottom,
-        left: style.marginLeft
-      })
-    }
+    instance.margin({
+      top: style.marginTop,
+      right: style.marginRight,
+      bottom: style.marginBottom,
+      left: style.marginLeft
+    })
     // paddingTop
     // paddingRight
     // paddingBottom
     // paddingLeft
-    if (style.paddingTop || style.paddingRight || style.paddingBottom || style.paddingLeft) {
-      instance.padding({
-        top: style.paddingTop,
-        right: style.paddingRight,
-        bottom: style.paddingBottom,
-        left: style.paddingLeft
-      })
-    }
+    instance.padding({
+      top: style.paddingTop,
+      right: style.paddingRight,
+      bottom: style.paddingBottom,
+      left: style.paddingLeft
+    })
     // flex
     if (typeof style.flex === "number") {
       instance.flexGrow(style.flex as number)
@@ -174,7 +170,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       instance.borderWidth(settingBorder.width)
       instance.borderStyle(settingBorder.style)
       instance.borderColor(settingBorder.color)
-    } else if(!isNil(style?.borderTop) || !isNil(style?.borderLeft) || !isNil(style?.borderRight) || !isNil(style?.borderBottom)) {
+    } else {
       const borderTop = parseBorder(style?.borderTop as string)
       const borderLeft = parseBorder(style?.borderLeft as string)
       const borderRight = parseBorder(style?.borderRight as string)
@@ -216,17 +212,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
         top: paddingTop,
         bottom: paddingBottom
       })
-    } else if (configPaddings.length === 3) {
-      const paddingT = parseFloat(configPaddings[0])
-      const paddingLR = parseFloat(configPaddings[1])
-      const paddingB = parseFloat(configPaddings[2])
-      instance.padding({
-        left: paddingLR,
-        right: paddingLR,
-        top: paddingT,
-        bottom: paddingB
-      })
-    }  else if (configPaddings.length === 2) {
+    } else if (configPaddings.length === 2) {
       const paddingTB = parseFloat(configPaddings[0])
       const paddingLR = parseFloat(configPaddings[1])
       instance.padding({
@@ -243,12 +229,19 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
         top: paddingValue,
         bottom: paddingValue
       })
+    } else if(style?.paddingLeft || style?.paddingRight || style?.paddingTop || style?.paddingBottom) {
+      instance.padding({
+        left: style?.paddingLeft,
+        right: style?.paddingRight,
+        top: style?.paddingTop,
+        bottom: style?.paddingBottom
+      })
     } else {
       instance.padding({
-        left: style?.paddingLeft ?? paddingLeft,
-        right: style?.paddingRight ?? paddingRight,
-        top: style?.paddingTop ?? paddingTop,
-        bottom: style?.paddingBottom ?? paddingBottom
+        left: paddingLeft,
+        right: paddingRight,
+        top: paddingTop,
+        bottom: paddingBottom
       })
     }
 

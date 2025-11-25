@@ -6,13 +6,12 @@ import {
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
-import { parseBorder } from './utils/StyleMatching'
+import { parseBorder, parseMargin } from './utils/StyleMatching'
 
 // Data Option 接口定义
 export interface Option {
   label: string
   value: string | number
-  icon?: string
   brief?: string
   checked?: boolean
 }
@@ -111,6 +110,11 @@ export default struct MyBricksFormRadio {
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
     return {
+      margin: style?.margin,
+      marginTop: style?.marginTop,
+      marginLeft: style?.marginLeft,
+      marginRight: style?.marginRight,
+      marginBottom: style?.marginBottom,
       border: style?.border,
       backgroundColor: style?.backgroundColor,
       borderRadius: style?.borderRadius || '100%' //单选默认是圆形
@@ -121,15 +125,20 @@ export default struct MyBricksFormRadio {
   get selectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-active .taroify-icon'] ?? {}
     return {
+      margin: style?.margin,
+      marginTop: style?.marginTop,
+      marginLeft: style?.marginLeft,
+      marginRight: style?.marginRight,
+      marginBottom: style?.marginBottom,
       border: style?.border,
-      backgroundColor: style?.backgroundColor || '#1989FA',
+      backgroundColor: style?.backgroundColor || '#FA6400',
       borderRadius: style?.borderRadius || '100%' //单选默认是圆形
     };
   }
 
   aboutToAppear(): void {
 
-    const res = parseBorder(this.selectedStyle.border,'#1989FA',1)
+    const res = parseBorder(this.selectedStyle.border,'#FA6400',1)
     console.log("res",res)
 
     // 初始化值
@@ -200,9 +209,12 @@ export default struct MyBricksFormRadio {
               ? this.selectedStyle.backgroundColor
               : this.unSelectedStyle.backgroundColor)
             .border(item.value === this.activeValue
-                ? parseBorder(this.selectedStyle.border,'#1989FA',1)
-                : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
+              ? parseBorder(this.selectedStyle.border,'#FA6400',1)
+              : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
             )
+            .margin(item.value === this.activeValue
+              ? parseMargin(this.selectedStyle)
+              : parseMargin(this.unSelectedStyle))
             .onClick(() => {
               if (item.value !== this.activeValue) {
                 this.activeValue = item.value;
@@ -215,19 +227,52 @@ export default struct MyBricksFormRadio {
               }
             })
 
-            Text(item.label)
-              .margin({ left: 8 })
-              .fontSize(13)
+            Column() {
+              Text(item.label)
+                .attributeModifier(
+                  new ApplyFontStyleModifier(item.value === this.activeValue
+                    ? this.styles['.mybricks-active .mybricks-label']
+                    : this.styles['.mybricks-inactive .mybricks-label'])
+                    .fontSize(14)
+                    .fontColor('#333')
+                )
+                .attributeModifier(
+                  new ApplyStyleModifier(item.value === this.activeValue
+                    ? this.styles['.mybricks-active .mybricks-label']
+                    : this.styles['.mybricks-inactive .mybricks-label'])
+                )
+              if (item.brief) {
+                Text(item.brief)
+                  .attributeModifier(
+                    new ApplyFontStyleModifier(item.value === this.activeValue
+                      ? this.styles['.mybricks-active .mybricks-brief']
+                      : this.styles['.mybricks-inactive .mybricks-brief'])
+                      .fontSize(12)
+                      .fontColor('#999')
+                  )
+                  .attributeModifier(
+                    new ApplyStyleModifier(item.value === this.activeValue
+                      ? this.styles['.mybricks-active .mybricks-brief']
+                      : this.styles['.mybricks-inactive .mybricks-brief'])
+                  )
+              }
+            }
+            .margin({ left: 8 })
+            .alignItems(HorizontalAlign.Start)
           }
           .width('auto')
-          .margin({ right: this.data.gap, bottom: this.data.direction === 'vertical' ? 17 : 0 })
+          .margin(this.data.direction === 'vertical' ? { bottom: this.data.gap } : { right: this.data.gap })
         })
       }
       .width('100%')
       .enabled(!this.data.disabled)
       .attributeModifier(
+        new ApplyStyleModifier(this.styles['.form-radio-group'])
+      )
+      .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'] || {})
       )
+      .height('auto')
       .attributeModifier(this.modifier)
     }
   }

@@ -18,42 +18,47 @@ export default {
   ":root": {
     style: [
       {
+        title: "样式",
+        options: ["border", "padding", "background", "boxshadow"],
+        target: [`.form-radio-group`],
+      },
+      {
         items: [
           {
             catelog: "未激活样式",
             title: "图标",
-            options: ["border", "background"],
+            options: ["border", "background", "margin"],
             target: `.mybricks-inactive .taroify-icon`,
           },
           {
             catelog: "未激活样式",
             title: "标题",
-            options: ["font"],
+            options: ["font", "padding"],
             target: `.mybricks-inactive .mybricks-label`,
           },
           {
             catelog: "未激活样式",
             title: "描述文本",
-            options: ["font"],
+            options: ["font", "padding"],
             target: `.mybricks-inactive .mybricks-brief`,
           },
 
           {
             catelog: "激活样式",
             title: "图标",
-            options: ["border", "background"],
+            options: ["border", "background", "margin"],
             target: `.mybricks-active .taroify-icon`,
           },
           {
             catelog: "激活样式",
             title: "标题",
-            options: ["font"],
+            options: ["font", "padding"],
             target: `.mybricks-active .mybricks-label`,
           },
           {
             catelog: "激活样式",
             title: "描述文本",
-            options: ["font"],
+            options: ["font", "padding"],
             target: `.mybricks-inactive .mybricks-brief`,
           },
         ],
@@ -134,7 +139,6 @@ export default {
                   const defaultOption = {
                     label: `选项`,
                     value: uuid(),
-                    icon: "",
                   };
                   return defaultOption;
                 },
@@ -154,11 +158,11 @@ export default {
                     type: "text",
                     value: "value",
                   },
-                  {
-                    title: "自定义图标",
-                    type: "imageSelector",
-                    value: "icon",
-                  },
+                  // {
+                  //   title: "自定义图标",
+                  //   type: "imageSelector",
+                  //   value: "icon",
+                  // },
                 ],
               },
               value: {

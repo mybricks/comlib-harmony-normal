@@ -1,13 +1,11 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
-import { parseBorder } from './utils/StyleMatching'
+import { parseBorder, parseMargin } from './utils/StyleMatching'
 
 // Data Option 接口定义
 export interface Option {
   label: string
   value: string | number
-  icon?: string
-  brief?: string
   checked?: boolean
 }
 
@@ -109,6 +107,11 @@ export default struct MyBricksFormCheckbox{
   get unSelectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-inactive .taroify-icon'] ?? {}
     return {
+      margin: style?.margin,
+      marginTop: style?.marginTop,
+      marginLeft: style?.marginLeft,
+      marginRight: style?.marginRight,
+      marginBottom: style?.marginBottom,
       border: style?.border,
       backgroundColor: style?.backgroundColor,
       borderRadius: style?.borderRadius
@@ -119,8 +122,13 @@ export default struct MyBricksFormCheckbox{
   get selectedStyle(): AnyType {
     const style = this.styles?.['.mybricks-active .taroify-icon'] ?? {}
     return {
+      margin: style?.margin,
+      marginTop: style?.marginTop,
+      marginLeft: style?.marginLeft,
+      marginRight: style?.marginRight,
+      marginBottom: style?.marginBottom,
       border: style?.border, //默认值，对齐H5
-      backgroundColor: style?.backgroundColor || '#1989FA', //默认值，对齐H5
+      backgroundColor: style?.backgroundColor || '#FA6400', //默认值，对齐H5
       borderRadius: style?.borderRadius
     };
   }
@@ -196,9 +204,12 @@ export default struct MyBricksFormCheckbox{
               ? this.selectedStyle.backgroundColor
               : this.unSelectedStyle.backgroundColor)
             .border(this.selectedValues.includes(item.value)
-              ? parseBorder(this.selectedStyle.border,'#1989FA',1)
+              ? parseBorder(this.selectedStyle.border,'#FA6400',1)
               : parseBorder(this.unSelectedStyle.border,'#C2C2C2',1)
             )
+            .margin(this.selectedValues.includes(item.value)
+              ? parseMargin(this.selectedStyle)
+              : parseMargin(this.unSelectedStyle))
             .onClick(() => {
               if (this.selectedValues.includes(item.value)) {
                 // 取消选中
@@ -219,19 +230,34 @@ export default struct MyBricksFormCheckbox{
 
             if(item.label){
               Text(item.label)
+                .attributeModifier(
+                  new ApplyFontStyleModifier(this.selectedValues.includes(item.value)
+                    ? this.styles['.mybricks-active .taroify-checkbox__label']
+                    : this.styles['.mybricks-inactive .taroify-checkbox__label'])
+                    .fontSize(14)
+                    .fontColor('#333')
+                )
+                .attributeModifier(
+                  new ApplyStyleModifier(this.selectedValues.includes(item.value)
+                    ? this.styles['.mybricks-active .taroify-checkbox__label']
+                    : this.styles['.mybricks-inactive .taroify-checkbox__label'])
+                )
                 .margin({ left: 8 })
             }
           }
-          .width('100%')
-          .margin({ right: this.data.gap, bottom: this.data.direction === 'vertical' ? 17 : 0 })
-
+          .width(this.data.direction === 'vertical' ? '100%' : 'auto')
+          .margin(this.data.direction === 'vertical' ? { bottom: this.data.gap } : { right: this.data.gap })
         })
       }
       .width('100%')
       .enabled(!this.data.disabled)
       .attributeModifier(
+        new ApplyStyleModifier(this.styles['.form-checkbox-group'])
+      )
+      .attributeModifier(
         new ApplyRootStyleModifier(this.styles['root'] || {})
       )
+      .height('auto')
       .attributeModifier(this.modifier)
     }
   }

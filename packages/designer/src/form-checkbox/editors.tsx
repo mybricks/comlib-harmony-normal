@@ -16,28 +16,37 @@ export default {
   ":root": {
     style: [
       {
-        catelog: "未激活样式",
-        title: "图标",
-        options: ["border", "background"],
-        target: `.mybricks-inactive .taroify-icon`,
+        title: "样式",
+        options: ["border", "padding", "background", "boxshadow"],
+        target: [`.form-checkbox-group`],
       },
       {
-        catelog: "未激活样式",
-        title: "标题",
-        options: ["font"],
-        target: `.mybricks-inactive .taroify-checkbox__label`,
-      },
-      {
-        catelog: "激活样式",
-        title: "图标",
-        options: ["border", "background"],
-        target: `.mybricks-active .taroify-icon`,
-      },
-      {
-        catelog: "激活样式",
-        title: "标题",
-        options: ["font"],
-        target: `.mybricks-active .taroify-checkbox__label`,
+        items: [
+          {
+            catelog: "未激活样式",
+            title: "图标",
+            options: ["border", "background", "margin"],
+            target: `.mybricks-inactive .taroify-icon`,
+          },
+          {
+            catelog: "未激活样式",
+            title: "标题",
+            options: ["font", "padding"],
+            target: `.mybricks-inactive .taroify-checkbox__label`,
+          },
+          {
+            catelog: "激活样式",
+            title: "图标",
+            options: ["border", "background", "margin"],
+            target: `.mybricks-active .taroify-icon`,
+          },
+          {
+            catelog: "激活样式",
+            title: "标题",
+            options: ["font", "padding"],
+            target: `.mybricks-active .taroify-checkbox__label`,
+          },
+        ],
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -119,7 +128,7 @@ export default {
                   const defaultOption = {
                     label: `选项`,
                     value: uuid(),
-                    icon: "",
+                    // icon: "",
                   };
                   return defaultOption;
                 },
@@ -134,11 +143,11 @@ export default {
                     type: "text",
                     value: "value",
                   },
-                  {
-                    title: "自定义图标",
-                    type: "imageSelector",
-                    value: "icon",
-                  },
+                  // {
+                  //   title: "自定义图标",
+                  //   type: "imageSelector",
+                  //   value: "icon",
+                  // },
                 ],
               },
               value: {

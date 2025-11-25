@@ -162,13 +162,13 @@ export default function (props) {
       direction={data.direction}
       value={value}
       onChange={onChange}
-      className={css.form_checkbox}
+      className={cx(css.form_checkbox, "form-checkbox-group")}
     >
       {options.map((item, index) => {
         const restProps = {} as any;
-        if (item.icon) {
-          restProps.icon = <Image src={item.icon} />;
-        }
+        // if (item.icon) {
+        //   restProps.icon = <Image src={item.icon} />;
+        // }
 
         return (
           <Checkbox
