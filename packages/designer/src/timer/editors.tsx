@@ -9,18 +9,23 @@ export default {
   ":root": {
     style: [
       {
+        title: "容器",
+        options: ["background", "border", "padding", "boxShadow"],
+        target: ".mybricks_timer",
+      },
+      {
         title: "数字",
         options: ["font"],
         target: ".mybricks_timer_unit",
       },
       {
         title: "数字背景",
-        options: ["background", "size", "border", "padding"],
+        options: ["background", "size", "border", "padding", "boxShadow"],
         target: ".mybricks_timer_unit_background",
       },
       {
         title: "分割符",
-        options: ["font"],
+        options: ["font", "margin"],
         target: ".mybricks_timer_separator",
       },
     ],

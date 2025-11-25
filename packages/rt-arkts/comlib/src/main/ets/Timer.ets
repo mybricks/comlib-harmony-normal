@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseMargin, parseSize } from './utils/StyleMatching'
 
 export interface DataType {
   clockType?: "realtime" | "countdown" | "timer" | string,
@@ -240,10 +241,21 @@ export default struct MyBricksTimer {
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
 
         Column(){
           Text(":")
@@ -253,6 +265,7 @@ export default struct MyBricksTimer {
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
+            .margin(parseMargin(this.styles['.mybricks_timer_separator']))
         }
 
         Column(){
@@ -260,10 +273,21 @@ export default struct MyBricksTimer {
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
 
         Column(){
           Text(":")
@@ -273,6 +297,7 @@ export default struct MyBricksTimer {
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
+            .margin(parseMargin(this.styles['.mybricks_timer_separator']))
         }
 
         Column(){
@@ -280,19 +305,30 @@ export default struct MyBricksTimer {
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
       }.width("100%").justifyContent(FlexAlign.SpaceAround).alignItems(VerticalAlign.Center)
     }
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Start)
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks_timer'])
+      new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyStyleModifier(this.styles['.mybricks_timer'])
     )
     .attributeModifier(this.modifier)
   }

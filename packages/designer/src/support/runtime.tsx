@@ -14,14 +14,14 @@ export default function ({ env, data, inputs, outputs, title }) {
   }, []);
 
   return (
-    <View className={css.information} onClick={onClick}>
+    <View className={`${css.information} mybricks-support`} onClick={onClick}>
       {data.copyright ? (
         <View className={css.meta}>版权所有：{data.copyright}</View>
       ) : null}
       <View className={css.meta}>
         <Image className={css.logo} mode={"aspectFill"} src={data.logo} />
         Powerd by MyBricks.ai
-        </View>
+      </View>
     </View>
   );
 }

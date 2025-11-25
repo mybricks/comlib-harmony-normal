@@ -1,4 +1,4 @@
-import { CSSProperties, ApplyRootStyleModifier } from './utils/GetDesignStyle';
+import { CSSProperties, ApplyRootStyleModifier, ApplyStyleModifier } from './utils/GetDesignStyle';
 
 class Constants {
   static NORMAL_COLOR = "#969191";
@@ -100,6 +100,9 @@ export default struct MyBricksAudioWavy {
     })
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-audio-wavy'])
     )
     .attributeModifier(this.modifier)
   }
