@@ -34,6 +34,7 @@ export default {
                 },
                 set({ data,style, slots }, val) {
                   style.slots.content.layout = val;
+                  console.log("slots",slots,slots.get("content"))
                   setSlotLayout(slots.get("content"), val);
                 },
               },
