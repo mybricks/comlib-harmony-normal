@@ -27,12 +27,12 @@ export default {
               title: "布局",
               type: "layout",
               value: {
-                get({ data, style }) {
+                get({ data, style, slots }) {
                   return style.slots.content.layout || {
                     position:"smart"
                   };
                 },
-                set({ data, slots }, val) {
+                set({ data,style, slots }, val) {
                   style.slots.content.layout = val;
                   setSlotLayout(slots.get("content"), val);
                 },
