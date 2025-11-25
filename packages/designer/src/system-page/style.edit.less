@@ -1,13 +1,33 @@
 .page {
   width: 100%;
   height: 100%;
-  // height: 667px;
-  //min-height: 667px;
   position: relative;
   display: flex;
   flex-direction: column;
   background: #ffffff;
   transform: scale(1);
+
+  .mainContainer {
+    display: flex;
+    flex: 1;
+    height: 100%;
+  }
+
+  .leftSidebar {
+    height: 100%;
+    flex-shrink: 0;
+    background: #f5f5f5; 
+    // border-right: 1px solid #ededed; 
+    z-index: 10;
+  }
+
+  .rightContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
 
   .navigationBar {
     width: 100%;
@@ -25,10 +45,10 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    background-color: gray;
 
     > div {
-      //flex: 1;
-      overflow-y:auto !important;
+      overflow-y: auto !important;
       overflow-x: hidden;
     }
 
@@ -46,6 +66,7 @@
       background: rgba(246, 247, 249, 0.5);
       outline: 1px solid #f6f7f9;
       overflow: hidden;
+
       &::after {
         line-height: 1;
         content: "（底部空间留存）";
@@ -72,6 +93,7 @@
     width: 100%;
     position: relative;
     transform: scale(1);
+
     .safearea {
       height: 34px;
     }

@@ -13,6 +13,7 @@ export default function (props) {
     }
   }
 
+
   const statusBarStyle = useMemo(() => {
     return Object.assign({}, data.navigationBarStyle, data.statusBarStyle ?? {})
   }, [data.statusBarStyle, data.navigationBarStyle])
@@ -27,6 +28,7 @@ export default function (props) {
         color={statusBarStyle.color}
         background={data.navigationStyle === 'none' ? 'transparent' : statusBarStyle.backgroundColor}
         fixed={data.navigationStyle === 'none'}
+        env={env}
       />
       <View style={{ background: navigationBarStyle.backgroundColor }}>
         {data.navigationStyle === 'default' && (
@@ -80,13 +82,23 @@ function DefaultNavigation({ data, onBack }) {
   )
 }
 
-function StatusBar({ color, background, fixed = false }) {
+
+function StatusBar({ env, color, background, fixed = false }) {
+
+  const isTripleScreen = useMemo(() => {
+    if (env.canvas?.breakpoint?.width == 1080) {
+      return true
+    } else {
+      return false
+    }
+  }, [env])
+
   return (
     <View
       className={`${css.statusBar} ${fixed ? css.fixed : ''}`}
       style={{ color, backgroundColor: background }}
     >
-      <View className={css.left}>
+      <View className={css.left_triple_screen}>
         <View className={css.time}>10:32</View>
         <View className={css.net}>中国移动</View>
       </View>
