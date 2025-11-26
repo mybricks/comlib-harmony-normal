@@ -9,6 +9,7 @@ import fs from '@ohos.file.fs';
 import common from '@ohos.app.ability.common';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { AnyType } from './types'
+import { parseBorder, parseMargin, parseSize } from './utils/StyleMatching';
 
 export interface DataType {
   label?: string,
@@ -189,19 +190,27 @@ export default struct MyBricksFormFileUploader {
       if ((this.data?.value?.length ?? 0) < (this.data?.maxCount ?? 1)) {
         Column() {
           Text("+ 上传文件")
-            .fontSize(14)
-            .fontColor("#828282")
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-square'])
+                .fontSize(14)
+                .fontColor("#999")
+            )
         }
-        .width(120)
-        .height(30)
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-square'])
+            .borderRadius(3)
+        )
         .alignItems(HorizontalAlign.Center)
         .justifyContent(FlexAlign.Center)
-        .border({
-          width: 1,
-          color: "#efefef",
-          radius: 6,
-          style: BorderStyle.Solid
-        })
+        .width(parseSize(this.styles['.mybricks-square']?.width) ?? 120)
+        .height(parseSize(this.styles['.mybricks-square']?.height) ?? 30)
+        .border(parseBorder(this.styles['.mybricks-square']?.border as string, '#EFEFEF', 1))
+        .margin(parseMargin(this.styles['.mybricks-square'], {
+          top: 0,
+          bottom: 8,
+          left: 0,
+          right: 0
+        }))
         .onClick(() => {
           this.selectDocument()
         })
@@ -210,23 +219,38 @@ export default struct MyBricksFormFileUploader {
 
         Row() {
           Text(item.uri)
-            .height(20)
-            .fontSize(10)
-            .fontColor("#828282")
             .textOverflow({ overflow: TextOverflow.Ellipsis })
             .maxLines(1)
             .width(200)
-          Text('x')
-            .fontSize(12)
-            .width(20)
-            .height(20)
-            .fontColor(Color.Black)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-thumbnail'])
+                .fontSize(14)
+                .fontColor("#828282")
+            )
+          Text('X')
+            .fontSize(10)
+            .width(16)
+            .height(16)
+            .align(Alignment.Center)
+            .textAlign(TextAlign.Center)
+            .fontColor(Color.White)
+            .backgroundColor('#ccc')
+            .borderRadius('50%')
             .onClick(() => {
               this.deleteFile(index);
             })
         }
         .justifyContent(FlexAlign.Start)
         .alignItems(VerticalAlign.Top)
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-thumbnail'])
+        )
+        .margin(parseMargin(this.styles['.mybricks-thumbnail'], {
+          bottom: 4,
+          top: 0,
+          left: 0,
+          right: 0,
+        }))
         .width("100%")
       })
 
@@ -236,9 +260,6 @@ export default struct MyBricksFormFileUploader {
     .height("100%")
     .justifyContent(FlexAlign.Start)
     .alignItems(HorizontalAlign.Start)
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-square'])
-    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'] || {})
     )

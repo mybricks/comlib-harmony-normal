@@ -197,9 +197,7 @@ export default function (props) {
         //编辑态不能触发
         return (
           <div className={cx(css.uploader, "mybricks-square")}>
-            <div className={cx(css.icon_placeholder, "mybricks-button-text")}>
-              +{data.buttonText ?? "上传文件"}
-            </div>
+            <div>+{data.buttonText ?? "上传文件"}</div>
           </div>
         );
       } else {
@@ -211,9 +209,7 @@ export default function (props) {
               type="file"
               onChange={handleFileChange}
             />
-            <div className={cx(css.icon_placeholder, "mybricks-button-text")}>
-              +{data.buttonText ?? "上传文件"}
-            </div>
+            <div>+{data.buttonText ?? "上传文件"}</div>
           </label>
         );
       }
@@ -224,9 +220,7 @@ export default function (props) {
         className={cx(css.uploader, "mybricks-square")}
         onClick={onChooseFile}
       >
-        <View className={cx(css.icon_placeholder, "mybricks-button-text")}>
-          +{data.buttonText ?? "上传文件"}
-        </View>
+        <View>+{data.buttonText ?? "上传文件"}</View>
       </View>
     );
   }, [env, value, data.maxCount, data.iconSlot, data.buttonText]);
@@ -253,8 +247,11 @@ export default function (props) {
   const thumbnails = useMemo(() => {
     return value.map((raw, index) => {
       return (
-        <View className={cx(css.item)} key={raw + "_" + index}>
-          <View className={cx(css.thumbnail, "mybricks-thumbnail")}>
+        <View
+          className={cx(css.item, "mybricks-thumbnail")}
+          key={raw + "_" + index}
+        >
+          <View className={cx(css.thumbnail)}>
             {fileName[index] ? fileName[index] : raw}
           </View>
           <View
