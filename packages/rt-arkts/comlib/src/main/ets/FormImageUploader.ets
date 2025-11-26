@@ -154,7 +154,7 @@ export default struct MyBricksFormImageUploader {
         PhotoSelectResult.photoUris.map((uri, index) => {
           this.slotsIO["customUpload"].inputs["fileData"]({filePath:uri,index:index})
         })
-        
+
       }).catch((err: BusinessError) => {
         console.error(`PhotoViewPicker.select failed with err: ${err.code}, ${err.message}`);
       });
@@ -175,85 +175,87 @@ export default struct MyBricksFormImageUploader {
 
   build() {
     Flex({ wrap: FlexWrap.Wrap }) {
-      ForEach(this.data.value, (item:string, index) => {
-        Column() {
-          Stack({ alignContent: Alignment.TopEnd }) {
-            Image(item)
-              .width('100%')
-              .height('100%')
-              .objectFit(ImageFit.Cover)
-            Column() {
-              Text('x')
-                .fontSize(9)
-                .fontColor(Color.White)
-                .offset({ x: 2, y: -2 })
+      if (this.data.value && Array.isArray(this.data.value)) {
+        ForEach(this.data.value, (item: string, index) => {
+          Column() {
+            Stack({ alignContent: Alignment.TopEnd }) {
+              Image(item)
+                .width('100%')
+                .height('100%')
+                .objectFit(ImageFit.Cover)
+              Column() {
+                Text('x')
+                  .fontSize(9)
+                  .fontColor(Color.White)
+                  .offset({ x: 2, y: -2 })
+              }
+              .alignItems(HorizontalAlign.Center)
+              .justifyContent(FlexAlign.Center)
+              .width(18)
+              .height(18)
+              .borderRadius({
+                topLeft: 0,
+                topRight: 0,
+                bottomLeft: 15,
+                bottomRight: 0
+              })
+              .backgroundColor('rgba(0, 0, 0, 0.30)')
+              .onClick(() => {
+                this.deleteImage(index);
+              })
+
             }
-            .alignItems(HorizontalAlign.Center)
-            .justifyContent(FlexAlign.Center)
-            .width(18)
-            .height(18)
-            .borderRadius({
-              topLeft: 0,
-              topRight: 0,
-              bottomLeft: 15,
-              bottomRight: 0
-            })
-            .backgroundColor('rgba(0, 0, 0, 0.30)')
-            .onClick(() => {
-              this.deleteImage(index);
-            })
+          }
+          .width(80)
+          .height(80)
+          .margin({ right: 10, bottom: 10 })
+        }, (item: string) => item)
+        if ((this.data?.value?.length ?? 0) < (this.data?.maxCount ?? 1)) {
+          Column() {
+            Text("+")
+              .fontSize(20)
+              .fontColor("#828282")
 
           }
-        }
-        .width(80)
-        .height(80)
-        .margin({ right: 10, bottom: 10 })
-      },(item: string) => item)
-      if ((this.data?.value?.length ?? 0) < (this.data?.maxCount ?? 1)) {
-        Column() {
-          Text("+")
-            .fontSize(20)
-            .fontColor("#828282")
-
-        }
-        .width(80)
-        .height(80)
-        .margin({
-          right: 10,
-          bottom: 10
-        })
-        .alignItems(HorizontalAlign.Center)
-        .justifyContent(FlexAlign.Center)
-        .border({
-          width: 1,
-          color: "#efefef",
-          radius: 6,
-          style: BorderStyle.Solid
-        })
-        .onClick(() => {
-          this.imageSelect()
-        })
-      }
-
-      this.slots({
-        id: "customUpload",
-        inputValues:{
-          fileData:this.slotsIO.customUpload.inputs.fileData
-        },
-        outputs: {
-          setFileInfo: this.slotsIO.customUpload.outputs.setFileInfo((value:string) => {
-            if (!this.data.value) {
-              this.data.value = [];
-            }
-            this.data.value?.push(value)
-            this.outputs?.onChange(this.data.value)
-            this.parentSlot?._inputs?.["onChange"]?.({
-              id: this.uid,
-              value:this.data.value,
-            });
+          .width(80)
+          .height(80)
+          .margin({
+            right: 10,
+            bottom: 10
+          })
+          .alignItems(HorizontalAlign.Center)
+          .justifyContent(FlexAlign.Center)
+          .border({
+            width: 1,
+            color: "#efefef",
+            radius: 6,
+            style: BorderStyle.Solid
+          })
+          .onClick(() => {
+            this.imageSelect()
           })
         }
-      })
+
+        this.slots({
+          id: "customUpload",
+          inputValues: {
+            fileData: this.slotsIO.customUpload.inputs.fileData
+          },
+          outputs: {
+            setFileInfo: this.slotsIO.customUpload.outputs.setFileInfo((value: string) => {
+              if (!this.data.value) {
+                this.data.value = [];
+              }
+              this.data.value?.push(value)
+              this.outputs?.onChange(this.data.value)
+              this.parentSlot?._inputs?.["onChange"]?.({
+                id: this.uid,
+                value: this.data.value,
+              });
+            })
+          }
+        })
+      }
     }
     .width("100%")
     .attributeModifier(
@@ -262,6 +264,6 @@ export default struct MyBricksFormImageUploader {
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'] || {})
     )
-    .attributeModifier(this.modifier)
+    .attributeModifier(this.modifier || {})
   }
 }
