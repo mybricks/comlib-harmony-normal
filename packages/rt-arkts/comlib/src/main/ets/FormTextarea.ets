@@ -105,25 +105,27 @@ export default struct MyBricksFormTextarea {
 
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
-  @Local value: string = this.data.value ?? ''
-  @Monitor ('data.value')
-  onDataValueChange(monitor: IMonitor) {
-    this.value = monitor.value()?.now as string
-  }
+  // @Local value: string = this.data.value ?? ''
+
+  // @Monitor ('data.value')
+  // onDataValueChange(monitor: IMonitor) {
+  //   this.value = monitor.value()?.now as string
+  // }
+
   @Local placeholder: string = this.data.placeholder ?? ''
 
   aboutToAppear(): void {
     this.inputs?.setValue((val, outputRels: AnyType) => {
-      this.value = val;
+      this.data.value = val;
       outputRels?.["setValueComplete"]?.(val);
     })
 
     this.inputs?.getValue((_: AnyType, outputRels: AnyType) => {
-      outputRels?.["returnValue"]?.(this.value);
+      outputRels?.["returnValue"]?.(this.data.value);
     })
 
     this.inputs?.resetValue((_: AnyType, outputRels: AnyType) => {
-      this.value = '';
+      this.data.value = '';
       outputRels?.["resetValueComplete"]?.('');
     })
 
@@ -140,7 +142,7 @@ export default struct MyBricksFormTextarea {
   build() {
     Column() {
       TextArea({
-        text: this.value,
+        text: this.data.value,
         placeholder: this.placeholder
       })
         .placeholderColor(getStyleValueByPattern(this.styles, [
@@ -165,12 +167,13 @@ export default struct MyBricksFormTextarea {
         .maxLength(this.shouldLimit ? 999999 : this.data.limit)
         .enabled(!this.data.disabled)
         .onChange((value: string) => {
-          this.value = value;
+          this.data.value = value
+          // this.value = value;
           this.outputs?.onChange?.(value);
 
           this.parentSlot?._inputs?.["onChange"]?.({
             id: this.uid,
-            value: this.value,
+            value: this.data.value,
           });
         })
         .flexGrow(1) // 占用剩余空间
@@ -185,13 +188,13 @@ export default struct MyBricksFormTextarea {
           top: 0
         })
         .onBlur(() => {
-          this.outputs?.onBlur?.(this.value)
+          this.outputs?.onBlur?.(this.data.value)
         })
         .onFocus(() => {
-          this.outputs?.onFocus?.(this.value)
+          this.outputs?.onFocus?.(this.data.value)
         })
       if (this.data.showCount) {
-        Text(`${this.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
+        Text(`${this.data.value.length}/${this.data.limit}`).fontColor('#646566').fontSize(12).textAlign(TextAlign.End).margin({top:5})
       }
     }
     .attributeModifier(
