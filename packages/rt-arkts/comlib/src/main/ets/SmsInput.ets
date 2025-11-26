@@ -1,5 +1,6 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseMargin, parseSize } from './utils/StyleMatching'
 
 export interface DataType {
   value: string,
@@ -186,33 +187,41 @@ export default struct SmsInput {
       // 光标动画
       if (this.currentIndex === index ) {
         Divider()
-          .color('#333333')
-          .strokeWidth(4)
+          .color(this.styles['.mybricks-input-item']?.color ?? '#000')
+          .strokeWidth(2)
           .height(30)
           .vertical(true)
           .opacity(this.alpha)
       }else{
         // 显示输入内容
         Text(this.code[index] || '') // 处理undefined情况
-          .fontSize(35)
-          .fontColor('#424242')
-          .fontWeight("600")
+          .attributeModifier(
+            new ApplyFontStyleModifier(this.styles['.mybricks-input-item'])
+              .fontSize(20)
+              .fontColor('#000')
+              .fontWeight("400")
+          )
         // .backgroundColor('#C8C8C8')
       }
     }
-    // .width(60)
     .layoutWeight(1)
-    .height(60)
     .justifyContent(FlexAlign.Center)
-    .border({
-      width: { bottom: 1.5 },
-      color:this.currentIndex >= index ? '#333333' : '#F6F6F6'
-    })
+    // .border({
+    //   width: { bottom: 1.5 },
+    //   color:this.currentIndex >= index ? '#333333' : '#F6F6F6'
+    // })
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-input-item'])
+        .backgroundColor('#F3F3F3')
+        .borderRadius(5)
+    )
+    .width(parseSize(this.styles['.mybricks-input-item']?.width) ?? 'auto')
+    .height(parseSize(this.styles['.mybricks-input-item']?.height) ?? 50)
     .onClick(() => {
       console.log("onclick",this.currentIndex,index)
       if(this.currentIndex === index){
         this.currentIndex = Math.min(index, this.code.filter(c => c).length)
-        focusControl.requestFocus('sms-code-input')
+        focusControl.requestFocus(`sms-code-input-${this.uid}`)
       }
 
     })
@@ -227,7 +236,7 @@ export default struct SmsInput {
         .backgroundColor(Color.Transparent)
         .maxLength(4)
         .type(InputType.Number)
-        .key('sms-code-input')
+        .key(`sms-code-input-${this.uid}`)
         .onChange((value: string) => {
           this.data.value = value
           // 更新用来显示的code数组
@@ -260,23 +269,37 @@ export default struct SmsInput {
       if(!this.data.hideOptButton){
         Row(){
           Text(this.data.counting ? `${this.data.currentCount}${this.data.countDownText}` :this.data.retryText)
-            .fontColor(this.data.counting ? '#787878' : '#548CFF')
-            .fontSize(14)
+            // .fontColor(this.data.counting ? '#787878' : '#548CFF')
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-desc'])
+                .fontSize(14)
+                .fontColor('#4B4B4B')
+            )
+            .attributeModifier(
+              new ApplyStyleModifier(this.styles['.mybricks-desc'])
+            )
+            .margin(parseMargin(this.styles['.mybricks-desc']))
             .onClick(()=>{
               this.handleRetryClick()
             })
 
           Text(this.data.counting ? "":this.data.desc)
-            .fontColor('#4B4B4B')
-            .fontSize(14)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-tips'])
+                .fontSize(14)
+                .fontColor('#4B4B4B')
+            )
+            .attributeModifier(
+              new ApplyStyleModifier(this.styles['.mybricks-tips'])
+            )
+            .margin(parseMargin(this.styles['.mybricks-tips']))
             .onClick(()=>{
               this.outputs?.onClickDesc?.(this.data.value)
-            }
-            )
+            })
         }
         .width('100%')
         .justifyContent(FlexAlign.SpaceBetween)
-        .margin({top:25})
+        .margin({top:10})
       }
     }
 

@@ -8,6 +8,7 @@ import fs from '@ohos.file.fs';
 import { photoAccessHelper } from '@kit.MediaLibraryKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { AnyType } from './types'
+import { parseBorder, parseMargin, parseSize } from './utils/StyleMatching';
 
 export interface DataType {
   label?: string,
@@ -184,7 +185,7 @@ export default struct MyBricksFormImageUploader {
               .objectFit(ImageFit.Cover)
             Column() {
               Text('x')
-                .fontSize(9)
+                .fontSize(12)
                 .fontColor(Color.White)
                 .offset({ x: 2, y: -2 })
             }
@@ -205,31 +206,42 @@ export default struct MyBricksFormImageUploader {
 
           }
         }
-        .width(80)
-        .height(80)
-        .margin({ right: 10, bottom: 10 })
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-square'])
+            .borderRadius(3)
+        )
+        .border(parseBorder(this.styles['.mybricks-square'].border as string, '#EFEFEF', 1))
+        .width(parseSize(this.styles['.mybricks-square']?.width) || 72)
+        .height(parseSize(this.styles['.mybricks-square']?.height) || 72)
+        .margin(parseMargin(this.styles['.mybricks-square'], { right: 10, bottom: 10, top: 0, left: 0 }))
+        .clip(true)
       },(item: string) => item)
       if ((this.data?.value?.length ?? 0) < (this.data?.maxCount ?? 1)) {
         Column() {
           Text("+")
-            .fontSize(20)
-            .fontColor("#828282")
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-icon'])
+                .fontSize(24)
+                .fontColor("#ccc")
+            )
 
         }
-        .width(80)
-        .height(80)
-        .margin({
-          right: 10,
-          bottom: 10
-        })
         .alignItems(HorizontalAlign.Center)
         .justifyContent(FlexAlign.Center)
-        .border({
-          width: 1,
-          color: "#efefef",
-          radius: 6,
-          style: BorderStyle.Solid
-        })
+        // .border({
+        //   width: 1,
+        //   color: "#efefef",
+        //   radius: 6,
+        //   style: BorderStyle.Solid
+        // })
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.mybricks-square'])
+            .borderRadius(3)
+        )
+        .border(parseBorder(this.styles['.mybricks-square'].border as string, '#EFEFEF', 1))
+        .width(parseSize(this.styles['.mybricks-square']?.width) || 72)
+        .height(parseSize(this.styles['.mybricks-square']?.height) || 72)
+        .margin(parseMargin(this.styles['.mybricks-square'], { right: 10, bottom: 10, top: 0, left: 0 }))
         .onClick(() => {
           this.imageSelect()
         })
@@ -256,9 +268,6 @@ export default struct MyBricksFormImageUploader {
       })
     }
     .width("100%")
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-square'])
-    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'] || {})
     )

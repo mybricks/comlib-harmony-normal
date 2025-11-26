@@ -1,15 +1,34 @@
 .mybricks-cascader {
   height: 100%;
+  overflow: hidden;
+  background-color: #fff;
   :global {
+    .taroify-tabs__wrap {
+      height: auto;
+      background-color: transparent;
+      .taroify-tabs__wrap__scroll--line {
+        background-color: transparent;
+        .taroify-tabs__tab {
+          padding: 12px;
+        }
+      }
+    }
     .taroify-cascader__tabs {
       display: flex;
       flex-direction: column;
       height: 100%;
+      .taroify-tabs__wrap .taroify-tabs__nav {
+        padding-bottom: 0;
+        background: transparent;
+      }
     }
 
     .taroify-tabs__content {
       flex: 1;
       overflow-y: auto;
+      .taroify-cascader__options {
+        padding: 0;
+      }
     }
   }
 }

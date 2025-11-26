@@ -50,7 +50,7 @@ export default function (props) {
     const Points: JSX.Element[] = [];
 
     for (let i = 0; i < data.length; i++) {
-      const char =  value[i];
+      const char = value[i];
       const bordered = i !== 0 && !data.gutter;
       let showCursor = focus && i === value.length;
 
@@ -70,7 +70,7 @@ export default function (props) {
             className={classNames(css.input_item, {
               [css.input_item_focus]: showCursor,
               [css.input_item_error]: error,
-              'mybricks-input-item': true
+              "mybricks-input-item": true,
             })}
             style={style}
           >
@@ -86,26 +86,38 @@ export default function (props) {
       );
     }
     return Points;
-  }, [focus, data.gutter, data.length, mask, value, data.showLine, error,data.isPassword]);
+  }, [
+    focus,
+    data.gutter,
+    data.length,
+    mask,
+    value,
+    data.showLine,
+    error,
+    data.isPassword,
+  ]);
 
-  const onSmsInput = useCallback((e) => {
-    let input = e.detail.value;
+  const onSmsInput = useCallback(
+    (e) => {
+      let input = e.detail.value;
 
-    // 如果内容没有变化，不触发
-    if (input == value) {
-      return;
-    }
+      // 如果内容没有变化，不触发
+      if (input == value) {
+        return;
+      }
 
-    if (input.length == data.length) {
-      setError(false);
-      //填满时输出
-      outputs["onComplete"](e.detail.value);
-    }
-    if (input.length > data.length) {
-      return;
-    }
-    setValue(input);
-  }, [value]);
+      if (input.length == data.length) {
+        setError(false);
+        //填满时输出
+        outputs["onComplete"](e.detail.value);
+      }
+      if (input.length > data.length) {
+        return;
+      }
+      setValue(input);
+    },
+    [value]
+  );
 
   const onSmSFoucs = () => {
     setFocus(true);
@@ -135,10 +147,15 @@ export default function (props) {
   };
 
   const resendSMS = () => {
-    if (env.edit) return
+    if (env.edit) return;
     if (!data.buttonAvailable) return;
     countDown();
     outputs["onSendSMS"](value);
+  };
+
+  const onClickDesc = () => {
+    if (env.edit) return;
+    outputs["onClickDesc"](value);
   };
 
   return (
@@ -155,14 +172,21 @@ export default function (props) {
         />
       </View>
 
-      {!data.hideOptButton && 
-      <View>
-        <View className={css.desc + ' mybricks-input-desc'} onClick={resendSMS}>
-          <View className="mybricks-desc">{displayNormalText}</View>
+      {!data.hideOptButton && (
+        <View>
+          <View className={css.desc}>
+            <View
+              className={css.descText + " mybricks-desc"}
+              onClick={resendSMS}
+            >
+              {displayNormalText}
+            </View>
+            <View className={css.tips + " mybricks-tips"} onClick={onClickDesc}>
+              {data.desc}
+            </View>
+          </View>
         </View>
-        <View>{data.desc}</View>
-      </View>
-      }
+      )}
     </View>
   );
 }
