@@ -37,6 +37,9 @@ export default function (props) {
 
   useEffect(() => {
     const result = formatValue(data.value);
+    if(!result){
+      return;
+    }
     setValue(result);
   }, [data.value]);
 
