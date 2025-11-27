@@ -110,10 +110,12 @@ export default {
   - 可配置样式: padding、backgroundColor、border
 
   layout声明
-  width: 可配置，默认为fontSize的值
-  height: 可配置，默认为fontSize的值
+  width: 可配置，默认24
+  height: 可配置，默认为24
 
   通过layout的固定宽高可以实现类似按钮和图片的效果
+  
+  注意：如果配置背景，建议宽高和大小配置有区别，否则图标会占满背景。
 
   <允许使用的图标>
   ${icons.join('\n')}
