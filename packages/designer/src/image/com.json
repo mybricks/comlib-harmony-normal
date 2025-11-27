@@ -4,11 +4,12 @@
   "author": "MyBricks",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "图片",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
   "editors": "./editors.tsx",
+  "upgrade": "./upgrade.ts",
   "ai": "./ai.ts",
   "inputs": [
     {
@@ -25,6 +26,13 @@
       "title": "单击",
       "schema": {
         "type": "string"
+      }
+    },
+    {
+      "id": "onPress",
+      "title": "当图片按下",
+      "schema": {
+        "type": "boolean"
       }
     },
     {

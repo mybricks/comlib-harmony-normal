@@ -8,11 +8,11 @@ export default {
   },
   ":root": {
     style: [
-      {
-        title: "星星样式",
-        options: ["font"],
-        target: ".taroify-icon",
-      },
+      // {
+      //   title: "星星样式",
+      //   options: ["font"],
+      //   target: ".taroify-icon",
+      // },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
       cate0.title = "评分";

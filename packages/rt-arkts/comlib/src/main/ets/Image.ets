@@ -54,6 +54,7 @@ interface Outputs {
   onClick: (src: string | undefined) => void,
   onLoad?: (src: string) => void,
   onError?: (src: string) => void
+  onPress?: (e: boolean) => void
 }
 
 @ComponentV2
@@ -73,7 +74,7 @@ export default struct MyBricksImage {
   aboutToAppear(): void {
 
     this.inputs?.setSrc((src) => {
-          this.data.src = src
+      this.data.src = src
     })
   }
 
@@ -123,6 +124,7 @@ export default struct MyBricksImage {
   build() {
     Column() {
       Image(this.encodedSrc)
+        .draggable(false)
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-image'])
         )
@@ -138,6 +140,15 @@ export default struct MyBricksImage {
     }.onClick(() => {
       this.outputs?.onClick(this.data.src)
     })
+    .gesture(
+      LongPressGesture({ repeat: false, duration: 100 })
+        .onAction(() => {
+          this.outputs?.onPress?.(true)
+        })
+        .onActionEnd(() => {
+          this.outputs?.onPress?.(false)
+        })
+    )
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

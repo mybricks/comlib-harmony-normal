@@ -1,5 +1,5 @@
 export default function ({ data, input, output }) {
-    // 兼容老组件没有onFocus事件的问题
+    // onScroll 事件兼容老组件的问题
     if (!output.get("onScroll")) {
         output.add({
             id: "onScroll",

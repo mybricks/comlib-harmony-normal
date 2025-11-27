@@ -7,6 +7,12 @@ export default {
     options: ["width", "height"],
   },
   ":root": {
-
+    style: [
+      {
+        title: "样式",
+        options: ["border", "background", "padding", "boxShadow"],
+        target: `.mybricks-audio-wavy`,
+      },
+    ],
   },
 };

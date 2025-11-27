@@ -160,11 +160,11 @@ interface PaddingStyle {
   top: number | string;
   bottom: number | string;
 }
-export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
-  let paddingTop = style?.paddingTop ?? 0
-  let paddingLeft = style?.paddingLeft ?? 0
-  let paddingRight = style?.paddingRight ?? 0
-  let paddingBottom = style?.paddingBottom ?? 0
+export function parsePadding(style: Record<string, AnyType>, initPadding?: PaddingStyle): PaddingStyle {
+  let paddingTop = initPadding?.top ?? 0
+  let paddingLeft = initPadding?.left ?? 0
+  let paddingRight = initPadding?.right ?? 0
+  let paddingBottom = initPadding?.bottom ?? 0
 
   const paddingStr = style?.padding
   const configPaddings = paddingStr ? String(paddingStr).split?.(' ') : [];
@@ -206,6 +206,13 @@ export function parsePadding(style: Record<string, AnyType>): PaddingStyle {
       top: paddingValue,
       bottom: paddingValue
     })
+  } else if(style?.paddingLeft || style?.paddingRight || style?.paddingTop || style?.paddingBottom) {
+    return({
+      left: parseFloat(style?.paddingLeft ?? 0),
+      right: parseFloat(style?.paddingRight ?? 0),
+      top: parseFloat(style?.paddingTop ?? 0),
+      bottom: parseFloat(style?.paddingBottom ?? 0)
+    })
   } else {
     return({
       left: paddingLeft,
@@ -222,11 +229,11 @@ interface MarginStyle {
   top: number | string;
   bottom: number | string;
 }
-export function parseMargin(style: Record<string, AnyType>): MarginStyle {
-  let marginTop = style?.marginTop ?? 0
-  let marginLeft = style?.marginLeft ?? 0
-  let marginRight = style?.marginRight ?? 0
-  let marginBottom = style?.marginBottom ?? 0
+export function parseMargin(style: Record<string, AnyType>, initMargin?: MarginStyle): MarginStyle {
+  let marginTop = initMargin?.top ?? 0
+  let marginLeft = initMargin?.left ?? 0
+  let marginRight = initMargin?.right ?? 0
+  let marginBottom = initMargin?.bottom ?? 0
 
   const marginStr = style?.margin
   const configMargins = marginStr ? String(marginStr).split?.(' ') : [];
@@ -268,7 +275,14 @@ export function parseMargin(style: Record<string, AnyType>): MarginStyle {
       top: marginValue,
       bottom: marginValue
     })
-  } else {
+  } else if(style?.marginLeft || style?.marginRight || style?.marginTop || style?.marginBottom) {
+    return({
+      left: parseFloat(style?.marginLeft ?? 0),
+      right: parseFloat(style?.marginRight ?? 0),
+      top: parseFloat(style?.marginTop ?? 0),
+      bottom: parseFloat(style?.marginBottom ?? 0)
+    })
+  }  else {
     return({
       left: marginLeft,
       right: marginRight,
@@ -276,4 +290,14 @@ export function parseMargin(style: Record<string, AnyType>): MarginStyle {
       bottom: marginBottom
     })
   }
+}
+
+export function parseSize(size: string | number | undefined): string | number {
+  if (!size && size !== 0) return undefined
+  if (typeof size === 'number') return size
+  if (typeof size === 'string' && size.endsWith('%')) return size
+  if (typeof size === 'string' && size.endsWith('px')) {
+    return parseFloat(size)
+  }
+  return 'auto'
 }

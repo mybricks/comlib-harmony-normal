@@ -1,98 +1,105 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
-import css from './style.less'
-import cx from 'classnames'
-import { View } from '@tarojs/components'
-import { Input } from 'brickd-mobile'
-import { debounce } from './../utils/core'
-import { Button } from '@tarojs/components'
-import { SymbolGlyph } from './../components/symbol-glyph'
+import React, { useCallback, useEffect, useState } from "react";
+import css from "./style.less";
+import cx from "classnames";
+import { View } from "@tarojs/components";
+import { Input } from "brickd-mobile";
+import { debounce } from "./../utils/core";
+import { Button } from "@tarojs/components";
+import { SymbolGlyph } from "./../components/symbol-glyph";
 
 export default function ({ env, data, inputs, outputs }) {
-  const [value, setValue] = useState('')
-  const [autoFocus, setAutoFocus] = useState(false)
+  const [value, setValue] = useState("");
+  const [autoFocus, setAutoFocus] = useState(false);
 
   useEffect(() => {
-    inputs['setValue']((val) => {
-      setValue(val)
-    })
+    inputs["setValue"]((val) => {
+      setValue(val);
+    });
 
-    inputs['getValue']?.((val, relOutputs) => {
-      relOutputs['returnValue'](value)
-    })
+    inputs["getValue"]?.((val, relOutputs) => {
+      relOutputs["returnValue"](value);
+    });
 
-    inputs['focus']?.((val, relOutputs) => {
-      setAutoFocus(true)
-      relOutputs['focusDone'](val)
-    })
-  }, [value])
+    inputs["focus"]?.((val, relOutputs) => {
+      setAutoFocus(true);
+      relOutputs["focusDone"](val);
+    });
+  }, [value]);
 
   const onClick = useCallback(() => {
     if (data.disabled) {
-      outputs['onClick']?.(value)
+      outputs["onClick"]?.(value);
     }
-  }, [data.disabled])
+  }, [data.disabled]);
 
   const onSearch = useCallback((e) => {
-    outputs['onSearch']?.(e?.detail?.value)
-  }, [])
+    outputs["onSearch"]?.(e?.detail?.value);
+  }, []);
 
   const onInput = useCallback((e) => {
-    setValue(e.detail.value)
-  }, [])
+    setValue(e.detail.value);
+  }, []);
 
   const onChange = useCallback(
     debounce((e) => {
-      outputs['onChange']?.(e.detail.value)
+      outputs["onChange"]?.(e.detail.value);
     }, 300),
     []
-  )
+  );
 
   const onCancel = useCallback((e) => {
-    outputs['onCancel']?.(true)
-  }, [])
-
-
+    outputs["onCancel"]?.(true);
+  }, []);
 
   const onBlur = useCallback((e) => {
     //防止失去焦点后又自动聚焦
-    setAutoFocus(false)
-  }, [])
+    setAutoFocus(false);
+  }, []);
 
   const onButtonClick = useCallback(() => {
-    outputs['onSearch']?.(value)
-  }, [value])
+    outputs["onSearch"]?.(value);
+  }, [value]);
 
   return (
-    <View className={cx(css.searchBox, 'mybricks-searchBar')}>
-      {/* 搜索框禁用时在上方加一层View，不然点击不生效 */}
-      {data.disabled && (
-        <View className={css.searchBoxDisabled} onClick={onClick}></View>
+    <View className={cx(css.searchWrap, "mybricks-searchBar-wrap")}>
+      {data.label && (
+        <View className={cx(css.searchLabel, "mybricks-searchBar-label")}>
+          {data.label}
+        </View>
       )}
-      {
-        data.showSearchIcon && <SymbolGlyph className={cx(css.icon, 'mybricks-searchBar-input')} name={data.searchIcon} fontColor={data.searchIconColor} fontSize={data.searchIconFontSize} />
-      }
-      <Input
-        className={cx(css.searchBar, 'mybricks-searchBar-input')}
-        value={value}
-        placeholder={data?.placeholderText}
-        disabled={data.disabled}
-        onClick={onClick}
-        onChange={onChange}
-        onCancel={onCancel}
-        onBlur={onBlur}
-      />
-      {data.showSearchButton && (
-        <Button
-          className={cx(css.searchButton, 'mybricks-searchButton')}
-          onClick={onButtonClick}
-        >
-          {data.searchButtonText}
-        </Button>
-      )}
+
+      <View className={cx(css.searchBox, "mybricks-searchBar")}>
+        {/* 搜索框禁用时在上方加一层View，不然点击不生效 */}
+        {data.disabled && (
+          <View className={css.searchBoxDisabled} onClick={onClick}></View>
+        )}
+        {data.showSearchIcon && (
+          <SymbolGlyph
+            className={cx(css.icon, "mybricks-searchBar-input")}
+            name={data.searchIcon}
+            fontColor={data.searchIconColor}
+            fontSize={data.searchIconFontSize}
+          />
+        )}
+        <Input
+          className={cx(css.searchBar, "mybricks-searchBar-input")}
+          value={value}
+          placeholder={data?.placeholderText}
+          disabled={data.disabled}
+          onClick={onClick}
+          onChange={onChange}
+          onCancel={onCancel}
+          onBlur={onBlur}
+        />
+        {data.showSearchButton && (
+          <Button
+            className={cx(css.searchButton, "mybricks-searchButton")}
+            onClick={onButtonClick}
+          >
+            {data.searchButtonText}
+          </Button>
+        )}
+      </View>
     </View>
-  )
+  );
 }

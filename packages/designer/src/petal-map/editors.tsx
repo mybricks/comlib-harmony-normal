@@ -12,7 +12,7 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["border", "background"],
+        options: ["border", "background", "boxShadow"],
         target: `.mybricks-map`,
       },
     ],

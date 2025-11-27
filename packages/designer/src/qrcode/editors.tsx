@@ -6,36 +6,45 @@ export default {
   "@resize": {
     options: ["width"],
   },
-  ":root"({ data, output, style }, cate0, cate1, cate2) {
-    cate0.title = "二维码";
-    cate0.items = [
+  ":root": {
+    style: [
       {
-        items: [
-          {
-            title: "基础属性",
-            items: [
-              {
-                title: "二维码内容",
-                type: "text",
-                value: {
-                  get({ data }) {
-                    return data.text;
-                  },
-                  set({ data }, text: string) {
-                    data.text = text;
-                  },
-                },
-                binding: {
-                  with: `data.text`,
-                  schema: {
-                    type: "string",
-                  },
-                },
-              },
-            ],
-          },
-        ],
+        title: "样式",
+        options: ["border", "background", "padding", "boxShadow"],
+        target: `.mybricks-code`,
       },
-    ];
+    ],
+    items: ({ data, output, style }, cate0, cate1, cate2) => {
+      cate0.title = "二维码";
+      cate0.items = [
+        {
+          items: [
+            {
+              title: "基础属性",
+              items: [
+                {
+                  title: "二维码内容",
+                  type: "text",
+                  value: {
+                    get({ data }) {
+                      return data.text;
+                    },
+                    set({ data }, text: string) {
+                      data.text = text;
+                    },
+                  },
+                  binding: {
+                    with: `data.text`,
+                    schema: {
+                      type: "string",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ];
+    },
   },
 };

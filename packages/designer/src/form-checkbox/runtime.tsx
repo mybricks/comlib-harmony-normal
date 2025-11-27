@@ -4,6 +4,7 @@ import { isObject, isString, isEmpty, isNumber } from "./../utils/type";
 import useFormItemValue from "../utils/hooks/use-form-item-value";
 import cx from "classnames";
 import { View } from "@tarojs/components";
+import css from "./style.less";
 
 export default function (props) {
   const { env, data, inputs, outputs, slots, parentSlot } = props;
@@ -161,12 +162,13 @@ export default function (props) {
       direction={data.direction}
       value={value}
       onChange={onChange}
+      className={cx(css.form_checkbox, "form-checkbox-group")}
     >
       {options.map((item, index) => {
         const restProps = {} as any;
-        if (item.icon) {
-          restProps.icon = <Image src={item.icon} />;
-        }
+        // if (item.icon) {
+        //   restProps.icon = <Image src={item.icon} />;
+        // }
 
         return (
           <Checkbox

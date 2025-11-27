@@ -7,6 +7,13 @@ export default {
     options: ["width"],
   },
   ":root": {
+    style: [
+      {
+        title: "样式",
+        options: ["border", "background", "padding", "boxShadow", "font"],
+        target: `.mybricks-support`,
+      },
+    ],
     items({ data, slot }, cate0, cate1, cate2) {
       cate0.title = "技术支持";
       cate0.items = [

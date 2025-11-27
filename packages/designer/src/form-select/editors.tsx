@@ -31,7 +31,7 @@ export default {
       },
       {
         title: "输入框",
-        options: ["border", "size", "padding", "background"],
+        options: ["border", "padding", "background", "boxShadow"],
         target: [".mybricks-select", ".mybricks-h5Select"],
       },
       {

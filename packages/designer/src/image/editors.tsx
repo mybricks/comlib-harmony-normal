@@ -12,7 +12,7 @@ export default {
     style: [
       {
         title: "图片",
-        options: ["border"],
+        options: ["border", "background", "boxshadow"],
         target: `.mybricks-image`,
       },
     ],
@@ -42,37 +42,38 @@ export default {
                 },
               },
               binding: {
-                with: 'data.src',
+                with: "data.src",
                 schema: {
-                  type: 'string'
-                }
-              }
+                  type: "string",
+                },
+              },
             },
-
           ],
-        }, {
+        },
+        {
           title: "高级属性",
-          items: [{
-            title: "展示方式",
-            type: "editorRender",
-            description:
-              "展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用",
-            options: {
-              render: ImageFitMode,
-            },
-            value: {
-              get({ data, style }) {
-                return {
-                  mode: data.mode,
-                  style: style,
-                };
+          items: [
+            {
+              title: "展示方式",
+              type: "editorRender",
+              description:
+                "展示方式的区别主要在图片尺寸与配置尺寸对不齐的情况下起作用",
+              options: {
+                render: ImageFitMode,
               },
-              set({ }, value) {
-                data.mode = value;
+              value: {
+                get({ data, style }) {
+                  return {
+                    mode: data.mode,
+                    style: style,
+                  };
+                },
+                set({}, value) {
+                  data.mode = value;
+                },
               },
             },
-          },]
-
+          ],
         },
         {
           title: "事件",
@@ -86,6 +87,13 @@ export default {
             },
 
             {
+              title: "当图片按下",
+              type: "_event",
+              options: {
+                outputId: "onPress",
+              },
+            },
+            {
               title: "加载完毕",
               type: "_event",
               options: {
@@ -98,7 +106,7 @@ export default {
               options: {
                 outputId: "onError",
               },
-            }
+            },
           ],
         },
       ];

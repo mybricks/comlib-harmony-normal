@@ -9,46 +9,62 @@ export default {
   ":root": {
     style: [
       {
+        title: "容器",
+        options: ["background", "border", "padding", "boxShadow"],
+        target: ".mybricks-cascader",
+      },
+      {
         title: "选项",
         items: [
           {
-            title: "默认样式",
-            catelog: "默认样式",
-            options: [
-              { type: "font", config: { disableTextAlign: true } },
-              { type: "padding" },
-              { type: "background" },
-            ],
-            target:
-              ".mybricks-cascader .taroify-cascader__option:not(.taroify-cascader__option--active)",
+            title: "选项容器",
+            options: ["background", "border", "padding", "boxShadow", "margin"],
+            target: ".mybricks-cascader .taroify-tabs__content",
           },
           {
-            title: "选中样式",
-            catelog: "选中样式",
-            options: [
-              { type: "font", config: { disableTextAlign: true } },
-              { type: "padding" },
-              { type: "background" },
-            ],
-            target: ".mybricks-cascader .taroify-cascader__option--active",
-          },
-        ],
-      },
-      {
-        title: "标签项",
-        items: [
-          {
-            title: "样式",
+            title: "选项",
             items: [
               {
                 title: "默认样式",
                 catelog: "默认样式",
                 options: [
                   { type: "font", config: { disableTextAlign: true } },
-                  { type: "size" },
-                  { type: "border" },
                   { type: "padding" },
                   { type: "background" },
+                  "border",
+                  "margin",
+                ],
+                target:
+                  ".mybricks-cascader .taroify-cascader__option:not(.taroify-cascader__option--active)",
+              },
+              {
+                title: "选中样式",
+                catelog: "选中样式",
+                options: [
+                  { type: "font", config: { disableTextAlign: true } },
+                  { type: "padding" },
+                  { type: "background" },
+                  "border",
+                  "margin",
+                ],
+                target: ".mybricks-cascader .taroify-cascader__option--active",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "标签",
+        items: [
+          {
+            title: "标签项",
+            items: [
+              {
+                title: "默认样式",
+                catelog: "默认样式",
+                options: [
+                  { type: "font", config: { disableTextAlign: true } },
+                  { type: "padding" },
                 ],
                 target:
                   ".mybricks-cascader .taroify-tabs__tab:not(.taroify-tabs__tab--active)",
@@ -56,27 +72,20 @@ export default {
               {
                 title: "选中样式",
                 catelog: "选中样式",
-                options: [
-                  { type: "font", config: { disableTextAlign: true } },
-                  { type: "size" },
-                  { type: "border" },
-                  { type: "padding" },
-                  { type: "background" },
-                ],
+                options: [{ type: "font", config: { disableTextAlign: true } }],
                 target: ".mybricks-cascader .taroify-tabs__tab--active",
               },
             ],
           },
+          {
+            title: "选中条",
+            options: [
+              { type: "background", config: { disableBackgroundImage: true } },
+              { type: "size", config: { disableWidth: false } },
+            ],
+            target: ".mybricks-cascader .taroify-tabs__line",
+          },
         ],
-      },
-      {
-        title: "选中条",
-        options: [
-          "border",
-          { type: "background", config: { disableBackgroundImage: true } },
-          { type: "size", config: { disableWidth: false } },
-        ],
-        target: ".mybricks-cascader .taroify-tabs__line",
       },
     ],
     items({ data, slot }, cate0, cate1, cate2) {

@@ -10,7 +10,7 @@ export default {
     style: [
       {
         title: "背景",
-        options: ["border", "background"],
+        options: ["border", "background", "boxShadow"],
         target: ".mybricks-progress-bg",
       },
       {

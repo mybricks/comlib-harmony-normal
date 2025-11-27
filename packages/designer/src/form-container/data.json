@@ -4,5 +4,6 @@
   "skipValidation": false,
   "useLoading": false,
   "items": [],
-  "itemLayout": "horizontal"
+  "itemLayout": "horizontal",
+  "dataSource":{}
 }

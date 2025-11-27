@@ -133,7 +133,7 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
     }
     const height = !isNil(style?.height) ? style?.height : this.initHeight;
     if (!isNil(height)) {
-      instance.width(height)
+      instance.height(height)
     }
 
     if (!isNil(style?.opacity)) {
@@ -229,12 +229,19 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
         top: paddingValue,
         bottom: paddingValue
       })
-    } else {
+    } else if(style?.paddingLeft || style?.paddingRight || style?.paddingTop || style?.paddingBottom) {
       instance.padding({
         left: style?.paddingLeft,
         right: style?.paddingRight,
         top: style?.paddingTop,
         bottom: style?.paddingBottom
+      })
+    } else {
+      instance.padding({
+        left: paddingLeft,
+        right: paddingRight,
+        top: paddingTop,
+        bottom: paddingBottom
       })
     }
 

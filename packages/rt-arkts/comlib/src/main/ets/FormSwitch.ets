@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern } from './utils/StyleMatching'
 
 // Data 接口定义
 export interface DataType {
@@ -100,7 +101,8 @@ export default struct MyBricksFormSwitch {
 
     //获取开关颜色
     const style = this.styles?.['.taroify-switch--checked']
-    this.switchColor = style?.backgroundColor
+    if (style?.backgroundColor)
+      this.switchColor = style.backgroundColor
   }
 
   build() {
@@ -109,13 +111,49 @@ export default struct MyBricksFormSwitch {
         .onChange((isOn) => {
           this.data.value = isOn;
           this.outputs?.onChange?.(isOn)
-
           this.parentSlot?._inputs?.["onChange"]?.({
             id: this.uid,
             value:this.data.value,
           });
         })
-        .selectedColor(this.switchColor)
+        .selectedColor(this.data.type === 'checkbox' ? Color.Transparent  : this.switchColor)
+        .switchStyle({
+          pointRadius: getStyleValueByPattern(
+            this.styles,
+            ['.taroify-switch__node::after'],
+            'width',
+            24
+          ) / 2,
+          pointColor: getStyleValueByPattern(
+            this.styles,
+            ['.taroify-switch__node::after'],
+            'backgroundColor',
+            '#fff'
+          ),
+          unselectedColor: getStyleValueByPattern(
+            this.styles,
+            ['.taroify-switch:not(.taroify-switch--checked)'],
+            'backgroundColor',
+            'rgba(127, 127, 127, 0.2)'
+          )
+        })
+        .width(getStyleValueByPattern(
+          this.styles,
+          [this.data.type === 'checkbox' ? '.taroify-icon' : '.taroify-switch'],
+          'width',
+          this.data.type === 'checkbox' ? 24 : 48
+        ))
+        .height(getStyleValueByPattern(
+          this.styles,
+          [this.data.type === 'checkbox' ? '.taroify-icon' : '.taroify-switch'],
+          'height',
+          24
+        ))
+        .attributeModifier(
+          new ApplyStyleModifier(!!this.data.value ? this.styles['.mybricks-active .taroify-icon'] : this.styles['.mybricks-inactive .taroify-icon'])
+            .backgroundColor(!!this.data.value ? '#FA6400' : Color.Transparent)
+            .borderRadius('50%')
+        )
     }
     .alignItems(HorizontalAlign.Start)
     .justifyContent(FlexAlign.Start)

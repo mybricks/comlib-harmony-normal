@@ -12,12 +12,12 @@ export default {
     style: [
       {
         title: "卡片尺寸",
-        options: ["size", "border", "background"],
+        options: ["size", "border", "background", "font", "margin"],
         target: ".mybricks-square",
       },
       {
-        title: "文件名标题",
-        options: ["font"],
+        title: "文件名",
+        options: ["font", "margin", "padding", "border", "background"],
         target: ".mybricks-thumbnail",
       },
     ],

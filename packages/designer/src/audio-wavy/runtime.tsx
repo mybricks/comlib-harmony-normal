@@ -1,8 +1,4 @@
-import React, {
-  useRef,
-  useEffect,
-  useState,
-} from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { View } from "@tarojs/components";
 import classNames from "classnames";
 import css from "./style.less";
@@ -31,7 +27,7 @@ export default function ({ data, inputs }) {
   const [heights, setHeights] = useState<number[]>([]);
 
   useEffect(() => {
-    inputs['push']((height: number) => {
+    inputs["push"]((height: number) => {
       setHeights((heights) => {
         context.current.audioLength += 1;
         const nextHeights = [...heights, height];
@@ -46,7 +42,7 @@ export default function ({ data, inputs }) {
 
       setHeights((heights) => {
         const count = width / (Constants.COLUMN_WIDTH + data.gap);
-        const length = Math.round(count)
+        const length = Math.round(count);
 
         if (!heights.length) {
           // 初始化
@@ -58,7 +54,10 @@ export default function ({ data, inputs }) {
           // 已经输入了，原始heights长度只允许增加
           if (length > heights.length) {
             // 把新的加在前面
-            return [Array(length - heights.length).fill(data.minHeight), ...heights];
+            return [
+              Array(length - heights.length).fill(data.minHeight),
+              ...heights,
+            ];
           } else {
             return heights;
           }
@@ -72,7 +71,7 @@ export default function ({ data, inputs }) {
 
     return () => {
       observer.unobserve(observerTarget!);
-    }
+    };
   }, []);
 
   return (
@@ -80,9 +79,9 @@ export default function ({ data, inputs }) {
     <View
       // @ts-ignore
       ref={containerRef}
-      className={classNames(css.container)}
+      className={classNames(css.container, "mybricks-audio-wavy")}
       style={{
-        gap: data.gap
+        gap: data.gap,
       }}
     >
       {heights.map((height, index) => {
@@ -95,11 +94,14 @@ export default function ({ data, inputs }) {
               height,
               width: Constants.COLUMN_WIDTH,
               borderRadius: Constants.COLUMN_WIDTH,
-              backgroundColor: context.current.heightsLength - context.current.audioLength > index ? Constants.NORMAL_COLOR : Constants.AUDIO_COLOR
+              backgroundColor:
+                context.current.heightsLength - context.current.audioLength >
+                index
+                  ? Constants.NORMAL_COLOR
+                  : Constants.AUDIO_COLOR,
             }}
-          >
-          </View>
-        )
+          ></View>
+        );
       })}
     </View>
   );

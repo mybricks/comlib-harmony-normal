@@ -28,6 +28,30 @@ export default {
     cate0.title = "条件容器";
     cate0.items = [
       {
+        title: "数据",
+        items: [
+          {
+            title: "激活的条件",
+            type: "text",
+            description: "输入条件名称，切换到对应条件",
+            value: {
+              get({ data }) {
+                return data.now_condition;
+              },
+              set({ data, slot }, value) {
+                data.now_condition = value;
+              },
+            },
+            binding: {
+              with: `data.now_condition`,
+              schema: {
+                type: "string",
+              },
+            },
+          },
+        ],
+      },
+      {
         title: "基础属性",
         items: [
           {
@@ -206,8 +230,8 @@ export default {
         ]
       },
       {
-        title:"高级属性",
-        items:[
+        title: "高级属性",
+        items: [
           {
             title: "开启预渲染",
             description:

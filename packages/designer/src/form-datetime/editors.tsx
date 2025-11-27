@@ -13,8 +13,18 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["border", "background"],
+        options: ["border", "background", "padding", "boxshadow"],
         target: `.mybricks-datetime`,
+      },
+      {
+        title: "内容文本",
+        options: ["font"],
+        target: `.mybricks-input .taroify-native-input`,
+      },
+      {
+        title: "提示内容文本",
+        options: ["font"],
+        target: `.mybricks-input .taroify-native-input::placeholder`,
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {

@@ -1,0 +1,27 @@
+.wrapper {
+  width: 100%;
+  height: 375px;
+  border-radius: 50%;
+  position: relative;
+  background: #eee;
+  user-select: none;
+  .center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+  }
+  .pointer {
+    position: absolute;
+    width: 6px;
+    height: 20px;
+    background: red;
+    border-radius: 3px;
+    left: 50%;
+    top: 0;
+  }
+}

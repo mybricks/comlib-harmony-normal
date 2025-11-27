@@ -1,4 +1,4 @@
-import { ApplyRootStyleModifier, ApplyStyleModifier, CSSProperties } from './utils/GetDesignStyle'
+import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 import dayjs from 'dayjs'
 
@@ -235,24 +235,30 @@ export default struct MyBricksFormDateTime {
     Column() {
       Row() {
         Text(this.formatTimeDisplay(this.data.value) || this.data.placeholder)
-          .fontSize(14)
           .layoutWeight(1)
-          .fontColor(this.data.value ? '#000000' : '#999999')
+          .attributeModifier(
+            new ApplyFontStyleModifier(this.data.value ? this.styles['.mybricks-input .taroify-native-input'] : this.styles['.mybricks-input .taroify-native-input::placeholder'])
+              .fontSize(14)
+              .fontColor(this.data.value ?'#000000' : '#c8c9cc')
+          )
         SymbolGlyph($r('sys.symbol.chevron_right'))
           .fontSize(16)
           .renderingStrategy(SymbolRenderingStrategy.SINGLE)
           .fontColor(['#000000', Color.White])
       }
       .width('100%')
-      .backgroundColor(Color.White)
       .onClick(() => {
         this.dialogController?.open()
       })
       .attributeModifier(
-        new ApplyRootStyleModifier(this.styles['root'] || {})
+        new ApplyStyleModifier(this.styles['.mybricks-datetime'])
+          .backgroundColor(Color.Transparent)
       )
-      .attributeModifier(this.modifier)
     }
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'] || {})
+    )
+    .attributeModifier(this.modifier)
   }
 
   private formatTimeDisplay(timestamp?: number): string {

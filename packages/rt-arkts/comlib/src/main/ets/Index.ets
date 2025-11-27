@@ -355,6 +355,12 @@ export {
 } from './FormRate'
 
 export {
+  default as mybricks_harmony_formNumberKnob,
+  DataType as mybricks_harmony_formNumberKnob_DataType,
+  Data as mybricks_harmony_formNumberKnob_Data,
+} from './FormNumberKnob'
+
+export {
   default as mybricks_harmony_line,
   DataType as mybricks_harmony_line_DataType,
   Data as mybricks_harmony_line_Data,

@@ -11,6 +11,20 @@ interface AudioCapturerConstructorParams {
   maxHeight: number;
 }
 
+function concatBuffers(buffers: ArrayBuffer[]) {
+  const totalLength = buffers.reduce((acc, buffer) => acc + buffer.byteLength, 0);
+  const result = new ArrayBuffer(totalLength);
+  const resultView = new Uint8Array(result);
+
+  let offset = 0;
+  buffers.forEach(buffer => {
+    resultView.set(new Uint8Array(buffer), offset);
+    offset += buffer.byteLength;
+  });
+
+  return result;
+}
+
 export class AudioCapturer {
   private audioCapturer?: audio.AudioCapturer;
   private uiContext?: UIContext;
@@ -33,6 +47,17 @@ export class AudioCapturer {
     this.uiContext = params.uiContext;
     this.minHeight = params.minHeight;
     this.maxHeight = params.maxHeight;
+  }
+
+  private getBytesPerSample(format: audio.AudioSampleFormat): number {
+    switch (format) {
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_U8: return 1;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S16LE: return 2;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S24LE: return 3;
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_S32LE:
+      case audio.AudioSampleFormat.SAMPLE_FORMAT_F32LE: return 4;
+      default: return 2;
+    }
   }
 
   // 开始录制
@@ -66,10 +91,17 @@ export class AudioCapturer {
 
         this.file = file;
 
+        let buffers: ArrayBuffer[] = [];
+
         const readDataCallback = (buffer: ArrayBuffer) => {
-          this.eventListener.get('readData')?.forEach((listener) => {
-            listener(buffer);
-          });
+          buffers.push(buffer)
+          if (buffers.length === 2) {
+            this.eventListener.get('readData')?.forEach((listener) => {
+              listener(concatBuffers(buffers));
+            });
+            buffers = []
+          }
+
           let options: Options = {
             offset: this.bufferSize,
             length: buffer.byteLength
@@ -149,8 +181,6 @@ export class AudioCapturer {
     this.sampleValCnt = 0;
     this.sampleValSum = 0;
 
-    console.log(`Leon calculateDecibelHeight ${db} ${(db + Math.abs(Constants.MIN_DB)) / Math.abs(Constants.MIN_DB) * this.maxHeight}`)
-
     return Math.max(this.minHeight, (db + Math.abs(Constants.MIN_DB)) / Math.abs(Constants.MIN_DB) * this.maxHeight)
   }
 
@@ -165,5 +195,20 @@ export class AudioCapturer {
   // 取消事件监听
   removeEventListener(key: string, listener: (value: ESObject) => void) {
     this.eventListener.get(key)?.delete(listener);
+  }
+
+  // 计算音频时长
+  async getDuration(): Promise<number> {
+    const audioParamsGet = this.audioCapturer?.getStreamInfoSync()
+    if (!audioParamsGet) return 0;
+
+    const bytesPerSample = this.getBytesPerSample(audioParamsGet.sampleFormat);
+    const duration = this.bufferSize / (
+      audioParamsGet.samplingRate *
+      audioParamsGet.channels *
+        bytesPerSample
+    ) * 1000;
+
+    return Math.floor(duration);
   }
 }

@@ -11,8 +11,13 @@ export default {
     style: [
       {
         title: "卡片尺寸",
-        options: ["size", "border", "background"],
+        options: ["size", "border", "background", "boxShadow", "margin"],
         target: ".mybricks-square",
+      },
+      {
+        title: "选择图标",
+        options: ["font"],
+        target: ".mybricks-icon",
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {

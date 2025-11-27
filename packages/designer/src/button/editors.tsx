@@ -24,14 +24,14 @@ export default {
           {
             title: "按钮",
             catelog: "默认",
-            options: ["font", "border", "background"],
+            options: ["font", "border", "background", "boxshadow", "padding"],
             target: ".mybricks-button",
             defaultOpen: true,
           },
           {
             title: "按钮",
             catelog: "禁用",
-            options: ["font", "border", "background"],
+            options: ["font", "border", "background", "boxshadow", "padding"],
             target: ".mybricks-button-disable",
             defaultOpen: true,
           },
@@ -55,13 +55,13 @@ export default {
               },
             },
             binding: {
-              with: 'data.text',
+              with: "data.text",
               schema: {
-                type: 'string'
-              }
-            }
-          }
-        ]
+                type: "string",
+              },
+            },
+          },
+        ],
       },
 
       {

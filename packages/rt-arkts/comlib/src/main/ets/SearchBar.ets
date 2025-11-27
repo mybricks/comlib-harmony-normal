@@ -5,7 +5,7 @@ import {
   CSSProperties
 } from './utils/GetDesignStyle'
 import { AnyType } from './types'
-import { getStyleValueByPattern, parseRadius } from './utils/StyleMatching'
+import { parseSize, parseMargin } from './utils/StyleMatching'
 
 type InputAlignType = 'left' | 'right' | 'center';
 
@@ -32,6 +32,9 @@ export interface DataType {
   autoFocus?: boolean
   clearable?: boolean
   showSearchIcon?: boolean
+  searchIconColor?: ResourceColor[]
+  searchIconFontSize?: number
+  searchIcon?: string
 }
 
 interface _Env {
@@ -61,8 +64,9 @@ export class Data implements DataType {
   @Trace autoFocus?: boolean
   @Trace clearable?: boolean
   @Trace showSearchIcon?: boolean
-
-
+  @Trace searchIconColor?: ResourceColor[]
+  @Trace searchIconFontSize?: number
+  @Trace searchIcon?:string
 
   constructor(config?: DataType) {
     this.placeholderText = config?.placeholderText
@@ -74,6 +78,9 @@ export class Data implements DataType {
     this.autoFocus = config?.autoFocus
     this.clearable = config?.clearable
     this.showSearchIcon = config?.showSearchIcon || true
+    this.searchIconColor = config?.searchIconColor ?? ['#303030']
+    this.searchIconFontSize = config?.searchIconFontSize ?? 15
+    this.searchIcon = config?.searchIcon ?? 'magnifyingglass'
   }
 }
 
@@ -128,30 +135,46 @@ export default struct MyBricksSearchBar {
   }
 
   @Computed
-  get borderRadiusStyle(): AnyType {
-    const style:AnyType = getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'])
-    console.log("style",style)
-    if(style?.borderRadius){
-      //统一的圆角值
-      return parseRadius(style.borderRadius)
-    }
-    return 60
+  get placeHolderStyle(): AnyType {
+    const style = this.styles?.['.mybricks-searchBar-input .taroify-native-input::placeholder'] ?? {}
+    return {
+      color: style?.color,
+      fontSize: style?.fontSize ? parseFloat(style?.fontSize as string) : undefined
+    };
   }
 
   build() {
     Column() {
       Row() {
-        Text(this.data.label).textAlign(TextAlign.Center).width(this.data.label ? '10%' : void 0).fontSize(13)
+        if (this.data.label) {
+          Text(this.data.label)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-searchBar-label'])
+                .fontSize(13)
+                .fontColor('#333')
+            )
+            .attributeModifier(
+              new ApplyStyleModifier(this.styles['.mybricks-searchBar-label'])
+            )
+            .width(parseSize(this.styles['.mybricks-searchBar-label'].width) || '10%')
+            .height(parseSize(this.styles['.mybricks-searchBar-label'].height))
+            .margin(parseMargin(this.styles['.mybricks-searchBar-label']))
+        }
 
         Row() {
           if (this.data.showSearchIcon) {
-            Image($r('sys.media.ohos_ic_public_search_filled'))
-              .width(15)
-              .height(15)
-              .fillColor("#C4C2C2")
+            SymbolGlyph($r(`sys.symbol.${this.data.searchIcon}`))
+              .fontSize(this.data.searchIconFontSize)
+              .fontWeight(400)
+              .fontColor(this.data.searchIconColor)
+              .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+              .width(this.data.searchIconFontSize)
+              .height(this.data.searchIconFontSize)
+              .alignSelf(ItemAlign.Center)
+              .align(Alignment.Center)
+              .renderFit(RenderFit.CENTER)
               .margin({
-                left: 10,
-                right: 5
+                right: 3
               })
           }
           TextInput({
@@ -159,11 +182,15 @@ export default struct MyBricksSearchBar {
             text: this.value
           })
             .enabled(!this.data.disabled)
-            .placeholderColor("#999999")
+            .placeholderColor(this.placeHolderStyle?.color ?? '#C8C9CC')
             .placeholderFont({
-              size: 13
+              size: this.placeHolderStyle?.fontSize ?? 14
             })
-            .fontSize(13)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-searchBar-input .taroify-native-input'])
+                .fontSize(14)
+                .fontColor('#323233')
+            )
             .backgroundColor(Color.Transparent)
             .layoutWeight(1)// 添加这一行使其占据剩余空间
             // .margin({ right: 5 })// 添加右边距
@@ -183,33 +210,27 @@ export default struct MyBricksSearchBar {
               Text(this.data.searchButtonText)
                 .halfLeading(true)
                 .attributeModifier(
-                  new ApplyFontStyleModifier(this.styles['.mybricks-searchBar .mybricks-searchButton'])
+                  new ApplyFontStyleModifier(this.styles['.mybricks-searchButton'])
                     .fontSize(14)
                     .fontColor('#ffffff')
                 )
             }
-              .margin({
-                right: 5,
-                top: 5,
-                bottom: 5,
-                left: 5
-              })
-              .onClick(() => {
-                if (this.data.disabled) {
-                  this.outputs?.onClick(this.value || this.data.placeholderText || "")
-                } else {
-                  this.outputs?.onSearch(this.value ?? "")
-                }
+            .onClick(() => {
+              if (this.data.disabled) {
+                this.outputs?.onClick(this.value || this.data.placeholderText || "")
+              } else {
+                this.outputs?.onSearch(this.value ?? "")
+              }
 
-              })
-              .attributeModifier(
-                new ApplyStyleModifier(this.styles['.mybricks-searchBar .mybricks-searchButton'])
-                  .backgroundColor("#3679FF")
-              )
-              .width(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "width", 60))
-              .height(getStyleValueByPattern(this.styles, ['.mybricks-searchBar .mybricks-searchButton'], "height", 30))
-              .borderRadius(this.borderRadiusStyle)
-
+            })
+            .attributeModifier(
+              new ApplyStyleModifier(this.styles['.mybricks-searchButton'])
+                .backgroundColor("#FA6400")
+                .borderRadius(2)
+            )
+            .margin(parseMargin(this.styles['.mybricks-searchButton']))
+            .width(parseSize(this.styles['.mybricks-searchButton'].width) || 50)
+            .height(parseSize(this.styles['.mybricks-searchButton'].height) || '100%')
           }
         }
         .onClick(() => {
@@ -219,17 +240,25 @@ export default struct MyBricksSearchBar {
           }
         })
         .height('100%')
-        .width(this.data.label ? '90%' : '100%')
+        // .width(this.data.label ? '90%' : '100%')
+        .layoutWeight(1)
         .justifyContent(FlexAlign.SpaceBetween)
         .alignItems(VerticalAlign.Center)
         .attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks-searchBar'])
-            .borderRadius(50)
-            .backgroundColor(Color.White)
+            .borderRadius(2)
+            .backgroundColor('#F7F8FA')
+            .padding({
+              top: 3,
+              right: 3,
+              bottom: 3,
+              left: 12
+            })
         )
 
-      }.justifyContent(FlexAlign.Start)
-
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.Start)
     }.attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     ).attributeModifier(this.modifier)

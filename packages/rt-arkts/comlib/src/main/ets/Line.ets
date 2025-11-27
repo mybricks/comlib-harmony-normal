@@ -1,7 +1,7 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
 
-import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+import { getStyleValueByPattern, parseLinearGradient, parseMargin } from './utils/StyleMatching'
 
 export interface DataType {
 
@@ -75,6 +75,7 @@ export default struct MyBricksLine {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-line'],'backgroundImage')))
+    .margin(parseMargin(this.styles['.mybricks-line']))
     .attributeModifier(this.modifier)
   }
 }

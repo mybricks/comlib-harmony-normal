@@ -67,7 +67,7 @@ export default struct MyBricksQrcode {
     Column() {
       QRCode(this.data.text)
         .width('100%')
-        .height('100%')
+        .height('auto')
         .color(Color.Black)
         .backgroundColor(Color.White)
     }
@@ -75,6 +75,9 @@ export default struct MyBricksQrcode {
     .alignItems(HorizontalAlign.Center)
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
+    )
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-code'])
     )
     .attributeModifier(this.modifier)
   }

@@ -2,7 +2,7 @@ import { uuid } from "../utils";
 import { DynamicArrayData } from "./../utils/editors/dynamic-array";
 import comJson from "./com.json";
 import setSlotLayout from "../utils/set-slot-layout";
-import { getFilterSelector } from '../utils/css-selector';
+import { getFilterSelector } from "../utils/css-selector";
 
 const ScopeSlotInputs = comJson.slots[0].inputs;
 const dynamicArrayData = new DynamicArrayData({ keyName: "tabs" });
@@ -33,6 +33,9 @@ export default {
         title: "Tabs",
         options: [
           { type: "background", config: { disableBackgroundImage: true } },
+          "border",
+          "padding",
+          "boxshadow",
         ],
         target: ".mybricks-tabs",
       },
@@ -42,6 +45,7 @@ export default {
           "border",
           "padding",
           { type: "background", config: { disableBackgroundImage: true } },
+          "boxshadow",
         ],
         target: ".taroify-tabs__wrap .taroify-tabs__wrap__scroll",
       },
@@ -60,7 +64,7 @@ export default {
                 return data.tabWidthType ?? "fill";
               },
               set({ data }, value) {
-                data.tabWidthType = ''
+                data.tabWidthType = "";
                 data.tabWidthType = value;
               },
             },
@@ -80,7 +84,7 @@ export default {
                 if (Array.isArray(value)) {
                   data.tabItemGap = value[0];
                 } else {
-                  data.tabItemGap = value
+                  data.tabItemGap = value;
                 }
               },
             },
@@ -97,6 +101,7 @@ export default {
                   { type: "border" },
                   { type: "padding" },
                   { type: "background" },
+                  { type: "boxshadow" },
                 ],
                 target: `.taroify-tabs__tab:not(.taroify-tabs__tab--active)${getFilterSelector()}`,
               },
@@ -109,6 +114,7 @@ export default {
                   { type: "border" },
                   { type: "padding" },
                   { type: "background" },
+                  { type: "boxshadow" },
                 ],
                 target: `.taroify-tabs__tab--active${getFilterSelector()}`,
               },
@@ -121,9 +127,10 @@ export default {
         options: [
           "border",
           { type: "background", config: { disableBackgroundImage: true } },
-          { type: "size", config: { disableWidth: false } },
+          "size",
+          "boxshadow",
         ],
-        target: ({ id }) => `.taroify-tabs__line${getFilterSelector()}`
+        target: ({ id }) => `.taroify-tabs__line${getFilterSelector()}`,
       },
     ],
     items({ data, input, slots, outputs }, cate0, cate1, cate2) {
@@ -147,8 +154,8 @@ export default {
                     tabId: id,
                     tabName: title,
                     layout: {
-                      position: "smart"
-                    }
+                      position: "smart",
+                    },
                   };
 
                   return defaultItem;
@@ -209,13 +216,11 @@ export default {
                 slot.add({
                   id: action?.value._id,
                   title: action?.value.tabName,
-                  layout: "smart"
+                  layout: "smart",
                 });
 
-                const slotInstance = slot.get(action?.value._id)
+                const slotInstance = slot.get(action?.value._id);
                 setSlotLayout(slotInstance, { position: "smart" });
-
-
 
                 outputs.add({
                   id: `changeTab_${action?.value._id}`,
@@ -289,7 +294,7 @@ export default {
                   if (!data.useDynamicTab) {
                     try {
                       slot.remove("tabItem");
-                    } catch (e) { }
+                    } catch (e) {}
                   }
                   return data.useDynamicTab;
                 },
@@ -307,8 +312,8 @@ export default {
                     slot.add(comJson.slots[0]);
                     //默认配置为智能布局
                     const style = {
-                      "position": "smart"
-                    }
+                      position: "smart",
+                    };
                     setSlotLayout(slots.get(comJson.slots[0]?.id), style);
                   } else {
                     //动态标签页关闭时，还原存储的slot
@@ -316,8 +321,8 @@ export default {
                       slot.add(item);
                       //还原的时候配置为智能布局
                       const style = {
-                        "position": "smart"
-                      }
+                        position: "smart",
+                      };
                       setSlotLayout(slots.get(item?.id), style);
                     });
                     slot.remove("tabItem");
@@ -349,12 +354,12 @@ export default {
               description: "开启后tab内容项不展示",
               value: {
                 get({ data }) {
-                  return data.hideContent
+                  return data.hideContent;
                 },
                 set({ data }, value) {
-                  data.hideContent = value
-                }
-              }
+                  data.hideContent = value;
+                },
+              },
             },
             {
               title: "内容展示方式",
@@ -377,7 +382,7 @@ export default {
                 },
               },
             },
-          ]
+          ],
         },
         {
           title: "事件",
@@ -414,34 +419,34 @@ export default {
       cate1.items = [
         {
           title: "基础属性",
-          items: [{
-            title: "布局",
-            type: "layout",
-            value: {
-              get({ data, slots }) {
-                const defaultLayout = {
-                  position: "smart"
-                }
-                const tab = getFocusTab(props)
-                return tab?.layout || defaultLayout;
-              },
-              set({ data, slots }, value) {
-                const { focusArea } = props;
-                if (!focusArea) return {};
-                const { index } = focusArea;
+          items: [
+            {
+              title: "布局",
+              type: "layout",
+              value: {
+                get({ data, slots }) {
+                  const defaultLayout = {
+                    position: "smart",
+                  };
+                  const tab = getFocusTab(props);
+                  return tab?.layout || defaultLayout;
+                },
+                set({ data, slots }, value) {
+                  const { focusArea } = props;
+                  if (!focusArea) return {};
+                  const { index } = focusArea;
 
-                const tab = data.tabs[index];
+                  const tab = data.tabs[index];
 
-                tab.layout = value;
-                setSlotLayout(slots.get(tab?._id), value);
-
+                  tab.layout = value;
+                  setSlotLayout(slots.get(tab?._id), value);
+                },
               },
             },
-          },]
+          ],
         },
-
-      ]
-    }
+      ];
+    },
   },
 
   ".taroify-tabs__tab": {
@@ -453,21 +458,23 @@ export default {
       cate1.items = [
         {
           title: "基础属性",
-          items: [{
-            title: "标签项",
-            type: "text",
-            value: {
-              get({ data, focusArea }) {
-                return focusItem?.tabName;
-              },
-              set({ data, focusArea, slot, output }, value) {
-                if (!focusArea) return;
-                focusItem.tabName = value;
-                slot.setTitle(focusItem?._id, value);
-                output.setTitle("changeTab_" + focusItem?._id, value);
+          items: [
+            {
+              title: "标签项",
+              type: "text",
+              value: {
+                get({ data, focusArea }) {
+                  return focusItem?.tabName;
+                },
+                set({ data, focusArea, slot, output }, value) {
+                  if (!focusArea) return;
+                  focusItem.tabName = value;
+                  slot.setTitle(focusItem?._id, value);
+                  output.setTitle("changeTab_" + focusItem?._id, value);
+                },
               },
             },
-          },]
+          ],
         },
         {
           title: "事件",
@@ -479,26 +486,28 @@ export default {
                 outputId: `changeTab_${focusItem?._id}`,
               },
             },
-          ]
+          ],
         },
         {
           title: "操作",
-          items: [{
-            title: "删除标签项",
-            type: "Button",
-            value: {
-              set({ data, slot, input, outputs, focusArea }) {
-                if (!focusArea) return;
-                const item = findItemByInnerId(focusItem?._id, data);
-                outputs.remove(`changeTab_${item?._id}`);
-                data.tabs.splice(focusArea.index, 1);
-                input.remove(focusItem?._id);
-                slot.remove(focusItem?._id);
-                data.edit.currentTabId = data.tabs[0]?._id;
+          items: [
+            {
+              title: "删除标签项",
+              type: "Button",
+              value: {
+                set({ data, slot, input, outputs, focusArea }) {
+                  if (!focusArea) return;
+                  const item = findItemByInnerId(focusItem?._id, data);
+                  outputs.remove(`changeTab_${item?._id}`);
+                  data.tabs.splice(focusArea.index, 1);
+                  input.remove(focusItem?._id);
+                  slot.remove(focusItem?._id);
+                  data.edit.currentTabId = data.tabs[0]?._id;
+                },
               },
             },
-          },]
-        }
+          ],
+        },
       ];
       cate2.title = "样式";
       cate2.items = [

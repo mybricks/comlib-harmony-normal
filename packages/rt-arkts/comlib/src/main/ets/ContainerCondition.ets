@@ -29,6 +29,7 @@ export interface DataType {
   _editSelectId_?: string
   items: ItemType[]
   renderMode?: 'lazy' | 'pre'
+  now_condition?: string 
 }
 
 @ObservedV2
@@ -37,12 +38,14 @@ export class Data implements DataType {
   @Trace _editSelectId_?: string
   @Trace items: ItemType[]
   @Trace renderMode?: 'lazy' | 'pre'
+  @Trace now_condition?: string 
 
   constructor(config?: DataType) {
     this.defaultActiveId = config?.defaultActiveId ?? ''
     this._editSelectId_ = config?._editSelectId_
     this.items = config?.items ?? []
     this.renderMode = config?.renderMode
+    this.now_condition = config?.now_condition 
   }
 }
 
@@ -107,12 +110,31 @@ export default struct MyBricksCondition {
 
   @Computed
   get activeId(): string {
+    // 优先使用 now_condition 对应的 id，如果找不到则使用 inputId
+    if (this.data.now_condition) {
+      const item = this.data.items.find((t) => t.title === this.data.now_condition)
+      if (item) {
+        return item.id
+      }
+    }
     return this.inputId
   }
 
   @Computed
   get renderMode(): string {
     return this.data.renderMode ?? 'lazy'
+  }
+
+  @Monitor('data.now_condition')
+  onNowConditionChange() {
+    if (this.data.now_condition) {
+      const item = this.data.items.find((t) => t.title === this.data.now_condition)
+      if (item) {
+        this.inputId = item.id
+        this.outputs?.changeCondition?.(this.data.now_condition)
+        this.outputs?.[item.outputId]?.(this.data.now_condition)
+      }
+    }
   }
 
   build() {

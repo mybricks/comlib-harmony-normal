@@ -6,6 +6,7 @@ import {
 } from './utils/GetDesignStyle'
 import { ObjectUtils, isObject, isEmpty } from './utils/Helper'
 import { AnyType } from './types'
+import { getStyleValueByPattern, parseMargin } from './utils/StyleMatching'
 
 interface FormItem {
   id: string
@@ -43,8 +44,23 @@ interface EnvCurrentScenes {
 function emptyContent() {
 }
 
+function parseTextAlign(cssTextAlign: AnyType): AnyType {
+  switch (cssTextAlign) {
+    case 'left':
+      return TextAlign.Start;
+    case 'right':
+      return TextAlign.End;
+    case 'center':
+      return TextAlign.Center;
+    default:
+      return TextAlign.Start; // 默认值
+  }
+}
+
 @ComponentV2
 export struct MyBricksFormItem {
+  @Param itemId: string = ''
+  @Param styles: Record<string, CSSProperties> = {}
   @Param @Require label?: string
   @Param layout: string = 'horizontal'
   @Param required: boolean = false
@@ -72,11 +88,29 @@ export struct MyBricksFormItem {
           }
           Text(this.label) {
           }
-          .width('auto')
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles[`.taroify-form-label`])
+          )
+          .attributeModifier(
+            new ApplyFontStyleModifier(this.styles[`.taroify-form-label`])
+              .fontSize(14)
+          )
           .margin({
             right: 12
           })
-          .fontSize(14)
+          .width(
+            getStyleValueByPattern(
+              this.styles,
+              ['.taroify-form-label'],
+              'width',
+              88
+            ))
+          .textAlign(parseTextAlign(getStyleValueByPattern(
+            this.styles,
+            ['.taroify-form-label'],
+            'textAlign',
+            'left'
+          )))
         }
         Column() {
           this.content()
@@ -86,12 +120,18 @@ export struct MyBricksFormItem {
         .alignItems(HorizontalAlign.End)
       }
       .width('100%')
-    }.padding({
-      top: 10,
-      bottom: 10,
-      left: 16,
-      right: 16
-    })
+    }
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-field'])
+        .padding({
+          top: 10,
+          bottom: 10,
+          left: 16,
+          right: 16
+        })
+        .backgroundColor('#fff')
+    )
+    .margin(parseMargin(this.styles['.mybricks-field']))
   }
 }
 
@@ -445,16 +485,17 @@ export default struct MyBricksFormContainer {
   @Builder
   submitButton() {
     if (this.data.useSubmitButton) {
-      Button() {
-        Text(this.data.submitButtonText)
-          .attributeModifier(
-            new ApplyFontStyleModifier(this.styles['.mybricks-submit .taroify-button'])
-              .fontColor('#ffffff')
-              .fontSize(14)
-          )
-      }
+      Column(){
+        Button() {
+          Text(this.data.submitButtonText)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.mybricks-submit .taroify-button'])
+                .fontColor('#ffffff')
+                .fontSize(14)
+            )
+        }
         .width('100%')
-        .height(44)
+        .constraintSize({ minHeight: 44 })
         .onClick(() => {
           // 异步提交中
           if (this.data.useLoading && this.loading) {
@@ -493,6 +534,11 @@ export default struct MyBricksFormContainer {
             .borderRadius(5)
             .backgroundColor('#FA6400')
         )
+        .margin(parseMargin(this.styles['.mybricks-submit .taroify-button']))
+      }
+      .margin({
+        top: 24
+      })
     }
   }
 
@@ -519,12 +565,14 @@ export default struct MyBricksFormContainer {
             params: {
               label: formItem?.label,
               required: formItem?.required,
+              styles: this.styles,
+              itemId: com.id
             } as AnyType
           }
         }
       })
       this.submitButton()
-    }.attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-field']))
+    }.attributeModifier(new ApplyStyleModifier(this.styles['.mybricks-form .mybricks-form-cell-group']))
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )
@@ -536,7 +584,9 @@ export default struct MyBricksFormContainer {
 function FormItemWrap(build: WrappedBuilder<AnyType>, params: AnyType, params2: AnyType) {
   MyBricksFormItem({
     label: params2?.label,
-    required: params2?.required
+    required: params2?.required,
+    styles: params2?.styles,
+    itemId: params2?.itemId
   }) {
     build.builder(params)
   }

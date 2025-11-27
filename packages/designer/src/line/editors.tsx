@@ -10,7 +10,7 @@ export default {
     style: [
       {
         title: "样式",
-        options: ["border", "background"],
+        options: ["border", "background", "margin", "boxShadow"],
         target: ".mybricks-line",
       },
     ],

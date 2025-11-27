@@ -1,110 +1,95 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { View, Image } from '@tarojs/components'
-import { Swiper, SwiperItem } from './../components/swiper'
-import EmptyCom from '../components/empty-com'
-import SkeletonImage from './../components/skeleton-image'
-import { isUndef } from './../utils/core'
-import css from './style.less'
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Swiper, SwiperItem } from "./../components/swiper";
+import EmptyCom from "../components/empty-com";
+import SkeletonImage from "./../components/skeleton-image";
+import { isUndef } from "./../utils/core";
+import css from "./style.less";
+import { uuid } from "../utils";
 
 export default function ({ env, data, inputs, outputs, style, slots }) {
+  const [dataSource, setDataSource] = useState(data.items || []);
   // 当前选中的tab
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent] = useState(0);
   const [loadedImages, setLoadedImages] = useState([
     current,
     current + 1,
     data.items?.length ? data.items?.length - 1 : 0,
-  ]) // 默认加载第一个和最后一个图片
+  ]); // 默认加载第一个和最后一个图片
 
   useEffect(() => {
     if (env.edit && !isUndef(data?.edit?.current)) {
-      setCurrent(data?.edit?.current)
+      setCurrent(data?.edit?.current);
     }
-  }, [env.edit, data?.edit?.current])
+  }, [env.edit, data?.edit?.current]);
 
   useMemo(() => {
-    inputs['setItems']((val) => {
-      data.items = val
-    })
-
-    inputs?.['activeIndex']?.((index) => {
-      if (!isNaN(parseFloat(index))) {
-        setCurrent(index)
+    inputs?.["setItems"]?.((val) => {
+      if (Array.isArray(val)) {
+        setDataSource(val);
+        data.items = val;
       }
-    })
-  }, [])
+    });
+
+    inputs?.["activeIndex"]?.((index) => {
+      if (!isNaN(parseFloat(index))) {
+        setCurrent(index);
+      }
+    });
+  }, []);
 
   const onClick = useCallback(({ item, index }) => {
-    outputs['onClick']?.({ item, index })
-  }, [])
+    outputs["onClick"]?.({ item, index });
+  }, []);
 
   const showIndicator = useMemo(() => {
-    return data.showIndicator ?? true
-  }, [data.showIndicator])
+    return data.showIndicator ?? true;
+  }, [data.showIndicator]);
 
   const extra = useMemo(() => {
     if (env.edit) {
       return {
         autoplay: false,
         duration: 0,
-      }
+      };
     }
     return {
       autoplay: !env.edit && !!data.autoplay,
       interval: data.interval || 5000,
       duration: data.duration ?? 500,
-    }
-  }, [env.edit, data.autoplay, data.duration])
+    };
+  }, [env.edit, data.autoplay, data.duration]);
 
   const onChange = useCallback((e) => {
-    let source = e.detail.source
+    let source = e.detail.source;
     if (env?.edit) {
-      return
+      return;
     }
-    if (source === 'autoplay' || source === 'touch') {
-      setCurrent(e.detail?.current)
+    if (source === "autoplay" || source === "touch") {
+      setCurrent(e.detail?.current);
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    setDataSource(data.items || []);
+  }, [data.items]);
 
   useEffect(() => {
     setLoadedImages((c) => {
-      const newLoadedImages = new Set(c)
+      const newLoadedImages = new Set(c);
       if (current + 1 < data.items.length) {
-        newLoadedImages.add(current + 1) // 预加载后面一张图片
-        return Array.from(newLoadedImages)
+        newLoadedImages.add(current + 1); // 预加载后面一张图片
+        return Array.from(newLoadedImages);
       }
-      return c
-    })
-  }, [current, data.items.length])
+      return c;
+    });
+  }, [current, data.items.length]);
 
-  const renderItems = useCallback(
-    (item, cdnCutSize) => {
-      if (data.contentType === 'custom') {
-        return slots[`slot_${item._id}`]?.render()
-      }
-      return (
-        <SkeletonImage
-          useHtml={env.edit}
-          className={css.thumbnail}
-          mode="aspectFill"
-          src={data.items[current]?.thumbnail}
-          nativeProps={{
-            loading: 'lazy',
-            decoding: 'async',
-          }}
-          cdnCut="auto"
-          cdnCutOption={cdnCutSize}
-        />
-      )
-    },
-    [data.contentType, slots]
-  )
-
-  if (env.runtime && !data.items.length) {
-    return null
+  if (env.runtime && !dataSource.length) {
+    return null;
   }
 
-  if (env.edit && !data.items.length) {
-    return <EmptyCom title="请配置幻灯片" />
+  if (env.edit && !dataSource.length && data.contentType !== "custom_dynamic") {
+    return <EmptyCom title="请配置幻灯片" />;
   }
 
   return (
@@ -119,63 +104,82 @@ export default function ({ env, data, inputs, outputs, style, slots }) {
       circular={env.edit ? false : data.circular}
       {...extra}
     >
-      {data.items.map((item, index) => {
+      {(data.contentType === "custom_dynamic" && env.edit
+        ? [{}]
+        : dataSource
+      ).map((item, index) => {
         // 搭建态下加载全部
-        const shouldLoad = loadedImages.includes(index)
-        const active = current === index
+        const shouldLoad = loadedImages.includes(index);
+        const active = current === index;
 
         const offsetLeft = data.itemOffsets?.[0] ?? 0;
         const offsetRight = data.itemOffsets?.[1] ?? 0;
 
-        let width = '100%';
+        let width = "100%";
         let left = `${(current - index) * 100}%`;
         switch (true) {
           case current === index: {
             width = `calc(100% - ${offsetRight + offsetLeft}px)`;
-            left = `calc(0% + ${offsetLeft}px)`
-            break
+            left = `calc(0% + ${offsetLeft}px)`;
+            break;
           }
           case current + 1 === index: {
-            left = `calc(100% - ${offsetRight}px)`
-            break
+            left = `calc(100% - ${offsetRight}px)`;
+            break;
           }
           case current - 1 === index: {
-            left = `calc(-100% + ${offsetLeft}px)`
-            break
+            left = `calc(-100% + ${offsetLeft}px)`;
+            break;
           }
         }
         return (
           <SwiperItem
             key={item._id}
-            className={`${css.swiperItem} ${active ? css.active : ''}`}
+            className={`${css.swiperItem} ${active ? css.active : ""}`}
             style={{
               left,
               width,
             }}
             onClick={() => {
-              onClick({ item, index })
+              onClick({ item, index });
             }}
             index={index}
           >
-            {data.contentType !== 'custom' ? (
+            {data.contentType === "image" ? (
               <SkeletonImage
                 useHtml={env.edit}
                 className={css.thumbnail}
                 mode="aspectFill"
-                src={shouldLoad ? item.thumbnail : ''}
+                src={shouldLoad ? item.thumbnail : ""}
                 nativeProps={{
-                  loading: 'lazy',
-                  decoding: 'async',
+                  loading: "lazy",
+                  decoding: "async",
                 }}
                 cdnCut="auto"
                 cdnCutOption={{ width: style.width, height: style.height }}
               />
+            ) : data.contentType === "custom_dynamic" ? (
+              slots[`slot_custom`]?.render({
+                inputValues: {
+                  itemData: item,
+                  index: index,
+                },
+                cache: {
+                  for: 0,
+                  index: index,
+                },
+                key: index,
+                style: {
+                  height: slots["slot_custom"].size ? "unset" : "100%",
+                  minHeight: slots["slot_custom"].size ? "unset" : "98px",
+                },
+              })
             ) : (
               slots[`slot_${item._id}`]?.render()
             )}
           </SwiperItem>
-        )
+        );
       })}
     </Swiper>
-  )
+  );
 }

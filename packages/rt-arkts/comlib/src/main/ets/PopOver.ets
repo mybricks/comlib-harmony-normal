@@ -116,7 +116,7 @@ struct MyDialog {
           color: Color.Transparent
         },
         backgroundBlurStyle: BlurStyle.NONE,
-        targetSpace: 4,
+        targetSpace: 0,
         arrowHeight: 0,
         arrowWidth: 0,
         enableArrow: false,
@@ -183,6 +183,13 @@ export default struct MyBricksPopOver {
         this.popover.show()
       })
     )
+    .attributeModifier(
+      new ApplyStyleModifier(this.styles['.mybricks-popover'])
+    )
+    .linearGradient(parseLinearGradient(String(this.styles['.mybricks-popover']?.backgroundImage)))
+    .attributeModifier(
+      new ApplyRootStyleModifier(this.styles['root'])
+    )
   }
 
   build() {
@@ -193,13 +200,6 @@ export default struct MyBricksPopOver {
         renderChild: this.TargetBuilder.bind(this)
       })
     }
-    .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-popover'])
-    )
-    .linearGradient(parseLinearGradient(String(this.styles['.mybricks-popover']?.backgroundImage)))
-    .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
-    )
     .attributeModifier(this.modifier)
   }
 }

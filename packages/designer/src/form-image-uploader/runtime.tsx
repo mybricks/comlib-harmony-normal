@@ -37,6 +37,9 @@ export default function (props) {
 
   useEffect(() => {
     const result = formatValue(data.value);
+    if(!result){
+      return;
+    }
     setValue(result);
   }, [data.value]);
 
@@ -96,7 +99,8 @@ export default function (props) {
 
       let result = [filePath, ...value];
       result = result.slice(0, data.maxCount);
-      setValue(result);
+      // setValue(result);
+      data.value = result;
     });
   }, [value, data.maxCount]);
 

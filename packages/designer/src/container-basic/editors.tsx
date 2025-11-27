@@ -14,7 +14,7 @@ export default {
       {
         title: "样式",
         options: ["padding", "border", "background", "overflow", "boxShadow"],
-        target: "> .mybricks-container"
+        target: "> .mybricks-container",
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {
@@ -27,16 +27,18 @@ export default {
               title: "布局",
               type: "layout",
               value: {
-                get({ data }) {
-                  return data.layout;
+                get({ data, style, slots }) {
+                  return style.slots.content.layout || {
+                    position:"smart"
+                  };
                 },
-                set({ data, slots }, val) {
-                  data.layout = val;
+                set({ data,style, slots }, val) {
+                  style.slots.content.layout = val;
                   setSlotLayout(slots.get("content"), val);
                 },
               },
             },
-          ]
+          ],
         },
         {
           title: "事件",
@@ -52,12 +54,11 @@ export default {
               title: "当容器滚动时",
               type: "_event",
               options: {
-                outputId: "onScroll"
-              }
-            }
-          ]
+                outputId: "onScroll",
+              },
+            },
+          ],
         },
-
       ];
     },
   },

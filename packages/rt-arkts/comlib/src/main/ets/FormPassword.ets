@@ -125,7 +125,7 @@ export default struct MyBricksFormPassword {
 
   @Computed
   get placeHolderStyle(): AnyType {
-    const style = this.styles?.['.mybricks-password .taroify-input__placeholder,.mybricks-h5Password .taroify-native-input::placeholder'] ?? {}
+    const style = this.styles?.['.mybricks-h5Password .taroify-native-input::placeholder'] ?? {}
     return {
       color: style?.color,
       fontSize: parseFloat(style?.fontSize as string)
@@ -158,33 +158,20 @@ export default struct MyBricksFormPassword {
         })
         // .layoutWeight(1)  // 输入框占剩余空间
         .attributeModifier(
-          new ApplyFontStyleModifier(this.styles['.mybricks-password .taroify-input,.mybricks-h5Password .taroify-input .taroify-native-input'])
+          new ApplyFontStyleModifier(this.styles['.mybricks-h5Password .taroify-input .taroify-native-input'])
             .fontSize(14)
             .fontColor('#000000')
         )
         .attributeModifier(
-          new ApplyStyleModifier(this.styles['.mybricks-password,.mybricks-h5Password'])
-            // .backgroundColor(Color.Transparent)
+          new ApplyStyleModifier(this.styles['.mybricks-h5Password'])
+            .backgroundColor(Color.Transparent)
         )
-        .backgroundColor(getStyleValueByPattern(
-          this.styles,
-          ['.mybricks-h5Input .taroify-native-input'],
-          'backgroundColor',
-          Color.Transparent
-        ))
         .height(getStyleValueByPattern(
           this.styles,
           ['root'],
           'height',
           undefined
         ))
-        .borderRadius(
-          getStyleValueByPattern(
-            this.styles,
-            ['.mybricks-h5Input .taroify-native-input,.mybricks-input'],
-            'borderRadius',
-            0
-          ))
     }
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)

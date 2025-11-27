@@ -1,7 +1,7 @@
 export default {
   "@init": ({ style, data }) => {
     style.width = 350;
-    style.height = 85;
+    style.height = "auto";
   },
   "@resize": {
     options: ["width", "height"],
@@ -26,14 +26,19 @@ export default {
         },
       },
       {
-        title: "宫格样式配置",
-        options: ["size", "font", "border", "background", "margin"],
+        title: "宫格样式",
+        options: ["size", "font", "border", "background", "boxShadow"],
         target: `.mybricks-input-item`,
       },
       {
-        title: "描述文字配置",
-        options: ["font"],
-        target: `.mybricks-input-desc`,
+        title: "描述文案",
+        options: ["font", "margin", "padding", "border", "background"],
+        target: `.mybricks-desc`,
+      },
+      {
+        title: "提示文案",
+        options: ["font", "margin", "padding", "border", "background"],
+        target: `.mybricks-tips`,
       },
     ],
     items: ({ data, output, style }, cate0, cate1, cate2) => {

@@ -10,6 +10,9 @@ export default {
       output.add("amplitude", "振幅", {
         type: "number"
       });
+      output.add("duration", "时长", {
+        type: "number",
+      });
     }
   },
   ":root": [

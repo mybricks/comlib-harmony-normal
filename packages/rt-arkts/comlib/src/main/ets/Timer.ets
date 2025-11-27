@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseMargin, parseSize } from './utils/StyleMatching'
 
 export interface DataType {
   clockType?: "realtime" | "countdown" | "timer" | string,
@@ -101,14 +102,18 @@ export default struct MyBricksTimer {
     this.outputs?.currentTime?.(currentTime.getTime().toString())
   }
 
-  updateTimer() {
-    this.elapsedTime += 1000
+  updateTimer(updateElapsedTime: boolean = true) {
+    if (updateElapsedTime) {
+      this.elapsedTime += 1000
+    }
     this.showTime = this.formatTimeDiff(this.elapsedTime)
     this.outputs?.currentTime?.(this.elapsedTime.toString())
   }
 
-  updateCountDown() {
-    this.elapsedTime += 1000
+  updateCountDown(updateElapsedTime: boolean = true) {
+    if (updateElapsedTime) {
+      this.elapsedTime += 1000
+    }
     const countDownStamp = this.timeStringToTimestamp(this.countDown)
     const remainingTime = countDownStamp - this.elapsedTime
 
@@ -136,13 +141,13 @@ export default struct MyBricksTimer {
 
     switch (this.data.clockType) {
       case "timer":
-        this.updateTimer()
+        this.updateTimer(false)
         this.timerID = setInterval(() => {
           this.updateTimer()
         }, 1000)
         break
       case "countdown":
-        this.updateCountDown()
+        this.updateCountDown(false)
         this.timerID = setInterval(() => {
           this.updateCountDown()
         }, 1000)
@@ -192,7 +197,7 @@ export default struct MyBricksTimer {
       this.elapsedTime = timeStamp
       this.hasCustomStartTime = true // 标记已设置自定义起始时间
       this.showTime = this.formatTimeDiff(this.elapsedTime)
-      rel?.["setTimerStartTimeStampComplete"]?.(ds)
+      rel?.["setTimerStartTimeStampComplete"]?.(this.elapsedTime.toString())
     })
 
     // 初始化定时器
@@ -232,59 +237,98 @@ export default struct MyBricksTimer {
     Column() {
       Row() {
         Column(){
-          Text(this.showTime.substring(0, 2))
+          Text(this.showTime?.split(':')?.[0] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
 
         Column(){
           Text(":")
             .halfLeading(true)
+            .width(12)
+            .textAlign(TextAlign.Center)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
+            .margin(parseMargin(this.styles['.mybricks_timer_separator']))
         }
 
         Column(){
-          Text(this.showTime.substring(3, 5))
+          Text(this.showTime?.split(':')?.[1] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
 
         Column(){
           Text(":")
             .halfLeading(true)
+            .width(12)
+            .textAlign(TextAlign.Center)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_separator'])
             )
+            .margin(parseMargin(this.styles['.mybricks_timer_separator']))
         }
 
         Column(){
-          Text(this.showTime.substring(6, 8))
+          Text(this.showTime?.split(':')?.[2] || '--')
             .halfLeading(true)
             .attributeModifier(
               new ApplyFontStyleModifier(this.styles['.mybricks_timer_unit'])
+                .fontSize(12)
             )
         }.attributeModifier(
           new ApplyStyleModifier(this.styles['.mybricks_timer_unit_background'])
+            .backgroundColor('#EFEFEF')
+            .borderRadius(2)
+            .padding({
+              top: 1,
+              bottom: 1,
+              left: 1,
+              right: 1
+            })
         )
+        .width(parseSize(this.styles['.mybricks_timer_unit_background']?.width) || 20)
+        .height(parseSize(this.styles['.mybricks_timer_unit_background']?.height) || 'auto')
       }.width("100%").justifyContent(FlexAlign.SpaceAround).alignItems(VerticalAlign.Center)
     }
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Start)
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks_timer'])
+      new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyStyleModifier(this.styles['.mybricks_timer'])
     )
     .attributeModifier(this.modifier)
   }

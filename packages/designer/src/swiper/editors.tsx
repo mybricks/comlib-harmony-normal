@@ -2,12 +2,23 @@ import { autoCdnCut } from "./../utils/image";
 
 const Schemas = {
   ImageDataSource: {
-    type: 'array'
+    type: "array",
+    items: {
+      type: "object",
+      description: "thumbnail: 图片",
+      properties: {
+        thumbnail: {
+          title: "图片",
+          description: "图片",
+          type: "string",
+        },
+      },
+    },
   },
   CustomDataSource: {
-    type: 'array'
-  }
-}
+    type: "array",
+  },
+};
 
 export default {
   "@init": ({ style, data }) => {
@@ -21,13 +32,14 @@ export default {
     style: [
       {
         title: "轮播",
-        options: ["border", "overflow"],
+        options: ["border", "overflow", "background", "boxshadow"],
         target: ".mybricks-swiper-wrapper",
       },
       {
         title: "默认指示器",
         options: [
           { type: "background", config: { disableBackgroundImage: true } },
+          "size",
         ],
         target: ".mybricks-swiper-wrapper .indicator:not(.indicator-active)",
       },
@@ -35,62 +47,135 @@ export default {
         title: "高亮指示器",
         options: [
           { type: "background", config: { disableBackgroundImage: true } },
+          "size",
         ],
         target: ".mybricks-swiper-wrapper .indicator.indicator-active",
       },
     ],
-    items({ data, output, style, slots }, cate0, cate1, cate2) {
+    items({ data, input, style, slots }, cate0, cate1, cate2) {
+      const resetSlots = () => {
+        const contentType = data.contentType;
+        if (!Array.isArray(data.items)) {
+          return;
+        }
+
+        if (contentType === "image" || contentType === "custom_dynamic") {
+          data.items.forEach((item, index) => {
+            if (slots.get(`slot_${item._id}`)) {
+              slots.remove(`slot_${item._id}`);
+            }
+          });
+          data._count = 0;
+        } else {
+          data.items.forEach((item, index) => {
+            if (!slots.get(`slot_${item._id}`)) {
+              slots.add({
+                id: `slot_${item._id}`,
+                title: `轮播项${index + 1}`,
+              });
+            }
+          });
+          data._count = data.items.length;
+        }
+
+        if (contentType === "image" || contentType === "custom_dynamic") {
+          if (
+            !slots.get(`slot_custom`) &&
+            data.contentType === "custom_dynamic"
+          ) {
+            slots.add({
+              id: "slot_custom",
+              capacity: 1,
+              title: "轮播项",
+              type: "scope",
+              inputs: [
+                {
+                  id: "itemData",
+                  title: "当前项",
+                  desc: "当前项展示内容",
+                  schema: {
+                    type: "any",
+                  },
+                },
+                {
+                  id: "index",
+                  title: "当前项序号",
+                  desc: "当前项展示的序号",
+                  schema: {
+                    type: "number",
+                  },
+                },
+              ],
+            });
+          }
+
+          const setItemsSchema =
+            data.contentType === "custom_dynamic"
+              ? Schemas.CustomDataSource
+              : Schemas.ImageDataSource;
+          if (input.get("setItems")) {
+            input.get("setItems").setSchema(setItemsSchema);
+          } else {
+            input.add({
+              id: "setItems",
+              title: `设置轮播内容`,
+              schema: setItemsSchema,
+            });
+          }
+
+          if (data.contentType === "image" && slots.get(`slot_custom`)) {
+            slots.remove(`slot_custom`);
+          }
+        } else {
+          if (slots.get(`slot_custom`)) {
+            slots.remove(`slot_custom`);
+          }
+
+          if (input.get("setItems")) {
+            input.remove("setItems");
+          }
+        }
+      };
+
       cate0.title = "轮播";
       cate0.items = [
         {
           title: "基础属性",
           items: [
             {
-              title: '轮播内容',
-              type: 'select',
+              title: "轮播内容",
+              type: "select",
               options: [
                 {
-                  label: '图片',
-                  value: 'image'
+                  label: "图片",
+                  value: "image",
                 },
                 {
-                  label: '自定义内容',
-                  value: 'custom'
-                }
+                  label: "自定义内容(静态)",
+                  value: "custom",
+                },
+                {
+                  label: "自定义内容(动态)",
+                  value: "custom_dynamic",
+                },
+                ,
               ],
               value: {
                 get({ data }) {
-                  return data.contentType ?? 'image';
+                  return data.contentType ?? "image";
                 },
                 set({ data }, value) {
                   data.contentType = value;
-
-                  if (!Array.isArray(data.items)) {
-                    return
-                  }
-
-                  if (value === 'image') {
-                    data.items.forEach((item, index) => {
-                      if (slots.get(`slot_${item._id}`)) {
-                        slots.remove(`slot_${item._id}`)
-                      }
-                    })
-                    data._count = 0
-                  } else {
-                    data.items.forEach((item, index) => {
-                      if (!slots.get(`slot_${item._id}`)) {
-                        slots.add({
-                          id: `slot_${item._id}`,
-                          title: `轮播项${index + 1}`,
-                        })
-                      }
-                    })
-                    data._count = data.items.length
-                    data.autoplay = false
-                    data.circular = false
+                  resetSlots();
+                  if (value === "custom_dynamic") {
+                    data.items = [];
+                    if (!data.edit) {
+                      data.edit = {};
+                    }
+                    data.edit.current = 0;
                   }
                 },
-              }
+              },
             },
             {
               title: "图片",
@@ -113,10 +198,10 @@ export default {
                 selectable: true,
                 onSelect: (_id, index) => {
                   if (index !== -1) {
-                    if (!data?.edit) {
-                      data?.edit = {};
+                    if (!data.edit) {
+                      data.edit = {};
                     }
-                    data?.edit?.current = index;
+                    data.edit.current = index;
                   }
                 },
                 onAdd() {
@@ -134,7 +219,7 @@ export default {
                 ],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return data.contentType !== 'custom';
+                return data.contentType === "image";
               },
               value: {
                 get({ data }) {
@@ -145,29 +230,27 @@ export default {
                 },
               },
               binding: {
-                with: 'data.items',
+                with: "data.items",
                 schema: {
-                  type: 'array'
-                }
-              }
+                  type: "array",
+                },
+              },
             },
             {
               title: "轮播项",
               type: "array",
               options: {
                 getTitle: (item, index) => {
-                  return [
-                    `轮播项`,
-                  ];
+                  return [`轮播项`];
                 },
                 selectable: true,
                 editable: false,
                 onSelect: (_id, index) => {
                   if (index !== -1) {
-                    if (!data?.edit) {
-                      data?.edit = {};
+                    if (!data.edit) {
+                      data.edit = {};
                     }
-                    data?.edit?.current = index;
+                    data.edit.current = index;
                   }
                 },
                 onAdd(_id) {
@@ -181,7 +264,7 @@ export default {
                 items: [],
               },
               ifVisible({ data }: EditorResult<Data>) {
-                return data.contentType === 'custom';
+                return data.contentType === "custom";
               },
               value: {
                 get({ data }) {
@@ -193,17 +276,17 @@ export default {
                     after: value,
                   });
 
-                  actions.forEach(action => {
+                  actions.forEach((action) => {
                     switch (action?.name) {
                       case "remove":
                         if (slots.get(`slot_${action?.value._id}`)) {
-                          slots.remove(`slot_${action?.value._id}`)
+                          slots.remove(`slot_${action?.value._id}`);
                         }
                         break;
                       case "add":
                         slots.add({
                           id: `slot_${action?.value._id}`,
-                          title: `轮播项${data._count += 1}`,
+                          title: `轮播项${(data._count += 1)}`,
                         });
                         break;
                       case "update":
@@ -215,13 +298,62 @@ export default {
                 },
               },
               binding: {
-                with: 'data.items',
+                with: "data.items",
                 schema: {
-                  type: 'array'
-                }
-              }
+                  type: "array",
+                },
+              },
             },
-          ]
+            {
+              title: "数据",
+              ifVisible({ data }: EditorResult<Data>) {
+                return data.contentType === "custom_dynamic";
+              },
+              items: [
+                {
+                  title: "数据源",
+                  type: "json",
+                  options: {
+                    minimap: {
+                      enabled: false,
+                    },
+                    height: 80,
+                    autoSave: false,
+                    encodeValue: false,
+                  },
+                  value: {
+                    get({ data }: EditorResult<Data>) {
+                      return data.items ?? [];
+                    },
+                    set({ data }: EditorResult<Data>, value: any) {
+                      if (!Array.isArray(value)) {
+                        return;
+                      }
+                      data.items = value;
+                    },
+                  },
+                  binding: {
+                    with: `data.items`,
+                    schema: {
+                      type: "array",
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          title: "纵向滑动",
+          type: "switch",
+          value: {
+            get({ data }) {
+              return data.vertical;
+            },
+            set({ data }, value) {
+              data.vertical = value;
+            },
+          },
         },
         {
           title: "自动播放",
@@ -256,26 +388,26 @@ export default {
 
         {
           title: "高级属性",
-          ifVisible({ data }: EditorResult<Data>) {
-            return data.contentType !== 'custom';
-          },
           items: [
-            {
-              title: '使用动态传入',
-              type: 'Switch',
-              description: '开启后，需要动态传入数据',
-              value: {
-                get({ data }: EditorResult<Data>) {
-                  return data.useDynamic;
-                },
-                set({ data, input }: EditorResult<Data>, value: boolean) {
-                  data.useDynamic = value;
-                  input.get('setItems').setSchema(data.contentType === 'custom' ? Schemas.CustomDataSource : Schemas.ImageDataSource);
-                }
-              }
-            },
-
-
+            // {
+            //   title: "使用动态传入",
+            //   type: "Switch",
+            //   description: "开启后，需要动态传入数据",
+            //   value: {
+            //     get({ data }: EditorResult<Data>) {
+            //       return data.useDynamic;
+            //     },
+            //     set({ data }: EditorResult<Data>, value: boolean) {
+            //       data.useDynamic = value;
+            //       resetSlots();
+            //       data.items = [{}];
+            //       if (!data.edit) {
+            //         data.edit = {};
+            //       }
+            //       data.edit.current = 0;
+            //     },
+            //   },
+            // },
             {
               title: "循环轮播",
               description: "滑动到最后一项后可以继续滑动到第一项",
@@ -357,7 +489,6 @@ export default {
   },
 };
 
-
 function computedActions(params) {
   let before = params.before || [];
   let after = params.after || [];
@@ -383,7 +514,7 @@ function computedActions(params) {
       if (!afterMap[id]) {
         actions.push({
           name: "remove",
-          value: beforeMap[id]
+          value: beforeMap[id],
         });
       }
     }
@@ -395,7 +526,7 @@ function computedActions(params) {
       if (!beforeMap[id]) {
         actions.push({
           name: "add",
-          value: afterMap[id]
+          value: afterMap[id],
         });
       }
     }
@@ -404,10 +535,13 @@ function computedActions(params) {
   // 处理更新的项
   for (let id in afterMap) {
     if (afterMap.hasOwnProperty(id)) {
-      if (beforeMap[id] && JSON.stringify(beforeMap[id]) !== JSON.stringify(afterMap[id])) {
+      if (
+        beforeMap[id] &&
+        JSON.stringify(beforeMap[id]) !== JSON.stringify(afterMap[id])
+      ) {
         actions.push({
           name: "update",
-          value: afterMap[id]
+          value: afterMap[id],
         });
       }
     }

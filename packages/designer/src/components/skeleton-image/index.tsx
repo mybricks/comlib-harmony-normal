@@ -5,65 +5,66 @@ import React, {
   useMemo,
   useState,
   CSSProperties,
-} from 'react'
-import css from './index.less'
-import { View, Image, ImageProps } from '@tarojs/components'
-import { autoCdnCut, IMAGE_MODE } from './../../utils/image'
+} from "react";
+import css from "./index.less";
+import { View, Image, ImageProps } from "@tarojs/components";
+import { autoCdnCut, IMAGE_MODE } from "./../../utils/image";
 
 const HtmlImage: React.FC<{
-  src: string
-  mode?: IMAGE_MODE | string
-  className?: string
-  onClick?: (e: React.MouseEvent) => void
-  onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void
-  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void
-  style?: CSSProperties
-}> = ({ src, mode, className, onClick, onLoad, onError, style }) => {
+  src: string;
+  mode?: IMAGE_MODE | string;
+  className?: string;
+  onClick?: (e: React.MouseEvent) => void;
+  onLoad?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement>) => void;
+  onPress?: (e: boolean) => void;
+  style?: CSSProperties;
+}> = ({ src, mode, className, onClick, onLoad, onError, onPress, style }) => {
   const imageStyle = useMemo(() => {
     const baseStyle: CSSProperties = {
       ...style,
-      maxWidth: '100%',
-    }
+      maxWidth: "100%",
+    };
 
     switch (mode) {
       case IMAGE_MODE.ASPECTFILL:
         return {
           ...baseStyle,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-        }
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        };
       case IMAGE_MODE.OBJECTFIT:
         return {
           ...baseStyle,
-          width: '100%',
-          height: '100%',
-          objectFit: 'none',
-        }
+          width: "100%",
+          height: "100%",
+          objectFit: "none",
+        };
       case IMAGE_MODE.ASPECTFIT:
         return {
           ...baseStyle,
-          width: '100%',
-          height: '100%',
-          objectFit: 'contain',
-        }
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        };
       case IMAGE_MODE.SCALETOFILL:
         return {
           ...baseStyle,
-          width: '100%',
-          height: '100%',
-          objectFit: 'fill',
-        }
+          width: "100%",
+          height: "100%",
+          objectFit: "fill",
+        };
       case IMAGE_MODE.WIDTHFIX:
         return {
           ...baseStyle,
-          width: '100%',
-          height: 'auto',
-        }
+          width: "100%",
+          height: "auto",
+        };
       default:
-        return baseStyle
+        return baseStyle;
     }
-  }, [mode, style])
+  }, [mode, style]);
 
   return (
     <img
@@ -73,20 +74,22 @@ const HtmlImage: React.FC<{
       onClick={onClick}
       onLoad={onLoad}
       onError={onError}
+      onMouseDown={() => onPress?.(true)}
+      onMouseUp={() => onPress?.(false)}
     />
-  )
-}
-
+  );
+};
 
 interface SkeletonImageProps extends ImageProps {
-  useHtml?: boolean
-  skeleton?: boolean
-  skeletonStyle?: CSSProperties
-  cdnCut?: 'auto' | ''
+  useHtml?: boolean;
+  skeleton?: boolean;
+  skeletonStyle?: CSSProperties;
+  cdnCut?: "auto" | "";
   cdnCutOption?: {
-    width?: number | string
-    height?: number | string
-  }
+    width?: number | string;
+    height?: number | string;
+  };
+  onPress?: (e: boolean) => void;
 }
 
 export default function ({
@@ -96,46 +99,54 @@ export default function ({
   onLoad,
   onClick,
   onError,
+  onPress,
   className,
   src,
   mode,
-  cdnCut = '',
+  cdnCut = "",
   cdnCutOption = {},
   ...props
 }: SkeletonImageProps) {
-  const [loading, setLoading] = useState(!!skeleton)
+  const [loading, setLoading] = useState(!!skeleton);
 
   useEffect(() => {
     if (src && skeleton) {
-      setLoading(true)
+      setLoading(true);
     }
-  }, [src, skeleton])
+  }, [src, skeleton]);
 
   const _onLoad = useCallback(
     (e) => {
-      setLoading(false)
-      onLoad?.(e)
+      setLoading(false);
+      onLoad?.(e);
     },
     [onLoad]
-  )
+  );
 
   const _onClick = useCallback(
     (e) => {
-      onClick?.(e)
+      onClick?.(e);
     },
     [onClick]
-  )
+  );
 
   const _onError = useCallback(
     (e) => {
-      setLoading(false)
-      onError?.(e)
+      setLoading(false);
+      onError?.(e);
     },
     [onError]
-  )
+  );
+
+  const _onPress = useCallback(
+    (e) => {
+      onPress?.(e);
+    },
+    [onPress]
+  );
 
   const _src = useMemo(() => {
-    if (cdnCut === 'auto') {
+    if (cdnCut === "auto") {
       const cutUrl = autoCdnCut(
         {
           url: src,
@@ -145,11 +156,11 @@ export default function ({
         {
           quality: 90,
         }
-      )
-      return cutUrl
+      );
+      return cutUrl;
     }
-    return src
-  }, [src, cdnCut, cdnCutOption?.height, cdnCutOption?.height])
+    return src;
+  }, [src, cdnCut, cdnCutOption?.height, cdnCutOption?.height]);
 
   return (
     <View className={css.com}>
@@ -166,6 +177,7 @@ export default function ({
             onClick={_onClick}
             onLoad={_onLoad}
             onError={_onError}
+            onPress={_onPress}
           />
         ) : (
           <Image
@@ -175,9 +187,11 @@ export default function ({
             onClick={_onClick}
             onLoad={_onLoad}
             onError={_onError}
+            onMouseDown={() => _onPress?.(true)}
+            onMouseUp={() => _onPress?.(false)}
             {...props}
           />
         ))}
     </View>
-  )
+  );
 }

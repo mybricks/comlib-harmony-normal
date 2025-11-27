@@ -10,7 +10,7 @@ export default {
     style: [
       {
         title: "输入框",
-        options: ["border", "padding", "background"],
+        options: ["border", "padding", "background", "boxshadow"],
         target: [`.mybricks-h5Input .taroify-native-input`, `.mybricks-input`],
       },
       {
@@ -28,7 +28,6 @@ export default {
       },
     ],
     items: ({ data, inputs, output, style }, cate0, cate1, cate2) => {
-
       cate0.title = "单行输入";
       cate0.items = [
         {

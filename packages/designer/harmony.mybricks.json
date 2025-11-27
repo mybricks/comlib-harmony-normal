@@ -75,7 +75,8 @@
         "./src/search-bar/com.json",
         "./src/form-file-uploader/com.json",
         "./src/form-image-uploader/com.json",
-        "./src/form-item-container/com.json"
+        "./src/form-item-container/com.json",
+        "./src/form-number-knob/com.json"
       ]
     },
     {

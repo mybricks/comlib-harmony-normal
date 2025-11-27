@@ -10,6 +10,7 @@ import css from "./style.edit.less";
 import cx from "classnames";
 import { defaultSelectedIconPath, defaultNormalIconPath } from "./const";
 import SystemTabbar from './../components/system-tabbar'
+import SystemTabbarLeftSide from "./../components/system-tabbar-left-side";
 import SystemNavigation from "./../components/system-navigation";
 
 const getDefaultTabItem = (id) => {
@@ -115,12 +116,12 @@ export default function ({ env, data, inputs, outputs, slots }) {
     if (!data.useTabBar) {
       return 0;
     }
-    let isContain = data.tabBar.find((item) => {
-      return item.scene.id == env.canvas.id;
-    });
-    if (!isContain) {
-      return 0;
-    }
+    // let isContain = data.tabBar.find((item) => {
+    //   return item.scene.id == env.canvas.id;
+    // });
+    // if (!isContain) {
+    //   return 0;
+    // }
     return true;
   }, [data.useTabBar, data.tabBar, env.canvas.id]);
 
@@ -130,6 +131,15 @@ export default function ({ env, data, inputs, outputs, slots }) {
         return null;
       default:
         return <SystemTabbar data={data} env={env} />;
+    }
+  }, [data, env, useTabBar]);
+
+  const tabBarLeftSide = useMemo(() => {
+    switch (useTabBar) {
+      case 0:
+        return null;
+      default:
+        return <SystemTabbarLeftSide data={data} env={env} />;
     }
   }, [data, env, useTabBar]);
 
@@ -151,9 +161,9 @@ export default function ({ env, data, inputs, outputs, slots }) {
     if (data.backgroundPosition) {
       result["backgroundPosition"] = data.backgroundPosition;
     }
-    
-      result["backgroundColor"] = data.backgroundColor ?? data.background;
-    
+
+    result["backgroundColor"] = data.backgroundColor ?? data.background;
+
 
     return result;
   }, [
@@ -166,7 +176,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
 
   let contentStyle = {}
   if (data.navigationStyle === "default" || data.navigationStyle === 'custom') {
-    contentStyle = {...pageBackgroundStyle}
+    contentStyle = { ...pageBackgroundStyle }
   }
 
   if (env.runtime) {
@@ -174,36 +184,58 @@ export default function ({ env, data, inputs, outputs, slots }) {
     contentStyle.flex = 'auto'
   }
 
+  const showLeftTabbar = useMemo(() => {
+    if (env.canvas?.breakpoint?.width == 1080 && useTabBar) {
+      return true
+    } else {
+      return false
+    }
+  }, [env,useTabBar])
+
   return (
     <View
       key={env.canvas.id}
       className={css.page}
-      //自定义导航和隐藏导航，在这里配置背景
       style={{
         height: "100%",
         ...(data.navigationStyle !== "default" || data.navigationStyle === 'custom' ? pageBackgroundStyle : {}),
       }}
     >
-      {/* Header start */}
-      <View className={"mybricks-navigation"}>
-        <SystemNavigation data={data} env={env} slots={slots} />
+      {/* 主要内容区域 */}
+      <View className={css.mainContainer}>
+        {/* 左侧 tabBar */}
+        {showLeftTabbar && (
+          <View className={css.leftSidebar}>
+            {tabBarLeftSide}
+          </View>
+        )}
+
+        {/* 右侧内容区域 */}
+        <View className={css.rightContent}>
+          {/* Header start */}
+          <View className={"mybricks-navigation"}>
+            <SystemNavigation data={data} env={env} slots={slots} />
+          </View>
+          {/* Header end */}
+
+          {/* content start*/}
+          <View
+            className={cx(css.content, { [css.edit]: env?.edit })}
+            style={contentStyle}
+          >
+            {slots["content"]?.render?.({
+              style: {
+                transform: "none"
+              }
+            })}
+          </View>
+          {/* content end*/}
+
+          {/* Footer start */}
+          {!showLeftTabbar && tabBar}
+          {/* Footer end */}
+        </View>
       </View>
-      {/* Header end */}
-
-      {/* content start*/}
-
-      <View
-        className={cx(css.content, { [css.edit]: env?.edit })}
-        //导航栏为默认的时候，在这里配置背景
-        style={contentStyle}
-      >
-        {slots["content"]?.render?.()}
-      </View>
-      {/* content end*/}
-
-      {/* Footer start */}
-      {tabBar}
-      {/* Footer end */}
     </View>
   );
 }

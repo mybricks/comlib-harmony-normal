@@ -106,12 +106,20 @@ export default function ({ env, data, inputs, outputs, slots }) {
   const [form, formRef] = useForm({ items: data.items, childrenInputs });
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // 初始化表单数据
+    form.setValues(data.dataSource || {});
+  }, [data.dataSource]);
+
   useLayoutEffect(() => {
     /** 下发表单项的onChange函数，用来收集表单项数据 */
     slots["content"]._inputs["onChange"](({ id, name, value }) => {
       const item = getFormItem(data.items, { id, name });
       if (item) {
         form.setFieldValue(item.name || item.label, value);
+
+        const values = form.getValues();
+        data.dataSource = values;
       }
     });
 
@@ -311,24 +319,33 @@ export default function ({ env, data, inputs, outputs, slots }) {
   }, [data.useLoading, loading, data.skipValidation]);
 
   return (
-    <Form className={cx(css.form, 'mybricks-form', { [css.h5]: isH5 })} ref={formRef}>
-      <Cell.Group bordered={false}>{content}</Cell.Group>
-      {data.useSubmitButton ? (
-        <View className={cx(css.foot, "mybricks-submit")}>
-          <Button className="taroify-button" onClick={onCustomSubmit}>
-            {loading ? (
-              // ... 的动画
-              <View className={css.loading}>
-                <View className={css.dot1}></View>
-                <View className={css.dot2}></View>
-                <View className={css.dot3}></View>
-              </View>
-            ) : (
-              data.submitButtonText
-            )}
-          </Button>
-        </View>
-      ) : null}
+    <Form
+      className={cx(css.form, "mybricks-form", { [css.h5]: isH5 })}
+      ref={formRef}
+    >
+      <Cell.Group
+        bordered={false}
+        className={cx(css.group, "mybricks-form-cell-group")}
+      >
+        {content}
+
+        {data.useSubmitButton ? (
+          <View className={cx(css.foot, "mybricks-submit")}>
+            <Button className="taroify-button" onClick={onCustomSubmit}>
+              {loading ? (
+                // ... 的动画
+                <View className={css.loading}>
+                  <View className={css.dot1}></View>
+                  <View className={css.dot2}></View>
+                  <View className={css.dot3}></View>
+                </View>
+              ) : (
+                data.submitButtonText
+              )}
+            </Button>
+          </View>
+        ) : null}
+      </Cell.Group>
     </Form>
   );
 }

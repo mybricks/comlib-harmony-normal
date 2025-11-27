@@ -79,7 +79,8 @@ export default function (props) {
 
   const onChange = useCallback((e) => {
     let value = e.detail.value;
-    setValue(value);
+    // setValue(value);
+    data.value = value; 
 
     parentSlot?._inputs["onChange"]?.({
       id: props.id,

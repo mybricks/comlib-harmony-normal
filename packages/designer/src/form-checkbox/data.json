@@ -4,22 +4,19 @@
   "name": "多选",
   "direction": "vertical",
   "value": [],
-  "gap":12,
+  "gap": 12,
   "options": [
     {
       "label": "邮箱",
-      "value": "邮箱",
-      "icon": ""
+      "value": "邮箱"
     },
     {
       "label": "手机",
-      "value": "手机",
-      "icon": ""
+      "value": "手机"
     },
     {
       "label": "微信",
-      "value": "微信",
-      "icon": ""
+      "value": "微信"
     }
   ]
 }

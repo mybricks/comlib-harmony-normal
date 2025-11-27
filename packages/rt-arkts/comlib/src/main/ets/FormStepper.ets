@@ -1,6 +1,6 @@
-import { CounterType, CounterComponent } from '@kit.ArkUI';
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { getStyleValueByPattern, parseMargin } from './utils/StyleMatching'
 
 // Data 接口定义
 export interface DataType {
@@ -127,20 +127,38 @@ export default struct MyBricksFormStepper {
         //减少
         Column(){
           Text("-")
-            .fontColor("#fa6400")
-            .fontSize(25)
             .lineHeight(25)
-            .fontWeight(200)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.taroify-stepper__decrease'])
+                .fontSize(25)
+                .fontColor("#fa6400")
+            )
         }
-        .width(25)
-        .height(25)
-        .backgroundColor(Color.White)
         .border({
           width: 1,
           color: "#fa6400",
           radius: 20,
           style: BorderStyle.Solid
         })
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.taroify-stepper__decrease'])
+            .backgroundColor(Color.White)
+        )
+        .width(
+          getStyleValueByPattern(
+            this.styles,
+            ['.taroify-stepper__decrease'],
+            'width',
+            24
+          ))
+        .height(
+          getStyleValueByPattern(
+            this.styles,
+            ['.taroify-stepper__decrease'],
+            'height',
+            24
+          ))
+        .margin(parseMargin(this.styles['.taroify-stepper__decrease']))
         .onClick(()=>{
           const new_value = this.data.value - this.data.step
           if(new_value >= this.data.min){
@@ -154,28 +172,69 @@ export default struct MyBricksFormStepper {
         })
         //数字回显
         Column(){
-          Text(String(this.data.value)).fontSize(13).margin({
-            left:10,
-            right:10
-          })
+          Text(String(this.data.value))
+            .textAlign(TextAlign.Center)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.taroify-stepper__input input'])
+                .fontSize(14)
+                .fontColor('#323233')
+            )
+            .attributeModifier(
+              new ApplyStyleModifier(this.styles['.taroify-stepper__input input'])
+            )
+            .width(
+              getStyleValueByPattern(
+                this.styles,
+                ['.taroify-stepper__input input'],
+                'width',
+                32
+              ))
+            .height(
+              getStyleValueByPattern(
+                this.styles,
+                ['.taroify-stepper__input input'],
+                'height',
+                24
+              ))
+            .margin(parseMargin(this.styles['.taroify-stepper__input input']))
         }.width("auto")
         //增加
         Column(){
           Text("+")
-            .fontColor("#ffffff")
-            .fontSize(25)
             .lineHeight(25)
-            .fontWeight(200)
+            .attributeModifier(
+              new ApplyFontStyleModifier(this.styles['.taroify-stepper__increase'])
+                .fontSize(25)
+                .fontColor('#ffffff')
+            )
         }
-        .width(25)
-        .height(25)
-        .backgroundColor("#fa6400")
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
         .border({
           width: 1,
           color: "#fa6400",
-          radius: 20,
+          radius: 24,
           style: BorderStyle.Solid
         })
+        .attributeModifier(
+          new ApplyStyleModifier(this.styles['.taroify-stepper__increase'])
+            .backgroundColor("#fa6400")
+        )
+        .width(
+          getStyleValueByPattern(
+            this.styles,
+            ['.taroify-stepper__increase'],
+            'width',
+            24
+          ))
+        .height(
+          getStyleValueByPattern(
+            this.styles,
+            ['.taroify-stepper__increase'],
+            'height',
+            24
+          ))
+        .margin(parseMargin(this.styles['.taroify-stepper__increase']))
         .onClick(()=>{
           const new_value = this.data.value + this.data.step
           if(new_value <= this.data.max){
