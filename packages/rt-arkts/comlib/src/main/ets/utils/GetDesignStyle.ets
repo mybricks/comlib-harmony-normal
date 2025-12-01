@@ -1,5 +1,5 @@
 import { MyBricksModifier } from "@mybricks/render-utils"
-import {parseRadius} from "./StyleMatching"
+import { parseRadius, parsePadding} from "./StyleMatching"
 export type CSSProperties = Record<string, string | number>
 
 type ComponentAttribute = CommonAttribute
