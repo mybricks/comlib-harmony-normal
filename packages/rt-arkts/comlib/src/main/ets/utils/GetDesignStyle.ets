@@ -30,12 +30,9 @@ export class ApplyRootStyleModifier extends MyBricksModifier<ComponentAttribute>
     // paddingRight
     // paddingBottom
     // paddingLeft
-    instance.padding({
-      top: style.paddingTop,
-      right: style.paddingRight,
-      bottom: style.paddingBottom,
-      left: style.paddingLeft
-    })
+    if (style.padding || style.paddingTop || style.paddingRight || style.paddingBottom || style.paddingLeft) {
+      instance.padding(parsePadding(style))
+    }
     // flex
     if (typeof style.flex === "number") {
       instance.flexGrow(style.flex as number)
