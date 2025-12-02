@@ -7,17 +7,10 @@ import React, {
 } from "react";
 import css from "./style.less";
 import cx from "classnames";
-import { Button, Text } from "@tarojs/components";
+import { Button, Text, Image, View } from "@tarojs/components";
+import { SymbolGlyph } from "./../components/symbol-glyph";
 
-export default function ({
-  env,
-  data,
-  logger,
-  slots,
-  inputs,
-  outputs,
-  title,
-}) {
+export default function ({ env, data, logger, slots, inputs, outputs, title }) {
   useMemo(() => {
     inputs["buttonText"]((val: string) => {
       data.text = val;
@@ -33,6 +26,48 @@ export default function ({
       return {};
     }
   }, [data.disabled]);
+
+  const iconDom = useMemo(() => {
+    if (!data.showIcon) {
+      return null;
+    }
+    if (data.useImageIcon) {
+      return (
+        <Image
+          className={cx(css.imageIcon, "mybricks-button-image-icon")}
+          mode="scaleToFill"
+          src={data.imageIcon}
+        />
+      );
+    } else {
+      return (
+        <View
+          style={{
+            marginLeft: data.iconPosition === "right" ? data.iconMargin : 0,
+            marginRight:
+              data.iconPosition === "left" || !data.iconPosition
+                ? data.iconMargin
+                : 0,
+          }}
+        >
+          <SymbolGlyph
+            name={data.icon}
+            fontColor={data.iconColor}
+            fontSize={data.iconSize}
+          />
+        </View>
+      );
+    }
+  }, [
+    data.showIcon,
+    data.useImageIcon,
+    data.imageIcon,
+    data.icon,
+    data.iconSize,
+    data.iconMargin,
+    data.iconColor,
+    data.iconPosition,
+  ]);
 
   // input禁用按钮
   useEffect(() => {
@@ -66,7 +101,9 @@ export default function ({
         }
       }}
     >
-      <Text className={css.text}>{data.text}</Text>
+      {(!data.iconPosition || data.iconPosition === "left") && iconDom}
+      <Text>{data.text}</Text>
+      {data.iconPosition === "right" && iconDom}
     </Button>
   );
 }

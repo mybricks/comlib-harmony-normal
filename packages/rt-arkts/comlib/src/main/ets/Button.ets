@@ -2,8 +2,7 @@ import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSS
 import { AnyType } from './types'
 
 import { BasicStylesType, Styles } from "./types/Styles"
-
-import { getStyleValueByPattern, parseLinearGradient } from './utils/StyleMatching'
+import { getStyleValueByPattern, parseLinearGradient, parseMargin, parseSize } from './utils/StyleMatching'
 
 interface MyBricksButtonStyles {
   color: Styles.Color
@@ -28,16 +27,40 @@ export interface StylesType extends BasicStylesType {
 export interface DataType {
   text: string
   disabled?: boolean
+  showIcon?: boolean
+  useImageIcon?: boolean
+  imageIcon?: string
+  icon?: string
+  iconSize?: number
+  iconMargin?: number
+  iconColor?: string[]
+  iconPosition?: string
 }
 
 @ObservedV2
 export class Data implements DataType {
   @Trace text: string
   @Trace disabled: boolean = false
+  @Trace showIcon: boolean = false
+  @Trace useImageIcon: boolean = false
+  @Trace imageIcon?: string
+  @Trace icon: string = 'plus'
+  @Trace iconSize: number = 14
+  @Trace iconMargin: number = 8
+  @Trace iconColor: string[] = ["#fff"]
+  @Trace iconPosition: string = "left"
 
   constructor(config: DataType) {
     this.text = config.text
     this.disabled = config.disabled ?? false
+    this.showIcon = config.showIcon ?? false
+    this.useImageIcon = config.useImageIcon ?? false
+    this.icon = config.icon ?? 'plus'
+    this.iconSize = config.iconSize ?? 14
+    this.iconMargin = config.iconMargin ?? 8
+    this.iconColor = config.iconColor ?? ["#fff"]
+    this.iconPosition = config.iconPosition ?? "left"
+    this.imageIcon = config.imageIcon
   }
 }
 
@@ -75,9 +98,6 @@ export interface SlotsParams {
   style?: CSSProperties
 }
 
-
-
-
 @Builder function emptySlot(params: SlotsParams) {}
 
 @ComponentV2
@@ -114,15 +134,46 @@ export default struct MyBricksButton {
     })
   }
 
+  @Builder iconDom() {
+    if (this.data.showIcon) {
+      if (this.data.useImageIcon) {
+        Image(this.data.imageIcon)
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles['.mybricks-button-image-icon'])
+          )
+          .width(parseSize(this.styles['.mybricks-button-image-icon'].width) ?? 14)
+          .height(parseSize(this.styles['.mybricks-button-image-icon'].height) ?? 14)
+          .margin(parseMargin(this.styles['.mybricks-button-image-icon']))
+      } else {
+        SymbolGlyph($r(`sys.symbol.${this.data.icon}`))
+          .fontWeight(400)
+          .fontSize(this.data.iconSize)
+          .fontColor([this.data.iconColor?.[0], Color.White])
+          .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+          .width(this.data.iconSize)
+          .height(this.data.iconSize)
+          .alignSelf(ItemAlign.Center)
+          .align(Alignment.Center)
+          .renderFit(RenderFit.CENTER)
+          .margin(this.data.iconPosition === 'right' ? {left: this.data.iconMargin} : {right: this.data.iconMargin})
+      }
+    }
+  }
+
   build() {
     Button({ type: ButtonType.Normal }) {
-      Text(this.data.text)
-        .halfLeading(true)
-        .attributeModifier(
-          new ApplyFontStyleModifier(this.styles['.mybricks-button'], 'text')
-            .fontSize(14)
-            .fontColor('#ffffff')
-        )
+      Row() {
+        this.iconDom()
+        Text(this.data.text)
+          .halfLeading(true)
+          .attributeModifier(
+            new ApplyFontStyleModifier(this.styles['.mybricks-button'], 'text')
+              .fontSize(14)
+              .fontColor('#ffffff')
+          )
+      }
+      .reverse(this.data.iconPosition === 'right')
+      .alignItems(VerticalAlign.Center)
     }
     .type(ButtonType.Normal)
     .onClick(() => {
