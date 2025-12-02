@@ -21,9 +21,9 @@ export default function (props) {
     outputs["onChange"](val);
   });
 
-  useEffect(()=>{
-    setValue(data.value)
-  },[data.value])
+  useEffect(() => {
+    setValue(data.value);
+  }, [data.value]);
 
   useEffect(() => {
     const result = formatValue(data.value);
@@ -88,7 +88,8 @@ export default function (props) {
 
   const onChange = useCallback((e) => {
     let value = e.detail.value;
-    setValue(value);
+    data.value = value;
+    // setValue(value);
   }, []);
 
   const onBlur = useCallback((e) => {
