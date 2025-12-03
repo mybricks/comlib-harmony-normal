@@ -1,6 +1,8 @@
 import { window } from '@kit.ArkUI';
 import { audio } from '@kit.AudioKit';
 import { AudioCapturer } from './audio/AudioCapturer';
+import { AudioInner } from './audio/AudioInner';
+import { JSON } from '@kit.ArkTS';
 
 export interface Data {
   /** 是否自执行 */
@@ -10,8 +12,13 @@ export interface Data {
    * start 开始
    * pause 暂停
    * stop 结束/销毁
+   * reset 重置
    */
-  callType: 'start' | 'pause' | 'stop'
+  callType: 'start' | 'pause' | 'stop' | 'reset'
+}
+
+interface InputCallValue {
+  innerRecorder: boolean
 }
 
 interface InputsCallRelOutputs {
@@ -19,7 +26,7 @@ interface InputsCallRelOutputs {
 }
 
 interface Inputs {
-  call: (fn: (value: string, relOutputs: InputsCallRelOutputs) => void) => void;
+  call: (fn: (value: InputCallValue, relOutputs: InputsCallRelOutputs) => void) => void;
 }
 
 interface Outputs {
@@ -35,6 +42,9 @@ interface IOContext {
 }
 
 let audioCapturerPromise: Promise<AudioCapturer>
+let isInnerRecord: boolean = false
+let innerRecord: AudioInner
+let innerRecordIntervalId: number | undefined;
 
 export default (context: IOContext) => {
   const data = context.data;
@@ -45,6 +55,14 @@ export default (context: IOContext) => {
     audioCapturerPromise = new Promise((resolve) => {
       window.getLastWindow(getContext()).then(async (windowClass) => {
         const uiContext = windowClass.getUIContext();
+
+        // 内录
+        innerRecord = new AudioInner({
+          uiContext,
+          minHeight: 10,
+          maxHeight: 50,
+        })
+
         resolve(new AudioCapturer({
           uiContext,
           minHeight: 10,
@@ -57,9 +75,11 @@ export default (context: IOContext) => {
   if (data.immediate) {
     audioCapturerPromise.then((audioCapturer) => {
       let intervalId: number | undefined;
+      const test = Math.random()
       // 监听状态变更
       audioCapturer.addEventListener('stateChange', (state: audio.AudioState) => {
         if (state === audio.AudioState.STATE_RUNNING) {
+          clearInterval(intervalId)
           intervalId = setInterval(async () => {
             outputs.amplitude(audioCapturer.calculateDecibelHeight())
             outputs.duration(await audioCapturer.getDuration())
@@ -73,24 +93,71 @@ export default (context: IOContext) => {
       audioCapturer.addEventListener('readData', (arrayBuffer: ArrayBuffer) => {
         outputs.then(arrayBuffer);
       })
+
+      innerRecord.addEventListener('readData', (arrayBuffer: ArrayBuffer) => {
+        outputs.then(arrayBuffer);
+      })
+      innerRecord.addEventListener('durationChange', (duration: number) => {
+        outputs?.duration(duration)
+      })
+      innerRecord.addEventListener('amplitudeChange', (amplitude: number) => {
+        outputs?.amplitude(amplitude)
+      })
     })
   } else {
-    inputs.call(() => {
-      audioCapturerPromise.then((audioCapturer) => {
+    inputs.call((callVal: InputCallValue) => {
+      audioCapturerPromise.then(async  (audioCapturer) => {
         const callType = data.callType;
+
         if (callType === 'start') {
-          audioCapturer.start().then((result) => {
-            if(result){
+          isInnerRecord = callVal?.innerRecorder ?? false
+          if (!isInnerRecord) {
+            await audioCapturer.start().then((result) => {
+              if(result){
+                outputs.then(undefined);
+              }
+            });
+          } else {
+            innerRecord.start()
+            outputs.then(undefined);
+          }
+        } else if (callType === 'pause') {
+          audioCapturer?.stop().then(() => {
+            if (!isInnerRecord) {
               outputs.then(undefined);
             }
           });
-        } else if (callType === 'pause') {
-          audioCapturer.stop().then(() => {
+          clearInterval(innerRecordIntervalId);
+          innerRecordIntervalId = undefined;
+          innerRecord?.stop()
+          if (isInnerRecord) {
             outputs.then(undefined);
-          });
+          }
         } else if (callType === 'stop') {
           audioCapturer.destroy().then((buffer) => {
-            outputs.then(buffer);
+            if (!isInnerRecord) {
+              outputs.then(buffer);
+            }
+          });
+          clearInterval(innerRecordIntervalId);
+          innerRecordIntervalId = undefined;
+          innerRecord.destroy().then((buffer) => {
+            if (isInnerRecord) {
+              outputs.then(buffer);
+            }
+          });
+        } else if (callType === 'reset') {
+          audioCapturer?.reset().then((buffer) => {
+            if (!isInnerRecord) {
+              outputs.then(buffer);
+            }
+          });
+          clearInterval(innerRecordIntervalId);
+          innerRecordIntervalId = undefined;
+          innerRecord.reset().then((buffer) => {
+            if (isInnerRecord) {
+              outputs.then(buffer);
+            }
           });
         }
       })

@@ -4,6 +4,7 @@ import { common } from '@kit.AbilityKit';
 import { fileIo, ReadOptions } from '@kit.CoreFileKit';
 import { Constants } from './common/Constants';
 import { PermissionUtil } from './common/utils/PermissionUtil';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 interface AudioCapturerConstructorParams {
   uiContext: UIContext;
@@ -125,10 +126,10 @@ export class AudioCapturer {
           });
         });
 
-        await this.audioCapturer.start();
+        await this.audioCapturer.start()
         return true
       } else {
-        await this.audioCapturer.start();
+        await this.audioCapturer.start()
         return true
       }
     } else {
@@ -163,6 +164,28 @@ export class AudioCapturer {
       fileIo.closeSync(this.file!.fd);
       this.file = undefined;
       this.eventListener = new Map();
+      this.sampleValCnt = 0;
+      this.sampleValSum = 0;
+      this.bufferSize = 0;
+      return buf;
+    }
+    return undefined;
+  }
+
+  // 重置
+  async reset() {
+    if (this.audioCapturer) {
+      await this.stop();
+      const arrayBuffer = new ArrayBuffer(this.bufferSize);
+      const readOptions: ReadOptions = {
+        offset: 0,
+        length: arrayBuffer.byteLength
+      };
+      const readLen = fileIo.readSync(this.file!.fd, arrayBuffer, readOptions);
+      const buf = buffer.from(arrayBuffer, 0, readLen);
+      this.audioCapturer = undefined;
+      fileIo.closeSync(this.file!.fd);
+      this.file = undefined;
       this.sampleValCnt = 0;
       this.sampleValSum = 0;
       this.bufferSize = 0;

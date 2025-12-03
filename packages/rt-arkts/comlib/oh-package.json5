@@ -9,7 +9,8 @@
     "dayjs": "1.11.13",
     "@ohos/axios": "2.2.6",
     "@mybricks/render-utils": "latest",
-    "@aliyun/oss": "latest"
+    "@aliyun/oss": "latest",
+    "libavinnerrecord": "latest"
   },
   "devDependencies": {}
 }

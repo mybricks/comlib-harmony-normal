@@ -23,6 +23,7 @@ export default {
         { label: "开始", value: "start" },
         { label: "暂停", value: "pause" },
         { label: "结束", value: "stop" },
+        { label: "重置", value: "reset" },
       ],
       ifVisible({ data }: EditorResult<Data>) {
         return !data.immediate;

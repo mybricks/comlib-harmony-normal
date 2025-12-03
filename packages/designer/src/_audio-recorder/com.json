@@ -4,7 +4,7 @@
   "author": "MyBricks",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "录音",
   "runtime": "./runtime.ts",
   "data": "./data.json",
@@ -15,7 +15,13 @@
       "id": "call",
       "title": "调用",
       "schema": {
-        "type": "any"
+        "type": "object",
+        "properties": {
+          "innerRecorder": {
+            "description": "启用内录",
+            "type": "boolean"
+          }
+        }
       }
     }
   ],
