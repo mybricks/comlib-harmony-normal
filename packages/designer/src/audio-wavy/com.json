@@ -4,7 +4,7 @@
   "author": "MyBricks",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "音频振幅",
   "runtime": "./runtime.tsx",
   "data": "./data.json",
@@ -15,6 +15,13 @@
       "title": "振幅",
       "schema": {
         "type": "number"
+      }
+    },
+    {
+      "id": "reset",
+      "title": "重置",
+      "schema": {
+        "type": "any"
       }
     }
   ]

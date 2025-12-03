@@ -24,6 +24,7 @@ export default function ({ data, inputs }) {
     // 振幅长度
     heightsLength: 0,
   });
+  const defaultHeightsLength = useRef(0);
   const [heights, setHeights] = useState<number[]>([]);
 
   useEffect(() => {
@@ -35,6 +36,11 @@ export default function ({ data, inputs }) {
         return nextHeights;
       });
     });
+    inputs["reset"](() => {
+      context.current.heightsLength = defaultHeightsLength.current;
+      context.current.heightsLength = 0;
+      setHeights(Array(defaultHeightsLength.current).fill(data.minHeight));
+    });
 
     const observerTarget = containerRef.current;
     const observer = new ResizeObserver((entries) => {
@@ -43,6 +49,7 @@ export default function ({ data, inputs }) {
       setHeights((heights) => {
         const count = width / (Constants.COLUMN_WIDTH + data.gap);
         const length = Math.round(count);
+        defaultHeightsLength.current = length;
 
         if (!heights.length) {
           // 初始化

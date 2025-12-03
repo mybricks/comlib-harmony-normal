@@ -33,6 +33,7 @@ interface PrivateContext {
 
 interface Inputs {
   push: (fn: (height: number) => void) => void;
+  reset: (fn: () => void) => void
 }
 
 interface Outputs {}
@@ -57,6 +58,7 @@ export default struct MyBricksAudioWavy {
   @Param modifier?: AttributeModifier<CommonAttribute> = undefined;
 
   @Local heights: number[] = [];
+  @Local defaultHeightsLength: number = 0;
 
   private context: PrivateContext = {
     audioLength: 0,
@@ -69,9 +71,16 @@ export default struct MyBricksAudioWavy {
       this.heights.shift();
       this.heights.push(height);
     })
+
+    this.inputs?.reset(() => {
+      this.context.audioLength = 0;
+      this.context.heightsLength = this.defaultHeightsLength;
+      this.heights = Array(this.defaultHeightsLength).fill(this.data.minHeight);
+    })
   }
 
   build() {
+
     Stack() {
       Row({ space: this.data.gap }) {
         ForEach(this.heights, (height: number, index) => {
@@ -80,12 +89,13 @@ export default struct MyBricksAudioWavy {
             .height(height)
             .backgroundColor(this.context.heightsLength - this.context.audioLength > index ? Constants.NORMAL_COLOR : Constants.AUDIO_COLOR)
             .borderRadius(Constants.COLUMN_WIDTH)
-        })
+        }, () => Math.random() + Date.now() + '')
       }
     }
     .onAreaChange((oldValue: Area, newValue: Area) => {
       const count = (newValue.width as number) / (Constants.COLUMN_WIDTH + this.data.gap);
       const length = Math.round(count)
+      this.defaultHeightsLength = length
       if (!this.heights.length) {
         // 初始化
         this.context.heightsLength = length;
