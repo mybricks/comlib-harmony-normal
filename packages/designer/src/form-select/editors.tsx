@@ -30,6 +30,18 @@ export default {
         },
       },
       {
+        title: "箭头样式",
+        options: [
+          "font",
+          "border",
+          "padding",
+          "background",
+          "boxShadow",
+          "margin",
+        ],
+        target: [".mybricks-arrow"],
+      },
+      {
         title: "输入框",
         options: ["border", "padding", "background", "boxShadow"],
         target: [".mybricks-select", ".mybricks-h5Select"],

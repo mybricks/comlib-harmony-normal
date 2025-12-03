@@ -1,5 +1,6 @@
 import { ApplyRootStyleModifier, ApplyStyleModifier, ApplyFontStyleModifier, CSSProperties } from './utils/GetDesignStyle'
 import { AnyType } from './types'
+import { parseMargin } from './utils/StyleMatching';
 
 export interface DataType {
   label?: string;
@@ -136,9 +137,14 @@ export default struct MyBricksFormSelect {
         )
       if(this.data.arrow != 'none'){
         SymbolGlyph(this.data.arrow === 'right' ? $r('sys.symbol.chevron_right') : $r('sys.symbol.chevron_down'))
-          .fontSize(16)
           .renderingStrategy(SymbolRenderingStrategy.SINGLE)
-          .fontColor(['#000000', Color.White])
+          .fontSize(this.styles['.mybricks-arrow'].fontSize ? parseFloat(this.styles['.mybricks-arrow'].fontSize as string) : 14)
+          .fontColor([this.styles['.mybricks-arrow'].color ?? '#000000'])
+          .fontWeight(this.styles['.mybricks-arrow'].fontWeight ?? 500)
+          .attributeModifier(
+            new ApplyStyleModifier(this.styles['.mybricks-arrow'])
+          )
+          .margin(parseMargin(this.styles['.mybricks-arrow']))
       }
 
     }
