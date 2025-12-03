@@ -141,7 +141,7 @@ export default struct MyBricksImage {
       this.outputs?.onClick(this.data.src)
     })
     .gesture(
-      LongPressGesture({ repeat: false, duration: 100 })
+      LongPressGesture({ repeat: false, duration: 500 })
         .onAction(() => {
           this.outputs?.onPress?.(true)
         })
