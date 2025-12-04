@@ -81,6 +81,14 @@ export default function (props) {
       obs.observe(knobRef.current);
     }
 
+    if (typeof data.lapValue !== "number") {
+      data.lapValue = 0;
+    }
+
+    if (typeof data.pointerY !== "number") {
+      data.pointerY = 0;
+    }
+
     return () => obs.disconnect();
   }, []);
 
