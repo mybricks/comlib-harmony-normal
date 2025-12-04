@@ -44,7 +44,6 @@ interface IOContext {
 let audioCapturerPromise: Promise<AudioCapturer>
 let isInnerRecord: boolean = false
 let innerRecord: AudioInner
-let innerRecordIntervalId: number | undefined;
 
 export default (context: IOContext) => {
   const data = context.data;
@@ -75,7 +74,6 @@ export default (context: IOContext) => {
   if (data.immediate) {
     audioCapturerPromise.then((audioCapturer) => {
       let intervalId: number | undefined;
-      const test = Math.random()
       // 监听状态变更
       audioCapturer.addEventListener('stateChange', (state: audio.AudioState) => {
         if (state === audio.AudioState.STATE_RUNNING) {
@@ -127,8 +125,6 @@ export default (context: IOContext) => {
               outputs.then(undefined);
             }
           });
-          clearInterval(innerRecordIntervalId);
-          innerRecordIntervalId = undefined;
           innerRecord?.stop()
           if (isInnerRecord) {
             outputs.then(undefined);
@@ -139,8 +135,6 @@ export default (context: IOContext) => {
               outputs.then(buffer);
             }
           });
-          clearInterval(innerRecordIntervalId);
-          innerRecordIntervalId = undefined;
           innerRecord.destroy().then((buffer) => {
             if (isInnerRecord) {
               outputs.then(buffer);
@@ -152,8 +146,6 @@ export default (context: IOContext) => {
               outputs.then(buffer);
             }
           });
-          clearInterval(innerRecordIntervalId);
-          innerRecordIntervalId = undefined;
           innerRecord.reset().then((buffer) => {
             if (isInnerRecord) {
               outputs.then(buffer);
