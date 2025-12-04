@@ -39,14 +39,6 @@ export default {
           },
         ],
       },
-      {
-        ifVisible({ data }) {
-          return data.showIcon && data.useImageIcon;
-        },
-        title: "自定义图标",
-        options: ["size", "border", "margin", "background"],
-        target: ".mybricks-button-image-icon",
-      },
     ],
     items: [
       {
@@ -93,6 +85,28 @@ export default {
             },
             title: "图标配置",
             items: [
+              {
+                title: "展示位置",
+                type: "select",
+                options: [
+                  {
+                    label: "位于文字前",
+                    value: "left",
+                  },
+                  {
+                    label: "位于文字后",
+                    value: "right",
+                  },
+                ],
+                value: {
+                  get({ data }) {
+                    return data.iconPosition;
+                  },
+                  set({ data, outputs }, value: string) {
+                    data.iconPosition = value;
+                  },
+                },
+              },
               {
                 title: "自定义",
                 type: "switch",
@@ -163,6 +177,25 @@ export default {
               },
               {
                 ifVisible({ data }) {
+                  return data.useImageIcon;
+                },
+                title: "图标大小",
+                type: "inputnumber",
+                options: [
+                  { title: "宽度", min: 1 },
+                  { title: "高度", min: 1 },
+                ],
+                value: {
+                  get({ data }) {
+                    return data.imageSize;
+                  },
+                  set({ data }, value: number[]) {
+                    data.imageSize = value;
+                  },
+                },
+              },
+              {
+                ifVisible({ data }) {
                   return !data.useImageIcon;
                 },
                 title: "图标颜色",
@@ -177,31 +210,6 @@ export default {
                 },
               },
               {
-                title: "展示位置",
-                type: "select",
-                options: [
-                  {
-                    label: "位于文字前",
-                    value: "left",
-                  },
-                  {
-                    label: "位于文字后",
-                    value: "right",
-                  },
-                ],
-                value: {
-                  get({ data }) {
-                    return data.iconPosition;
-                  },
-                  set({ data, outputs }, value: string) {
-                    data.iconPosition = value;
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return !data.useImageIcon;
-                },
                 title: "图标与文字间距",
                 type: "inputnumber",
                 options: [{ min: 0 }],

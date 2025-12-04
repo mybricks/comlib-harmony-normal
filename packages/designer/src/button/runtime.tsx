@@ -28,13 +28,24 @@ export default function ({ env, data, logger, slots, inputs, outputs, title }) {
   }, [data.disabled]);
 
   const iconDom = useMemo(() => {
+    const spaceStyle = {
+      marginLeft: data.iconPosition === "right" ? data.iconMargin : 0,
+      marginRight:
+        data.iconPosition === "left" || !data.iconPosition
+          ? data.iconMargin
+          : 0,
+    };
     if (!data.showIcon) {
       return null;
     }
     if (data.useImageIcon) {
       return (
         <Image
-          className={cx(css.imageIcon, "mybricks-button-image-icon")}
+          style={{
+            ...spaceStyle,
+            width: `${data.imageSize?.[0] ?? 14}px`,
+            height: `${data.imageSize?.[1] ?? 14}px`,
+          }}
           mode="scaleToFill"
           src={data.imageIcon}
         />
@@ -43,11 +54,7 @@ export default function ({ env, data, logger, slots, inputs, outputs, title }) {
       return (
         <View
           style={{
-            marginLeft: data.iconPosition === "right" ? data.iconMargin : 0,
-            marginRight:
-              data.iconPosition === "left" || !data.iconPosition
-                ? data.iconMargin
-                : 0,
+            ...spaceStyle,
           }}
         >
           <SymbolGlyph
@@ -67,6 +74,7 @@ export default function ({ env, data, logger, slots, inputs, outputs, title }) {
     data.iconMargin,
     data.iconColor,
     data.iconPosition,
+    data.imageSize,
   ]);
 
   // input禁用按钮

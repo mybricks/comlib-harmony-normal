@@ -4,9 +4,10 @@
   "author": "MyBricks",
   "author_name": "板砖团队",
   "icon": "./icon.svg",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "按钮",
   "runtime": "./runtime.tsx",
+  "upgrade": "./upgrade.ts",
   "data": "./data.json",
   "editors": "./editors.tsx",
   "ai": "./ai.ts",
@@ -24,9 +25,7 @@
       "schema": {
         "type": "boolean"
       },
-      "rels": [
-        "setDisabledSuccess"
-      ]
+      "rels": ["setDisabledSuccess"]
     },
     {
       "id": "setEnabled",
@@ -34,9 +33,7 @@
       "schema": {
         "type": "any"
       },
-      "rels": [
-        "setEnabledSuccess"
-      ]
+      "rels": ["setEnabledSuccess"]
     }
   ],
   "outputs": [

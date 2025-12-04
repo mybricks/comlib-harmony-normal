@@ -30,6 +30,7 @@ export interface DataType {
   showIcon?: boolean
   useImageIcon?: boolean
   imageIcon?: string
+  imageSize?: number[]
   icon?: string
   iconSize?: number
   iconMargin?: number
@@ -46,6 +47,7 @@ export class Data implements DataType {
   @Trace imageIcon?: string
   @Trace icon: string = 'plus'
   @Trace iconSize: number = 14
+  @Trace imageSize?: number[] = [14, 14]
   @Trace iconMargin: number = 8
   @Trace iconColor: string[] = ["#fff"]
   @Trace iconPosition: string = "left"
@@ -57,6 +59,7 @@ export class Data implements DataType {
     this.useImageIcon = config.useImageIcon ?? false
     this.icon = config.icon ?? 'plus'
     this.iconSize = config.iconSize ?? 14
+    this.imageSize = config.imageSize ?? [14, 14]
     this.iconMargin = config.iconMargin ?? 8
     this.iconColor = config.iconColor ?? ["#fff"]
     this.iconPosition = config.iconPosition ?? "left"
@@ -141,9 +144,9 @@ export default struct MyBricksButton {
           .attributeModifier(
             new ApplyStyleModifier(this.styles['.mybricks-button-image-icon'])
           )
-          .width(parseSize(this.styles['.mybricks-button-image-icon'].width) ?? 14)
-          .height(parseSize(this.styles['.mybricks-button-image-icon'].height) ?? 14)
-          .margin(parseMargin(this.styles['.mybricks-button-image-icon']))
+          .width(this.data.imageSize?.[0] ?? 14)
+          .height(this.data.imageSize?.[1] ?? 14)
+          .margin(this.data.iconPosition === 'right' ? {left: this.data.iconMargin} : {right: this.data.iconMargin})
       } else {
         SymbolGlyph($r(`sys.symbol.${this.data.icon}`))
           .fontWeight(400)
