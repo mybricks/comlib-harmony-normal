@@ -38,11 +38,18 @@ function getFinalUrl(url) {
 /** 获取被重定向后的真正url */
 export const useRedirectedImageUrl = (url, onSuccess) => {
   useEffect(() => {
-    if (!url || new URL(url).host !== 'ai.mybricks.world') {
-      return 
+    if (!url) return;
+    
+    try {
+      if (new URL(url).host !== 'ai.mybricks.world') {
+        return;
+      }
+      getFinalUrl(url).then((finalUrl) => {
+        onSuccess(finalUrl);
+      });
+    } catch (error) {
+      // URL无效，忽略
+      return;
     }
-    getFinalUrl(url).then((finalUrl) => {
-      onSuccess(finalUrl)
-    })
-  }, [url])
-}
+  }, [url]);
+};

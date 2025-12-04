@@ -90,6 +90,11 @@ export default function ({ env, data, inputs, outputs, title, style }) {
     outputs["onPress"](press);
   }, []);
 
+  function isValidUrl(url) {
+  const urlRegex = /^https?:\/\/.+\..+/;
+  return urlRegex.test(url);
+}
+
   const src = useMemo(() => {
     let src = data.svgPolyfill || data.src;
     //debug的时候，如果没有图片内容，展示空MyBricks空图片占位
@@ -99,7 +104,11 @@ export default function ({ env, data, inputs, outputs, title, style }) {
       //搭建的时候，如果没有图片内容，展示空MyBricks空图片占位
       return imageUrl;
     } else {
-      return src;
+      if (isValidUrl(src)) {
+        return src;
+      }else{
+        return imageUrl;
+      }
     }
   }, [data.svgPolyfill, data.src, imageUrl, env.runtime.debug, env.edit]);
 
