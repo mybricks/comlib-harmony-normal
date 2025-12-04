@@ -32,7 +32,7 @@ export default {
             {
               title: "数值",
               type: "inputnumber",
-              options: [{ title: "", width: "100%" }],
+              options: [{ title: "", width: "100%", min: 0 }],
               value: {
                 get({ data }: any) {
                   return [data.value];
@@ -56,7 +56,7 @@ export default {
             {
               title: "旋转一圈数值",
               type: "inputnumber",
-              options: [{ title: "", width: "100%" }],
+              options: [{ title: "", width: "100%", min: 1 }],
               value: {
                 get({ data }: any) {
                   return [data.lapValue];
@@ -71,8 +71,8 @@ export default {
               type: "inputnumber",
               description: "设置可调整的数字范围",
               options: [
-                { title: "最小值", width: 100 },
-                { title: "最大值", width: 100 },
+                { title: "最小值", width: 100, min: 0 },
+                { title: "最大值", width: 100, min: 0 },
               ],
               value: {
                 get({ data }: any) {

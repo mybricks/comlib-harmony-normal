@@ -82,7 +82,7 @@ export default function (props) {
     }
 
     if (typeof data.lapValue !== "number") {
-      data.lapValue = 0;
+      data.lapValue = 1;
     }
 
     if (typeof data.pointerY !== "number") {
