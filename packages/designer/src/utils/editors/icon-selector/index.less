@@ -66,6 +66,7 @@
 }
 
 .drawerTitle {
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,6 +77,12 @@
   font-weight: 700;
   font-size: 14px;
   color: #333;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .classTitle {
@@ -97,16 +104,38 @@
 }
 
 .styleChoose {
-  display: flex;
-  justify-content: space-between;
+  flex-shrink: 0;
   padding: 10px 10px 0 10px;
+  :global {
+    .ant-tabs-nav {
+      margin: 0 !important;
+      .ant-tabs-tab-btn:active,
+      .ant-tabs-tab-btn:focus {
+        color: inherit;
+      }
+    }
+  }
+}
+
+.icon-cate-list {
+  flex-grow: 1;
+  position: relative;
+  overflow-y: auto;
+  padding-bottom: 12px;
+  .icon-cate-title {
+    position: sticky;
+    top: 0;
+    padding: 12px;
+    margin: 2px 0;
+    background: rgb(247, 247, 247);
+  }
 }
 
 .icon-list {
-  margin: 12px;
+  margin: 0 0 0 12px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 9px;
 
   .icon-item {
     display: flex;
@@ -115,7 +144,6 @@
     justify-content: center;
     width: 66px;
     height: 66px;
-    margin-top: 8px;
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.3s ease-in-out;
