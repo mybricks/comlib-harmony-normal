@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import css from "./index.less";
 import { basicIcons, filledIcons, outlinedIcons } from "./icons";
-import { HarmonyIcons, SymbolGlyph } from './../../../components/symbol-glyph'
+import { HarmonyIcons, SymbolGlyph } from "./../../../components/symbol-glyph";
 
-export { HarmonyIcons } from './../../../components/symbol-glyph'
-export * from './icons'
+export { HarmonyIcons } from "./../../../components/symbol-glyph";
+export * from "./icons";
 
-
-const { Drawer, Radio } = window.antd ?? {}
+const { Drawer, Radio } = window.antd ?? {};
 
 const Icon = (props: any) => {
   const { type, size, className } = props;
-  return <></>
+  return <></>;
 
   // @ts-ignore
   // const RenderIcon = Icons[type];
@@ -21,7 +20,7 @@ const Icon = (props: any) => {
   // return <RenderIcon className={className} size={size || 24} />;
 };
 
-export function IconSelector ({ value }) {
+export function IconSelector({ value }) {
   const [visible, setVisible] = useState(false);
   const [iconSet, setIconSet] = useState("basic");
 
@@ -55,11 +54,11 @@ export function IconSelector ({ value }) {
         })}
       </div>
     );
-  }, [])
+  }, []);
 
   useEffect(() => {
-    setIconSet(HarmonyIcons[0]?.title)
-  }, [])
+    setIconSet(HarmonyIcons[0]?.title);
+  }, []);
 
   return (
     <div className={css["editor-icon"]}>
@@ -96,22 +95,25 @@ export function IconSelector ({ value }) {
             {/* <Cross onClick={close} /> */}
           </div>
           <div className={css.styleChoose}>
-            <div>
+            <div style={{ overflowX: "auto" }}>
               <Radio.Group
                 value={iconSet}
                 onChange={(e) => setIconSet(e.target.value)}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {
-                  HarmonyIcons.map(icons => {
-                    return <Radio.Button value={icons.title}>{icons.title}</Radio.Button>
-                  })
-                }
+                {HarmonyIcons.map((icons) => {
+                  return (
+                    <Radio.Button value={icons.title}>
+                      {icons.title}
+                    </Radio.Button>
+                  );
+                })}
               </Radio.Group>
             </div>
           </div>
         </div>
         <div>
-          {renderIcons(HarmonyIcons.find(t => t.title === iconSet)?.icons)}
+          {renderIcons(HarmonyIcons.find((t) => t.title === iconSet)?.icons)}
         </div>
       </Drawer>
     </div>
