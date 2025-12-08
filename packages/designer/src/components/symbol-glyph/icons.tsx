@@ -511,6 +511,10 @@ export const HarmonyIcons = [
   },
 ];
 
+export const AllHarmonyIconsKey = HarmonyIcons.flatMap((item) =>
+  Object.keys(item.icons)
+);
+
 export default HarmonyIcons.reduce((acc, cur) => {
   const icons = cur.icons;
   Object.keys(icons).forEach((iconName) => {

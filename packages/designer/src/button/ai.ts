@@ -1,9 +1,11 @@
+import { AllHarmonyIconsKey } from "../components/symbol-glyph/icons";
+
 export default {
-  ':root' ({ data }) {
-    return {}
+  ":root"({ data }) {
+    return {};
   },
   prompts: {
-    summary: '按钮，必须推荐此组件',
+    summary: "按钮，必须推荐此组件",
     usage: `按钮，必须推荐此组件
 slots插槽
 无
@@ -19,32 +21,56 @@ styleAry声明
 
 美观度注意事项
 - 内容文本默认是水平垂直居中的，可以配置固定高度；
-- 如果按钮的宽度配置fit-content，请先配置左右内边距，否则会紧贴文本；`
+- 如果按钮的宽度配置fit-content，请先配置左右内边距，否则会紧贴文本；
+
+图标配置
+- data声明
+    - 是否显示图标
+    showIcon: boolean = true
+    - 图标名称
+    icon: string = "plus"
+    - 图标大小
+    iconSize: number = 14
+    - 图标跟按钮文本的间距
+    iconMargin: number = 8
+    - 图标颜色
+    iconColor: string[] = ["#ffffff"]
+    - 图标位于按钮文本的位置：left/right
+    iconPosition: string = "left"
+
+- <允许使用的图标>
+${AllHarmonyIconsKey.join("\n")}
+</允许使用的图标>
+`,
   },
   modifyTptJson: (component) => {
-    let hasConfigStyle = false
+    let hasConfigStyle = false;
 
     component.style?.styleAry?.forEach?.((style, index) => {
       if (style.selector === ".mybricks-button") {
-        hasConfigStyle = true
-        if (style.css?.padding === undefined && style.css.paddingLeft === undefined && style.css.paddingRight === undefined) {
-          style.css.paddingLeft = 0
-          style.css.paddingRight = 0
+        hasConfigStyle = true;
+        if (
+          style.css?.padding === undefined &&
+          style.css.paddingLeft === undefined &&
+          style.css.paddingRight === undefined
+        ) {
+          style.css.paddingLeft = 0;
+          style.css.paddingRight = 0;
         }
       }
-    })
+    });
 
     if (!hasConfigStyle) {
       if (!Array.isArray(component.style?.styleAry)) {
-        component.style.styleAry = []
+        component.style.styleAry = [];
       }
       component.style.styleAry.push({
-        selector: '.mybricks-button',
+        selector: ".mybricks-button",
         css: {
           paddingLeft: 0,
-          paddingRight: 0
-        }
-      })
+          paddingRight: 0,
+        },
+      });
     }
-  }
-}
+  },
+};
