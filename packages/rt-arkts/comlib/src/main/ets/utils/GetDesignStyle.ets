@@ -1,5 +1,6 @@
 import { MyBricksModifier } from "@mybricks/render-utils"
 import { parseRadius, parsePadding} from "./StyleMatching"
+import { matrix4 } from '@kit.ArkUI';
 export type CSSProperties = Record<string, string | number>
 
 type ComponentAttribute = CommonAttribute
@@ -277,6 +278,23 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       const result: FilterResult = getFilterMethodAndParams(style.filter as string);
       if (result.method === 'blur' && result.param) {
         instance.blur(parseFloat(result.param as string))
+      }
+    }
+
+    if (!isNil(style?.rotate)) {
+      const rotateStr = style.rotate as string
+      const configRotate = rotateStr.split(' ').filter(Boolean)
+      if (configRotate.length === 1) {
+        instance.rotate({
+          angle: parseFloat(configRotate[0])
+        })
+      } else {
+        const x = parseFloat(configRotate[0])
+        const y = parseFloat(configRotate[1])
+        const z = parseFloat(configRotate[2])
+        const angle = parseFloat(configRotate[3])
+        const matrix1 = matrix4.identity().rotate({ x, y, z, angle })
+        instance.transform(matrix1).rotate(undefined)
       }
     }
   }
