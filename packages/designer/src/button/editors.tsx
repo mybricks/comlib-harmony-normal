@@ -69,6 +69,7 @@ export default {
         items: [
           {
             title: "展示图标",
+            description: "是否在按钮上展示图标",
             type: "switch",
             value: {
               get({ data }) {
@@ -79,158 +80,165 @@ export default {
               },
             },
           },
-          {
-            ifVisible({ data }) {
-              return data.showIcon;
-            },
-            title: "图标配置",
-            items: [
-              {
-                title: "展示位置",
-                type: "select",
-                options: [
-                  {
-                    label: "位于文字前",
-                    value: "left",
-                  },
-                  {
-                    label: "位于文字后",
-                    value: "right",
-                  },
-                ],
-                value: {
-                  get({ data }) {
-                    return data.iconPosition;
-                  },
-                  set({ data, outputs }, value: string) {
-                    data.iconPosition = value;
-                  },
-                },
-              },
-              {
-                title: "自定义",
-                type: "switch",
-                description: "开启后可上传自定义图标",
-                value: {
-                  get({ data }) {
-                    return data.useImageIcon;
-                  },
-                  set({ data, outputs }, value: boolean) {
-                    data.useImageIcon = value;
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return data.useImageIcon;
-                },
-                title: "图标",
-                type: "imageSelector",
-                value: {
-                  get({ data }) {
-                    return data.imageIcon;
-                  },
-                  set({ data }, value) {
-                    data.imageIcon = value;
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return !data.useImageIcon;
-                },
-                title: "图标",
-                type: "editorRender",
-                options: {
-                  render: (props) => {
-                    return <IconSelector value={props.editConfig.value} />;
-                  },
-                },
-                value: {
-                  get({ data }) {
-                    return data.icon;
-                  },
-                  set({ data }, value: string) {
-                    data.icon = value;
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return !data.useImageIcon;
-                },
-                title: "图标大小",
-                type: "inputnumber",
-                options: [{ min: 1 }],
-                value: {
-                  get({ data }) {
-                    return [data.iconSize];
-                  },
-                  set({ data }, value: string) {
-                    if (Array.isArray(value)) {
-                      data.iconSize = value?.[0];
-                    } else {
-                      data.iconSize = value;
-                    }
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return data.useImageIcon;
-                },
-                title: "图标大小",
-                type: "inputnumber",
-                options: [
-                  { title: "宽度", min: 1 },
-                  { title: "高度", min: 1 },
-                ],
-                value: {
-                  get({ data }) {
-                    return data.imageSize;
-                  },
-                  set({ data }, value: number[]) {
-                    data.imageSize = value;
-                  },
-                },
-              },
-              {
-                ifVisible({ data }) {
-                  return !data.useImageIcon;
-                },
-                title: "图标颜色",
-                type: "colorpicker",
-                value: {
-                  get({ data }) {
-                    return data.iconColor?.[0];
-                  },
-                  set({ data }, value: string) {
-                    data.iconColor[0] = value;
-                  },
-                },
-              },
-              {
-                title: "图标与文字间距",
-                type: "inputnumber",
-                options: [{ min: 0 }],
-                value: {
-                  get({ data }) {
-                    return [data.iconMargin];
-                  },
-                  set({ data }, value: string) {
-                    if (Array.isArray(value)) {
-                      data.iconMargin = value?.[0];
-                    } else {
-                      data.iconMargin = value;
-                    }
-                  },
-                },
-              },
-            ],
-          },
         ],
       },
 
+      {
+        ifVisible({ data }) {
+          return data.showIcon;
+        },
+        title: "图标配置",
+        items: [
+          {
+            title: "展示位置",
+            description: "图标在按钮上展示的位置",
+            type: "select",
+            options: [
+              {
+                label: "位于文字前",
+                value: "left",
+              },
+              {
+                label: "位于文字后",
+                value: "right",
+              },
+            ],
+            value: {
+              get({ data }) {
+                return data.iconPosition;
+              },
+              set({ data, outputs }, value: string) {
+                data.iconPosition = value;
+              },
+            },
+          },
+          {
+            title: "自定义",
+            type: "switch",
+            description: "开启后可上传自定义图标",
+            value: {
+              get({ data }) {
+                return data.useImageIcon;
+              },
+              set({ data, outputs }, value: boolean) {
+                data.useImageIcon = value;
+              },
+            },
+          },
+          {
+            ifVisible({ data }) {
+              return data.useImageIcon;
+            },
+            title: "图标",
+            description: "上传按钮的自定义图标图片",
+            type: "imageSelector",
+            value: {
+              get({ data }) {
+                return data.imageIcon;
+              },
+              set({ data }, value) {
+                data.imageIcon = value;
+              },
+            },
+          },
+          {
+            ifVisible({ data }) {
+              return !data.useImageIcon;
+            },
+            title: "图标",
+            description: "选择按钮的图标",
+            type: "editorRender",
+            options: {
+              render: (props) => {
+                return <IconSelector value={props.editConfig.value} />;
+              },
+            },
+            value: {
+              get({ data }) {
+                return data.icon;
+              },
+              set({ data }, value: string) {
+                data.icon = value;
+              },
+            },
+          },
+          {
+            ifVisible({ data }) {
+              return !data.useImageIcon;
+            },
+            title: "图标大小",
+            description: "按钮的图标大小",
+            type: "inputnumber",
+            options: [{ min: 1 }],
+            value: {
+              get({ data }) {
+                return [data.iconSize];
+              },
+              set({ data }, value: string) {
+                if (Array.isArray(value)) {
+                  data.iconSize = value?.[0];
+                } else {
+                  data.iconSize = value;
+                }
+              },
+            },
+          },
+          {
+            ifVisible({ data }) {
+              return data.useImageIcon;
+            },
+            title: "图标大小",
+            description: "按钮的自定义图标图片宽高",
+            type: "inputnumber",
+            options: [
+              { title: "宽度", min: 1 },
+              { title: "高度", min: 1 },
+            ],
+            value: {
+              get({ data }) {
+                return data.imageSize;
+              },
+              set({ data }, value: number[]) {
+                data.imageSize = value;
+              },
+            },
+          },
+          {
+            ifVisible({ data }) {
+              return !data.useImageIcon;
+            },
+            title: "图标颜色",
+            description: "按钮的图标颜色",
+            type: "colorpicker",
+            value: {
+              get({ data }) {
+                return data.iconColor?.[0];
+              },
+              set({ data }, value: string) {
+                data.iconColor[0] = value;
+              },
+            },
+          },
+          {
+            title: "图标与文字间距",
+            description: "按钮图标与按钮文字之间的间距",
+            type: "inputnumber",
+            options: [{ min: 0 }],
+            value: {
+              get({ data }) {
+                return [data.iconMargin];
+              },
+              set({ data }, value: string) {
+                if (Array.isArray(value)) {
+                  data.iconMargin = value?.[0];
+                } else {
+                  data.iconMargin = value;
+                }
+              },
+            },
+          },
+        ],
+      },
       {
         title: "事件",
         items: [
