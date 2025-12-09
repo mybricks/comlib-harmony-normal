@@ -1,0 +1,52 @@
+{
+  "title": "应用权限授权校验",
+  "namespace": "mybricks.harmony._permissionsCheck",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "检查当前应用程序是否已经被授予权限",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "onPermissionsCheck",
+      "title": "校验",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onSuccess",
+      "title": "成功",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "number",
+            "description": "授权状态(0: 已授权, -1: 未授权)"
+          }
+        }
+      }
+    },
+    {
+      "id": "onFail",
+      "title": "失败",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

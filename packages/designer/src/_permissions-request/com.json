@@ -1,0 +1,48 @@
+{
+  "title": "授权应用权限",
+  "namespace": "mybricks.harmony._permissionsRequest",
+  "author": "mybricks-team",
+  "author_name": "板砖团队",
+  "version": "1.0.0",
+  "description": "拉起权限设置弹框，引导用户授权",
+  "icon": "./icon.svg",
+  "data": "./data.json",
+  "editors": "./editors.tsx",
+  "runtime": "./runtime.tsx",
+  "rtType": "js",
+  "inputs": [
+    {
+      "id": "onPermissionsRequest",
+      "title": "授权",
+      "schema": {
+        "type": "any"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "id": "onSuccess",
+      "title": "成功",
+      "schema": {
+        "type": "any"
+      }
+    },
+    {
+      "id": "onFail",
+      "title": "失败",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "authResult": {
+            "type": "number",
+            "description": "授权状态(1: 未授权, 0: 已授权, 2: 授权失败)"
+          },
+          "dialogShownResult": {
+            "type": "number",
+            "description": "此权限申请是否有弹窗，authResults为1未授权时，true: 表示用户首次申请，false：表示权限已设置,无需弹窗,需要用户在设置中修改"
+          }
+        }
+      }
+    }
+  ]
+}

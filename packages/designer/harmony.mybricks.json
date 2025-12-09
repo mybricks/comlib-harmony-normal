@@ -23,6 +23,8 @@
     "./src/_ai-music-player-controller/com.json",
     "./src/_audio-recorder/com.json",
     "./src/_system-share/com.json",
+    "./src/_permissions-check/com.json",
+    "./src/_permissions-request/com.json",
     {
       "title": "系统",
       "visible": false,

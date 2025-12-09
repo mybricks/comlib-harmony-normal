@@ -137,6 +137,18 @@ export {
 } from "./_audioRecorder"
 
 export {
+  default as mybricks_harmony__permissionsCheck,
+  DataType as mybricks_harmony__permissionsCheck_DataType,
+  Data as mybricks_harmony__permissionsCheck_Data
+} from "./_PermissionsCheck"
+
+export {
+  default as mybricks_harmony__permissionsRequest,
+  DataType as mybricks_harmony__permissionsRequest_DataType,
+  Data as mybricks_harmony__permissionsRequest_Data
+} from "./_PermissionsRequest"
+
+export {
   default as mybricks_harmony_audioWavy,
   DataType as mybricks_harmony_audioWavy_DataType,
   Data as mybricks_harmony_audioWavy_Data
