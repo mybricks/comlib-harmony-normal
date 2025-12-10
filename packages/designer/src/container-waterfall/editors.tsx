@@ -153,43 +153,53 @@ export default {
         title: "数据",
         items: [
           {
-            title: '数据源',
-            type: 'json',
+            title: "数据源",
+            type: "json",
             options: {
               minimap: {
-                enabled: false
+                enabled: false,
               },
               height: 80,
               autoSave: false,
               encodeValue: false,
               onBlur: () => {
-                slots.get('item')?.inputs.get('itemData')?.setSchema(data.dataSource?.[0] ? jsonToSchema(data.dataSource?.[0]) : { type: 'any' })
-              }
+                slots
+                  .get("item")
+                  ?.inputs.get("itemData")
+                  ?.setSchema(
+                    data.dataSource?.[0]
+                      ? jsonToSchema(data.dataSource?.[0])
+                      : { type: "any" }
+                  );
+              },
             },
             value: {
               get({ data }: EditorResult<Data>) {
-                return data.dataSource ?? []
+                return data.dataSource ?? [];
               },
               set({ data }: EditorResult<Data>, value: any) {
                 if (!Array.isArray(value)) {
-                  return
+                  return;
                 }
-                data.dataSource = value
+                data.dataSource = value;
               },
             },
             binding: {
               with: `data.dataSource`,
               schema: {
-                type: 'number'
+                type: "number",
               },
               set(p, { schema }) {
-                if (schema.type === 'array' && schema.items) {
-                  slots.get('item')?.inputs.get('itemData')?.setSchema(schema.items)
+                if (schema.type === "array" && schema.items) {
+                  slots
+                    .get("item")
+                    ?.inputs.get("itemData")
+                    ?.setSchema(schema.items);
                 }
-              }
-            }
+              },
+            },
           },
-        ]
+        ],
       },
       {
         title: "基础属性",
@@ -212,121 +222,120 @@ export default {
               },
             },
           },
-        ]
+        ],
       },
 
       {
         title: "高级属性",
-        items: [{
-          catelogChange: {
+        // items: [{
+        //   catelogChange: {
+        //     value: {
+        //       get({ data }) {
+        //         return data._edit_status_;
+        //       },
+        //       set({ data, catelog }) {
+        //         data._edit_status_ = catelog;
+        //       },
+        //     },
+        //   },
+        items: [
+          {
+            title: "列数",
+            type: "Text",
+            catelog: "默认",
+            options: {
+              type: "number",
+            },
             value: {
               get({ data }) {
-                return data._edit_status_;
+                return data.layout.column;
               },
-              set({ data, catelog }) {
-                data._edit_status_ = catelog;
+              set({ data }, value: number) {
+                if (value) {
+                  data.layout.column = +value;
+                }
+              },
+            },
+            binding: {
+              with: `data.layout.column`,
+              schema: {
+                type: "number",
               },
             },
           },
-          items: [
-            {
-              title: "列数",
-              type: "Text",
-              catelog: "默认",
-              options: {
-                type: "number",
+          {
+            title: "列表项间距",
+            type: "inputnumber",
+            catelog: "默认",
+            options: [
+              { title: "行间距", min: 0, width: 80 },
+              { title: "列间距", min: 0, width: 80 },
+            ],
+            value: {
+              get({ data }) {
+                return data.layout.gutter;
               },
-              value: {
-                get({ data }) {
-                  return data.layout.column;
-                },
-                set({ data }, value: number) {
-                  if (value) {
-                    data.layout.column = +value;
-                  }
-                },
-              },
-              binding: {
-                with: `data.layout.column`,
-                schema: {
-                  type: 'number'
-                }
-              }
-            },
-            {
-              title: "列表项间距",
-              type: "inputnumber",
-              catelog: "默认",
-              options: [
-                { title: "行间距", min: 0, width: 80 },
-                { title: "列间距", min: 0, width: 80 },
-              ],
-              value: {
-                get({ data }) {
-                  return data.layout.gutter;
-                },
-                set({ data }, value: number[]) {
-                  data.layout.gutter = value;
-                },
+              set({ data }, value: number[]) {
+                data.layout.gutter = value;
               },
             },
-            // {
-            //   catelog: "加载中",
-            //   type: "editorRender",
-            //   options: {
-            //     render: () => {
-            //       return <></>;
-            //     },
-            //   },
-            // },
-            // {
-            //   title: "初始状态",
-            //   catelog: "加载中",
-            //   items: [...loadingOptions],
-            // },
-            // {
-            //   title: "状态条",
-            //   catelog: "加载中",
-            //   items: [...loadingBarOptions],
-            // },
-            // {
-            //   title: "初始状态",
-            //   catelog: "加载失败",
-            //   items: [...errorOptions],
-            // },
-            // {
-            //   title: "状态条",
-            //   catelog: "加载失败",
-            //   items: [...errorBarOptions],
-            // },
-            // {
-            //   title: "初始状态",
-            //   catelog: "没有更多",
-            //   items: [...emptyOptions],
-            // },
-            // {
-            //   title: "状态条",
-            //   catelog: "没有更多",
-            //   items: [...emptyBarOptions],
-            // },
-            {
-              title: "唯一主键",
-              type: "text",
-              value: {
-                get({ data }) {
-                  return data.rowKey;
-                },
-                set({ data }, value) {
-                  data.rowKey = value;
-                },
+          },
+          // {
+          //   catelog: "加载中",
+          //   type: "editorRender",
+          //   options: {
+          //     render: () => {
+          //       return <></>;
+          //     },
+          //   },
+          // },
+          // {
+          //   title: "初始状态",
+          //   catelog: "加载中",
+          //   items: [...loadingOptions],
+          // },
+          // {
+          //   title: "状态条",
+          //   catelog: "加载中",
+          //   items: [...loadingBarOptions],
+          // },
+          // {
+          //   title: "初始状态",
+          //   catelog: "加载失败",
+          //   items: [...errorOptions],
+          // },
+          // {
+          //   title: "状态条",
+          //   catelog: "加载失败",
+          //   items: [...errorBarOptions],
+          // },
+          // {
+          //   title: "初始状态",
+          //   catelog: "没有更多",
+          //   items: [...emptyOptions],
+          // },
+          // {
+          //   title: "状态条",
+          //   catelog: "没有更多",
+          //   items: [...emptyBarOptions],
+          // },
+          {
+            title: "唯一主键",
+            type: "text",
+            value: {
+              get({ data }) {
+                return data.rowKey;
+              },
+              set({ data }, value) {
+                data.rowKey = value;
               },
             },
-          ],
-        },
+          },
+        ],
+        // },
 
-        ]
+        // ]
       },
-
 
       // {
       //   title: "分页配置",

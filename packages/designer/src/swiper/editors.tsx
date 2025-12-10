@@ -305,41 +305,36 @@ export default {
               },
             },
             {
-              title: "数据",
+              title: "数据源",
               ifVisible({ data }: EditorResult<Data>) {
                 return data.contentType === "custom_dynamic";
               },
-              items: [
-                {
-                  title: "数据源",
-                  type: "json",
-                  options: {
-                    minimap: {
-                      enabled: false,
-                    },
-                    height: 80,
-                    autoSave: false,
-                    encodeValue: false,
-                  },
-                  value: {
-                    get({ data }: EditorResult<Data>) {
-                      return data.items ?? [];
-                    },
-                    set({ data }: EditorResult<Data>, value: any) {
-                      if (!Array.isArray(value)) {
-                        return;
-                      }
-                      data.items = value;
-                    },
-                  },
-                  binding: {
-                    with: `data.items`,
-                    schema: {
-                      type: "array",
-                    },
-                  },
+              type: "json",
+              options: {
+                minimap: {
+                  enabled: false,
                 },
-              ],
+                height: 80,
+                autoSave: false,
+                encodeValue: false,
+              },
+              value: {
+                get({ data }: EditorResult<Data>) {
+                  return data.items ?? [];
+                },
+                set({ data }: EditorResult<Data>, value: any) {
+                  if (!Array.isArray(value)) {
+                    return;
+                  }
+                  data.items = value;
+                },
+              },
+              binding: {
+                with: `data.items`,
+                schema: {
+                  type: "array",
+                },
+              },
             },
           ],
         },

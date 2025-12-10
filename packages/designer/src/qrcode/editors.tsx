@@ -18,29 +18,25 @@ export default {
       cate0.title = "二维码";
       cate0.items = [
         {
+          title: "基础属性",
           items: [
             {
-              title: "基础属性",
-              items: [
-                {
-                  title: "二维码内容",
-                  type: "text",
-                  value: {
-                    get({ data }) {
-                      return data.text;
-                    },
-                    set({ data }, text: string) {
-                      data.text = text;
-                    },
-                  },
-                  binding: {
-                    with: `data.text`,
-                    schema: {
-                      type: "string",
-                    },
-                  },
+              title: "二维码内容",
+              type: "text",
+              value: {
+                get({ data }) {
+                  return data.text;
                 },
-              ],
+                set({ data }, text: string) {
+                  data.text = text;
+                },
+              },
+              binding: {
+                with: `data.text`,
+                schema: {
+                  type: "string",
+                },
+              },
             },
           ],
         },
