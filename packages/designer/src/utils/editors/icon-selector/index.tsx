@@ -30,6 +30,7 @@ const Icon = (props: any) => {
 export function IconSelector({ value }) {
   const [visible, setVisible] = useState(false);
   const [iconSet, setIconSet] = useState("basic");
+  const tabsRef = useRef<HTMLDivElement>(null);
   const cateRef = useRef(null);
   const cateItemRefs = useRef({}) as MutableRefObject<{
     [key: string]: HTMLElement;
@@ -129,6 +130,25 @@ export function IconSelector({ value }) {
     return () => observer.disconnect();
   }, [visible, isScrollingRef]);
 
+  // tab居中显示
+  useEffect(() => {
+    const activeIndex = HarmonyIcons.findIndex(
+      (item) => item.title === iconSet
+    );
+    const activeEl = tabsRef.current?.querySelectorAll(
+      ".ant-radio-button-wrapper"
+    )?.[activeIndex] as HTMLElement;
+    const tabsWrapWidth = tabsRef.current?.offsetWidth ?? 0;
+    const curTabWidth = activeEl?.offsetWidth;
+    const curTabLeft = activeEl?.offsetLeft;
+    const scrollTo = curTabLeft - tabsWrapWidth / 2 + curTabWidth / 2;
+
+    tabsRef.current?.scrollTo({
+      left: scrollTo,
+      behavior: "smooth",
+    });
+  }, [iconSet]);
+
   return (
     <div className={css["editor-icon"]}>
       <button className={css["editor-icon__button"]} onClick={toggle}>
@@ -164,16 +184,21 @@ export function IconSelector({ value }) {
             {/* <Cross onClick={close} /> */}
           </div>
           <div className={css.styleChoose}>
-            <Tabs
-              type="card"
-              activeKey={iconSet}
-              tabPosition="top"
-              onChange={handleChangeTab}
-            >
-              {HarmonyIcons.map((icons) => {
-                return <Tabs.TabPane tab={icons.title} key={icons.title} />;
-              })}
-            </Tabs>
+            <div ref={tabsRef} style={{ overflowX: "auto" }}>
+              <Radio.Group
+                value={iconSet}
+                onChange={(e) => handleChangeTab(e.target.value)}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {HarmonyIcons.map((icons) => {
+                  return (
+                    <Radio.Button value={icons.title} key={icons.title}>
+                      {icons.title}
+                    </Radio.Button>
+                  );
+                })}
+              </Radio.Group>
+            </div>
           </div>
           <div className={css["icon-cate-list"]} ref={cateRef}>
             {HarmonyIcons.map((itemCate) => {
