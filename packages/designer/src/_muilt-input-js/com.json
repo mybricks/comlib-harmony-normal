@@ -9,6 +9,7 @@
   "runtime": "./runtime.ts",
   "editors": "./editors.tsx",
   "rtType": "js-autorun",
+  "ai": "./ai.ts",
   "inputs": [
     {
       "id": "input",
