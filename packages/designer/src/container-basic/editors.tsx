@@ -33,6 +33,7 @@ export default {
                   };
                 },
                 set({ data,style, slots }, val) {
+                  data.layout = val;
                   style.slots.content.layout = val;
                   setSlotLayout(slots.get("content"), val);
                 },
