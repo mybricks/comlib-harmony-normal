@@ -124,6 +124,7 @@ export default {
         return option;
       },
       title: "代码编辑",
+      description: "编写自定义javascript代码",
       value: {
         get({ data }: EditorResult<Data>) {
           return data.fns;

@@ -7,7 +7,6 @@ export default {
     usage: `JS计算支持动态添加多个输入和输出端口，可实现复杂的数据整合，控制流程分支等功能。
 
 输入端口：
-  - input.inputValue0 参数0 - [默认输入，不需要重复添加]
   - input.inputValue[index] 参数[index] - 支持动态添加多个输入端口，每个端口可接收不同类型的数据。index对应的是输入端口的顺序，从0开始，依次递增
     例如：input.inputValue0（参数0），input.inputValue1（参数1）, ...
   注意：
@@ -15,9 +14,22 @@ export default {
     - 输入id一定是以\`input.inputValue\`开头，后面跟数字索引。
 
 输出端口：
-  - output0 输出项0 - [默认输出，不需要重复添加]
   - output[index] 输出项[index] - 支持动态添加多个输出端口，每个端口可输出不同类型的数据。index对应的是输出端口的顺序，从0开始，依次递增
     例如：output0（输出项0），output1（输出项1），...
+
+自定义javascript代码编写，以下是一个示例介绍：
+({ outputs, inputs }) => {
+  const [ inputValue0, inputValue1, ... ] = inputs; // 输入的内容，对应各个输入端口，与输入端口顺序保持一致
+  const [ output0, output1, ... ] = outputs; // 输出，与输出端口顺序保持一致
+  // 在这里编写你的业务逻辑代码
+  output0();
+  output1();
+}
+
+注意：
+  - JS计算组件仅支持运行在浏览器端。
+  - 严格按照上下文环境、输入内容、输出内容、当前节点的语义化名称进行分析，编写相应的javascript代码。
+  - 确保代码能实现预期的业务逻辑。
 `,
   },
 };  
