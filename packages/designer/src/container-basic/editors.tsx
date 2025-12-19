@@ -28,11 +28,14 @@ export default {
               type: "layout",
               value: {
                 get({ data, style, slots }) {
+                  if (!data?.layout) {
+                    data.layout = style.slots.content.layout;
+                  }
                   return style.slots.content.layout || {
-                    position:"smart"
+                    position: "smart"
                   };
                 },
-                set({ data,style, slots }, val) {
+                set({ data, style, slots }, val) {
                   data.layout = val;
                   style.slots.content.layout = val;
                   setSlotLayout(slots.get("content"), val);
