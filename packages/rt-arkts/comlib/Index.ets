@@ -34,6 +34,9 @@ import {
   mybricks_harmony__audioPlayer as basicMyBricksHarmony_audioPlayer,
   mybricks_harmony__aiMusicPlayerController as basicMyBricksHarmony_aiMusicPlayerController,
   mybricks_harmony__audioRecorder as basicMyBricksHarmony_audioRecorder,
+  mybricks_harmony__systemShare as basicMyBricksHarmony_systemShare,
+  mybricks_harmony__permissionsCheck as basicMyBricksHarmony_permissionsCheck,
+  mybricks_harmony__permissionsRequest as basicMyBricksHarmony_permissionsRequest,
   mybricks_harmony_systemPage as BasicMyBricksHarmonySystemPage,
   mybricks_harmony_systemPage_Data,
   mybricks_harmony_systemWebview as BasicMyBricksHarmonySystemWebview,
@@ -102,6 +105,8 @@ import {
   mybricks_harmony_formImageUploader_Data,
   mybricks_harmony_formItemContainer as BasicMyBricksHarmonyFormItemContainer,
   mybricks_harmony_formItemContainer_Data,
+  mybricks_harmony_formNumberKnob as BasicMyBricksHarmonyFormNumberKnob,
+  mybricks_harmony_formNumberKnob_Data,
   mybricks_harmony_marquee as BasicMyBricksHarmonyMarquee,
   mybricks_harmony_marquee_Data,
   mybricks_harmony_cell as BasicMyBricksHarmonyCell,
@@ -116,6 +121,8 @@ import {
   mybricks_harmony_playProgress_Data,
   mybricks_harmony_audioWavy as BasicMyBricksHarmonyAudioWavy,
   mybricks_harmony_audioWavy_Data,
+  mybricks_harmony_imagePreview as BasicMyBricksHarmonyImagePreview,
+  mybricks_harmony_imagePreview_Data,
   mybricks_harmony_petalMap as BasicMyBricksHarmonyPetalMap,
   mybricks_harmony_petalMap_Data,
   mybricks_harmony_support as BasicMyBricksHarmonySupport,
@@ -226,6 +233,21 @@ export const myBricksHarmony_aiMusicPlayerController = (props: MyBricks.JSParams
 export const myBricksHarmony_audioRecorder = (props: MyBricks.JSParams,
   appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
   return createJSHandle(basicMyBricksHarmony_audioRecorder, { props, appContext });
+}
+
+export const myBricksHarmony_systemShare = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_systemShare, { props, appContext });
+}
+
+export const myBricksHarmony_permissionsCheck = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_permissionsCheck, { props, appContext });
+}
+
+export const myBricksHarmony_permissionsRequest = (props: MyBricks.JSParams,
+  appContext: MyBricks.AppContext): (...values: MyBricks.EventValue) => Record<string, MyBricks.EventValue> => {
+  return createJSHandle(basicMyBricksHarmony_permissionsRequest, { props, appContext });
 }
 
 @Builder
@@ -1317,6 +1339,38 @@ export function MyBricksHarmonyFormItemContainer(params: MyBricksComponentBuilde
 }
 
 @Builder
+function MyBricksHarmonyFormNumberKnobBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyFormNumberKnob({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_formNumberKnob_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+    slots: params.slots,
+    slotsIO: createSlotsIO(params),
+    parentSlot: params.parentSlot,
+    env: createEnv(params),
+    _env: _createEnv(params),
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyFormNumberKnob(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyFormNumberKnobBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyFormNumberKnobBuilder(params)
+  }
+}
+
+@Builder
 function MyBricksHarmonyMarqueeBuilder(params: MyBricksComponentBuilderParams) {
   BasicMyBricksHarmonyMarquee({
     uid: params.uid,
@@ -1537,6 +1591,38 @@ export function MyBricksHarmonyAudioWavy(params: MyBricksComponentBuilderParams)
     }).params)
   } else {
     MyBricksHarmonyAudioWavyBuilder(params)
+  }
+}
+
+@Builder
+function MyBricksHarmonyImagePreviewBuilder(params: MyBricksComponentBuilderParams) {
+  BasicMyBricksHarmonyImagePreview({
+    uid: params.uid,
+    data: createData(params, mybricks_harmony_imagePreview_Data),
+    inputs: createInputsHandle(params),
+    outputs: createEventsHandle(params),
+    styles: createStyles(params),
+
+
+    parentSlot: params.parentSlot,
+    env: createEnv(params),
+    _env: _createEnv(params),
+    modifier: createModifier(params, CommonModifier)
+  })
+}
+
+@Builder
+export function MyBricksHarmonyImagePreview(params: MyBricksComponentBuilderParams) {
+  if (params.parentSlot?.itemWrap) {
+    params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).wrap.builder(wrapBuilder(MyBricksHarmonyImagePreviewBuilder), params, params.parentSlot.itemWrap({
+      id: params.uid,
+      inputs: params.controller?._inputEvents
+    }).params)
+  } else {
+    MyBricksHarmonyImagePreviewBuilder(params)
   }
 }
 
