@@ -1,3 +1,9 @@
+# [1.0.21](https://github.com/mybricks/comlib-harmony-normal/compare/c3ac38e..9e6d8e8) (2025-12-26)
+- 新增数字旋钮
+- 新增音频内录
+- 优化录音的震幅计算
+- 其它组件优化项
+
 # [1.0.20](https://github.com/mybricks/comlib-harmony-normal/compare/63a40fe..571436f) (2025-09-29)
 - 调整组件hoc
 - 容器组件「当滚动时」事件兼容
