@@ -10,7 +10,7 @@ import cx from "classnames";
 import { Button, Text, Image, View } from "@tarojs/components";
 import { SymbolGlyph } from "./../components/symbol-glyph";
 
-export default function ({ env, data, logger, slots, inputs, outputs, title }) {
+export default function ({ env, data, logger, slots, inputs, outputs, title, extra }) {
   useMemo(() => {
     inputs["buttonText"]((val: string) => {
       data.text = val;
@@ -47,7 +47,7 @@ export default function ({ env, data, logger, slots, inputs, outputs, title }) {
             height: `${data.imageSize?.[1] ?? 14}px`,
           }}
           mode="scaleToFill"
-          src={data.imageIcon}
+          src={data?.imageIcon || extra?.imageUrl}
         />
       );
     } else {
