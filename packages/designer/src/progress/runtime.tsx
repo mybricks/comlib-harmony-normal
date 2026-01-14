@@ -3,7 +3,11 @@ import { View } from '@tarojs/components'
 import css from './style.less'
 
 export default function ({ env, data, inputs, outputs, title, style }) {
-  const [percent, setPercent] = useState(env.edit ? 50 : data.initValue)
+  const [percent, setPercent] = useState(data.initValue)
+
+  useEffect(() => {
+    setPercent(data.initValue)
+  }, [data.initValue])
 
   useLayoutEffect(() => {
     inputs['setPercent']((val) => {
