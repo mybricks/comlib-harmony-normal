@@ -184,7 +184,7 @@ export default struct MyBricksButton {
     })
     .enabled(!this.data.disabled)
     .align(Alignment.Center)
-    .attributeModifier(new ApplyStyleModifier(this.styles[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button'], 'button').borderRadius('50%').backgroundColor('#fa6400'))
+    .attributeModifier(new ApplyStyleModifier(this.styles[this.data.disabled ? '.mybricks-button-disable' : '.mybricks-button']).borderRadius('50%').backgroundColor('#fa6400'))
     .attributeModifier(
       new ApplyRootStyleModifier(this.styles['root'])
     )

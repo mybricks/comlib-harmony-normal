@@ -129,7 +129,7 @@ export default struct MyBricksContainerBasic {
       new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['> .mybricks-container'])
+      new ApplyStyleModifier(this.styles['> .mybricks-container'],this.styles['root'])
     )
     .linearGradient(parseLinearGradient(String(this.styles['> .mybricks-container']?.backgroundImage)))
     .parallelGesture(

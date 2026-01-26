@@ -74,17 +74,18 @@ export default struct MyBricksProgress {
           .backgroundColor('#fa6400')
           .borderRadius(5)
       )
+      .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-progress-bar'],'backgroundImage')))
     }
     .alignItems(HorizontalAlign.Start)
     .width("100%")
     .height("100%")
     .attributeModifier(
-      new ApplyStyleModifier(this.styles['.mybricks-progress-bg'])
-        .backgroundColor('#ebedf0')
-        .borderRadius(5)
+      new ApplyRootStyleModifier(this.styles['root'])
     )
     .attributeModifier(
-      new ApplyRootStyleModifier(this.styles['root'])
+      new ApplyStyleModifier(this.styles['.mybricks-progress-bg'],this.styles['root'])
+        .backgroundColor('#ebedf0')
+        .borderRadius(5)
     )
     .linearGradient(parseLinearGradient(getStyleValueByPattern(this.styles,['.mybricks-progress-bg'],'backgroundImage')))
     .attributeModifier(this.modifier)

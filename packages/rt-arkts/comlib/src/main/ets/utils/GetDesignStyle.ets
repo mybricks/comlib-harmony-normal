@@ -55,6 +55,15 @@ export class ApplyRootStyleModifier extends MyBricksModifier<ComponentAttribute>
 }
 
 export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
+  // 新增：用于存储参考样式（通常是父级或root样式）
+  private referenceStyles?: CSSProperties;
+
+  // 修改构造函数，接收参考样式
+  constructor(styles: CSSProperties, referenceStyles?: CSSProperties) {
+    super(styles);
+    this.referenceStyles = referenceStyles;
+  }
+
   private initBackgroundColor?: ResourceColor
   backgroundColor(color: ResourceColor) {
     this.initBackgroundColor = color
@@ -125,11 +134,15 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
   // }
 
   updateNormalAttribute(instance: ComponentAttribute, style: CSSProperties): void {
-    const width = !isNil(style?.width) ? style?.width : this.initWidth;
+    const width = !isNil(style?.width) ? style?.width :
+      !isNil(this.initWidth) ? this.initWidth :
+        this.referenceStyles?.width;
     if (!isNil(width)) {
       instance.width(width)
     }
-    const height = !isNil(style?.height) ? style?.height : this.initHeight;
+    const height = !isNil(style?.height) ? style?.height :
+      !isNil(this.initHeight) ? this.initHeight :
+        this.referenceStyles?.height;
     if (!isNil(height)) {
       instance.height(height)
     }
@@ -157,10 +170,35 @@ export class ApplyStyleModifier extends MyBricksModifier<ComponentAttribute> {
       instance.backgroundColor(backgroundColor)
     }
 
-    if (!isNil(style?.borderRadius)) {
-      instance.borderRadius(parseRadius(style.borderRadius))
-    } else if (!isNil(this.initBorderRadius)) {
-      instance.borderRadius(parseFloat(String(this.initBorderRadius)))
+    // 处理 borderRadius，将 Web 端百分比转换为鸿蒙绝对值
+    const radiusValue = !isNil(style?.borderRadius) ? style.borderRadius : this.initBorderRadius;
+    if (!isNil(radiusValue)) {
+      // 只有字符串或数字类型才处理百分比转换
+      if (typeof radiusValue === 'string' || typeof radiusValue === 'number') {
+        const radiusStr = String(radiusValue);
+
+        // 如果是百分比，转换为绝对值
+        if (radiusStr.includes('%')) {
+          const percentValue = parseFloat(radiusStr);
+          const numWidth = typeof width === 'number' ? width : parseFloat(String(width || '0'));
+          const numHeight = typeof height === 'number' ? height : parseFloat(String(height || '0'));
+
+          if (numWidth > 0 && numHeight > 0) {
+            // Web 端 50% 是相对于元素尺寸，直接计算绝对值
+            const minSize = Math.min(numWidth, numHeight);
+            const absoluteRadius = minSize * (percentValue / 100);
+            instance.borderRadius(absoluteRadius);
+          } else {
+            instance.borderRadius(parseRadius(radiusValue));
+          }
+        } else {
+          // 非百分比值，正常解析
+          instance.borderRadius(parseRadius(radiusValue));
+        }
+      } else {
+        // 对象类型（BorderRadiuses 等）直接传递
+        instance.borderRadius(radiusValue);
+      }
     }
 
     if (!isNil(style?.border) && typeof style?.border === 'string') {

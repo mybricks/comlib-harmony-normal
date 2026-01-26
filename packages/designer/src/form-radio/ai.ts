@@ -25,6 +25,8 @@ styleAry声明
     - background: transparent
     - border: 1px solid #C8C9CC
     - color: transparent
+默认-选项:
+  - 不可配置项：padding
 
 layout声明
 width: 可配置
