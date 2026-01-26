@@ -182,6 +182,7 @@ export default function ({ env, data, inputs, outputs, slots }) {
   if (env.runtime) {
     //contentStyle.height = 667
     contentStyle.flex = 'auto'
+    contentStyle.transform = 'translateX(0)'
   }
 
   const showLeftTabbar = useMemo(() => {
